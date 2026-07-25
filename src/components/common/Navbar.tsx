@@ -12,7 +12,7 @@ export const Navbar = () => {
           {/* Left */}
           <div className="flex items-center gap-4 sm:gap-6">
             <Link href="/" className="inline-block">
-              <h1 className="font-sans text-4xl font-bold  uppercase tracking-wider text-[#4c4a45]">
+              <h1 className="font-sans text-4xl font-bold  uppercase tracking-tight text-[#4c4a45]">
                 LIVO
               </h1>
             </Link>
