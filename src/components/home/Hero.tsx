@@ -5,6 +5,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { heroData } from './data';
 import Image from 'next/image';
+import { Button } from '../ui/button';
 const HeroSection = () => {
   return (
     <div className="relative">
@@ -29,9 +30,12 @@ const HeroSection = () => {
               <div className="absolute bottom-24 left-20 text-white">
                 <p className="uppercase tracking-[4px]">{item.subtitle}</p>
 
-                <h1 className="mt-4 text-7xl font-light">{item.title}</h1>
-
-                <button className="mt-6 underline">Shop Lighting</button>
+                <h1 className="my-4 text-7xl font-medium">{item.title}</h1>
+                <div>
+                  {item.cts.map((btn, index) => (
+                    <Button key={index}>{btn.label}</Button>
+                  ))}
+                </div>
               </div>
             </div>
           </SwiperSlide>
