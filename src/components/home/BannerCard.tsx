@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { EditorialBanner } from './data';
+import { Button } from '../ui/button';
 
 interface BannerCardProps {
   item: EditorialBanner;
@@ -42,12 +43,9 @@ const BannerCard = ({ item, isFeatured = false }: BannerCardProps) => {
             {item.title}
           </h2>
 
-          <Link
-            href={item.href}
-            className="inline-block text-xs sm:text-sm font-light text-white/90 hover:text-white underline underline-offset-4 decoration-white/70 hover:decoration-white transition-all duration-500 pt-1"
-          >
-            {item.ctaText}
-          </Link>
+          <Button variant={'editorial-link'} className="px-0" asChild>
+            <Link href={item.href}>{item.ctaText}</Link>
+          </Button>
         </div>
       </div>
     </div>
