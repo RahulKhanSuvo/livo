@@ -1,13 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  Menu01Icon,
-  Search01Icon,
-  ArrowDown01Icon,
-  UserIcon,
-  ShoppingBag01Icon,
-} from '@hugeicons/core-free-icons';
+import { Search01Icon, UserIcon, ShoppingBag01Icon } from '@hugeicons/core-free-icons';
 import { Container } from '../shared/Container';
 
 export const Navbar = () => {
@@ -51,17 +45,6 @@ export const Navbar = () => {
               aria-label="Search"
             >
               <HugeiconsIcon icon={Search01Icon} size={20} strokeWidth={1.5} />
-            </button>
-
-            {/* Currency */}
-            <button
-              type="button"
-              className="hidden items-center gap-1.5 text-xs font-medium text-neutral-800 transition-colors hover:text-black md:flex"
-            >
-              <span className="text-sm">🇺🇸</span>
-              <span>USD</span>
-
-              <HugeiconsIcon icon={ArrowDown01Icon} size={14} strokeWidth={1.5} />
             </button>
 
             {/* User */}
