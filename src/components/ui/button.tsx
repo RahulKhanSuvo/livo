@@ -1,3 +1,5 @@
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { Button as ButtonPrimitive } from '@base-ui/react/button';
 import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -18,10 +20,8 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
         link: 'text-primary underline-offset-4 hover:underline',
-
-        /* New Editorial Underline Variant */
         'editorial-link':
-          'relative p-0 h-auto rounded-none border-none bg-transparent text-white font-normal no-underline before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:origin-right before:scale-x-100 before:bg-white before:transition-transform before:duration-300 hover:before:scale-x-0 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-300 after:delay-300 hover:after:scale-x-100',
+          'relative h-auto rounded-none border-none bg-transparent p-0 font-normal text-white no-underline before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:origin-right before:scale-x-100 before:bg-white before:transition-transform before:duration-300 hover:before:scale-x-0 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-300 after:delay-300 hover:after:scale-x-100',
       },
       size: {
         default:
@@ -42,19 +42,27 @@ const buttonVariants = cva(
   }
 );
 
-function Button({
-  className,
-  variant = 'default',
-  size = 'default',
-  ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
-  return (
-    <ButtonPrimitive
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
-}
+type ButtonProps = VariantProps<typeof buttonVariants> &
+  Omit<ButtonPrimitive.Props, 'className'> & {
+    className?: string;
+    asChild?: boolean;
+  };
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = 'default', size = 'default', asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : ButtonPrimitive;
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
+      />
+    );
+  }
+);
+
+Button.displayName = 'Button';
 
 export { Button, buttonVariants };
