@@ -40,19 +40,19 @@ export const DesignEditSlider = () => {
           <TabsList className="bg-transparent p-0 h-auto gap-6 mb-8 justify-start border-none">
             <TabsTrigger
               value="new"
-              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500 data-[state=active]:text-neutral-900 data-[state=active]:border-b-2 data-[state=active]:border-neutral-900 bg-transparent data-[state=active]:shadow-none data-[state=active]:bg-transparent"
+              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
               New In
             </TabsTrigger>
             <TabsTrigger
               value="sofas"
-              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500 data-[state=active]:text-neutral-900 data-[state=active]:border-b-2 data-[state=active]:border-neutral-900 bg-transparent data-[state=active]:shadow-none data-[state=active]:bg-transparent"
+              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
               Sofas
             </TabsTrigger>
             <TabsTrigger
               value="tables"
-              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500 data-[state=active]:text-neutral-900 data-[state=active]:border-b-2 data-[state=active]:border-neutral-900 bg-transparent data-[state=active]:shadow-none data-[state=active]:bg-transparent"
+              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
               Tables
             </TabsTrigger>
