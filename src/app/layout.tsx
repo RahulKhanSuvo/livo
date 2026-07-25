@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Mona_Sans, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { Navbar } from '@/components/common/Navbar';
 
 const monaSans = Mona_Sans({
   variable: '--font-mona-sans',
@@ -28,7 +29,10 @@ export default function RootLayout({
       lang="en"
       className={cn('h-full', 'antialiased', monaSans.variable, geistMono.variable, 'font-sans')}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
