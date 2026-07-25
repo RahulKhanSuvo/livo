@@ -31,7 +31,7 @@ const HeroSection = () => {
                 <p className="uppercase tracking-[4px]">{item.subtitle}</p>
 
                 <h1 className="my-4 text-7xl font-medium">{item.title}</h1>
-                <div>
+                <div className="flex items-center gap-10">
                   {item.cts.map((btn, index) => (
                     <Button className={'px-0'} variant={'editorial-link'} key={index}>
                       {btn.label}
