@@ -25,11 +25,11 @@ export const DesignEditSlider = () => {
     <section className="w-full overflow-x-hidden py-12 bg-white">
       <Container>
         {/* Header Section */}
-        <div className="space-y-3 mb-8">
+        <div className="flex flex-col gap-4 mb-4">
           <span className="text-xs tracking-widest text-neutral-500 uppercase font-medium">
             Seasonal Spotlight
           </span>
-          <h2 className="text-4xl sm:text-5xl font-light text-neutral-900 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-medium text-neutral-900 tracking-tight">
             The Design Edit
           </h2>
         </div>
