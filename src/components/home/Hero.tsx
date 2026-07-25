@@ -33,7 +33,9 @@ const HeroSection = () => {
                 <h1 className="my-4 text-7xl font-medium">{item.title}</h1>
                 <div>
                   {item.cts.map((btn, index) => (
-                    <Button key={index}>{btn.label}</Button>
+                    <Button className={'px-0'} variant={'editorial-link'} key={index}>
+                      {btn.label}
+                    </Button>
                   ))}
                 </div>
               </div>
