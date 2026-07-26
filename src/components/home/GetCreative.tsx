@@ -22,16 +22,16 @@ export const GetCreative = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Chair slides up first
-  const chairY = useTransform(scrollYProgress, [0, 0.25, 1], [600, 0, -250]);
+  // Chair slides up first, exits last
+  const chairY = useTransform(scrollYProgress, [0, 0.25, 0.85, 1], [600, 0, 0, -600]);
   const chairRotate = useTransform(scrollYProgress, [0, 1], [-10, 15]);
 
-  // Table slides up second
-  const tableY = useTransform(scrollYProgress, [0, 0.3, 0.55, 1], [700, 700, 0, -150]);
+  // Table slides up second, exits last
+  const tableY = useTransform(scrollYProgress, [0, 0.3, 0.55, 0.85, 1], [700, 700, 0, 0, -600]);
   const tableRotate = useTransform(scrollYProgress, [0, 1], [10, -10]);
 
-  // Jar slides up last
-  const jarY = useTransform(scrollYProgress, [0, 0.6, 0.85, 1], [800, 800, 0, 150]);
+  // Jar slides up last, exits last
+  const jarY = useTransform(scrollYProgress, [0, 0.6, 0.85, 1], [800, 800, 0, -600]);
   const jarRotate = useTransform(scrollYProgress, [0, 1], [15, -15]);
 
   return (
