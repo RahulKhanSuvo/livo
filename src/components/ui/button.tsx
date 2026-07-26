@@ -22,6 +22,7 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         'editorial-link':
           'relative h-auto rounded-none border-none bg-transparent p-0 font-normal text-white no-underline before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:origin-right before:scale-x-100 before:bg-white before:transition-transform before:duration-300 hover:before:scale-x-0 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-white after:transition-transform after:duration-300 after:delay-300 hover:after:scale-x-100',
+        main: 'bg-white text-black hover:text-white hover:bg-primary/80 border-gray-200 py-5.5',
       },
       size: {
         default:
