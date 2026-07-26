@@ -15,6 +15,7 @@ import { QuickLinks } from '@/components/home/QuickLinks';
 import { AtelierSection } from '@/components/home/AtelierSection';
 import { TestimonialsSlider } from '@/components/home/TestimonialsSlider';
 import { EditorialCards } from '@/components/home/EditorialCards';
+import { FeaturesBar } from '@/components/home/FeaturesBar';
 
 export default function Home() {
   return (
@@ -36,6 +37,7 @@ export default function Home() {
       <AtelierSection />
       <TestimonialsSlider />
       <EditorialCards />
+      <FeaturesBar />
     </section>
   );
 }
