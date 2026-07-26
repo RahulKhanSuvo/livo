@@ -5,6 +5,7 @@ import InteriorEditSlider from '@/components/home/InteriorEditSlider';
 import { DesignEditSlider } from '@/components/home/DesignEditSlider';
 import { SaleBanner } from '@/components/home/SaleBanner';
 import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
+import ProductSlider from '@/components/home/ProductSlider/ProductSlider';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <SaleBanner />
       <InteriorEditSlider />
       <ProductSpotlight />
+      <ProductSlider />
     </section>
   );
 }
