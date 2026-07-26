@@ -73,7 +73,7 @@ export const DesignEditSlider = () => {
             <div className="relative group/swiper">
               <Swiper
                 modules={[Scrollbar, Navigation]}
-                spaceBetween={20}
+                spaceBetween={9}
                 slidesPerView={1.2}
                 scrollbar={{ draggable: true, el: '.custom-swiper-scrollbar' }}
                 navigation={{
