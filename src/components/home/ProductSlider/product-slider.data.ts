@@ -1,8 +1,9 @@
+import productImage from '@/assets/images/sofapink.avif';
 export interface ProductInfo {
   brand: string;
   title: string;
   price: string;
-  imageUrl: string;
+  imageUrl: typeof productImage;
   href: string;
 }
 
@@ -21,7 +22,7 @@ export const sliderData: SliderItem[] = [
       brand: 'SITS',
       title: 'Mello Lounge Sofa',
       price: '$1,290.00',
-      imageUrl: '/images/products/mello-sofa.jpg',
+      imageUrl: productImage,
       href: '/products/mello-lounge-sofa',
     },
   },
@@ -33,7 +34,7 @@ export const sliderData: SliderItem[] = [
       brand: 'TOGO',
       title: 'Togo Fireside Chair',
       price: '$980.00',
-      imageUrl: '/images/products/togo-chair.jpg',
+      imageUrl: productImage,
       href: '/products/togo-fireside-chair',
     },
   },
@@ -45,7 +46,7 @@ export const sliderData: SliderItem[] = [
       brand: 'SITS',
       title: 'Colin - 3 Seater Sofa',
       price: '$1,500.00',
-      imageUrl: '/images/products/colin-sofa.jpg',
+      imageUrl: productImage,
       href: '/products/colin-3-seater-sofa',
     },
   },
@@ -57,7 +58,7 @@ export const sliderData: SliderItem[] = [
       brand: 'HAY',
       title: 'Quilted Sectional Module',
       price: '$1,850.00',
-      imageUrl: '/images/products/quilted-sofa.jpg',
+      imageUrl: productImage,
       href: '/products/quilted-sectional-module',
     },
   },
@@ -69,7 +70,7 @@ export const sliderData: SliderItem[] = [
       brand: 'FERM LIVING',
       title: 'Rico Curved Sofa',
       price: '$2,100.00',
-      imageUrl: '/images/products/rico-sofa.jpg',
+      imageUrl: productImage,
       href: '/products/rico-curved-sofa',
     },
   },
@@ -81,8 +82,56 @@ export const sliderData: SliderItem[] = [
       brand: 'MENU',
       title: 'Offset 3-Seater Sofa',
       price: '$1,650.00',
-      imageUrl: '/images/products/offset-sofa.jpg',
+      imageUrl: productImage,
       href: '/products/offset-3-seater-sofa',
+    },
+  },
+  {
+    id: '7',
+    mediaUrl:
+      'https://res.cloudinary.com/dqloniyj3/video/upload/v1785071376/86cc529c70294d03879259d063f0a418.HD-1080p-2.5Mbps-83494525_iwym3f.mp4',
+    productCard: {
+      brand: 'MUUTO',
+      title: 'Oslo Lounge Chair',
+      price: '$1,120.00',
+      imageUrl: productImage,
+      href: '/products/oslo-lounge-chair',
+    },
+  },
+  {
+    id: '8',
+    mediaUrl:
+      'https://res.cloudinary.com/dqloniyj3/video/upload/v1785071376/86cc529c70294d03879259d063f0a418.HD-1080p-2.5Mbps-83494525_iwym3f.mp4',
+    productCard: {
+      brand: 'GUBI',
+      title: 'Beetle Dining Chair',
+      price: '$890.00',
+      imageUrl: productImage,
+      href: '/products/beetle-dining-chair',
+    },
+  },
+  {
+    id: '9',
+    mediaUrl:
+      'https://res.cloudinary.com/dqloniyj3/video/upload/v1785071376/86cc529c70294d03879259d063f0a418.HD-1080p-2.5Mbps-83494525_iwym3f.mp4',
+    productCard: {
+      brand: 'HAY',
+      title: 'About A Lounge Chair',
+      price: '$1,450.00',
+      imageUrl: productImage,
+      href: '/products/about-a-lounge-chair',
+    },
+  },
+  {
+    id: '10',
+    mediaUrl:
+      'https://res.cloudinary.com/dqloniyj3/video/upload/v1785071376/86cc529c70294d03879259d063f0a418.HD-1080p-2.5Mbps-83494525_iwym3f.mp4',
+    productCard: {
+      brand: 'VITRA',
+      title: 'Eames Plastic Armchair',
+      price: '$760.00',
+      imageUrl: productImage,
+      href: '/products/eames-plastic-armchair',
     },
   },
 ];
