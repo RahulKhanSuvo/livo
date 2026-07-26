@@ -63,7 +63,7 @@ const NavItemWithDropdown = ({ link }: { link: (typeof navLinks)[number] }) => (
     <NavigationMenuTrigger className="h-auto p-0 bg-transparent hover:bg-transparent data-popup-open:bg-white focus:bg-white text-base font-medium text-neutral-800 hover:text-black data-popup-open:font-medium transition-all gap-1 rounded-none cursor-pointer">
       <span className="relative inline-block">
         {link.title}
-        <span className="absolute -bottom-0.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-neutral-900 transition-transform duration-300 ease-out group-hover/navigation-menu-trigger:origin-left group-hover/navigation-menu-trigger:scale-x-100 group-data-popup-open/navigation-menu-trigger:origin-left group-data-popup-open/navigation-menu-trigger:scale-x-100" />
+        <span className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-neutral-900 transition-transform duration-300 ease-out group-hover/navigation-menu-trigger:origin-left group-hover/navigation-menu-trigger:scale-x-100 group-data-popup-open/navigation-menu-trigger:origin-left group-data-popup-open/navigation-menu-trigger:scale-x-100" />
       </span>
     </NavigationMenuTrigger>
     {link.title === 'Dining room' ? <DiningRoomContent /> : <MegaMenuGrid link={link} />}
