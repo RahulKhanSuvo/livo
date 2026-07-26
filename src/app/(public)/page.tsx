@@ -11,6 +11,7 @@ import ShopTheRoom from '@/components/home/Shoptheroom/ShopTheRoom';
 import GetCreative from '@/components/home/GetCreative';
 import BrandValuesMarquee from '@/components/home/BrandValuesMarquee';
 import { FeaturedEdits } from '@/components/home/FeaturedEdits';
+import { QuickLinks } from '@/components/home/QuickLinks';
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       <GetCreative />
       <BrandValuesMarquee />
       <FeaturedEdits />
+      <QuickLinks />
     </section>
   );
 }
