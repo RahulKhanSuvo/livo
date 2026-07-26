@@ -17,6 +17,9 @@ interface NavLinksProps {
   sideOffset?: number;
 }
 
+// Grid of category icons/images shown inside NavigationMenuContent.
+// NavigationMenuContent is teleported into the Viewport (inside Popup/Positioner/Portal)
+// so it renders full-width below the header via the anchor ref.
 const MegaMenuGrid = ({ link }: { link: (typeof navLinks)[number] }) => (
   <NavigationMenuContent
     className="
@@ -52,6 +55,9 @@ const MegaMenuGrid = ({ link }: { link: (typeof navLinks)[number] }) => (
   </NavigationMenuContent>
 );
 
+// Renders a nav item with a hover-triggered dropdown.
+// The popup is anchored to the full <header> (via the anchor prop on NavigationMenu),
+// not to this individual trigger — so the dropdown spans full-width below the navbar.
 const NavItemWithDropdown = ({ link }: { link: (typeof navLinks)[number] }) => (
   <NavigationMenuItem className="static">
     <NavigationMenuTrigger className="h-auto p-0 bg-transparent hover:bg-transparent data-popup-open:bg-white focus:bg-white text-base font-medium text-neutral-800 hover:text-black data-popup-open:font-medium transition-all gap-1 rounded-none cursor-pointer">
@@ -77,6 +83,9 @@ const NavItemPlain = ({ link }: { link: (typeof navLinks)[number] }) => (
   </NavigationMenuItem>
 );
 
+// anchor is passed to NavigationMenu → forwarded to Positioner.
+// It should be a ref to <header> so mega menus position below the full navbar, not per-trigger.
+// sideOffset controls the gap between the navbar bottom edge and the popup top edge.
 export const NavLinks = ({ anchor, sideOffset }: NavLinksProps) => (
   <nav className="flex h-12 items-center justify-center">
     <NavigationMenu
