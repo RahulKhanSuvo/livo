@@ -44,12 +44,15 @@ export const ProductSlider = () => {
 
   return (
     <section className="w-full py-12 bg-white overflow-hidden">
+      <div>
+        <h2 className="text-center py-4 text-2xl font-medium">Inspiration</h2>
+      </div>
       <div className="px-0">
         <Swiper
           modules={[Pagination]}
           centeredSlides={true}
           loop={true}
-          spaceBetween={20}
+          spaceBetween={16}
           slidesPerView={4}
           slideToClickedSlide={true}
           onSlideChange={(swiper) => {
@@ -58,7 +61,7 @@ export const ProductSlider = () => {
           pagination={{
             clickable: true,
             bulletClass:
-              'inline-block w-1.5 h-1.5 bg-neutral-300 rounded-full cursor-pointer transition-all mx-1',
+              'inline-block size-[8px] bg-neutral-300 rounded-full cursor-pointer transition-all mx-1',
             bulletActiveClass: '!bg-neutral-800',
           }}
           className="product-swiper pb-12!"
@@ -115,10 +118,10 @@ export const ProductSlider = () => {
                       <div className="border border-neutral-200 bg-white p-3">
                         <Link
                           href={slide.productCard.href}
-                          className="flex items-center gap-3 group"
+                          className="flex items-center gap-6 group"
                         >
                           {/* Product Thumbnail */}
-                          <div className="relative size-16 shrink-0 bg-[#f7f7f7] overflow-hidden">
+                          <div className="relative size-24 shrink-0 bg-[#f7f7f7] overflow-hidden">
                             <Image
                               src={slide.productCard.imageUrl}
                               alt={slide.productCard.title}
@@ -132,10 +135,10 @@ export const ProductSlider = () => {
                             <span className="text-[10px] uppercase tracking-wider text-neutral-400 font-medium">
                               {slide.productCard.brand}
                             </span>
-                            <h4 className="text-xs font-normal text-neutral-900 truncate group-hover:underline">
+                            <h4 className="font-normal text-neutral-900 truncate group-hover:underline">
                               {slide.productCard.title}
                             </h4>
-                            <span className="text-xs font-semibold text-neutral-900 pt-0.5">
+                            <span className="text-base font-normal text-neutral-900 pt-0.5">
                               {slide.productCard.price}
                             </span>
                           </div>
