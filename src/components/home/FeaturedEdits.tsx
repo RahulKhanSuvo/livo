@@ -36,7 +36,7 @@ export const featuredEditsData: FeatureEditCard[] = [
 
 export const FeaturedEdits = () => {
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-white pb-20">
       <div className="w-full ">
         <div className="grid grid-cols-1 md:grid-cols-2">
           {featuredEditsData.map((card) => (
