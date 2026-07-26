@@ -32,7 +32,7 @@ const brands = [
 export function BrandMarquee() {
   return (
     <section className="">
-      <Marquee pauseOnHover className="[--duration:8s]">
+      <Marquee pauseOnHover className="[--duration:5s]">
         {brands.map((brand) => (
           <div key={brand.id} className="mx-2 flex items-center justify-center">
             <Image
