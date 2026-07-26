@@ -14,9 +14,9 @@ const HeroSection = () => {
         pagination={{
           el: '.hero-pagination',
           clickable: true,
-          bulletActiveClass: '!bg-neutral-800',
           bulletClass:
-            'inline-block w-1.5 h-1.5 bg-neutral-300 rounded-full cursor-pointer transition-all mx-1',
+            'inline-block size-[8px] bg-neutral-300 rounded-full cursor-pointer transition-all mx-1',
+          bulletActiveClass: '!bg-neutral-800',
         }}
         autoplay={{
           delay: 5000,
