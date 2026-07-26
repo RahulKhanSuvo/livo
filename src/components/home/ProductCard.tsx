@@ -1,81 +1,97 @@
+import { useState } from 'react';
 import Image from 'next/image';
-import { Product } from './productsData';
+import type { Product } from '@/types/product.type';
+import { Button } from '@base-ui/react';
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const [selectedVariant, setSelectedVariant] = useState(0);
+  const variant = product.variants[selectedVariant];
+
+  const displayPrice = variant.price ?? product.price;
+  const displaySalePrice = product.salePrice;
+
   return (
     <div className="flex flex-col group cursor-pointer">
-      {/* Image Container with Badges */}
       <div className="relative aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden">
-        {/* Badges Container */}
         {product.badges && product.badges.length > 0 && (
-          <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10">
-            {product.badges.map((badge, idx) => (
-              <span
-                key={idx}
-                className={`text-[11px] font-medium px-2.5 py-1 rounded-full text-white ${
-                  badge.variant === 'blue'
-                    ? 'bg-[#2B54C6]'
-                    : badge.variant === 'green'
-                      ? 'bg-[#4B6B56]'
-                      : 'bg-[#7A2A2A]'
-                }`}
-              >
-                {badge.label}
-              </span>
-            ))}
+          <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
+            {product.badges.map((badge, idx) => {
+              const bgColor =
+                badge.type === 'sale'
+                  ? 'bg-[#7A2A2A]'
+                  : badge.type === 'eco-friendly'
+                    ? 'bg-[#4B6B56]'
+                    : 'bg-[#2B54C6]';
+              return (
+                <span
+                  key={idx}
+                  className={`text-[11px] font-medium px-2.5 py-1 rounded-full text-white ${bgColor}`}
+                >
+                  {badge.label}
+                </span>
+              );
+            })}
           </div>
         )}
 
-        {/* Product Image */}
         <Image
-          src={product.image}
+          src={variant.mainImage}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-105"
+          className="absolute inset-0 object-contain p-6 transition-opacity duration-700 ease-in-out group-hover:opacity-0"
         />
+
+        <Image
+          src={variant.hoverImage}
+          alt={product.name}
+          fill
+          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
+          className="absolute inset-0 object-contain p-6 transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100"
+        />
+
+        <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0 flex items-center justify-center">
+          <Button>Add to Cart</Button>
+        </div>
       </div>
 
-      {/* Product Information */}
       <div className="pt-4 flex flex-col space-y-1">
         <span className="text-[11px] tracking-wider text-neutral-400 uppercase font-medium">
           {product.brand}
         </span>
         <h3 className="text-sm font-normal text-neutral-900 tracking-tight">{product.name}</h3>
 
-        {/* Price & Discounts */}
         <div className="flex items-center gap-2 pt-0.5">
-          {product.originalPrice ? (
+          {displaySalePrice ? (
             <>
               <span className="text-sm text-neutral-400 line-through">
-                ${product.originalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ${displayPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
               <span className="text-sm font-normal text-[#7A2A2A]">
-                ${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ${displaySalePrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </span>
               <span className="text-xs bg-[#7A2A2A] text-white px-1.5 py-0.5 rounded text-[10px]">
-                -
-                {Math.round(
-                  ((product.originalPrice - product.price) / product.originalPrice) * 100
-                )}
-                %
+                -{Math.round(((displayPrice - displaySalePrice) / displayPrice) * 100)}%
               </span>
             </>
           ) : (
             <span className="text-sm font-normal text-neutral-900">
-              ${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+              ${displayPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </span>
           )}
         </div>
 
-        {/* Color Swatches */}
-        {product.colorSwatches && (
+        {product.variants.length > 1 && (
           <div className="flex items-center gap-1.5 pt-2">
-            {product.colorSwatches.map((color, idx) => (
-              <span
-                key={idx}
-                className="w-3.5 h-3.5 rounded-full border border-neutral-300"
-                style={{ backgroundColor: color }}
+            {product.variants.map((v, idx) => (
+              <button
+                key={v.id}
+                onClick={() => setSelectedVariant(idx)}
+                className={`w-4 h-4 rounded-full border transition-all ${
+                  idx === selectedVariant ? 'border-neutral-900 scale-110' : 'border-neutral-300'
+                }`}
+                style={{ backgroundColor: v.hex }}
+                aria-label={v.color}
               />
             ))}
           </div>
