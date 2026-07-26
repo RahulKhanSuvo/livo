@@ -43,7 +43,7 @@ export const Navbar = () => {
                     if (link.hasDropdown) {
                       return (
                         <NavigationMenuItem key={link.title} className="static">
-                          <NavigationMenuTrigger className="h-auto p-0 bg-transparent hover:bg-transparent data-popup-open:bg-white focus:bg-white text-base font-medium text-neutral-800 hover:text-black border-b border-transparent data-popup-open:border-black data-popup-open:font-medium transition-all gap-1 rounded-none">
+                          <NavigationMenuTrigger className="h-auto p-0 bg-transparent hover:bg-transparent data-popup-open:bg-white focus:bg-white text-base font-medium text-neutral-800 hover:text-black border-b border-transparent data-popup-open:border-black data-popup-open:font-medium transition-all gap-1 rounded-none cursor-pointer">
                             {link.title}
                           </NavigationMenuTrigger>
 
