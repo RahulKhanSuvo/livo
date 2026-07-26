@@ -1,0 +1,7 @@
+import Link from 'next/link';
+
+export const Logo = () => (
+  <Link href="/" className="inline-block shrink-0">
+    <h1 className="text-5xl font-semibold tracking-tight text-[#4c4a45]">LIVO</h1>
+  </Link>
+);
