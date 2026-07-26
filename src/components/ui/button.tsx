@@ -43,7 +43,7 @@ const buttonVariants = cva(
 );
 
 type ButtonProps = VariantProps<typeof buttonVariants> &
-  Omit<ButtonPrimitive.Props, 'className'> & {
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> & {
     className?: string;
     asChild?: boolean;
   };
