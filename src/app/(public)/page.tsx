@@ -9,6 +9,7 @@ import ProductSlider from '@/components/home/ProductSlider/ProductSlider';
 import { BrandMarquee } from '@/components/home/BrandMarquee';
 import ShopTheRoom from '@/components/home/Shoptheroom/ShopTheRoom';
 import GetCreative from '@/components/home/GetCreative';
+import BrandValuesMarquee from '@/components/home/BrandValuesMarquee';
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <BrandMarquee />
       <ShopTheRoom />
       <GetCreative />
+      <BrandValuesMarquee />
     </section>
   );
 }
