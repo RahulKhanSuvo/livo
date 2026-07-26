@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Mona_Sans, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Navbar } from '@/components/common/Navbar';
+import { Navbar } from '@/components/common/navbar/Navbar';
 
 const monaSans = Mona_Sans({
   variable: '--font-mona-sans',
