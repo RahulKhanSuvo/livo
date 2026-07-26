@@ -28,6 +28,9 @@ export const livingRoomData: NavCategoryItem[] = [
   { name: 'Lamps', href: '/shop/living-room/lamps', icon: chairIcon },
 ];
 
+// hasDropdown=true renders NavigationMenuTrigger; false renders a plain Link.
+// dropdownData provides icon-grid items for the generic mega menu.
+// Links without dropdownData use a custom content component (e.g. DiningRoomContent).
 export const navLinks: NavMenuLink[] = [
   {
     title: 'Living room',
@@ -44,6 +47,9 @@ export const navLinks: NavMenuLink[] = [
   { title: 'Sale', href: '/sale', isSale: true },
   { title: 'Blog', href: '/blog' },
 ];
+
+// Rich link-based category columns + featured promo image for the Dining Room dropdown.
+// Rendered by DiningRoomContent (not the generic MegaMenuGrid).
 export const diningRoomData = {
   columns: [
     {
