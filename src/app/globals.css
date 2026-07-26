@@ -128,3 +128,8 @@
     @apply font-sans;
   }
 }
+button.swiper-prev.swiper-button-disabled,
+button.swiper-next.swiper-button-disabled {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
