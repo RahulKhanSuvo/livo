@@ -6,9 +6,11 @@ import Link from 'next/link';
 
 import { HugeiconsIcon } from '@hugeicons/react';
 import { VolumeHighFreeIcons, VolumeOffFreeIcons } from '@hugeicons/core-free-icons';
+import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
+import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -47,9 +49,9 @@ export const ProductSlider = () => {
       <div>
         <h2 className="text-center py-4 text-2xl font-medium">Inspiration</h2>
       </div>
-      <div className="px-0">
+      <div className="px-0 relative group/swiper">
         <Swiper
-          modules={[Pagination]}
+          modules={[Navigation, Pagination]}
           centeredSlides={true}
           loop={true}
           spaceBetween={16}
@@ -63,6 +65,10 @@ export const ProductSlider = () => {
             bulletClass:
               'inline-block size-[8px] bg-neutral-300 rounded-full cursor-pointer transition-all mx-1',
             bulletActiveClass: '!bg-neutral-800',
+          }}
+          navigation={{
+            prevEl: '.product-slider-prev',
+            nextEl: '.product-slider-next',
           }}
           className="product-swiper pb-12!"
         >
@@ -151,6 +157,13 @@ export const ProductSlider = () => {
             );
           })}
         </Swiper>
+
+        <button className="product-slider-prev absolute left-2 top-[35%] -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center hover:bg-white cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100 shadow-sm">
+          <HugeiconsIcon icon={ArrowLeft02Icon} size="20" />
+        </button>
+        <button className="product-slider-next absolute right-2 top-[35%] -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center hover:bg-white cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100 shadow-sm">
+          <HugeiconsIcon icon={ArrowRight02Icon} size="20" />
+        </button>
       </div>
     </section>
   );
