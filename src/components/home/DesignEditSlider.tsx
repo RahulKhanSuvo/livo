@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, Navigation } from 'swiper/modules';
-
+import { HugeiconsIcon } from '@hugeicons/react';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
@@ -13,6 +13,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Container } from '../shared/Container';
 import ProductCard from './ProductCard';
 import { productsData } from './productsData';
+import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
+import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
 
 export const DesignEditSlider = () => {
   const [activeTab, setActiveTab] = useState<string>('new');
@@ -68,7 +70,7 @@ export const DesignEditSlider = () => {
 
           <TabsContent value={activeTab} className="mt-0">
             {/* !overflow-visible allows slides to bleed seamlessly off the right side */}
-            <div className="relative">
+            <div className="relative group/swiper">
               <Swiper
                 modules={[Scrollbar, Navigation]}
                 spaceBetween={20}
@@ -81,7 +83,7 @@ export const DesignEditSlider = () => {
                 breakpoints={{
                   640: { slidesPerView: 2.2, spaceBetween: 24 },
                   1024: { slidesPerView: 3.5, spaceBetween: 24 },
-                  1280: { slidesPerView: 4.2, spaceBetween: 24 },
+                  1280: { slidesPerView: 4, spaceBetween: 24 },
                 }}
                 className="w-full pb-8! overflow-visible!"
               >
@@ -92,35 +94,11 @@ export const DesignEditSlider = () => {
                 ))}
               </Swiper>
 
-              <button className="swiper-prev absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors swiper-button-disabled:!hidden">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m15 18-6-6 6-6" />
-                </svg>
+              <button className="swiper-prev absolute left-2 top-1/3 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-neutral-100 cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100">
+                <HugeiconsIcon icon={ArrowLeft02Icon} size="20" />
               </button>
-              <button className="swiper-next absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors swiper-button-disabled:!hidden">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
+              <button className="swiper-next absolute right-2 top-1/3 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-neutral-100 cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100">
+                <HugeiconsIcon icon={ArrowRight02Icon} size="20" />
               </button>
             </div>
           </TabsContent>
