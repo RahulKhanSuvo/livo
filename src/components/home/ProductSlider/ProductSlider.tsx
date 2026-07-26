@@ -49,7 +49,7 @@ export const ProductSlider = () => {
           modules={[Pagination]}
           centeredSlides={true}
           loop={true}
-          spaceBetween={16}
+          spaceBetween={20}
           slidesPerView={4}
           slideToClickedSlide={true}
           onSlideChange={(swiper) => {
@@ -70,18 +70,22 @@ export const ProductSlider = () => {
                   <div className="flex flex-col w-full items-center justify-end">
                     {/* Video Container - Height-only Transition */}
                     <div
-                      className={`relative w-full overflow-hidden bg-neutral-100 transition-all duration-500 ease-in-out`}
+                      className={`relative w-full aspect-[0.6] overflow-hidden transition-all flex flex-col items-center justify-center`}
                     >
-                      <video
-                        ref={(el) => {
-                          videoRefs.current[index] = el;
-                        }}
-                        src={slide.mediaUrl}
-                        loop
-                        muted={isMuted}
-                        playsInline
-                        className="h-full w-full object-cover"
-                      />
+                      <div
+                        className={`w-full ${isActive ? 'h-full' : 'h-[80%]'} transition-[height] duration-300 ease-in-out`}
+                      >
+                        <video
+                          ref={(el) => {
+                            videoRefs.current[index] = el;
+                          }}
+                          src={slide.mediaUrl}
+                          loop
+                          muted={isMuted}
+                          playsInline
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
 
                       {/* Mute Control - Active Slide Only */}
                       {isActive && (
