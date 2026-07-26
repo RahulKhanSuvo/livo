@@ -129,7 +129,9 @@
   }
 }
 button.swiper-prev.swiper-button-disabled,
-button.swiper-next.swiper-button-disabled {
+button.swiper-next.swiper-button-disabled,
+button.product-slider-prev.swiper-button-disabled,
+button.product-slider-next.swiper-button-disabled {
   opacity: 0 !important;
   pointer-events: none !important;
 }
