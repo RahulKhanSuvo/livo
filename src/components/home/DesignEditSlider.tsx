@@ -92,7 +92,7 @@ export const DesignEditSlider = () => {
                 ))}
               </Swiper>
 
-              <button className="swiper-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors">
+              <button className="swiper-prev absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors swiper-button-disabled:!hidden">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -107,7 +107,7 @@ export const DesignEditSlider = () => {
                   <path d="m15 18-6-6 6-6" />
                 </svg>
               </button>
-              <button className="swiper-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors">
+              <button className="swiper-next absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors swiper-button-disabled:!hidden">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
