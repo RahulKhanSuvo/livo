@@ -58,16 +58,6 @@ export const productsData: Product[] = [
         gallery: [productImage, productImage, productImage, productImage, productImage],
       },
       {
-        id: 'cream',
-        color: 'Cream',
-        hex: '#F5F5DC',
-        stock: 8,
-        sku: 'LC-CRM-001',
-        mainImage: productImage,
-        hoverImage: hoverImage,
-        gallery: [productImage, productImage, productImage, productImage, productImage],
-      },
-      {
         id: 'green',
         color: 'Sage Green',
         hex: '#9CAF88',
