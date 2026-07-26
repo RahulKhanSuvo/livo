@@ -14,12 +14,16 @@ const HeroSection = () => {
         pagination={{
           el: '.hero-pagination',
           clickable: true,
+          bulletActiveClass: '!bg-neutral-800',
+          bulletClass:
+            'inline-block w-1.5 h-1.5 bg-neutral-300 rounded-full cursor-pointer transition-all mx-1',
         }}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
         }}
         effect="cards"
+
         loop
       >
         {heroData.map((item) => (
@@ -43,7 +47,7 @@ const HeroSection = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="hero-pagination mt-6 flex justify-center" />
+      <div className="hero-pagination mt-6 flex justify-center " />
     </div>
   );
 };
