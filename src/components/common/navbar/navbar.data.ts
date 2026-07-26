@@ -1,5 +1,6 @@
 import sofaIcon from '@/assets/navbar/sofa-bg.webp';
 import chairIcon from '@/assets/navbar/chair-xx.webp';
+import diningRoomIcon from '@/assets/images/Dining-1.webp';
 
 export interface NavCategoryItem {
   name: string;
@@ -115,7 +116,7 @@ export const diningRoomData = {
     },
   ],
   featuredImage: {
-    src: '/images/nav/dining-promo.jpg',
+    src: diningRoomIcon,
     alt: 'Dining room set promo',
     caption: '50% off on Dining room Furniture',
     href: '/shop/dining-room/sale',
