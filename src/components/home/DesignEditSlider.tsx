@@ -8,9 +8,10 @@ import 'swiper/css';
 import 'swiper/css/scrollbar';
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { productsData } from './productsData';
+
 import { Container } from '../shared/Container';
 import ProductCard from './ProductCard';
+import { productsData } from './productsData';
 
 export const DesignEditSlider = () => {
   const [activeTab, setActiveTab] = useState<string>('new');
@@ -55,6 +56,12 @@ export const DesignEditSlider = () => {
               className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
               Tables
+            </TabsTrigger>
+            <TabsTrigger
+              value="chairs"
+              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
+            >
+              Chairs
             </TabsTrigger>
           </TabsList>
 
