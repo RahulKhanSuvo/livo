@@ -4,6 +4,7 @@ import EditorialGrid from '@/components/home/EditorialGrid';
 import InteriorEditSlider from '@/components/home/InteriorEditSlider';
 import { DesignEditSlider } from '@/components/home/DesignEditSlider';
 import { SaleBanner } from '@/components/home/SaleBanner';
+import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <DesignEditSlider />
       <SaleBanner />
       <InteriorEditSlider />
+      <ProductSpotlight />
     </section>
   );
 }
