@@ -14,6 +14,7 @@ import { FeaturedEdits } from '@/components/home/FeaturedEdits';
 import { QuickLinks } from '@/components/home/QuickLinks';
 import { AtelierSection } from '@/components/home/AtelierSection';
 import { TestimonialsSlider } from '@/components/home/TestimonialsSlider';
+import { EditorialCards } from '@/components/home/EditorialCards';
 
 export default function Home() {
   return (
@@ -34,6 +35,7 @@ export default function Home() {
       <QuickLinks />
       <AtelierSection />
       <TestimonialsSlider />
+      <EditorialCards />
     </section>
   );
 }

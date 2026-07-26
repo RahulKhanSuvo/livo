@@ -4,11 +4,12 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { editorialCardsData } from './data/editorial-cards.data';
+import { Container } from '../shared/Container';
 
 export const EditorialCards = () => {
   return (
     <section className="w-full bg-white py-8 sm:py-12">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+      <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           {editorialCardsData.map((card) => (
             <div key={card.id} className="flex flex-col w-full overflow-hidden group">
@@ -49,7 +50,7 @@ export const EditorialCards = () => {
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };
