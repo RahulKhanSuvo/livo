@@ -58,25 +58,27 @@ export const GetCreative = () => {
           <Image src={jarImage} alt="" className="w-64 h-auto" />
         </motion.div>
 
-        <Container className="relative z-20 flex h-full flex-col items-center justify-center text-center">
-          <span className="mb-6 font-medium uppercase tracking-[0.2em] text-neutral-800">
-            GET CREATIVE WITH US
-          </span>
+        <Container className="relative z-20 flex h-full flex-col items-center text-center">
+          <div className="flex flex-1 flex-col items-center justify-center">
+            <span className="mb-6 font-medium uppercase tracking-[0.2em] text-neutral-800">
+              GET CREATIVE WITH US
+            </span>
 
-          <h2 className="mb-10 max-w-6xl text-5xl font-medium leading-[1.1] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-[120px]">
-            Check over
-            <br />
-            10,000 Inspirations
-          </h2>
+            <h2 className="mb-10 max-w-6xl text-5xl font-medium leading-[1.1] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-[120px]">
+              Check over
+              <br />
+              10,000 Inspirations
+            </h2>
 
-          <Link
-            href="/inspirations"
-            className="inline-flex items-center justify-center rounded-full border border-neutral-300 px-6 py-3 text-sm transition hover:bg-black hover:text-white"
-          >
-            See more
-          </Link>
+            <Link
+              href="/inspirations"
+              className="inline-flex items-center justify-center rounded-full border border-neutral-300 px-6 py-3 text-sm transition hover:bg-black hover:text-white"
+            >
+              See more
+            </Link>
+          </div>
 
-          <div className="mt-24">
+          <div className="pb-8">
             <HugeiconsIcon
               icon={ChevronDownIcon}
               size={22}
