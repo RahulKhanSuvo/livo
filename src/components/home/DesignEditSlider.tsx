@@ -81,9 +81,9 @@ export const DesignEditSlider = () => {
                   nextEl: '.swiper-next',
                 }}
                 breakpoints={{
-                  640: { slidesPerView: 2.2, spaceBetween: 24 },
-                  1024: { slidesPerView: 3.5, spaceBetween: 24 },
-                  1280: { slidesPerView: 4, spaceBetween: 24 },
+                  640: { slidesPerView: 2.2, spaceBetween: 8 },
+                  1024: { slidesPerView: 3.5, spaceBetween: 8 },
+                  1280: { slidesPerView: 4, spaceBetween: 8 },
                 }}
                 className="w-full pb-8! overflow-visible!"
               >
