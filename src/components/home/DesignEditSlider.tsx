@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Scrollbar } from 'swiper/modules';
+import { Scrollbar, Navigation } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/scrollbar';
+import 'swiper/css/navigation';
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
@@ -67,24 +68,61 @@ export const DesignEditSlider = () => {
 
           <TabsContent value={activeTab} className="mt-0">
             {/* !overflow-visible allows slides to bleed seamlessly off the right side */}
-            <Swiper
-              modules={[Scrollbar]}
-              spaceBetween={20}
-              slidesPerView={1.2}
-              scrollbar={{ draggable: true, el: '.custom-swiper-scrollbar' }}
-              breakpoints={{
-                640: { slidesPerView: 2.2, spaceBetween: 24 },
-                1024: { slidesPerView: 3.5, spaceBetween: 24 },
-                1280: { slidesPerView: 4.2, spaceBetween: 24 },
-              }}
-              className="w-full pb-8! overflow-visible!"
-            >
-              {filteredProducts.map((product) => (
-                <SwiperSlide key={product.id}>
-                  <ProductCard product={product} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <div className="relative">
+              <Swiper
+                modules={[Scrollbar, Navigation]}
+                spaceBetween={20}
+                slidesPerView={1.2}
+                scrollbar={{ draggable: true, el: '.custom-swiper-scrollbar' }}
+                navigation={{
+                  prevEl: '.swiper-prev',
+                  nextEl: '.swiper-next',
+                }}
+                breakpoints={{
+                  640: { slidesPerView: 2.2, spaceBetween: 24 },
+                  1024: { slidesPerView: 3.5, spaceBetween: 24 },
+                  1280: { slidesPerView: 4.2, spaceBetween: 24 },
+                }}
+                className="w-full pb-8! overflow-visible!"
+              >
+                {filteredProducts.map((product) => (
+                  <SwiperSlide key={product.id}>
+                    <ProductCard product={product} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+
+              <button className="swiper-prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+              </button>
+              <button className="swiper-next absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-neutral-100 transition-colors">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
           </TabsContent>
         </Tabs>
       </Container>
