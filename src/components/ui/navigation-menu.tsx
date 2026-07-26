@@ -110,10 +110,10 @@ function NavigationMenuPositioner({
         align={align}
         alignOffset={alignOffset}
         positionMethod="fixed"
-        className={cn('isolate z-50 !left-0 data-instant:transition-none', className)}
+        className={cn('isolate z-50 left-0! data-instant:transition-none', className)}
         {...props}
       >
-        <NavigationMenuPrimitive.Popup className="relative w-screen origin-(--transform-origin) bg-white shadow-lg ring-1 ring-black/5 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-starting-style:opacity-0 data-starting-style:translate-y-[-4px] data-ending-style:opacity-0 data-ending-style:translate-y-[-4px] data-ending-style:duration-150">
+        <NavigationMenuPrimitive.Popup className="relative w-screen origin-(--transform-origin) bg-white shadow-lg ring-1 ring-black/5 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-starting-style:opacity-0 data-starting-style:-translate-y-1 data-ending-style:opacity-0 data-ending-style:-translate-y-1 data-ending-style:duration-150">
           <NavigationMenuPrimitive.Viewport className="relative w-full" />
         </NavigationMenuPrimitive.Popup>
       </NavigationMenuPrimitive.Positioner>
