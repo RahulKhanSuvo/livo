@@ -1,6 +1,7 @@
 import productImage from '@/assets/Products/produkt-1-3_d19c7532-696c-4510-bd8f-5e72ba26645f.webp';
 import { Product as ProductType } from '@/types/product.type';
 import hoverImage from '@/assets/Products/produkt-1-1_669822b9-e521-4819-a32c-fe96a57ca5dc.webp';
+import variantImage from '@/assets/Products/uncover-green.webp';
 
 export type Product = ProductType;
 
@@ -70,9 +71,9 @@ export const productsData: Product[] = [
         id: 'green',
         color: 'Sage Green',
         hex: '#9CAF88',
-        stock: 5,
+        stock: 0,
         sku: 'LC-SGR-001',
-        mainImage: productImage,
+        mainImage: variantImage,
         hoverImage: hoverImage,
         gallery: [productImage, productImage, productImage, productImage, productImage],
       },
