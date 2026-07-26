@@ -6,6 +6,7 @@ import { DesignEditSlider } from '@/components/home/DesignEditSlider';
 import { SaleBanner } from '@/components/home/SaleBanner';
 import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
 import ProductSlider from '@/components/home/ProductSlider/ProductSlider';
+import { BrandMarquee } from '@/components/home/BrandMarquee';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <InteriorEditSlider />
       <ProductSpotlight />
       <ProductSlider />
+      <BrandMarquee />
     </section>
   );
 }
