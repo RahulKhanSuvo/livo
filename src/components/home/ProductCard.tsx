@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import type { Product } from '@/types/product.type';
-import { Button } from '@base-ui/react';
+import { Button } from '../ui/button';
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
@@ -11,8 +11,8 @@ const ProductCard = ({ product }: { product: Product }) => {
   const displaySalePrice = product.salePrice;
 
   return (
-    <div className="flex flex-col cursor-pointer">
-      <div className="relative aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group">
+    <div className="flex flex-col">
+      <div className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group">
         {product.badges && product.badges.length > 0 && (
           <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
             {product.badges.map((badge, idx) => {
@@ -50,8 +50,10 @@ const ProductCard = ({ product }: { product: Product }) => {
           className="absolute inset-0 object-contain p-6 transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100"
         />
 
-        <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0 flex items-center justify-center">
-          <Button>Add to Cart</Button>
+        <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
+          <Button variant={'main'} className={'w-[90%]'}>
+            Add to Cart
+          </Button>
         </div>
       </div>
 
