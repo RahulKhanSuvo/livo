@@ -12,6 +12,7 @@ import GetCreative from '@/components/home/GetCreative';
 import BrandValuesMarquee from '@/components/home/BrandValuesMarquee';
 import { FeaturedEdits } from '@/components/home/FeaturedEdits';
 import { QuickLinks } from '@/components/home/QuickLinks';
+import { AtelierSection } from '@/components/home/AtelierSection';
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
       <BrandValuesMarquee />
       <FeaturedEdits />
       <QuickLinks />
+      <AtelierSection />
     </section>
   );
 }
