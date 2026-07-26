@@ -3,6 +3,7 @@ import { Mona_Sans, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Navbar } from '@/components/common/navbar/Navbar';
+import { Footer } from '@/components/common/footer/Footer';
 
 const monaSans = Mona_Sans({
   variable: '--font-mona-sans',
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
