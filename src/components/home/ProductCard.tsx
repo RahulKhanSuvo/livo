@@ -11,8 +11,8 @@ const ProductCard = ({ product }: { product: Product }) => {
   const displaySalePrice = product.salePrice;
 
   return (
-    <div className="flex flex-col group cursor-pointer">
-      <div className="relative aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden">
+    <div className="flex flex-col cursor-pointer">
+      <div className="relative aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group">
         {product.badges && product.badges.length > 0 && (
           <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
             {product.badges.map((badge, idx) => {
@@ -87,12 +87,18 @@ const ProductCard = ({ product }: { product: Product }) => {
               <button
                 key={v.id}
                 onClick={() => setSelectedVariant(idx)}
-                className={`w-4 h-4 rounded-full border transition-all ${
+                className={`w-4 h-4 rounded-full border transition-all relative overflow-hidden ${
                   idx === selectedVariant ? 'border-neutral-900 scale-110' : 'border-neutral-300'
-                }`}
+                } ${v.stock === 0 ? 'opacity-60' : ''}`}
                 style={{ backgroundColor: v.hex }}
-                aria-label={v.color}
-              />
+                aria-label={`${v.color}${v.stock === 0 ? ' (Out of Stock)' : ''}`}
+              >
+                {v.stock === 0 && (
+                  <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span className="absolute w-[1.5px] h-full bg-neutral-500 rotate-45" />
+                  </span>
+                )}
+              </button>
             ))}
           </div>
         )}
