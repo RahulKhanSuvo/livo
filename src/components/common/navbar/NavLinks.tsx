@@ -9,6 +9,7 @@ import {
   NavigationMenuTrigger,
 } from '../../ui/navigation-menu';
 import { Container } from '../../shared/Container';
+import { DiningRoomContent } from './DiningRoomContent';
 import { livingRoomData, navLinks } from './navbar.data';
 
 interface NavLinksProps {
@@ -59,7 +60,7 @@ const NavItemWithDropdown = ({ link }: { link: (typeof navLinks)[number] }) => (
         <span className="absolute -bottom-0.5 left-0 h-0.5 w-full origin-right scale-x-0 bg-neutral-900 transition-transform duration-300 ease-out group-hover/navigation-menu-trigger:origin-left group-hover/navigation-menu-trigger:scale-x-100 group-data-popup-open/navigation-menu-trigger:origin-left group-data-popup-open/navigation-menu-trigger:scale-x-100" />
       </span>
     </NavigationMenuTrigger>
-    <MegaMenuGrid link={link} />
+    {link.title === 'Dining room' ? <DiningRoomContent /> : <MegaMenuGrid link={link} />}
   </NavigationMenuItem>
 );
 
