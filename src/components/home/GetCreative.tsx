@@ -63,7 +63,7 @@ export const GetCreative = () => {
             GET CREATIVE WITH US
           </span>
 
-          <h2 className="mb-10 max-w-6xl text-5xl font-semibold leading-[1.1] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-[120px]">
+          <h2 className="mb-10 max-w-6xl text-5xl font-medium leading-[1.1] tracking-tight text-neutral-900 sm:text-6xl md:text-7xl lg:text-[120px]">
             Check over
             <br />
             10,000 Inspirations
