@@ -23,7 +23,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-16">
           {/* Column 1: Popular Category */}
           <div className="lg:col-span-3">
-            <h4 className="text-xl font-medium text-neutral-900 mb-4 sm:mb-6">Popular category</h4>
+            <h4 className="text-2xl font-medium text-neutral-900 mb-4 sm:mb-6">Popular category</h4>
             <ul className="space-y-2.5">
               {footerCategories.map((item) => (
                 <li key={item.label}>
@@ -40,7 +40,7 @@ export const Footer = () => {
 
           {/* Column 2: Service */}
           <div className="lg:col-span-2">
-            <h4 className="text-xl font-medium text-neutral-900 mb-4 sm:mb-6">Service</h4>
+            <h4 className="text-2xl font-medium text-neutral-900 mb-4 sm:mb-6">Service</h4>
             <ul className="space-y-2.5">
               {footerServices.map((item) => (
                 <li key={item.label}>
@@ -57,7 +57,7 @@ export const Footer = () => {
 
           {/* Column 3: Information */}
           <div className="lg:col-span-3">
-            <h4 className="text-xl font-medium text-neutral-900 mb-4 sm:mb-6">Information</h4>
+            <h4 className="text-2xl font-medium text-neutral-900 mb-4 sm:mb-6">Information</h4>
             <ul className="space-y-2.5">
               {footerInformation.map((item) => (
                 <li key={item.label}>
@@ -74,7 +74,9 @@ export const Footer = () => {
 
           {/* Column 4: Newsletter Signup */}
           <div className="lg:col-span-4 flex flex-col items-start">
-            <h4 className="text-xl font-medium text-neutral-900 mb-2">Sign up to our Newsletter</h4>
+            <h4 className="text-2xl font-medium text-neutral-900 mb-2">
+              Sign up to our Newsletter
+            </h4>
             <p className="text-xs text-neutral-600 font-light leading-relaxed mb-6 max-w-sm">
               Be the first to know the least relases, news, collaborations, exclusives and offers!
             </p>
