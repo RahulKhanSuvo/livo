@@ -6,14 +6,14 @@ import ProductList from '@/components/shared/ProductList';
 import ProductSortBar from '@/components/shared/ProductSortBar';
 const SofaPage = () => {
   return (
-    <section>
+    <section className="pb-20">
       <ProductPageHeader title="Sofa" description="Tjos" imageSrc={headerImage} />
       <Container className="flex gap-10">
-        <div>
+        <div className="w-78">
           <ProductFilterSidebar />
         </div>
-        <div className="w-full">
-          <ProductSortBar className="sticky top-20 z-20" />
+        <div className="flex-1">
+          <ProductSortBar className="sticky top-20 z-25" />
           <ProductList />
         </div>
       </Container>
