@@ -5,7 +5,7 @@ const ProductList = () => {
   return (
     <div className="grid grid-cols-3 flex-1 gap-3 ">
       {productsData.map((item) => (
-        <ProductCard key={item.id} product={item} />
+        <ProductCard basePath="/sofas" key={item.id} product={item} />
       ))}
     </div>
   );
