@@ -64,10 +64,10 @@ export const ProductFilterSidebar = () => {
   };
 
   return (
-    <aside className=" bg-white text-neutral-900 select-none sticky pt-5 top-20 z-20">
+    <aside className="bg-white text-neutral-900 pt-5">
       {/* Top Filter Header Bar (Shows when filters are active) */}
       {selectedFilters.length > 0 && (
-        <div className="mb-6 flex flex-col items-start gap-3">
+        <div className="mb-6 flex flex-col items-start gap-3 px-3">
           <div className="flex w-full items-center justify-between">
             <span className="text-sm font-medium text-neutral-900">Filter</span>
             <button
@@ -105,20 +105,19 @@ export const ProductFilterSidebar = () => {
       <ScrollArea>
         <div>
           <Accordion
-            type="single"
-            defaultValue={['brand']} // 'brand' open by default as in screenshot
+            type="multiple"
+            defaultValue={['brand']}
             className="w-full border-none bg-white"
           >
             {filterGroupsData.map((group) => {
               const activeCount = getGroupActiveCount(group.id);
-
               return (
                 <AccordionItem
-                  className={'bg-white data-open:bg-white '}
+                  className={'bg-white data-open:bg-white px-0'}
                   key={group.id}
                   value={group.id}
                 >
-                  <AccordionTrigger className="hover:no-underline py-3.5 text-base font-normal">
+                  <AccordionTrigger className="hover:no-underline py-3.5 text-base font-normal px-2">
                     <span className="flex items-center gap-1">
                       <span>{group.title}</span>
                       {activeCount > 0 && (
