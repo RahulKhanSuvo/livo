@@ -64,7 +64,7 @@ export const ProductFilterSidebar = () => {
   };
 
   return (
-    <aside className="w-full max-w-70 bg-white text-neutral-900 p-2 select-none sticky top-20 z-20">
+    <aside className=" bg-white text-neutral-900 select-none sticky pt-5 top-20 z-20">
       {/* Top Filter Header Bar (Shows when filters are active) */}
       {selectedFilters.length > 0 && (
         <div className="mb-6 flex flex-col items-start gap-3">
@@ -122,7 +122,7 @@ export const ProductFilterSidebar = () => {
                     </span>
                   </AccordionTrigger>
 
-                  <AccordionContent>
+                  <AccordionContent className={''}>
                     <div className="flex flex-col space-y-3 pt-1">
                       {group.options.map((option) => {
                         const isChecked = selectedFilters.some(
