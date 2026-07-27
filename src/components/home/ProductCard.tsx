@@ -14,7 +14,10 @@ const ProductCard = ({ product, basePath }: { product: Product; basePath: string
 
   return (
     <div className="flex flex-col">
-      <div className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group">
+      <Link
+        href={`${basePath}/${product.id}`}
+        className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group"
+      >
         {product.badges && product.badges.length > 0 && (
           <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
             {product.badges.map((badge, idx) => {
@@ -53,11 +56,11 @@ const ProductCard = ({ product, basePath }: { product: Product; basePath: string
         />
 
         <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
-          <Button asChild variant={'main'} className={'w-[90%]'}>
-            <Link href={`${basePath}/${product.id}`}>Add to Cart</Link>
+          <Button variant={'main'} className={'w-[90%]'}>
+            Add to Cart
           </Button>
         </div>
-      </div>
+      </Link>
 
       <div className="pt-4 flex flex-col space-y-1">
         <span className="text-[11px] tracking-wider text-neutral-400 uppercase font-medium">
