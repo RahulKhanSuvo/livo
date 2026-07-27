@@ -90,6 +90,7 @@ export const Footer = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                   required
+                  suppressHydrationWarning
                   className="w-full bg-transparent text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
                 />
                 <button
