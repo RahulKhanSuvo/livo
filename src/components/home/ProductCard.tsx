@@ -3,8 +3,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import type { Product } from '@/types/product.type';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product, basePath }: { product: Product; basePath: string }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const variant = product.variants[selectedVariant];
 
@@ -52,8 +53,8 @@ const ProductCard = ({ product }: { product: Product }) => {
         />
 
         <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
-          <Button variant={'main'} className={'w-[90%]'}>
-            Add to Cart
+          <Button asChild variant={'main'} className={'w-[90%]'}>
+            <Link href={`${basePath}/${product.id}`}>Add to Cart</Link>
           </Button>
         </div>
       </div>
