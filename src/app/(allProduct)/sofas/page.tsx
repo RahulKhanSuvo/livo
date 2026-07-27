@@ -4,12 +4,13 @@ import headerImage from '@/assets/header/sofa.webp';
 import ProductFilterSidebar from '@/components/shared/ProductFilterSidebar';
 import ProductList from '@/components/shared/ProductList';
 import ProductSortBar from '@/components/shared/ProductSortBar';
-const SofaPage = () => {
+import FeaturesBar from '@/components/home/FeaturesBar';
+const SofaPage = ({}) => {
   return (
-    <section className="pb-20">
+    <section>
       <ProductPageHeader title="Sofa" description="Tjos" imageSrc={headerImage} />
-      <Container className="flex gap-10">
-        <div className="w-78">
+      <Container className="flex gap-10 ">
+        <div className="w-78 sticky top-20 z-20  self-start">
           <ProductFilterSidebar />
         </div>
         <div className="flex-1">
@@ -17,6 +18,7 @@ const SofaPage = () => {
           <ProductList />
         </div>
       </Container>
+      <FeaturesBar />
     </section>
   );
 };

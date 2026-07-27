@@ -105,6 +105,7 @@ export const ProductFilterSidebar = () => {
       <ScrollArea>
         <div>
           <Accordion
+            type="single"
             defaultValue={['brand']} // 'brand' open by default as in screenshot
             className="w-full border-none bg-white"
           >
@@ -112,7 +113,11 @@ export const ProductFilterSidebar = () => {
               const activeCount = getGroupActiveCount(group.id);
 
               return (
-                <AccordionItem className={'bg-white'} key={group.id} value={group.id}>
+                <AccordionItem
+                  className={'bg-white data-open:bg-white '}
+                  key={group.id}
+                  value={group.id}
+                >
                   <AccordionTrigger className="hover:no-underline py-3.5 text-base font-normal">
                     <span className="flex items-center gap-1">
                       <span>{group.title}</span>
@@ -122,7 +127,7 @@ export const ProductFilterSidebar = () => {
                     </span>
                   </AccordionTrigger>
 
-                  <AccordionContent className={''}>
+                  <AccordionContent className={'bg-white px-0'}>
                     <div className="flex flex-col space-y-3 pt-1">
                       {group.options.map((option) => {
                         const isChecked = selectedFilters.some(
