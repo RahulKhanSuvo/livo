@@ -4,10 +4,13 @@ import React from 'react';
 import { Container } from '@/components/shared/Container';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { featuresBarData } from './data/features-bar.data';
+import { cn } from '@/lib/utils';
 
-export const FeaturesBar = () => {
+export const FeaturesBar = ({ className }: { className?: string }) => {
   return (
-    <section className="w-full bg-white py-12 sm:py-16 border-y border-neutral-100">
+    <section
+      className={cn('w-full bg-white py-12 sm:py-16 border-y border-neutral-100', className)}
+    >
       <Container>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {featuresBarData.map((item) => (
