@@ -9,7 +9,7 @@ const SofaPage = ({}) => {
   return (
     <section>
       <ProductPageHeader title="Sofa" description="Tjos" imageSrc={headerImage} />
-      <Container className="flex gap-10 ">
+      <Container className="flex gap-10 pb-16">
         <div className="w-78 sticky top-20 z-20  self-start">
           <ProductFilterSidebar />
         </div>
