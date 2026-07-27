@@ -89,7 +89,7 @@ export const DesignEditSlider = () => {
               >
                 {filteredProducts.map((product) => (
                   <SwiperSlide key={product.id}>
-                    <ProductCard product={product} />
+                    <ProductCard product={product} basePath="/sofas" />
                   </SwiperSlide>
                 ))}
               </Swiper>
