@@ -53,7 +53,6 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({
         <PopoverContent
           align="end"
           sideOffset={8}
-          showArrow={true}
           className="w-56 rounded-xl border border-neutral-100 bg-white p-2 shadow-lg"
         >
           <div className="flex flex-col space-y-0.5">
