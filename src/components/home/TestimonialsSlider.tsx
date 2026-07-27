@@ -11,11 +11,12 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { testimonialsData } from './data/testimonials.data';
+import { Container } from '../shared/Container';
 
 export const TestimonialsSlider = () => {
   return (
     <section className="w-full bg-white py-16 sm:py-24 border-t border-neutral-100">
-      <div className="w-full px-6 lg:px-12">
+      <Container>
         <Swiper
           modules={[Pagination]}
           spaceBetween={32}
@@ -79,7 +80,7 @@ export const TestimonialsSlider = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </div>
+      </Container>
     </section>
   );
 };
