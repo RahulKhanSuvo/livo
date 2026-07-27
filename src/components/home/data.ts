@@ -55,9 +55,9 @@ export const heroData = [
 // department data
 export const departmentData = [
   {
-    title: 'Sofa',
+    title: 'Sofas',
     icon: sofa,
-    href: '/sofa',
+    href: '/sofas',
   },
   {
     title: 'Chair',
