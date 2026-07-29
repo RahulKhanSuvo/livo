@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import { productsData } from '@/components/home/productsData';
 import ProductDetailsView from '@/components/product-details/ProductDetailsView';
+import FeaturesBar from '@/components/home/FeaturesBar';
+import CustomerReviewsSection from '@/components/common/StarRating/CustomerReviewsSection';
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -14,7 +16,13 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
 
   if (!productData) notFound();
 
-  return <ProductDetailsView product={productData} />;
+  return (
+    <div>
+      <ProductDetailsView product={productData} />
+      <FeaturesBar />
+      <CustomerReviewsSection />
+    </div>
+  );
 };
 
 export default ProductDetailPage;
