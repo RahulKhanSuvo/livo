@@ -210,7 +210,7 @@ export const Navbar = ({
                       <Link
                         href={category.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="text-sm font-semibold tracking-wider uppercase text-neutral-900"
+                        className="font-semibold tracking-wider uppercase text-neutral-900"
                       >
                         {category.title}
                       </Link>
@@ -218,7 +218,7 @@ export const Navbar = ({
                         <button
                           type="button"
                           onClick={() => setMobileExpandedCat(isExpanded ? null : category.id)}
-                          className="text-neutral-500 hover:text-black p-1 text-xs font-medium"
+                          className="text-neutral-500 hover:text-black p-1 font-medium"
                         >
                           {isExpanded ? '−' : '+'}
                         </button>
