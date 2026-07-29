@@ -27,7 +27,7 @@ const GetInspiredBanner = () => {
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center relative">
             {/* Vertical Dining Room Image (Overlaid on top left) */}
             <div className="sm:col-span-5 z-10 shadow-lg relative sm:-mr-8 my-auto">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-200">
+              <div className="relative aspect-3/4 w-full overflow-hidden bg-gray-200">
                 <Image
                   src={
                     'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&q=80&w=800'
@@ -43,7 +43,7 @@ const GetInspiredBanner = () => {
 
             {/* Horizontal Decorative Lamps Image (Base background right) */}
             <div className="sm:col-span-7 z-0">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-200">
+              <div className="relative aspect-4/3 w-full overflow-hidden bg-gray-200">
                 <Image
                   src={
                     'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&q=80&w=1000'
