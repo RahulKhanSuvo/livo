@@ -37,7 +37,7 @@ export const PromoCountdown: React.FC<PromoCountdownProps> = ({
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 rounded-xl bg-[#f8f7f5] p-4 border border-neutral-100">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#f8f7f5] p-4 border border-neutral-100">
       {/* Left Promo Code */}
       <div className="flex flex-col items-start gap-1.5">
         <span className="text-xs font-medium text-neutral-800">{discountText}</span>
@@ -63,7 +63,7 @@ export const PromoCountdown: React.FC<PromoCountdownProps> = ({
         {timeBlocks.map((block) => (
           <div
             key={block.label}
-            className="flex h-12 w-11 flex-col items-center justify-center rounded-lg bg-white shadow-sm border border-neutral-100"
+            className="flex h-12 w-11 flex-col items-center justify-center  bg-white border border-neutral-100"
           >
             <span className="text-sm font-semibold text-neutral-900 leading-none">
               {block.value}
