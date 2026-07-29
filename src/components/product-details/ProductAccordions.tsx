@@ -23,7 +23,12 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
   specifications,
 }) => {
   return (
-    <Accordion type="single" collapsible className="w-full">
+    <Accordion
+      defaultValue={'description'}
+      type="single"
+      collapsible
+      className="w-full border-none bg-white"
+    >
       <AccordionItem value="description">
         <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
           Description
@@ -34,10 +39,10 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
       </AccordionItem>
 
       <AccordionItem value="dimensions">
-        <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
+        <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900 rounded-none">
           Dimensions & Weight
         </AccordionTrigger>
-        <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed space-y-1">
+        <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed space-y-1 bg-white px-0">
           <p>Width: {specifications.dimensions.width} cm</p>
           <p>Height: {specifications.dimensions.height} cm</p>
           <p>Depth: {specifications.dimensions.depth} cm</p>
