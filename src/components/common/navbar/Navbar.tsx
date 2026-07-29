@@ -22,7 +22,7 @@ interface NavbarProps {
 
 export const Navbar = ({
   dropdownAnimationType = 'classic',
-  megamenuAnimationType = 'shutter',
+  megamenuAnimationType = 'classic',
 }: NavbarProps) => {
   const [activeCategory, setActiveCategory] = useState<NavCategory | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
