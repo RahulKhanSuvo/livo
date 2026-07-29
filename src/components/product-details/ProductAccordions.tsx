@@ -29,7 +29,7 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
       collapsible
       className="w-full border-none bg-white"
     >
-      <AccordionItem value="description">
+      <AccordionItem className="data-open:bg-white" value="description">
         <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
           Description
         </AccordionTrigger>
@@ -38,7 +38,7 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="dimensions">
+      <AccordionItem className="data-open:bg-white" value="dimensions">
         <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900 rounded-none">
           Dimensions & Weight
         </AccordionTrigger>
@@ -50,7 +50,7 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
         </AccordionContent>
       </AccordionItem>
 
-      <AccordionItem value="materials">
+      <AccordionItem className="data-open:bg-white" value="materials">
         <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
           Materials & Finish
         </AccordionTrigger>
