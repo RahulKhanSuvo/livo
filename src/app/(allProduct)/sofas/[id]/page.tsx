@@ -4,6 +4,7 @@ import ProductDetailsView from '@/components/product-details/ProductDetailsView'
 import FeaturesBar from '@/components/home/FeaturesBar';
 import CustomerReviewsSection from '@/components/common/StarRating/CustomerReviewsSection';
 import GetInspiredBanner from '@/components/home/banner/GetInspiredBanner';
+import InteriorEditSlider from '@/components/home/InteriorEditSlider';
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -23,6 +24,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
       <FeaturesBar />
       <CustomerReviewsSection />
       <GetInspiredBanner />
+      <InteriorEditSlider />
     </div>
   );
 };
