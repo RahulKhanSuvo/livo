@@ -126,7 +126,7 @@ export const Navbar = ({
 
                     {/* Active / Hover underline indicator */}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" />
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black" />
                     )}
 
                     {/* Modular Dropdown Panel */}
@@ -171,7 +171,7 @@ export const Navbar = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-[81px] bg-black/40 z-40"
+            className="fixed inset-0 top-20.25 bg-black/40 z-40"
             onMouseEnter={handleMouseLeave}
           />
         )}
