@@ -39,7 +39,7 @@ export const CustomerReviewsSection: React.FC<CustomerReviewsSectionProps> = ({
         </div>
 
         {/* Cards Carousel / Grid */}
-        <Marquee>
+        <Marquee pauseOnHover>
           {testimonials.map((item) => (
             <TestimonialCard key={item.id} testimonial={item} />
           ))}

@@ -17,7 +17,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, c
   return (
     <div
       className={cn(
-        'flex flex-col justify-between rounded-xl bg-[#F8F7F5] p-6 sm:p-8 min-w-70 sm:min-w-85 max-w-137.5 shrink-0 lg:flex-1 transition-all',
+        'flex flex-col justify-between rounded-xl bg-[#F8F7F5] p-6 sm:p-8 min-w-70 sm:min-w-85 max-w-110 shrink-0 lg:flex-1 transition-all',
         className
       )}
     >
