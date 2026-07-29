@@ -194,7 +194,7 @@ export const Navbar = ({
               height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
               opacity: { duration: 0.2 },
             }}
-            className="fixed inset-0 top-15 bg-white z-50 lg:hidden overflow-y-auto border-t border-neutral-200"
+            className="fixed inset-0 top-16 bg-white z-50 lg:hidden overflow-y-auto border-t border-neutral-200"
           >
             <motion.div
               initial={{ y: -15, opacity: 0 }}
