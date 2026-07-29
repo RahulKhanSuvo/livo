@@ -24,7 +24,7 @@ export const MegamenuPanel = ({
   }
 
   const content = (
-    <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-18 py-10">
+    <div className="max-w-[1900px] mx-auto px-4 sm:px-6 lg:px-18 py-10">
       <div className="flex gap-10 items-start justify-between min-h-[380px]">
         {/* Left Side: Category Columns & View All Link */}
         <div className="flex-1 flex flex-col justify-between self-stretch">
