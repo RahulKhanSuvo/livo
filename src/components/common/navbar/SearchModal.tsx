@@ -146,7 +146,7 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           className="fixed inset-0 z-50 bg-white overflow-y-auto flex flex-col"
         >
           {/* Search Header Bar - Stays fixed at top */}
-          <div className="shrink-0 max-w-[1440px] w-full mx-auto px-6 md:px-10 h-20 flex items-center justify-between relative border-b border-neutral-100 bg-white z-10">
+          <div className="shrink-0 max-w-360 w-full mx-auto px-6 md:px-10 h-20 flex items-center justify-between relative border-b border-neutral-100 bg-white z-10">
             <div className="w-10" /> {/* Spacer */}
             {/* Centered Search Pill */}
             <div className="flex-1 max-w-xl mx-auto flex items-center gap-3 px-5 py-2.5 rounded-full border border-neutral-300 bg-white focus-within:border-black transition-colors shadow-xs">
