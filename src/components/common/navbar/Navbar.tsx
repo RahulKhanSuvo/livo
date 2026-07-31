@@ -64,7 +64,7 @@ export const Navbar = ({
       >
         {/* Top Tier Header Bar */}
         <div className="border-b border-neutral-100">
-          <Container className="h-16 flex items-center justify-between relative">
+          <Container className="h-12 flex items-center justify-between relative">
             {/* Left: Mobile Toggle + Search Bar */}
             <div className="flex items-center gap-3">
               <button

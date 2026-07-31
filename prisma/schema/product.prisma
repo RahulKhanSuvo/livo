@@ -1,29 +1,49 @@
 model Product {
-  id            String      @id @default(uuid())
+  id            String      @id @default(cuid())
+  productTypeId String
+  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
   name          String
+  slug          String      @unique
   description   String?
-  price         Float
+  price         Decimal     @db.Decimal(10, 2)
+  salePrice     Decimal?    @db.Decimal(10, 2)
+  sku           String      @unique
   stock         Int
-  categoryId    String
-  subcategoryId String
-  category      Category    @relation(fields: [categoryId], references: [id])
-  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  material      String?
+  color         String?
+  brand         String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 }
 
 model Category {
-  id            String        @id @default(uuid())
+  id            String        @id @default(cuid())
   name          String
-  subcategories Subcategory[]
+  slug          String        @unique
+  image         String?
+  subCategories SubCategory[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
 
-model Subcategory {
-  id        String   @id @default(uuid())
-  name      String
-  category  Category @relation(fields: [categoryId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model SubCategory {
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  categoryId   String
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  productTypes ProductType[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model ProductType {
+  id            String      @id @default(cuid())
+  name          String
+  slug          String      @unique
+  subCategoryId String
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  products      Product[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
