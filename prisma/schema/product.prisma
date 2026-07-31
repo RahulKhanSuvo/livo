@@ -1,19 +1,33 @@
 model Product {
-  id            String      @id @default(cuid())
-  productTypeId String
-  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
-  name          String
-  slug          String      @unique
-  description   String?
-  price         Decimal     @db.Decimal(10, 2)
-  salePrice     Decimal?    @db.Decimal(10, 2)
-  sku           String      @unique
-  stock         Int
-  material      String?
-  color         String?
-  brand         String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id              String           @id @default(cuid())
+  productTypeId   String
+  productType     ProductType      @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  name            String
+  slug            String           @unique
+  description     String?
+  price           Decimal          @db.Decimal(10, 2)
+  salePrice       Decimal?         @db.Decimal(10, 2)
+  sku             String           @unique
+  stock           Int
+  material        String?
+  color           String?
+  brand           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  productVariants ProductVariant[]
+}
+
+model ProductVariant {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color     String
+  stock     Int
+  sku       String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, color])
 }
 
 model Category {
