@@ -30,43 +30,43 @@ export interface NavCategory {
 }
 
 export const navCategories: NavCategory[] = [
-  {
-    id: 'new-arrivals',
-    title: 'NEW ARRIVALS',
-    href: '/shop/new-arrivals',
-    type: 'megamenu',
-    columns: [
-      {
-        header: 'New In Categories',
-        items: [
-          { title: 'New in Living Room', href: '/shop/new-arrivals/living' },
-          { title: 'New in Dining Room', href: '/shop/new-arrivals/dining' },
-          { title: 'New in Bedroom', href: '/shop/new-arrivals/bedroom' },
-          { title: 'New Outdoor Releases', href: '/shop/new-arrivals/outdoor' },
-        ],
-      },
-      {
-        header: 'Featured Arrivals',
-        items: [
-          { title: 'Travertine Collection', href: '/shop/new-arrivals/travertine' },
-          { title: 'Bouclé Sofas & Chairs', href: '/shop/new-arrivals/boucle' },
-          { title: 'Solid Walnut Furniture', href: '/shop/new-arrivals/walnut' },
-        ],
-      },
-    ],
-    viewAllText: 'VIEW ALL NEW ARRIVALS',
-    viewAllHref: '/shop/new-arrivals',
-    promos: [
-      {
-        title: 'NEW SEASON COLLECTION',
-        subtitle: 'Discover contemporary designs crafted for modern living.',
-        ctaText: 'SHOP NEW ARRIVALS',
-        ctaHref: '/shop/new-arrivals',
-        image:
-          'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop',
-      },
-    ],
-  },
+  // {
+  //   id: 'new-arrivals',
+  //   title: 'NEW ARRIVALS',
+  //   href: '/shop/new-arrivals',
+  //   type: 'megamenu',
+  //   columns: [
+  //     {
+  //       header: 'New In Categories',
+  //       items: [
+  //         { title: 'New in Living Room', href: '/shop/new-arrivals/living' },
+  //         { title: 'New in Dining Room', href: '/shop/new-arrivals/dining' },
+  //         { title: 'New in Bedroom', href: '/shop/new-arrivals/bedroom' },
+  //         { title: 'New Outdoor Releases', href: '/shop/new-arrivals/outdoor' },
+  //       ],
+  //     },
+  //     {
+  //       header: 'Featured Arrivals',
+  //       items: [
+  //         { title: 'Travertine Collection', href: '/shop/new-arrivals/travertine' },
+  //         { title: 'Bouclé Sofas & Chairs', href: '/shop/new-arrivals/boucle' },
+  //         { title: 'Solid Walnut Furniture', href: '/shop/new-arrivals/walnut' },
+  //       ],
+  //     },
+  //   ],
+  //   viewAllText: 'VIEW ALL NEW ARRIVALS',
+  //   viewAllHref: '/shop/new-arrivals',
+  //   promos: [
+  //     {
+  //       title: 'NEW SEASON COLLECTION',
+  //       subtitle: 'Discover contemporary designs crafted for modern living.',
+  //       ctaText: 'SHOP NEW ARRIVALS',
+  //       ctaHref: '/shop/new-arrivals',
+  //       image:
+  //         'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1000&auto=format&fit=crop',
+  //     },
+  //   ],
+  // },
   {
     id: 'living',
     title: 'LIVING',
@@ -287,9 +287,9 @@ export const navCategories: NavCategory[] = [
     ],
   },
   {
-    id: 'egift-cards',
-    title: 'EGIFT CARDS',
-    href: '/egift-cards',
+    id: 'blog',
+    title: 'BLOG',
+    href: '/blog',
     type: 'link',
   },
 ];
