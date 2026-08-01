@@ -1,97 +1,73 @@
 model Category {
-  id    String  @id @default(cuid())
-  name  String
-  slug  String  @unique
-  image String?
-
+  id            String        @id @default(cuid())
+  name          String
+  slug          String        @unique
+  image         String?
   subCategories SubCategory[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model SubCategory {
-  id   String @id @default(cuid())
-  name String
-  slug String @unique
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
+  id           String        @id @default(cuid())
+  name         String
+  slug         String        @unique
+  categoryId   String
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   productTypes ProductType[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 
 model ProductType {
-  id   String @id @default(cuid())
-  name String
-  slug String @unique
-
+  id            String      @id @default(cuid())
+  name          String
+  slug          String      @unique
   subCategoryId String
   subCategory   SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
-
-  products Product[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  products      Product[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model Product {
-  id String @id @default(cuid())
-
+  id            String           @id @default(cuid())
   productTypeId String
-  productType   ProductType @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
-
-  name        String
-  slug        String  @unique
-  description String?
-
-  brand    String?
-  material String?
-
-  variants ProductVariant[]
-
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  orderItems OrderItem[]
+  productType   ProductType      @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
+  name          String
+  slug          String           @unique
+  description   String?
+  brand         String?
+  material      String?
+  variants      ProductVariant[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  orderItems    OrderItem[]
 }
 
 model ProductVariant {
-  id String @id @default(cuid())
-
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  color String?
-
-  sku String @unique
-
-  price     Decimal  @db.Decimal(10, 2)
-  salePrice Decimal? @db.Decimal(10, 2)
-
-  stock Int
-
-  images ProductImage[]
-
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id         String         @id @default(cuid())
+  productId  String
+  product    Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color      String?
+  sku        String         @unique
+  price      Decimal        @db.Decimal(10, 2)
+  salePrice  Decimal?       @db.Decimal(10, 2)
+  stock      Int
+  images     ProductImage[]
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
   orderItems OrderItem[]
 
   @@unique([productId, color])
 }
 
 model ProductImage {
-  id String @id @default(cuid())
-
+  id        String         @id @default(cuid())
   variantId String
   variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
-
-  imageUrl String
-  alt      String?
-
-  sortOrder Int @default(0)
-
-  createdAt DateTime @default(now())
+  imageUrl  String
+  alt       String?
+  sortOrder Int            @default(0)
+  createdAt DateTime       @default(now())
 }
