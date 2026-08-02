@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import { Mona_Sans, Geist_Mono } from 'next/font/google';
+import { Mona_Sans, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Navbar } from '@/components/common/navbar/Navbar';
-import { Footer } from '@/components/common/footer/Footer';
 
 const monaSans = Mona_Sans({
   variable: '--font-mona-sans',
@@ -13,6 +11,13 @@ const monaSans = Mona_Sans({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: '--font-instrument-serif',
+  subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
 });
 export const metadata: Metadata = {
   title: 'Livo',
@@ -28,13 +33,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn('h-full', 'antialiased', monaSans.variable, geistMono.variable, 'font-sans')}
+      className={cn(
+        'h-full',
+        'antialiased',
+        monaSans.variable,
+        geistMono.variable,
+        instrumentSerif.variable,
+        'font-sans'
+      )}
     >
-      <body className="min-h-full flex flex-col">
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

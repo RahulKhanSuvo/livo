@@ -11,9 +11,6 @@
     "format:check": "prettier --check .",
     "prepare": "husky"
   },
-  "prisma": {
-    "seed": "bun run prisma/seed.ts"
-  },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
     "@hugeicons/core-free-icons": "^4.2.3",
