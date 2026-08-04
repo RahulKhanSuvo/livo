@@ -30,8 +30,8 @@ export const RightActions = ({ onOpenSearch, onOpenCart }: RightActionsProps) =>
     </Link>
 
     <Link
-      href="/account"
-      aria-label="Account"
+      href="/login"
+      aria-label="Sign in"
       className="text-neutral-800 hover:text-black transition-colors"
     >
       <HugeiconsIcon icon={UserIcon} size={19} strokeWidth={1.5} />

@@ -6,6 +6,11 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   prettier,
+  // TanStack Form uses render-prop `children={...}` which conflicts with the default rule.
+  {
+    files: ['src/components/auth/**/*.tsx'],
+    rules: { 'react/no-children-prop': 'off' },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
