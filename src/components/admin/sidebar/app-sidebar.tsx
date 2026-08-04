@@ -1,0 +1,86 @@
+'use client';
+
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  Logout02Icon,
+  Settings05Icon,
+  UserGroupIcon,
+} from '@hugeicons/core-free-icons';
+
+import { Brand } from './brand';
+import { SidebarNav } from './sidebar-nav';
+import { adminNavGroups } from './app-sidebar.data';
+
+export function AppSidebar({
+  collapsed = false,
+  onNavigate,
+}: {
+  collapsed?: boolean;
+  onNavigate?: () => void;
+}) {
+  return (
+    <div className="relative flex h-full flex-col overflow-hidden bg-sidebar text-sidebar-foreground">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_60%_at_50%_-10%,rgba(217,142,99,0.16),transparent_60%)]"
+      />
+      <div aria-hidden className="bg-grain pointer-events-none absolute inset-0 opacity-70" />
+      <div className="relative flex h-full min-h-0 flex-col">
+        <Brand collapsed={collapsed} />
+
+        <div className="admin-scroll flex-1 overflow-y-auto px-2.5 pb-4">
+          <nav>
+            <SidebarNav
+              groups={adminNavGroups}
+              collapsed={collapsed}
+              defaultOpenPrefix="/admin/catalog"
+              onNavigate={onNavigate}
+            />
+          </nav>
+        </div>
+
+        <div className="p-2.5">
+        {collapsed ? (
+          <div className="flex flex-col items-center gap-1">
+            <button
+              type="button"
+              title="Settings"
+              className="flex size-10 w-full items-center justify-center rounded-xl text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+            >
+              <HugeiconsIcon icon={Settings05Icon} size={20} strokeWidth={1.75} />
+            </button>
+            <button
+              type="button"
+              title="Log out"
+              className="flex size-10 w-full items-center justify-center rounded-xl text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+            >
+              <HugeiconsIcon icon={Logout02Icon} size={20} strokeWidth={1.75} />
+            </button>
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-sidebar-border bg-sidebar-accent p-3">
+            <div className="flex items-center gap-3">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#3d5747] text-xs font-bold text-sidebar-foreground">
+                RS
+              </span>
+              <div className="min-w-0 flex-1 leading-tight">
+                <p className="truncate text-[13px] font-semibold text-sidebar-foreground">
+                  Rahul Sharma
+                </p>
+                <p className="truncate text-[11px] text-sidebar-foreground/50">Super Admin</p>
+              </div>
+              <button
+                type="button"
+                title="Profile"
+                className="grid size-7 shrink-0 place-items-center rounded-lg text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+              >
+                <HugeiconsIcon icon={UserGroupIcon} size={15} strokeWidth={2} />
+              </button>
+            </div>
+          </div>
+        )}
+        </div>
+      </div>
+    </div>
+  );
+}
