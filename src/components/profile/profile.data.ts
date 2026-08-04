@@ -1,5 +1,12 @@
 import type { OrderStatus, PaymentStatus } from '@/generated/prisma/enums';
 
+export interface ProfileUser {
+  id: string;
+  name: string;
+  email: string;
+  image?: string | null;
+}
+
 export interface ProfileOrderItem {
   id: string;
   name: string;
