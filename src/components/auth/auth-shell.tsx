@@ -8,7 +8,6 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowUpRight01Icon, SparklesIcon } from '@hugeicons/core-free-icons';
 
 import heroImage from '@/assets/hero/main-banner-7-desktop.webp';
-import { cn } from '@/lib/utils';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -106,40 +105,6 @@ export function AuthShell({ mode, children }: { mode: AuthMode; children: ReactN
 
         <div className="w-full max-w-md">
           {/* Animated tab switcher */}
-          <div
-            role="tablist"
-            className="relative mb-10 flex w-full rounded-full border border-foreground/10 bg-white p-1.5 shadow-sm"
-          >
-            {(
-              [
-                { mode: 'signin', label: 'Sign in', href: '/login' },
-                { mode: 'signup', label: 'Create account', href: '/signup' },
-              ] as const
-            ).map((tab) => {
-              const active = mode === tab.mode;
-              return (
-                <Link
-                  key={tab.mode}
-                  href={tab.href}
-                  role="tab"
-                  aria-selected={active}
-                  className={cn(
-                    'relative z-10 flex h-10 flex-1 items-center justify-center rounded-full text-sm font-medium transition-colors duration-200',
-                    active ? 'text-[#f4f1e8]' : 'text-[#4c4a45]/60 hover:text-[#4c4a45]'
-                  )}
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="auth-tab-pill"
-                      className="absolute inset-0 -z-10 rounded-full bg-[#4b6b56] shadow-md shadow-[#4b6b56]/30"
-                      transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  {tab.label}
-                </Link>
-              );
-            })}
-          </div>
 
           {/* Animated form swap */}
           <AnimatePresence mode="wait">
