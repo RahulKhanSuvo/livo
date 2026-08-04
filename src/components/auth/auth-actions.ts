@@ -31,7 +31,7 @@ export async function signInAction(values: {
     return { success: false, error: 'Invalid email or password' };
   }
 
-  redirect('/');
+  redirect('/profile');
 }
 
 export async function signUpAction(values: {
@@ -60,5 +60,5 @@ export async function signUpAction(values: {
     return { success: false, error: 'Could not create your account' };
   }
 
-  redirect('/');
+  redirect('/profile');
 }
