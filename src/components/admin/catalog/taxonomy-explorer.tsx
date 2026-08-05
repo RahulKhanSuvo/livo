@@ -1,18 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Children } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Folder01Icon,
   Folder02Icon,
   GroupItemsIcon,
   PlusSignIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
   Edit02Icon,
   Delete01Icon,
   PackageIcon,
   CheckmarkCircle02Icon,
+  ArrowRight01Icon,
 } from '@hugeicons/core-free-icons';
 
 import { PageHeader } from '@/components/admin/ui/page-header';
@@ -41,11 +40,7 @@ import {
 export type TaxonomyFocus = 'category' | 'subcategory' | 'productType';
 
 type ModalState =
-  | {
-      level: 'category';
-      mode: 'add' | 'edit';
-      item?: CategoryItem;
-    }
+  | { level: 'category'; mode: 'add' | 'edit'; item?: CategoryItem }
   | {
       level: 'subcategory';
       mode: 'add' | 'edit';
@@ -72,28 +67,34 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
   const [categories, setCategories] = useState<CategoryItem[]>(seedCategories);
   const [subcategories, setSubcategories] = useState<SubcategoryItem[]>(seedSubcategories);
   const [productTypes, setProductTypes] = useState<ProductTypeItem[]>(seedProductTypes);
-  const [expanded, setExpanded] = useState<Set<string>>(
-    () => new Set(focus === 'category' ? [] : [])
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    seedCategories.find((c) => c.id === seedCategories[0]?.id)?.id ?? null
   );
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalState>(null);
 
   const totalProducts = categories.reduce((sum, c) => sum + c.products, 0);
 
-  function toggle(id: string) {
-    setExpanded((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  }
+  const subcategoriesFor =
+    categories.filter((c) => c.id === selectedCategory)[0] === undefined
+      ? []
+      : subcategories.filter((s) => s.parentId === selectedCategory);
 
-  function subcategoriesFor(categoryId: string) {
-    return subcategories.filter((s) => s.parentId === categoryId);
-  }
+  const visibleTypes =
+    selectedSubcategory === null
+      ? []
+      : productTypes.filter((t) => t.subcategoryId === selectedSubcategory);
 
-  function productTypesFor(subcategoryId: string) {
-    return productTypes.filter((t) => t.subcategoryId === subcategoryId);
+  function openAdd(level: TaxonomyFocus, preset?: { categoryId?: string; subcategoryId?: string }) {
+    if (level === 'category') setModal({ level: 'category', mode: 'add' });
+    if (level === 'subcategory')
+      setModal({ level: 'subcategory', mode: 'add', presetCategoryId: preset?.categoryId });
+    if (level === 'productType')
+      setModal({
+        level: 'productType',
+        mode: 'add',
+        presetSubcategoryId: preset?.subcategoryId ?? selectedSubcategory ?? undefined,
+      });
   }
 
   function handleSave(values: {
@@ -121,51 +122,45 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
           )
         );
       } else {
-        setCategories((prev) => [
-          ...prev,
-          {
-            id: `C-${String(prev.length + 1).padStart(2, '0')}`,
-            name,
-            slug: values.slug || slugify(name),
-            products: 0,
-            description: values.description ?? '',
-          },
-        ]);
+        const next: CategoryItem = {
+          id: `C-${String(categories.length + 1).padStart(2, '0')}`,
+          name,
+          slug: values.slug || slugify(name),
+          products: 0,
+          description: values.description ?? '',
+        };
+        setCategories((prev) => [...prev, next]);
+        setSelectedCategory(next.id);
       }
     }
 
     if (modal.level === 'subcategory') {
-      const parentId = values.parentId ?? modal.presetCategoryId ?? categories[0]?.id;
+      const parentId = values.parentId ?? modal.presetCategoryId ?? selectedCategory ?? undefined;
       const parent = categories.find((c) => c.id === parentId);
       if (modal.mode === 'edit' && modal.item) {
         setSubcategories((prev) =>
           prev.map((s) =>
             s.id === modal.item!.id
-              ? {
-                  ...s,
-                  name,
-                  parentId: parentId ?? s.parentId,
-                  parent: parent?.name ?? s.parent,
-                }
+              ? { ...s, name, parentId: parentId ?? s.parentId, parent: parent?.name ?? s.parent }
               : s
           )
         );
       } else {
-        setSubcategories((prev) => [
-          ...prev,
-          {
-            id: `S-${String(prev.length + 1).padStart(3, '0')}`,
-            name,
-            parent: parent?.name ?? '',
-            parentId: parentId ?? '',
-            products: 0,
-          },
-        ]);
+        const next: SubcategoryItem = {
+          id: `S-${String(subcategories.length + 1).padStart(3, '0')}`,
+          name,
+          parent: parent?.name ?? '',
+          parentId: parentId ?? '',
+          products: 0,
+        };
+        setSubcategories((prev) => [...prev, next]);
+        setSelectedSubcategory(next.id);
       }
     }
 
     if (modal.level === 'productType') {
-      const subcategoryId = values.parentId ?? modal.presetSubcategoryId ?? subcategories[0]?.id;
+      const subcategoryId =
+        values.parentId ?? modal.presetSubcategoryId ?? selectedSubcategory ?? undefined;
       const sub = subcategories.find((s) => s.id === subcategoryId);
       if (modal.mode === 'edit' && modal.item) {
         setProductTypes((prev) =>
@@ -184,7 +179,7 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
         setProductTypes((prev) => [
           ...prev,
           {
-            id: `T-${String(prev.length + 1).padStart(2, '0')}`,
+            id: `T-${String(productTypes.length + 1).padStart(2, '0')}`,
             name,
             subcategory: sub?.name ?? '',
             subcategoryId: subcategoryId ?? '',
@@ -206,10 +201,12 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
           (t) => !subcategories.some((s) => s.id === t.subcategoryId && s.parentId === id)
         )
       );
+      if (selectedCategory === id) setSelectedCategory(null);
     }
     if (level === 'subcategory') {
       setSubcategories((prev) => prev.filter((s) => s.id !== id));
       setProductTypes((prev) => prev.filter((t) => t.subcategoryId !== id));
+      if (selectedSubcategory === id) setSelectedSubcategory(null);
     }
     if (level === 'productType') {
       setProductTypes((prev) => prev.filter((t) => t.id !== id));
@@ -219,32 +216,8 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
   return (
     <div className="space-y-6">
       <PageHeader
-        title={
-          focus === 'category'
-            ? 'Categories'
-            : focus === 'subcategory'
-              ? 'Subcategories'
-              : 'Product Types'
-        }
-        description="The catalog taxonomy — Categories hold Subcategories, which hold Product Types. Each level flows into the next."
-        actions={
-          <Button
-            className="gap-1.5"
-            onClick={() =>
-              setModal(
-                focus === 'category'
-                  ? { level: 'category', mode: 'add' }
-                  : focus === 'subcategory'
-                    ? { level: 'subcategory', mode: 'add' }
-                    : { level: 'productType', mode: 'add' }
-              )
-            }
-          >
-            <HugeiconsIcon icon={PlusSignIcon} size={16} />
-            Add{' '}
-            {focus === 'category' ? 'category' : focus === 'subcategory' ? 'subcategory' : 'type'}
-          </Button>
-        }
+        title="Catalog Taxonomy"
+        description="Pick a category, then a subcategory — product types appear on the right. Each level flows into the next."
       />
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
@@ -269,263 +242,101 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
         />
       </div>
 
-      <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-foreground/10">
-        <div className="flex flex-wrap items-center gap-2 border-b border-foreground/8 bg-[#faf9f5] px-4 py-3 sm:px-5">
-          <span className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
-            Taxonomy tree
-          </span>
-          <div className="ml-auto flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2 rounded-full bg-[#4b6b56]" /> Category
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2 rounded-full bg-[#d98e63]" /> Subcategory
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <span className="size-2 rounded-full bg-[#8a9b80]" /> Product type
-            </span>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <TaxonomyColumn
+          title="Categories"
+          subtitle="Top level · rooms of the store"
+          tone="#4b6b56"
+          icon={Folder01Icon}
+          highlight={focus === 'category'}
+          onAdd={() => openAdd('category')}
+          emptyText="No categories yet."
+        >
+          {categories.map((category) => (
+            <ColumnRow
+              key={category.id}
+              title={category.name}
+              meta={`/${category.slug}`}
+              count={category.products}
+              countLabel="products"
+              selected={selectedCategory === category.id}
+              tone="#4b6b56"
+              icon={Folder01Icon}
+              onClick={() => {
+                setSelectedCategory(category.id);
+                setSelectedSubcategory(null);
+              }}
+              onEdit={() => setModal({ level: 'category', mode: 'edit', item: category })}
+              onDelete={() => handleDelete('category', category.id)}
+              onAddChild={() => openAdd('subcategory', { categoryId: category.id })}
+              addChildLabel="Add sub"
+            />
+          ))}
+        </TaxonomyColumn>
 
-        <div className="divide-y divide-foreground/5">
-          {categories.map((category) => {
-            const cats = subcategoriesFor(category.id);
-            const isOpen = expanded.has(category.id);
-            const isHighlighted = focus === 'category';
+        <TaxonomyColumn
+          title="Subcategories"
+          subtitle={
+            selectedCategory
+              ? `inside ${categories.find((c) => c.id === selectedCategory)?.name ?? ''}`
+              : 'select a category first'
+          }
+          tone="#d98e63"
+          icon={Folder02Icon}
+          highlight={focus === 'subcategory'}
+          onAdd={() => openAdd('subcategory')}
+          onAddDisabled={!selectedCategory}
+          emptyText="No subcategories in this category yet."
+        >
+          {subcategoriesFor.map((sub) => (
+            <ColumnRow
+              key={sub.id}
+              title={sub.name}
+              meta={sub.parent}
+              count={sub.products}
+              countLabel="products"
+              selected={selectedSubcategory === sub.id}
+              tone="#d98e63"
+              icon={Folder02Icon}
+              onClick={() => setSelectedSubcategory(sub.id)}
+              onEdit={() => setModal({ level: 'subcategory', mode: 'edit', item: sub })}
+              onDelete={() => handleDelete('subcategory', sub.id)}
+              onAddChild={() => openAdd('productType', { subcategoryId: sub.id })}
+              addChildLabel="Add type"
+            />
+          ))}
+        </TaxonomyColumn>
 
-            return (
-              <div key={category.id}>
-                <div
-                  className={cn(
-                    'group flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-[#f6f5f1]/60 sm:px-5',
-                    isHighlighted && 'bg-[#f6f5f1]/70'
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggle(category.id)}
-                    className="grid size-7 shrink-0 cursor-pointer place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-black/5 hover:text-foreground"
-                    aria-label={isOpen ? 'Collapse' : 'Expand'}
-                  >
-                    <HugeiconsIcon
-                      icon={isOpen ? ChevronDownIcon : ChevronRightIcon}
-                      size={15}
-                      strokeWidth={2}
-                    />
-                  </button>
-                  <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#4b6b56]/12 text-[#4b6b56]">
-                    <HugeiconsIcon icon={Folder01Icon} size={16} strokeWidth={2} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-foreground">
-                      {category.name}
-                    </p>
-                    <p className="truncate text-xs text-muted-foreground">/{category.slug}</p>
-                  </div>
-                  <span className="hidden text-xs text-muted-foreground sm:block">
-                    {cats.length} sub{cats.length === 1 ? '' : 's'}
-                  </span>
-                  <span className="hidden rounded-full bg-foreground/5 px-2.5 py-1 text-xs font-medium text-foreground/70 md:block">
-                    {category.products} products
-                  </span>
-                  <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label="Edit category"
-                      onClick={() => setModal({ level: 'category', mode: 'edit', item: category })}
-                    >
-                      <HugeiconsIcon icon={Edit02Icon} size={15} />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label="Delete category"
-                      onClick={() => handleDelete('category', category.id)}
-                    >
-                      <HugeiconsIcon icon={Delete01Icon} size={15} className="text-destructive" />
-                    </Button>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    className="hidden gap-1 sm:inline-flex"
-                    onClick={() =>
-                      setModal({ level: 'subcategory', mode: 'add', presetCategoryId: category.id })
-                    }
-                  >
-                    <HugeiconsIcon icon={PlusSignIcon} size={14} />
-                    Add
-                  </Button>
-                </div>
-
-                {isOpen && (
-                  <div className="bg-foreground/[0.015]">
-                    {cats.length === 0 && (
-                      <p className="px-16 py-3 text-xs text-muted-foreground">
-                        No subcategories yet — add one from the row above.
-                      </p>
-                    )}
-                    {cats.map((sub) => {
-                      const types = productTypesFor(sub.id);
-                      const isSubOpen = expanded.has(sub.id);
-                      const isSubHighlighted = focus === 'subcategory';
-
-                      return (
-                        <div key={sub.id}>
-                          <div
-                            className={cn(
-                              'group flex items-center gap-3 border-l-2 border-[#4b6b56]/20 py-3 pr-4 pl-8 transition-colors hover:bg-[#f6f5f1]/60 sm:pl-10',
-                              isSubHighlighted && 'bg-[#f6f5f1]/70'
-                            )}
-                          >
-                            <button
-                              type="button"
-                              onClick={() => toggle(sub.id)}
-                              className="grid size-7 shrink-0 cursor-pointer place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-black/5 hover:text-foreground"
-                              aria-label={isSubOpen ? 'Collapse' : 'Expand'}
-                            >
-                              <HugeiconsIcon
-                                icon={isSubOpen ? ChevronDownIcon : ChevronRightIcon}
-                                size={15}
-                                strokeWidth={2}
-                              />
-                            </button>
-                            <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-[#d98e63]/15 text-[#d98e63]">
-                              <HugeiconsIcon icon={Folder02Icon} size={14} strokeWidth={2} />
-                            </span>
-                            <div className="min-w-0 flex-1">
-                              <p className="truncate text-sm font-medium text-foreground">
-                                {sub.name}
-                              </p>
-                              <p className="truncate text-xs text-muted-foreground">
-                                inside {sub.parent}
-                              </p>
-                            </div>
-                            <span className="hidden text-xs text-muted-foreground sm:block">
-                              {types.length} type{types.length === 1 ? '' : 's'}
-                            </span>
-                            <span className="hidden rounded-full bg-foreground/5 px-2.5 py-1 text-xs font-medium text-foreground/70 md:block">
-                              {sub.products} products
-                            </span>
-                            <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                aria-label="Edit subcategory"
-                                onClick={() =>
-                                  setModal({ level: 'subcategory', mode: 'edit', item: sub })
-                                }
-                              >
-                                <HugeiconsIcon icon={Edit02Icon} size={15} />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                aria-label="Delete subcategory"
-                                onClick={() => handleDelete('subcategory', sub.id)}
-                              >
-                                <HugeiconsIcon
-                                  icon={Delete01Icon}
-                                  size={15}
-                                  className="text-destructive"
-                                />
-                              </Button>
-                            </div>
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              className="hidden gap-1 sm:inline-flex"
-                              onClick={() =>
-                                setModal({
-                                  level: 'productType',
-                                  mode: 'add',
-                                  presetSubcategoryId: sub.id,
-                                })
-                              }
-                            >
-                              <HugeiconsIcon icon={PlusSignIcon} size={14} />
-                              Add
-                            </Button>
-                          </div>
-
-                          {isSubOpen && (
-                            <div>
-                              {types.length === 0 && (
-                                <p className="px-16 py-3 text-xs text-muted-foreground">
-                                  No product types yet — add one from the row above.
-                                </p>
-                              )}
-                              {types.map((type) => {
-                                const isTypeHighlighted = focus === 'productType';
-                                return (
-                                  <div
-                                    key={type.id}
-                                    className={cn(
-                                      'group flex items-center gap-3 border-l-2 border-[#8a9b80]/20 py-3 pr-4 pl-14 transition-colors hover:bg-[#f6f5f1]/60 sm:pl-16',
-                                      isTypeHighlighted && 'bg-[#f6f5f1]/70'
-                                    )}
-                                  >
-                                    <span className="grid size-6 shrink-0 place-items-center rounded-md bg-[#8a9b80]/15 text-[#8a9b80]">
-                                      <HugeiconsIcon
-                                        icon={GroupItemsIcon}
-                                        size={13}
-                                        strokeWidth={2}
-                                      />
-                                    </span>
-                                    <div className="min-w-0 flex-1">
-                                      <p className="truncate text-sm text-foreground/90">
-                                        {type.name}
-                                      </p>
-                                      <p className="truncate text-xs text-muted-foreground">
-                                        under {type.subcategory}
-                                      </p>
-                                    </div>
-                                    <span className="hidden rounded-full bg-foreground/5 px-2.5 py-1 text-xs font-medium text-foreground/70 md:block">
-                                      {type.products} products
-                                    </span>
-                                    <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-                                      <Button
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        aria-label="Edit product type"
-                                        onClick={() =>
-                                          setModal({
-                                            level: 'productType',
-                                            mode: 'edit',
-                                            item: type,
-                                          })
-                                        }
-                                      >
-                                        <HugeiconsIcon icon={Edit02Icon} size={15} />
-                                      </Button>
-                                      <Button
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        aria-label="Delete product type"
-                                        onClick={() => handleDelete('productType', type.id)}
-                                      >
-                                        <HugeiconsIcon
-                                          icon={Delete01Icon}
-                                          size={15}
-                                          className="text-destructive"
-                                        />
-                                      </Button>
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        <TaxonomyColumn
+          title="Product types"
+          subtitle={
+            selectedSubcategory
+              ? `inside ${subcategories.find((s) => s.id === selectedSubcategory)?.name ?? ''}`
+              : 'select a subcategory first'
+          }
+          tone="#8a9b80"
+          icon={GroupItemsIcon}
+          highlight={focus === 'productType'}
+          onAdd={() => openAdd('productType')}
+          onAddDisabled={!selectedSubcategory}
+          emptyText="No product types in this subcategory yet."
+        >
+          {visibleTypes.map((type) => (
+            <ColumnRow
+              key={type.id}
+              title={type.name}
+              meta={type.subcategory}
+              count={type.products}
+              countLabel="products"
+              selected={false}
+              tone="#8a9b80"
+              icon={GroupItemsIcon}
+              onClick={() => {}}
+              onEdit={() => setModal({ level: 'productType', mode: 'edit', item: type })}
+              onDelete={() => handleDelete('productType', type.id)}
+            />
+          ))}
+        </TaxonomyColumn>
       </div>
 
       <div className="flex items-start gap-3 rounded-2xl bg-[#4b6b56]/8 p-4 text-sm text-[#4b6b56] ring-1 ring-[#4b6b56]/15">
@@ -536,9 +347,10 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
           className="mt-0.5 shrink-0"
         />
         <p>
-          Taxonomy order: <strong>Category</strong> → <strong>Subcategory</strong> →{' '}
-          <strong>Product Type</strong> → Product. Use the <em>Add</em> buttons to build the tree
-          level by level — each new child is attached to its parent automatically.
+          Flow: <strong>Category</strong> <HugeiconsIcon icon={ArrowRight01Icon} size={13} />{' '}
+          <strong>Subcategory</strong> <HugeiconsIcon icon={ArrowRight01Icon} size={13} />{' '}
+          <strong>Product Type</strong> → Product. Each child is attached to its parent
+          automatically.
         </p>
       </div>
 
@@ -552,6 +364,165 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
           onSave={handleSave}
         />
       )}
+    </div>
+  );
+}
+
+function TaxonomyColumn({
+  title,
+  subtitle,
+  tone,
+  icon,
+  highlight,
+  onAdd,
+  onAddDisabled,
+  emptyText,
+  children,
+}: {
+  title: string;
+  subtitle: string;
+  tone: string;
+  icon: React.ComponentProps<typeof HugeiconsIcon>['icon'];
+  highlight?: boolean;
+  onAdd: () => void;
+  onAddDisabled?: boolean;
+  emptyText: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-foreground/10',
+        highlight && 'ring-2 ring-[#4b6b56]/40'
+      )}
+    >
+      <div className="flex items-center gap-3 border-b border-foreground/8 bg-[#faf9f5] px-4 py-3">
+        <span
+          className="grid size-8 shrink-0 place-items-center rounded-lg"
+          style={{ backgroundColor: `${tone}14`, color: tone }}
+        >
+          <HugeiconsIcon icon={icon} size={16} strokeWidth={2} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-foreground">{title}</p>
+          <p className="truncate text-xs text-muted-foreground">{subtitle}</p>
+        </div>
+        <Button
+          size="icon-sm"
+          variant="secondary"
+          onClick={onAdd}
+          disabled={onAddDisabled}
+          aria-label={`Add ${title.toLowerCase()}`}
+        >
+          <HugeiconsIcon icon={PlusSignIcon} size={15} />
+        </Button>
+      </div>
+      <div className="flex-1 divide-y divide-foreground/5">
+        {Children.count(children) === 0 && (
+          <p className="px-4 py-8 text-center text-xs text-muted-foreground">{emptyText}</p>
+        )}
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function ColumnRow({
+  title,
+  meta,
+  count,
+  countLabel,
+  selected,
+  tone,
+  icon,
+  onClick,
+  onEdit,
+  onDelete,
+  onAddChild,
+  addChildLabel,
+}: {
+  title: string;
+  meta?: string;
+  count: number;
+  countLabel: string;
+  selected?: boolean;
+  tone: string;
+  icon: React.ComponentProps<typeof HugeiconsIcon>['icon'];
+  onClick: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onAddChild?: () => void;
+  addChildLabel?: string;
+}) {
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      className={cn(
+        'group flex cursor-pointer items-center gap-3 px-4 py-3.5 transition-colors hover:bg-[#f6f5f1]/70',
+        selected && 'bg-[#f6f5f1]'
+      )}
+    >
+      <span
+        className="grid size-7 shrink-0 place-items-center rounded-lg"
+        style={{ backgroundColor: `${tone}14`, color: tone }}
+      >
+        <HugeiconsIcon icon={icon} size={14} strokeWidth={2} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium text-foreground">{title}</p>
+        {meta && <p className="truncate text-xs text-muted-foreground">{meta}</p>}
+      </div>
+      <span
+        className="shrink-0 rounded-full bg-foreground/5 px-2 py-0.5 text-[11px] font-medium text-foreground/60"
+        title={`${count} ${countLabel}`}
+      >
+        {count}
+      </span>
+      <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+        {onAddChild && (
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            aria-label={addChildLabel}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddChild();
+            }}
+          >
+            <HugeiconsIcon icon={PlusSignIcon} size={13} />
+          </Button>
+        )}
+        <Button
+          variant="ghost"
+          size="icon-xs"
+          aria-label="Edit"
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+        >
+          <HugeiconsIcon icon={Edit02Icon} size={13} />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-xs"
+          aria-label="Delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+        >
+          <HugeiconsIcon icon={Delete01Icon} size={13} className="text-destructive" />
+        </Button>
+      </div>
     </div>
   );
 }
@@ -576,7 +547,9 @@ function TaxonomyModal({
 }) {
   const isEdit = modal.mode === 'edit';
   const [name, setName] = useState(modal.item?.name ?? '');
-  const [slug, setSlug] = useState(modal.item ? ('slug' in modal.item ? modal.item.slug : '') : '');
+  const [slug, setSlug] = useState(
+    modal.level === 'category' ? ('slug' in (modal.item ?? {}) ? (modal.item?.slug ?? '') : '') : ''
+  );
   const [description, setDescription] = useState(
     modal.level === 'category' ? (modal.item?.description ?? '') : ''
   );
