@@ -1,3 +1,5 @@
+import type { ProductStatus } from '@/lib/enums';
+
 export interface Product {
   id: string;
   name: string;
@@ -6,7 +8,7 @@ export interface Product {
   category: string;
   price: number;
   stock: number;
-  status: 'Active' | 'Draft' | 'Out of stock' | 'Low';
+  status: ProductStatus;
 }
 
 export interface CategoryItem {
