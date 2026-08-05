@@ -1,5 +1,5 @@
-import { ProductTypePage } from '@/components/admin/catalog/catalog';
+import { TaxonomyExplorer } from '@/components/admin/catalog/taxonomy-explorer';
 
 export default function ProductTypeRoute() {
-  return <ProductTypePage />;
+  return <TaxonomyExplorer focus="productType" />;
 }

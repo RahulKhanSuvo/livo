@@ -1,5 +1,5 @@
-import { CategoriesPage } from '@/components/admin/catalog/catalog';
+import { TaxonomyExplorer } from '@/components/admin/catalog/taxonomy-explorer';
 
 export default function CategoriesRoute() {
-  return <CategoriesPage />;
+  return <TaxonomyExplorer focus="category" />;
 }

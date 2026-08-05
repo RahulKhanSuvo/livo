@@ -1,5 +1,5 @@
-import { SubcategoriesPage } from '@/components/admin/catalog/catalog';
+import { TaxonomyExplorer } from '@/components/admin/catalog/taxonomy-explorer';
 
 export default function SubcategoriesRoute() {
-  return <SubcategoriesPage />;
+  return <TaxonomyExplorer focus="subcategory" />;
 }
