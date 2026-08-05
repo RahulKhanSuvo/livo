@@ -23,11 +23,12 @@ export async function signInAction(values: {
   }
 
   try {
-    await auth.api.signInEmail({
+    const res = await auth.api.signInEmail({
       body: { email: parsed.data.email, password: parsed.data.password },
-      headers: await headers(),
     });
-  } catch {
+    console.log(res);
+  } catch (error) {
+    console.error('Error: error message', error);
     return { success: false, error: 'Invalid email or password' };
   }
 
@@ -56,7 +57,8 @@ export async function signUpAction(values: {
       },
       headers: await headers(),
     });
-  } catch {
+  } catch (error) {
+    console.error('Error: error message', error);
     return { success: false, error: 'Could not create your account' };
   }
 
