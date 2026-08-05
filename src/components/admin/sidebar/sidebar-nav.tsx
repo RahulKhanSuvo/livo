@@ -33,7 +33,7 @@ function NavItemLink({
         onClick={onClick}
         title={item.title}
         className={cn(
-          'group/nav relative flex h-10 w-full items-center justify-center rounded-xl text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
+          'group/nav relative flex h-10 w-full items-center justify-center rounded text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
           isActive &&
             'bg-sidebar-primary text-sidebar-primary-foreground hover:text-sidebar-primary-foreground'
         )}
@@ -140,12 +140,12 @@ function NavGroupItem({
       <div
         className={cn(
           'grid transition-[grid-template-rows] duration-300 ease-out',
-          open ? '[grid-template-rows:1fr]' : '[grid-template-rows:0fr]'
+          open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
         )}
       >
         <div className="min-h-0 overflow-hidden">
           <div className="relative mt-0.5 space-y-0.5 py-1">
-            <span className="absolute bottom-2 top-2 left-[19px] w-px bg-sidebar-border" />
+            <span className="absolute bottom-2 top-2 left-4.75 w-px bg-sidebar-border" />
             {item.children?.map((child) => {
               const childPath = child.href.split('?')[0];
               const active = childPath === pathname;
@@ -190,9 +190,7 @@ export function SidebarNav({
               {group.label}
             </p>
           )}
-          {collapsed && (
-            <div className="mx-1 mb-2 h-px bg-sidebar-border/60" />
-          )}
+          {collapsed && <div className="mx-1 mb-2 h-px bg-sidebar-border/60" />}
           <div className="space-y-0.5">
             {group.items.map((item) => (
               <NavGroupItem
