@@ -16,7 +16,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <aside
         className={cn(
           'sticky top-0 hidden h-dvh shrink-0 transition-[width] duration-300 ease-out lg:block',
-          collapsed ? 'w-[76px]' : 'w-64'
+          collapsed ? 'w-19' : 'w-64'
         )}
       >
         <AppSidebar collapsed={collapsed} />
