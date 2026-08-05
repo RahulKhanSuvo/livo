@@ -1,6 +1,9 @@
-import { TaxonomyExplorer } from '@/components/admin/catalog/taxonomy';
-import { TaxonomyLevel } from '@/lib/enums';
+import { PersonTable } from '@/components/data-table/data-table';
 
 export default function CategoriesRoute() {
-  return <TaxonomyExplorer focus={TaxonomyLevel.CATEGORY} />;
+  return (
+    <div>
+      <PersonTable />
+    </div>
+  );
 }
