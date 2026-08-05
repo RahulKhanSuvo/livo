@@ -1,5 +1,6 @@
-import { TaxonomyExplorer } from '@/components/admin/catalog/taxonomy-explorer';
+import { TaxonomyExplorer } from '@/components/admin/catalog/taxonomy';
+import { TaxonomyLevel } from '@/lib/enums';
 
 export default function CategoriesRoute() {
-  return <TaxonomyExplorer focus="category" />;
+  return <TaxonomyExplorer focus={TaxonomyLevel.CATEGORY} />;
 }
