@@ -13,13 +13,9 @@ export function PageHeader({
 }) {
   return (
     <div
-      className={cn(
-        'flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between',
-        className
-      )}
+      className={cn('flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between', className)}
     >
       <div>
-        <p className="mb-1 font-serif text-lg italic text-[#b56a3f]">Livo Studio</p>
         <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           {title}
         </h1>
