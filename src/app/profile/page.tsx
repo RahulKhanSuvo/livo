@@ -3,176 +3,206 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import {
   PackageOpenIcon,
   ArrowRight01Icon,
+  GridIcon,
   StarIcon,
   RefreshIcon,
+  DocumentValidationIcon,
 } from '@hugeicons/core-free-icons';
-
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { getProfileUser } from '@/components/profile/get-session';
 import { getOrders } from './_action';
-import { formatMoney } from '@/components/profile/profile.data';
+import {
+  formatMoney,
+  formatDate,
+  initials,
+  orderStatusLabels,
+} from '@/components/profile/profile.data';
 
-export default async function ProfileOverviewPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect('/login');
+export const metadata = { title: 'Profile' };
 
-  const orders = await getOrders(session.user.id);
-  const totalSpent = orders.reduce((sum, o) => sum + o.total, 0);
-  const recentOrders = orders.slice(0, 3);
+export default async function ProfilePage() {
+  const user = await getProfileUser();
+  const orders = await getOrders(user.id);
+
+  const totalSpent = orders.reduce((sum, order) => sum + order.total, 0);
+  const activeOrders = orders.filter(
+    (o) => o.status !== 'CANCELLED' && o.status !== 'DELIVERED'
+  ).length;
+  const recentOrders = orders.slice(0, 2);
 
   return (
-    <div className="space-y-10">
-      {/* Page header */}
-      <div>
-        <h1 className="font-serif text-4xl tracking-tight text-[#161512] sm:text-5xl">
-          Dashboard
-          <span className="text-[#d98e63]">.</span>
-        </h1>
-        <p className="mt-3 text-sm leading-relaxed text-[#4c4a45]/60">
-          A quick look at your account activity.
+    <div className="bg-[#f6f5f1] text-[#161512]">
+      <section className="mx-auto max-w-6xl px-6 py-16">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4b6b56]">
+          Your account
         </p>
-      </div>
+        <div className="mt-4 flex flex-col gap-6 border-b border-neutral-200 pb-10 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex items-center gap-5">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#161512] font-[family-name:var(--font-instrument-serif)] text-2xl text-[#f4f1e8]">
+              {initials(user.name)}
+            </div>
+            <div>
+              <h1 className="font-[family-name:var(--font-instrument-serif)] text-4xl sm:text-5xl">
+                {user.name}
+              </h1>
+              <p className="mt-1 text-sm text-neutral-600">{user.email}</p>
+            </div>
+          </div>
+          <Link
+            href="/profile/settings"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-neutral-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors hover:border-neutral-400"
+          >
+            Edit profile
+          </Link>
+        </div>
+      </section>
 
-      {/* Stats row */}
-      <div className="grid grid-cols-2 gap-4 sm:gap-5">
-        <StatCard
-          icon={<HugeiconsIcon icon={PackageOpenIcon} size={20} strokeWidth={1.8} />}
-          label="Total orders"
-          value={String(orders.length)}
-          accent="bg-[#4b6b56]/10 text-[#35503e]"
-        />
-        <StatCard
-          icon={<span className="text-base font-semibold">$</span>}
-          label="Total spent"
-          value={formatMoney(totalSpent)}
-          accent="bg-[#d98e63]/10 text-[#8a5a2e]"
-        />
-      </div>
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
+              Total orders
+            </p>
+            <p className="mt-3 font-[family-name:var(--font-instrument-serif)] text-4xl">
+              {orders.length}
+            </p>
+          </div>
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
+              Total spent
+            </p>
+            <p className="mt-3 font-[family-name:var(--font-instrument-serif)] text-4xl">
+              {formatMoney(totalSpent)}
+            </p>
+          </div>
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
+              In progress
+            </p>
+            <p className="mt-3 font-[family-name:var(--font-instrument-serif)] text-4xl">
+              {activeOrders}
+            </p>
+          </div>
+        </div>
 
-      {/* Quick links */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <QuickLink
-          href="/profile/my-reviews"
-          icon={<HugeiconsIcon icon={StarIcon} size={18} strokeWidth={2} />}
-          label="Reviews"
-        />
-        <QuickLink
-          href="/profile/returns"
-          icon={<HugeiconsIcon icon={RefreshIcon} size={18} strokeWidth={2} />}
-          label="Returns"
-        />
-        <QuickLink
-          href="/profile/settings"
-          icon={<HugeiconsIcon icon={PackageOpenIcon} size={18} strokeWidth={2} />}
-          label="Manage profile"
-        />
-      </div>
+        <div className="mt-10 grid gap-4 sm:grid-cols-4">
+          <Link
+            href="/profile/orders"
+            className="group rounded-3xl border border-neutral-200 bg-[#a3b899]/30 p-5 transition-colors hover:border-neutral-300"
+          >
+            <HugeiconsIcon icon={PackageOpenIcon} size={24} strokeWidth={1.5} />
+            <p className="mt-4 text-sm font-semibold">Orders</p>
+            <div className="mt-1 flex items-center gap-1 text-xs text-neutral-600">
+              <span>View history</span>
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                size={12}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
+            </div>
+          </Link>
+          <Link
+            href="/profile/my-reviews"
+            className="group rounded-3xl border border-neutral-200 bg-[#d98e63]/25 p-5 transition-colors hover:border-neutral-300"
+          >
+            <HugeiconsIcon icon={StarIcon} size={24} strokeWidth={1.5} />
+            <p className="mt-4 text-sm font-semibold">My reviews</p>
+            <div className="mt-1 flex items-center gap-1 text-xs text-neutral-600">
+              <span>Share feedback</span>
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                size={12}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
+            </div>
+          </Link>
+          <Link
+            href="/profile/collections"
+            className="group rounded-3xl border border-neutral-200 bg-neutral-100 p-5 transition-colors hover:border-neutral-300"
+          >
+            <HugeiconsIcon icon={GridIcon} size={24} strokeWidth={1.5} />
+            <p className="mt-4 text-sm font-semibold">Collections</p>
+            <div className="mt-1 flex items-center gap-1 text-xs text-neutral-600">
+              <span>Saved pieces</span>
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                size={12}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
+            </div>
+          </Link>
+          <Link
+            href="/profile/returns"
+            className="group rounded-3xl border border-neutral-200 bg-[#f6f5f1] p-5 transition-colors hover:border-neutral-300"
+          >
+            <HugeiconsIcon icon={RefreshIcon} size={24} strokeWidth={1.5} />
+            <p className="mt-4 text-sm font-semibold">Returns</p>
+            <div className="mt-1 flex items-center gap-1 text-xs text-neutral-600">
+              <span>Start a return</span>
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
+                size={12}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
+            </div>
+          </Link>
+        </div>
 
-      {/* Recent orders */}
-      {recentOrders.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-serif text-2xl tracking-tight text-[#161512]">
+        <div className="mt-14">
+          <div className="mb-5 flex items-end justify-between">
+            <h2 className="font-[family-name:var(--font-instrument-serif)] text-3xl">
               Recent orders
-              <span className="text-[#d98e63]">.</span>
             </h2>
             <Link
               href="/profile/orders"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-[#4b6b56] uppercase transition-colors hover:text-[#35503e]"
+              className="text-xs font-semibold uppercase tracking-wider text-[#4b6b56] hover:underline"
             >
               View all
-              <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2} />
             </Link>
           </div>
-          <div className="space-y-3">
-            {recentOrders.map((order) => (
-              <div
-                key={order.id}
-                className="flex items-center justify-between rounded-2xl border border-[#161512]/10 bg-white px-5 py-4 shadow-sm transition-shadow hover:shadow-md"
+
+          {recentOrders.length === 0 ? (
+            <div className="flex flex-col items-center rounded-3xl border border-dashed border-neutral-300 bg-white px-6 py-16 text-center">
+              <HugeiconsIcon icon={DocumentValidationIcon} size={32} strokeWidth={1.5} />
+              <p className="mt-4 text-sm font-semibold">No orders yet</p>
+              <p className="mt-1 max-w-sm text-sm text-neutral-500">
+                When you place an order, it will appear here with its status and tracking.
+              </p>
+              <Link
+                href="/shop"
+                className="mt-6 rounded-full bg-[#161512] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#4b6b56]"
               >
-                <div className="flex items-center gap-5">
+                Browse the collection
+              </Link>
+            </div>
+          ) : (
+            <div className="overflow-hidden rounded-3xl border border-neutral-200 bg-white">
+              {recentOrders.map((order, i) => (
+                <div
+                  key={order.id}
+                  className={
+                    'flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between ' +
+                    (i > 0 ? 'border-t border-neutral-100' : '')
+                  }
+                >
                   <div>
-                    <p className="font-mono text-[10px] tracking-[0.25em] text-[#4c4a45]/40 uppercase">
-                      Order
-                    </p>
-                    <p className="mt-0.5 font-medium text-[#161512]">#{order.orderNumber}</p>
+                    <p className="text-xs text-neutral-500">{formatDate(order.createdAt)}</p>
+                    <p className="mt-1 font-semibold">#{order.orderNumber}</p>
                   </div>
-                  <p className="text-sm text-[#4c4a45]/55">{order.itemCount} items</p>
+                  <div className="flex items-center gap-4 sm:gap-8">
+                    <span className="text-sm text-neutral-600">
+                      {order.itemCount} item{order.itemCount > 1 ? 's' : ''}
+                    </span>
+                    <span className="text-sm font-semibold">{formatMoney(order.total)}</span>
+                    <span className="rounded-full bg-[#4b6b56]/15 px-3 py-1 text-xs font-semibold capitalize text-[#4b6b56]">
+                      {orderStatusLabels[order.status]}
+                    </span>
+                  </div>
                 </div>
-                <p className="font-serif text-lg text-[#161512]">{formatMoney(order.total)}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {orders.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-[#161512]/15 bg-white/60 px-6 py-16 text-center">
-          <p className="font-serif text-2xl text-[#161512]">No activity yet</p>
-          <p className="mt-2 text-sm text-[#4c4a45]/60">
-            Once you start shopping, your orders will appear here.
-          </p>
-          <Link
-            href="/shop"
-            className="group mt-6 inline-flex items-center gap-2 rounded-full bg-[#161512] px-6 py-3 text-xs font-semibold tracking-wider text-[#f4f1e8] uppercase transition-colors hover:bg-[#4b6b56]"
-          >
-            Explore the collection
-            <HugeiconsIcon
-              icon={ArrowRight01Icon}
-              size={14}
-              strokeWidth={2}
-              className="transition-transform group-hover:translate-x-0.5"
-            />
-          </Link>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+      </section>
     </div>
-  );
-}
-
-function StatCard({
-  icon,
-  label,
-  value,
-  accent,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  accent: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-[#161512]/10 bg-white p-5 shadow-sm">
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`grid size-9 place-items-center rounded-lg ${accent}`}>{icon}</div>
-        <span className="text-xs font-medium tracking-wider text-[#4c4a45]/55 uppercase">
-          {label}
-        </span>
-      </div>
-      <p className="font-serif text-3xl tracking-tight text-[#161512]">{value}</p>
-    </div>
-  );
-}
-
-function QuickLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
-  return (
-    <Link
-      href={href}
-      className="group flex items-center gap-3 rounded-2xl border border-[#161512]/10 bg-white px-5 py-4 shadow-sm transition-all hover:border-[#4b6b56]/30 hover:shadow-md"
-    >
-      <div className="grid size-9 place-items-center rounded-lg bg-[#4b6b56]/10 text-[#4b6b56]">
-        {icon}
-      </div>
-      <span className="text-sm font-medium text-[#161512] group-hover:text-[#4b6b56] transition-colors">
-        {label}
-      </span>
-      <HugeiconsIcon
-        icon={ArrowRight01Icon}
-        size={14}
-        strokeWidth={2}
-        className="ml-auto text-[#4c4a45]/30 transition-all group-hover:translate-x-1 group-hover:text-[#4b6b56]"
-      />
-    </Link>
   );
 }

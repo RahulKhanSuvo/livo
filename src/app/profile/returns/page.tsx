@@ -1,82 +1,95 @@
+import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { PackageOpenIcon, CheckmarkCircle02Icon } from '@hugeicons/core-free-icons';
+import {
+  RefreshIcon,
+  CheckmarkCircle02Icon,
+  PackageOpenIcon,
+  LockKeyIcon,
+} from '@hugeicons/core-free-icons';
+import { getProfileUser } from '@/components/profile/get-session';
 
-const returnSteps = [
+export const metadata = { title: 'Returns' };
+
+const steps = [
   {
-    step: '01',
+    icon: PackageOpenIcon,
     title: 'Request a return',
-    desc: 'Contact us within 30 days of delivery. We’ll send you a prepaid return label.',
+    body: 'Contact us within 30 days of delivery. Every Livo piece carries a 30-day return window, no questions asked.',
   },
   {
-    step: '02',
-    title: 'Pack & ship',
-    desc: 'Repackage the item in its original packaging and drop it off at your nearest carrier.',
+    icon: CheckmarkCircle02Icon,
+    title: 'We arrange pickup',
+    body: 'Our white-glove team schedules a free pickup at a time that suits you. Nothing needs to be boxed.',
   },
   {
-    step: '03',
-    title: 'Refund or exchange',
-    desc: 'Once inspected, we’ll process your refund or arrange an exchange within 5 business days.',
+    icon: LockKeyIcon,
+    title: 'Refund in full',
+    body: 'Once your piece is safely back at the workshop, your refund is issued to the original payment method.',
   },
 ];
 
-export default function ReturnsPage() {
+export default async function ReturnsPage() {
+  await getProfileUser();
+
   return (
-    <div className="space-y-10">
-      <div>
-        <h1 className="font-serif text-4xl tracking-tight text-[#161512] sm:text-5xl">
-          Returns
-          <span className="text-[#d98e63]">.</span>
-        </h1>
-        <p className="mt-3 text-sm leading-relaxed text-[#4c4a45]/60">
-          We want every piece to feel right in your home. If it doesn’t, returns are simple.
+    <div className="bg-[#f6f5f1] text-[#161512]">
+      <section className="mx-auto max-w-5xl px-6 py-16">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4b6b56]">
+          Returns &amp; exchanges
         </p>
-      </div>
+        <h1 className="mt-4 max-w-2xl font-[family-name:var(--font-instrument-serif)] text-4xl sm:text-6xl">
+          Our promise: love it or return it
+        </h1>
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-neutral-600">
+          Furniture should feel right in your home. If a piece doesn&apos;t, our white-glove team
+          makes returns effortless.
+        </p>
+      </section>
 
-      {/* Steps */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {returnSteps.map((item) => (
-          <div
-            key={item.step}
-            className="rounded-2xl border border-[#161512]/10 bg-white p-6 shadow-sm"
-          >
-            <span className="font-mono text-[10px] tracking-[0.3em] text-[#d98e63] uppercase">
-              Step {item.step}
-            </span>
-            <h3 className="mt-2 font-serif text-xl tracking-tight text-[#161512]">{item.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#4c4a45]/60">{item.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Policy note */}
-      <div className="rounded-2xl border border-[#161512]/10 bg-white/60 px-6 py-8">
-        <div className="flex flex-col sm:flex-row items-start gap-5">
-          <div className="grid size-12 shrink-0 place-items-center rounded-full bg-[#4b6b56]/10 text-[#4b6b56]">
-            <HugeiconsIcon icon={CheckmarkCircle02Icon} size={22} strokeWidth={1.8} />
-          </div>
-          <div className="space-y-1">
-            <h4 className="font-serif text-lg text-[#161512]">Our promise</h4>
-            <p className="text-sm leading-relaxed text-[#4c4a45]/60">
-              Every piece is covered by our 30-day return guarantee. If you’re not completely
-              satisfied with your purchase, we’ll make it right — no questions asked.
-            </p>
-          </div>
+      <section className="mx-auto max-w-5xl px-6 pb-24">
+        <div className="grid gap-6 sm:grid-cols-3">
+          {steps.map((step) => (
+            <div key={step.title} className="rounded-3xl border border-neutral-200 bg-white p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#4b6b56]/15">
+                <HugeiconsIcon
+                  icon={step.icon}
+                  size={24}
+                  strokeWidth={1.5}
+                  className="text-[#4b6b56]"
+                />
+              </div>
+              <h2 className="mt-5 font-[family-name:var(--font-instrument-serif)] text-xl">
+                {step.title}
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600">{step.body}</p>
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* No active returns */}
-      <div className="relative overflow-hidden rounded-2xl border border-dashed border-[#161512]/15 bg-white/60 px-6 py-16 text-center">
-        <div aria-hidden className="bg-grain absolute inset-0 opacity-40" />
-        <div className="relative mx-auto flex max-w-sm flex-col items-center">
-          <div className="grid size-16 place-items-center rounded-full bg-[#f0ece4] text-[#4b6b56]">
-            <HugeiconsIcon icon={PackageOpenIcon} size={28} strokeWidth={1.5} />
+        <div className="mt-12 flex flex-col items-center rounded-3xl bg-[#161512] px-6 py-16 text-center text-[#f4f1e8]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#d98e63]/20">
+            <HugeiconsIcon
+              icon={RefreshIcon}
+              size={26}
+              strokeWidth={1.5}
+              className="text-[#d98e63]"
+            />
           </div>
-          <h3 className="mt-6 font-serif text-2xl text-[#161512]">No returns in progress</h3>
-          <p className="mt-2 text-sm text-[#4c4a45]/60">
-            You haven’t started any returns yet. Your purchases are looking good.
+          <h2 className="mt-6 font-[family-name:var(--font-instrument-serif)] text-3xl">
+            No open returns yet
+          </h2>
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-[#f4f1e8]/70">
+            Your active returns will appear here. Need to start one? Our concierge is one message
+            away.
           </p>
+          <Link
+            href="/shop"
+            className="mt-8 rounded-full bg-[#f4f1e8] px-7 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#161512] transition-colors hover:bg-[#d98e63] hover:text-[#f4f1e8]"
+          >
+            Contact us
+          </Link>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

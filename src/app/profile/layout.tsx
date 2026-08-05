@@ -1,7 +1,8 @@
+import { Navbar } from '@/components/common/navbar/Navbar';
+import { Footer } from '@/components/common/footer/Footer';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { AccountShell } from '@/components/profile/account-shell';
 
 export const metadata = {
   title: {
@@ -17,18 +18,11 @@ export default async function ProfileLayout({ children }: { children: React.Reac
     redirect('/login');
   }
 
-  const user = session.user;
-
   return (
-    <AccountShell
-      user={{
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        image: user.image,
-      }}
-    >
-      {children}
-    </AccountShell>
+    <>
+      <Navbar />
+      <main className="min-h-[60vh]">{children}</main>
+      <Footer />
+    </>
   );
 }

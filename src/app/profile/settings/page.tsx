@@ -1,22 +1,10 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { EditSection } from '@/components/profile/sections/edit-section';
+import { getProfileUser } from '@/components/profile/get-session';
+import { SettingsForm } from '@/components/profile/settings/settings-form';
+
+export const metadata = { title: 'Settings' };
 
 export default async function SettingsPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect('/login');
+  const user = await getProfileUser();
 
-  const user = session.user;
-
-  return (
-    <EditSection
-      user={{
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        image: user.image,
-      }}
-    />
-  );
+  return <SettingsForm name={user.name} email={user.email} />;
 }
