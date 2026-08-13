@@ -9,6 +9,7 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "db:seed": "bun --bun run prisma db seed",
     "prepare": "husky"
   },
   "dependencies": {

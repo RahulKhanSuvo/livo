@@ -1,7 +1,10 @@
 import { auth } from '@/lib/auth';
 import prisma from '@/lib/prisma';
+import { seedTaxonomy } from './seed-taxonomy';
 
 async function main() {
+  await seedTaxonomy();
+
   const adminExists = await prisma.user.findFirst({
     where: {
       role: 'ADMIN',
