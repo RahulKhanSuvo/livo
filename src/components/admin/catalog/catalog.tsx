@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Alert01Icon,
@@ -7,6 +10,8 @@ import {
   PackageOutOfStockIcon,
   PlusSignIcon,
 } from '@hugeicons/core-free-icons';
+
+import { AddProductDialog } from './products';
 
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { DataTable, type Column } from '@/components/admin/ui/data-table';
@@ -82,11 +87,25 @@ const productCols: Column<Product>[] = [
     ),
   },
   { key: 'sku', header: 'SKU', cell: (r) => <span className="font-mono text-xs">{r.sku}</span> },
-  { key: 'category', header: 'Category', cell: (r) => <span className="text-foreground/80">{r.category}</span> },
-  { key: 'price', header: 'Price', cell: (r) => <span className="font-medium">{formatMoney(r.price)}</span> },
+  {
+    key: 'category',
+    header: 'Category',
+    cell: (r) => <span className="text-foreground/80">{r.category}</span>,
+  },
+  {
+    key: 'price',
+    header: 'Price',
+    cell: (r) => <span className="font-medium">{formatMoney(r.price)}</span>,
+  },
   { key: 'stock', header: 'Stock', cell: (r) => <span className="font-medium">{r.stock}</span> },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const categoryCols: Column<CategoryItem>[] = [
@@ -100,22 +119,68 @@ const categoryCols: Column<CategoryItem>[] = [
       </div>
     ),
   },
-  { key: 'products', header: 'Products', cell: (r) => <span className="font-medium">{r.products}</span> },
-  { key: 'description', header: 'Description', cell: (r) => <span className="text-foreground/70">{r.description}</span> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'products',
+    header: 'Products',
+    cell: (r) => <span className="font-medium">{r.products}</span>,
+  },
+  {
+    key: 'description',
+    header: 'Description',
+    cell: (r) => <span className="text-foreground/70">{r.description}</span>,
+  },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const subcategoryCols: Column<SubcategoryItem>[] = [
-  { key: 'name', header: 'Subcategory', cell: (r) => <span className="font-medium">{r.name}</span> },
-  { key: 'parent', header: 'Parent', cell: (r) => <span className="text-foreground/80">{r.parent}</span> },
-  { key: 'products', header: 'Products', cell: (r) => <span className="font-medium">{r.products}</span> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'name',
+    header: 'Subcategory',
+    cell: (r) => <span className="font-medium">{r.name}</span>,
+  },
+  {
+    key: 'parent',
+    header: 'Parent',
+    cell: (r) => <span className="text-foreground/80">{r.parent}</span>,
+  },
+  {
+    key: 'products',
+    header: 'Products',
+    cell: (r) => <span className="font-medium">{r.products}</span>,
+  },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const productTypeCols: Column<ProductTypeItem>[] = [
-  { key: 'name', header: 'Product type', cell: (r) => <span className="font-medium">{r.name}</span> },
-  { key: 'products', header: 'Products', cell: (r) => <span className="font-medium">{r.products}</span> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'name',
+    header: 'Product type',
+    cell: (r) => <span className="font-medium">{r.name}</span>,
+  },
+  {
+    key: 'products',
+    header: 'Products',
+    cell: (r) => <span className="font-medium">{r.products}</span>,
+  },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const brandCols: Column<BrandItem>[] = [
@@ -129,10 +194,28 @@ const brandCols: Column<BrandItem>[] = [
       </div>
     ),
   },
-  { key: 'country', header: 'Origin', cell: (r) => <span className="text-foreground/80">{r.country}</span> },
-  { key: 'products', header: 'Products', cell: (r) => <span className="font-medium">{r.products}</span> },
-  { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.active ? 'Active' : 'Inactive'} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'country',
+    header: 'Origin',
+    cell: (r) => <span className="text-foreground/80">{r.country}</span>,
+  },
+  {
+    key: 'products',
+    header: 'Products',
+    cell: (r) => <span className="font-medium">{r.products}</span>,
+  },
+  {
+    key: 'status',
+    header: 'Status',
+    cell: (r) => <StatusBadge status={r.active ? 'Active' : 'Inactive'} />,
+  },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const inventoryCols: Column<InventoryItem>[] = [
@@ -147,39 +230,77 @@ const inventoryCols: Column<InventoryItem>[] = [
     ),
   },
   { key: 'sku', header: 'SKU', cell: (r) => <span className="font-mono text-xs">{r.sku}</span> },
-  { key: 'onHand', header: 'On hand', cell: (r) => <span className="font-medium">{r.onHand}</span> },
-  { key: 'reserved', header: 'Reserved', cell: (r) => <span className="text-foreground/70">{r.reserved}</span> },
+  {
+    key: 'onHand',
+    header: 'On hand',
+    cell: (r) => <span className="font-medium">{r.onHand}</span>,
+  },
+  {
+    key: 'reserved',
+    header: 'Reserved',
+    cell: (r) => <span className="text-foreground/70">{r.reserved}</span>,
+  },
   {
     key: 'available',
     header: 'Available',
     cell: (r) => (
-      <span className={r.available <= 0 ? 'font-semibold text-destructive' : 'font-medium'}>{r.available}</span>
+      <span className={r.available <= 0 ? 'font-semibold text-destructive' : 'font-medium'}>
+        {r.available}
+      </span>
     ),
   },
   {
     key: 'status',
     header: 'Status',
     cell: (r) => {
-      const status = r.available === 0 ? 'Out of stock' : r.available < r.reorderPoint ? 'Low' : 'Active';
+      const status =
+        r.available === 0 ? 'Out of stock' : r.available < r.reorderPoint ? 'Low' : 'Active';
       return <StatusBadge status={status} />;
     },
   },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 export function ProductsPage() {
+  const [addProductOpen, setAddProductOpen] = useState(false);
+
   return (
     <div className="space-y-6">
       <PageHeader
         title="Products"
         description="Every piece in your catalogue — from sculptural sofas to dining essentials."
-        actions={<TableActions label="Add product" />}
+        actions={
+          <Button className="gap-1.5" onClick={() => setAddProductOpen(true)}>
+            <HugeiconsIcon icon={PlusSignIcon} size={16} />
+            Add product
+          </Button>
+        }
       />
+      <AddProductDialog open={addProductOpen} onOpenChange={setAddProductOpen} />
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Total products" value="181" delta="+6.2%" icon={PackageIcon} />
-        <StatCard label="Active" value="152" delta="+4.1%" icon={CheckmarkCircle01Icon} accent="#d98e63" />
+        <StatCard
+          label="Active"
+          value="152"
+          delta="+4.1%"
+          icon={CheckmarkCircle01Icon}
+          accent="#d98e63"
+        />
         <StatCard label="Low stock" value="8" hint="reorder needed" icon={Alert01Icon} />
-        <StatCard label="Out of stock" value="5" delta="-2" trend="down" icon={PackageOutOfStockIcon} accent="#d98e63" />
+        <StatCard
+          label="Out of stock"
+          value="5"
+          delta="-2"
+          trend="down"
+          icon={PackageOutOfStockIcon}
+          accent="#d98e63"
+        />
       </div>
       <DataTable columns={productCols} data={products} keyField={(r) => r.id} />
     </div>
