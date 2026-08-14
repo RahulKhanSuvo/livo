@@ -1,5 +1,3 @@
-import { InventoryPage } from '@/components/admin/catalog/catalog';
-
 export default function InventoryRoute() {
-  return <InventoryPage />;
+  return <div>Inventory page</div>;
 }

@@ -1,3 +1,3 @@
 export default function BrandsRoute() {
-  return <div></div>;
+  return <div>Brand page</div>;
 }
