@@ -2,8 +2,8 @@
 
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { Button } from '@/components/ui/button';
-import type { DataTableColumn } from '@/components/data-table/data-table';
-import { DataTable } from '@/components/data-table/data-table';
+import type { DataTableColumn } from '@/components/shared/data-table';
+import { DataTable } from '@/components/shared/data-table';
 import { categories, type CategoryItem } from '@/components/admin/catalog/catalog.data';
 
 const columns: Array<DataTableColumn<CategoryItem>> = [
