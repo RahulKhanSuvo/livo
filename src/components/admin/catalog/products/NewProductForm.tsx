@@ -17,6 +17,7 @@ import { emptyVariant } from '@/components/admin/catalog/products/types';
 import { useQuery } from '@tanstack/react-query';
 import { getClassificationHierarchyAction } from '@/actions/category/category_action';
 import { createProduct } from '@/actions/products/addNewProduct';
+import { toast } from 'sonner';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
@@ -48,6 +49,13 @@ export default function NewProductForm() {
       console.log('Submitting Product Data:', value);
       const res = await createProduct(value);
       console.log('create product response ', res);
+      if (res.success) {
+        toast.success(res.message);
+        // form.reset();
+        // router.push('/admin/catalog/products');
+      } else {
+        toast.error(res.message);
+      }
     },
   });
 
