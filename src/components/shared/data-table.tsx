@@ -26,7 +26,7 @@ export function DataTable<T>({
   });
 
   return (
-    <div className="overflow-hidden rounded-lg bg-white ring-1 ring-foreground/10">
+    <div className="rounded-lg bg-white ring-1 ring-foreground/10">
       <div className="overflow-x-auto">
         <Table className="w-full text-left text-sm">
           <TableHeader>
