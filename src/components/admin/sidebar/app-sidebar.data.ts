@@ -68,7 +68,7 @@ export const adminNavGroups: AdminNavGroup[] = [
           { title: 'Products', href: '/admin/catalog/products', icon: PackageIcon },
           { title: 'Categories', href: '/admin/catalog/categories', icon: Folder01Icon },
           { title: 'Brands', href: '/admin/catalog/brands', icon: Store03Icon },
-          { title: 'Inventory', href: '/admin/catalog/inventory', icon: BoxesIcon },
+          // { title: 'Inventory', href: '/admin/catalog/inventory', icon: BoxesIcon },
         ],
       },
       {
@@ -76,31 +76,6 @@ export const adminNavGroups: AdminNavGroup[] = [
         href: '/admin/orders',
         icon: Invoice02Icon,
         badge: '12',
-        children: [
-          { title: 'All Orders', href: '/admin/orders', icon: Invoice02Icon },
-          { title: 'Pending', href: '/admin/orders?status=PENDING', icon: Clock01Icon },
-          {
-            title: 'Confirmed',
-            href: '/admin/orders?status=CONFIRMED',
-            icon: CheckmarkBadge01Icon,
-          },
-          {
-            title: 'Processing',
-            href: '/admin/orders?status=PROCESSING',
-            icon: PackageProcessIcon,
-          },
-          { title: 'Shipped', href: '/admin/orders?status=SHIPPED', icon: DeliveryTruck01Icon },
-          {
-            title: 'Delivered',
-            href: '/admin/orders?status=DELIVERED',
-            icon: PackageDelivered01Icon,
-          },
-          {
-            title: 'Cancelled',
-            href: '/admin/orders?status=CANCELLED',
-            icon: DeliveryReturn01Icon,
-          },
-        ],
       },
       { title: 'Customers', href: '/admin/customers', icon: UserGroupIcon },
       {
