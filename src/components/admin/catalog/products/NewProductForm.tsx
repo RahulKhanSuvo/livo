@@ -16,6 +16,7 @@ import { ProductVariantsForm } from '@/components/admin/catalog/products/Product
 import { emptyVariant } from '@/components/admin/catalog/products/types';
 import { useQuery } from '@tanstack/react-query';
 import { getClassificationHierarchyAction } from '@/actions/category/category_action';
+import { createProduct } from '@/actions/products/addNewProduct';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
@@ -25,10 +26,10 @@ const defaultValues: ProductValidationType = {
   brand: '',
   material: '',
   finish: '',
-  width: undefined,
-  height: undefined,
-  depth: undefined,
-  weightKg: undefined,
+  width: 0,
+  height: 0,
+  depth: 0,
+  weightKg: 0,
   assemblyRequired: false,
   variants: [emptyVariant],
 };
@@ -38,14 +39,15 @@ export default function NewProductForm() {
     queryKey: ['category'],
     queryFn: () => getClassificationHierarchyAction(),
   });
-  console.log('category', categoryHierarchy);
   const form = useForm({
     defaultValues,
-    validators: {
-      onChange: productValidationSchema,
-    },
+    // validators: {
+    //   onChange: productValidationSchema,
+    // },
     onSubmit: async ({ value }) => {
       console.log('Submitting Product Data:', value);
+      const res = createProduct(value);
+      console.log('create product response ', res);
     },
   });
 

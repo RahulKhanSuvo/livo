@@ -8,14 +8,11 @@ export const productValidationSchema = z.object({
   description: z.string().max(1000).optional().or(z.literal('')),
   material: z.string().optional().or(z.literal('')),
   finish: z.string().optional().or(z.literal('')),
-
-  width: z.number().positive('Must be greater than 0').optional(),
-  height: z.number().positive('Must be greater than 0').optional(),
-  depth: z.number().positive('Must be greater than 0').optional(),
-  weightKg: z.number().positive('Must be greater than 0').optional(),
-
+  width: z.coerce.number().min(0, 'Width must be a positive number'),
+  height: z.coerce.number().min(0, 'Height must be a positive number'),
+  depth: z.coerce.number().min(0, 'Depth must be a positive number'),
+  weightKg: z.coerce.number().min(0, 'Weight must be a positive number'),
   assemblyRequired: z.boolean(),
-
   variants: z
     .array(
       z.object({
