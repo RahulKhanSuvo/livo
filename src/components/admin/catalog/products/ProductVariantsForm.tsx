@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { PlusSignIcon, Delete02Icon, Upload01Icon, Image01Icon } from '@hugeicons/core-free-icons';
@@ -9,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type VariantForm, type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
-import Image from 'next/image';
 
 // Helper component to handle local previews for single File state
 function SingleImageUpload({
@@ -42,7 +42,7 @@ function SingleImageUpload({
         <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/50">
           {previewUrl ? (
             <>
-              <Image src={previewUrl} alt={label} className="h-full w-full object-cover" />
+              <Image src={previewUrl} alt={label} fill className="object-cover" />
               <button
                 type="button"
                 onClick={() => field.handleChange(undefined)}
@@ -104,10 +104,11 @@ function GalleryImageItem({ field, onRemove }: { field: AnyFieldApi; onRemove: (
     <div className="group relative flex h-24 w-full items-center justify-center overflow-hidden rounded-lg border bg-muted/40">
       {previewUrl ? (
         <>
-          <img
+          <Image
             src={previewUrl}
             alt="Gallery item"
-            className="h-full w-full object-cover transition-transform group-hover:scale-105"
+            fill
+            className="object-cover transition-transform group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center">
             <Button
