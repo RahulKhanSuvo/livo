@@ -10,11 +10,11 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
-import { type CategoryTree } from './types';
+import { type CategoryTree, type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 
 interface ProductClassificationFormProps {
-  form: ReturnType<typeof import('@tanstack/react-form').useForm>;
+  form: ProductForm;
   categories: CategoryTree;
 }
 
