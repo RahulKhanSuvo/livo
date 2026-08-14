@@ -5,7 +5,7 @@ import type { ProductValidationType } from '@/actions/products/productValidation
 export type Category = {
   id: string;
   name: string;
-  slug: string;
+  slug?: string;
   subCategories: SubCategory[];
 };
 
