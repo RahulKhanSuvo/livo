@@ -3,10 +3,7 @@ import { z } from 'zod';
 export const productValidationSchema = z.object({
   productTypeId: z.string().min(1, 'Product type is required'),
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
-  slug: z
-    .string()
-    .min(2, 'Slug is required')
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Must be a valid slug (e.g. leather-sofa)'),
+  slug: z.string().min(2, 'Slug is required'),
   brand: z.string().optional().or(z.literal('')),
   description: z.string().max(1000).optional().or(z.literal('')),
   material: z.string().optional().or(z.literal('')),
