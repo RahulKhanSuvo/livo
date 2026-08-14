@@ -46,7 +46,7 @@ export default function NewProductForm() {
     // },
     onSubmit: async ({ value }) => {
       console.log('Submitting Product Data:', value);
-      const res = createProduct(value);
+      const res = await createProduct(value);
       console.log('create product response ', res);
     },
   });
