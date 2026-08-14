@@ -4,14 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { type FormValues } from './types';
+import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 
-export function ProductDimensionsForm({
-  form,
-}: {
-  form: ReturnType<typeof import('@tanstack/react-form').useForm<FormValues>>;
-}) {
+export function ProductDimensionsForm({ form }: { form: ProductForm }) {
   return (
     <Card>
       <CardHeader className="border-b">
@@ -37,7 +33,7 @@ export function ProductDimensionsForm({
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {['width', 'height', 'depth', 'weightKg'].map((dim) => (
-              <form.Field key={dim} name={dim}>
+              <form.Field key={dim} name={dim as 'width' | 'height' | 'depth' | 'weightKg'}>
                 {(field: AnyFieldApi) => (
                   <div className="space-y-1.5">
                     <Label htmlFor={`product-${dim}`}>
