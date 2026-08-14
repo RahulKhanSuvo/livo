@@ -15,8 +15,9 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type VariantForm, type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
+import { GallerySectionImageAdd } from './GallerySectionImageAdd';
 
-// Single Image Upload Card Component
+// Single Image Upload Card Component (Main / Hover Image)
 function SingleImageUpload({
   label,
   required = false,
@@ -108,59 +109,7 @@ function SingleImageUpload({
   );
 }
 
-// Gallery Tile Component
-function GalleryImageItem({ field, onRemove }: { field: AnyFieldApi; onRemove: () => void }) {
-  const file = field.state.value as File | undefined | null;
-
-  const previewUrl = useMemo(() => {
-    if (file instanceof File) {
-      return URL.createObjectURL(file);
-    }
-    return null;
-  }, [file]);
-
-  return (
-    <div className="group relative aspect-square w-full overflow-hidden rounded-xl border border-border bg-muted/30 transition-all hover:shadow-xs">
-      {previewUrl ? (
-        <>
-          <Image
-            src={previewUrl}
-            alt="Gallery preview"
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center">
-            <Button
-              type="button"
-              variant="destructive"
-              size="icon"
-              className="h-8 w-8"
-              onClick={onRemove}
-            >
-              <HugeiconsIcon icon={Delete02Icon} size={14} />
-            </Button>
-          </div>
-        </>
-      ) : (
-        <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1.5 p-2 transition-colors hover:bg-muted/60">
-          <input
-            type="file"
-            accept="image/*"
-            className="sr-only"
-            onChange={(e) => {
-              const selectedFile = e.target.files?.[0];
-              if (selectedFile) field.handleChange(selectedFile);
-            }}
-          />
-          <div className="rounded-full bg-background p-2 border shadow-xs">
-            <HugeiconsIcon icon={Upload01Icon} size={14} className="text-muted-foreground" />
-          </div>
-          <span className="text-[11px] font-medium text-muted-foreground">Upload</span>
-        </label>
-      )}
-    </div>
-  );
-}
+// Gallery Component (Max 4 Images Limit)
 
 // Main Component
 export function ProductVariantsForm({
@@ -278,7 +227,11 @@ export function ProductVariantsForm({
                             step="0.01"
                             placeholder="0.00"
                             value={subField.state.value ?? ''}
-                            onChange={(e) => subField.handleChange(e.target.value)}
+                            onChange={(e) =>
+                              subField.handleChange(
+                                e.target.value ? parseFloat(e.target.value) : undefined
+                              )
+                            }
                           />
                         </div>
                       )}
@@ -297,7 +250,11 @@ export function ProductVariantsForm({
                             step="0.01"
                             placeholder="Optional"
                             value={subField.state.value ?? ''}
-                            onChange={(e) => subField.handleChange(e.target.value)}
+                            onChange={(e) =>
+                              subField.handleChange(
+                                e.target.value ? parseFloat(e.target.value) : undefined
+                              )
+                            }
                           />
                         </div>
                       )}
@@ -315,7 +272,11 @@ export function ProductVariantsForm({
                             min={0}
                             placeholder="0"
                             value={subField.state.value ?? ''}
-                            onChange={(e) => subField.handleChange(e.target.value)}
+                            onChange={(e) =>
+                              subField.handleChange(
+                                e.target.value ? parseInt(e.target.value, 10) : undefined
+                              )
+                            }
                           />
                         </div>
                       )}
@@ -325,11 +286,11 @@ export function ProductVariantsForm({
                   {/* Section Divider */}
                   <div className="relative border-t">
                     <span className="absolute left-0 -top-2.5 bg-card pr-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Primary Media
+                      Media Uploads
                     </span>
                   </div>
 
-                  {/* Single Image Uploads */}
+                  {/* Primary Images */}
                   <div className="grid gap-6 sm:grid-cols-2">
                     <form.Field name={`variants[${index}].mainImage`}>
                       {(subField: AnyFieldApi) => (
@@ -344,57 +305,10 @@ export function ProductVariantsForm({
                     </form.Field>
                   </div>
 
-                  {/* Section Divider */}
-                  <div className="relative border-t">
-                    <span className="absolute left-0 -top-2.5 bg-card pr-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Gallery Media
-                    </span>
-                  </div>
-
-                  {/* Gallery Section */}
-                  <form.Field name={`variants[${index}].gallery`} mode="array">
+                  {/* Gallery Section with strict 4 limit */}
+                  <form.Field name={`variants[${index}].gallery`}>
                     {(galleryField: AnyFieldApi) => (
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs text-muted-foreground">
-                            Upload additional photos for this variant carousel.
-                          </p>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            className="h-7 text-xs gap-1"
-                            onClick={() => galleryField.pushValue(undefined)}
-                          >
-                            <HugeiconsIcon icon={PlusSignIcon} size={14} />
-                            Add Tile
-                          </Button>
-                        </div>
-
-                        {galleryField.state.value.length > 0 ? (
-                          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-6">
-                            {galleryField.state.value.map(
-                              (_: File | null, galleryIndex: number) => (
-                                <form.Field
-                                  key={galleryIndex}
-                                  name={`variants[${index}].gallery[${galleryIndex}]`}
-                                >
-                                  {(urlField: AnyFieldApi) => (
-                                    <GalleryImageItem
-                                      field={urlField}
-                                      onRemove={() => galleryField.removeValue(galleryIndex)}
-                                    />
-                                  )}
-                                </form.Field>
-                              )
-                            )}
-                          </div>
-                        ) : (
-                          <div className="flex h-20 w-full items-center justify-center rounded-xl border border-dashed text-xs text-muted-foreground italic bg-muted/10">
-                            No gallery images added yet. Click &quot;Add Tile&quot; above.
-                          </div>
-                        )}
-                      </div>
+                      <GallerySectionImageAdd galleryField={galleryField} />
                     )}
                   </form.Field>
                 </CardContent>
