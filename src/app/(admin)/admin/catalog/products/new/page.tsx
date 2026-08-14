@@ -13,17 +13,7 @@ import { ProductIdentityForm } from '@/components/admin/catalog/products/Product
 import { ProductDimensionsForm } from '@/components/admin/catalog/products/ProductDimensionsForm';
 import { ProductClassificationForm } from '@/components/admin/catalog/products/ProductClassificationForm';
 import { ProductVariantsForm } from '@/components/admin/catalog/products/ProductVariantsForm';
-
-const emptyVariant = {
-  colorHex: '#000000', // Removed 'color' property
-  sku: '',
-  price: 0,
-  salePrice: undefined,
-  stock: 0,
-  mainImage: '',
-  hoverImage: '',
-  gallery: [''],
-};
+import { emptyVariant } from '@/components/admin/catalog/products/types';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
