@@ -3,6 +3,7 @@ import { Mona_Sans, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import QueryProviders from '@/providers/QueryProvider';
+import { Toaster } from 'sonner';
 // import Navbar from '@/components/common/navbar/Navbar';
 // import Footer from '@/components/common/footer/Footer';
 
@@ -46,7 +47,10 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <QueryProviders>{children}</QueryProviders>
+        <QueryProviders>
+          {children}
+          <Toaster richColors position="top-right" />
+        </QueryProviders>
       </body>
     </html>
   );
