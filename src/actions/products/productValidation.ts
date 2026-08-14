@@ -34,11 +34,9 @@ export const productValidationSchema = z.object({
         salePrice: z.number().optional(),
         stock: z.number().int().min(0, 'Stock cannot be negative'),
 
-        mainImage: z.string().url('Invalid main image URL'),
-        hoverImage: z.string().url('Invalid hover image URL').optional().or(z.literal('')),
-        gallery: z
-          .array(z.string().url('Invalid URL'))
-          .min(1, 'At least one gallery image is required'),
+        mainImage: z.any().refine((val) => !!val, 'Main image is required'),
+        hoverImage: z.any().optional(),
+        gallery: z.array(z.any()).min(1, 'At least one gallery image is required'),
       })
     )
     .min(1, 'At least one variant is required'),
