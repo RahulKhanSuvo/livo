@@ -1,8 +1,11 @@
 'use client';
-
+import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import { DataTableColumn } from '@/components/shared/data-table';
 import { Product } from '@/components/admin/catalog/products/types';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Edit02Icon } from '@hugeicons/core-free-icons';
 
 export const productColumns: DataTableColumn<Product>[] = [
   {
@@ -80,5 +83,19 @@ export const productColumns: DataTableColumn<Product>[] = [
     id: 'variantsCount',
     header: 'Variants',
     cell: ({ row }) => `${row.original.variants?.length || 0} variants`,
+  },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({ row }) => {
+      const product = row.original;
+      return (
+        <Button variant={'link'} asChild>
+          <Link href={`/admin/catalog/products/${product.id}`}>
+            <HugeiconsIcon icon={Edit02Icon} />
+          </Link>
+        </Button>
+      );
+    },
   },
 ];
