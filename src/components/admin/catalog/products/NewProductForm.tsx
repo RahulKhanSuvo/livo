@@ -67,9 +67,7 @@ export default function NewProductForm() {
           <p>Products</p>
         </Link>
         <HugeiconsIcon icon={ChevronRightIcon} size={16} />
-        <Link href="/admin/catalog/products">
-          <p>Add Product</p>
-        </Link>
+        <p>Add Product</p>
       </div>
       {/* Header */}
       <div className="flex items-center gap-3">
