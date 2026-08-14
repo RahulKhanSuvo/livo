@@ -6,7 +6,7 @@ async function ProductTable() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['products'],
-    queryFn: () => getAllProducts(),
+    queryFn: () => getAllProducts(1, 5),
   });
   return (
     <>

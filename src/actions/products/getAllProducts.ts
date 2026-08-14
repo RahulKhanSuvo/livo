@@ -1,4 +1,5 @@
 'use server';
+
 import prisma from '@/lib/prisma';
 
 export async function getAllProducts(page: number = 1, limit: number = 10) {
@@ -19,7 +20,7 @@ export async function getAllProducts(page: number = 1, limit: number = 10) {
       prisma.product.count(),
     ]);
 
-    return {
+    const result = {
       products,
       total,
       page,
@@ -27,8 +28,9 @@ export async function getAllProducts(page: number = 1, limit: number = 10) {
       hasNextPage: skip + products.length < total,
       hasPrevPage: page > 1,
     };
+    return JSON.parse(JSON.stringify(result));
   } catch (error) {
-    console.log('error', error);
+    console.error('Error in getAllProducts:', error);
     throw error;
   }
 }
