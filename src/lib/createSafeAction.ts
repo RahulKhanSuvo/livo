@@ -16,10 +16,13 @@ export function createSafeAction<TInput, TOutput>(
     // 1. Zod Validation
     const validation = schema.safeParse(input);
     if (!validation.success) {
+      // Pass a mapper function (issue => issue.message) to suppress the deprecation warning
+      const flattened = validation.error.flatten((issue) => issue.message);
+
       return {
         success: false,
         message: 'Validation failed. Please check your inputs.',
-        fieldErrors: validation.error.flatten().fieldErrors as Record<string, string[]>,
+        fieldErrors: flattened.fieldErrors as Record<string, string[]>,
       };
     }
 
