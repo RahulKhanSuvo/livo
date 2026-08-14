@@ -4,11 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { type FormValues } from './types';
+import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 
 interface ProductIdentityFormProps {
-  form: ReturnType<typeof import('@tanstack/react-form').useForm<FormValues>>;
+  form: ProductForm;
 }
 
 export function ProductIdentityForm({ form }: ProductIdentityFormProps) {
