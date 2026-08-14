@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useForm } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { PlusSignIcon, ArrowLeft01Icon } from '@hugeicons/core-free-icons';
+import { PlusSignIcon, ArrowLeft01Icon, ChevronRightIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { ProductValidationType } from '@/actions/products/productValidation';
 import { ProductIdentityForm } from '@/components/admin/catalog/products/ProductIdentityForm';
@@ -57,14 +57,22 @@ export default function NewProductForm() {
   });
 
   return (
-    <div className="flex flex-col gap-6 py-6">
+    <div className="flex flex-col gap-6">
+      <div className="flex gap-2 items-center text-sm">
+        <Link href="/admin/catalog/products">
+          <p className="text-muted-foreground">Catalog</p>
+        </Link>
+        <HugeiconsIcon icon={ChevronRightIcon} size={16} />
+        <Link href="/admin/catalog/products">
+          <p>Products</p>
+        </Link>
+        <HugeiconsIcon icon={ChevronRightIcon} size={16} />
+        <Link href="/admin/catalog/products">
+          <p>Add Product</p>
+        </Link>
+      </div>
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/admin/catalog/products">
-            <HugeiconsIcon icon={ArrowLeft01Icon} size={18} />
-          </Link>
-        </Button>
         <div>
           <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Add product
