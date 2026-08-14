@@ -1,11 +1,28 @@
 'use client';
+
+import {
+  Edit02Icon,
+  MoreHorizontalIcon,
+  EyeIcon,
+  Copy01Icon,
+  Delete02Icon,
+  ViewIcon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { DataTableColumn } from '@/components/shared/data-table';
 import { Product } from '@/components/admin/catalog/products/types';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { Edit02Icon } from '@hugeicons/core-free-icons';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { toast } from 'sonner';
 
 export const productColumns: DataTableColumn<Product>[] = [
   {
@@ -13,14 +30,13 @@ export const productColumns: DataTableColumn<Product>[] = [
     header: 'Product',
     cell: ({ row }) => {
       const product = row.original;
-      // Get main image from the first variant
       const mainImage =
         product.variants?.[0]?.images?.find((img) => img.type === 'MAIN')?.imageUrl ||
         product.variants?.[0]?.images?.[0]?.imageUrl;
 
       return (
         <div className="flex items-center gap-3">
-          <div className="relative h-10 w-10 overflow-hidden rounded-lg border bg-muted">
+          <div className="relative h-10 w-10 overflow-hidden rounded-lg border bg-muted shrink-0">
             {mainImage ? (
               <Image src={mainImage} alt={product.name} fill className="object-cover" />
             ) : (
@@ -29,9 +45,9 @@ export const productColumns: DataTableColumn<Product>[] = [
               </div>
             )}
           </div>
-          <div>
-            <div className="font-medium text-foreground">{product.name}</div>
-            <div className="text-xs text-muted-foreground">{product.slug}</div>
+          <div className="min-w-0">
+            <div className="truncate font-medium text-foreground">{product.name}</div>
+            <div className="truncate text-xs text-muted-foreground">{product.slug}</div>
           </div>
         </div>
       );
@@ -89,12 +105,58 @@ export const productColumns: DataTableColumn<Product>[] = [
     header: 'Actions',
     cell: ({ row }) => {
       const product = row.original;
+
+      const handleCopyId = () => {
+        navigator.clipboard.writeText(product.id);
+        toast.success('Product ID copied to clipboard');
+      };
+
       return (
-        <Button variant={'link'} asChild>
-          <Link href={`/admin/catalog/products/${product.id}`}>
-            <HugeiconsIcon icon={Edit02Icon} />
-          </Link>
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <HugeiconsIcon icon={MoreHorizontalIcon} className="h-4 w-4" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+            <DropdownMenuItem onClick={handleCopyId}>
+              <HugeiconsIcon icon={Copy01Icon} className="mr-2 h-4 w-4 text-muted-foreground" />
+              Copy Product ID
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem asChild>
+              <Link href={`/admin/catalog/products/${product.id}`}>
+                <HugeiconsIcon icon={Edit02Icon} className="mr-2 h-4 w-4 text-muted-foreground" />
+                Edit Product
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <Link href={`/products/${product.slug}`} target="_blank">
+                <HugeiconsIcon icon={EyeIcon} className="mr-2 h-4 w-4 text-muted-foreground" />
+                Preview in Store
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem
+              className="text-rose-600 focus:bg-rose-50 focus:text-rose-700"
+              onClick={() => {
+                // Open confirmation modal or trigger delete action
+                console.log('Delete product:', product.id);
+              }}
+            >
+              <HugeiconsIcon icon={Delete02Icon} className="mr-2 h-4 w-4" />
+              Delete Product
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },
