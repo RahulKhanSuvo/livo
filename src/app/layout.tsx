@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Mona_Sans, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import QueryProviders from '@/providers/QueryProvider';
 // import Navbar from '@/components/common/navbar/Navbar';
 // import Footer from '@/components/common/footer/Footer';
 
@@ -45,9 +46,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        {/*<Navbar />*/}
-        {children}
-        {/*<Footer />*/}
+        <QueryProviders>{children}</QueryProviders>
       </body>
     </html>
   );

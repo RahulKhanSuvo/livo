@@ -1,3 +1,21 @@
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  subCategories: SubCategory[];
+};
+
+export type SubCategory = {
+  id: string;
+  name: string;
+  productTypes: ProductType[];
+};
+
+export type ProductType = {
+  id: string;
+  name: string;
+};
+
 export type VariantForm = {
   color: string;
   sku: string;
@@ -17,6 +35,8 @@ export type FormValues = {
   variants: VariantForm[];
 };
 
+export type CategoryTree = Category[];
+
 export const emptyForm: FormValues = {
   name: '',
   brand: '',
@@ -26,6 +46,14 @@ export const emptyForm: FormValues = {
   subcategoryName: '',
   productTypeName: '',
   variants: [{ color: '', sku: '', price: '', salePrice: '', stock: '' }],
+};
+
+export const emptyVariant: VariantForm = {
+  color: '',
+  sku: '',
+  price: '',
+  salePrice: '',
+  stock: '',
 };
 
 export const STEPS = ['Identity', 'Classification', 'Variants'] as const;

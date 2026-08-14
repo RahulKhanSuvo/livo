@@ -9,7 +9,9 @@ import { emptyForm, STEPS, type FormValues } from './types';
 export type ProductForm = ReturnType<typeof useProductForm>['form'];
 export type ServerMessage = { tone: 'success' | 'error'; text: string } | null;
 
-export function useProductForm() {
+export function useProductForm({
+  onSubmit,
+}: { onSubmit?: (values: FormValues) => Promise<void> | void } = {}) {
   const [step, setStep] = useState(0);
   const [serverMessage, setServerMessage] = useState<ServerMessage>(null);
 
@@ -17,6 +19,10 @@ export function useProductForm() {
     defaultValues: emptyForm,
     onSubmit: async ({ value }) => {
       setServerMessage(null);
+      if (onSubmit) {
+        await onSubmit(value);
+        return;
+      }
       const result = await createProductAction({
         name: value.name,
         brand: value.brand || undefined,

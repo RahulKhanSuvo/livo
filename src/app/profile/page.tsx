@@ -37,13 +37,11 @@ export default async function ProfilePage() {
         </p>
         <div className="mt-4 flex flex-col gap-6 border-b border-neutral-200 pb-10 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex items-center gap-5">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#161512] font-[family-name:var(--font-instrument-serif)] text-2xl text-[#f4f1e8]">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#161512] text-2xl text-[#f4f1e8]">
               {initials(user.name)}
             </div>
             <div>
-              <h1 className="font-[family-name:var(--font-instrument-serif)] text-4xl sm:text-5xl">
-                {user.name}
-              </h1>
+              <h1 className=" text-4xl sm:text-5xl">{user.name}</h1>
               <p className="mt-1 text-sm text-neutral-600">{user.email}</p>
             </div>
           </div>

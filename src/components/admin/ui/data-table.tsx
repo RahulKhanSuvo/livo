@@ -9,8 +9,8 @@ export interface Column<T> {
 }
 
 export function DataTable<T>({
-  columns,
-  data,
+  columns = [],
+  data = [],
   keyField,
   className,
   emptyMessage = 'No records found.',
@@ -22,7 +22,9 @@ export function DataTable<T>({
   emptyMessage?: string;
 }) {
   return (
-    <div className={cn('overflow-hidden rounded-2xl bg-white ring-1 ring-foreground/10', className)}>
+    <div
+      className={cn('overflow-hidden rounded-2xl bg-white ring-1 ring-foreground/10', className)}
+    >
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead>
@@ -49,7 +51,10 @@ export function DataTable<T>({
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className={cn('px-4 py-3 align-middle text-foreground/90 sm:px-5', col.className)}
+                    className={cn(
+                      'px-4 py-3 align-middle text-foreground/90 sm:px-5',
+                      col.className
+                    )}
                   >
                     {col.cell(row)}
                   </td>

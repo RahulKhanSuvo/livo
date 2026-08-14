@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  Alert01Icon,
-  CheckmarkCircle01Icon,
-  MoreHorizontalIcon,
-  PackageIcon,
-  PackageOutOfStockIcon,
-  PlusSignIcon,
-} from '@hugeicons/core-free-icons';
+import { MoreHorizontalIcon, PlusSignIcon } from '@hugeicons/core-free-icons';
 
 import { AddProductDialog } from './products';
 
@@ -17,7 +10,6 @@ import { PageHeader } from '@/components/admin/ui/page-header';
 import { DataTable, type Column } from '@/components/admin/ui/data-table';
 import { StatusBadge, Avatar } from '@/components/admin/ui/badges';
 import { formatMoney, initials } from '@/components/admin/ui/format';
-import { StatCard } from '@/components/admin/ui/stat-card';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -70,7 +62,7 @@ function TableActions({ label }: { label: string }) {
   );
 }
 
-const productCols: Column<Product>[] = [
+export const productCols: Column<Product>[] = [
   {
     key: 'product',
     header: 'Product',
@@ -272,37 +264,7 @@ export function ProductsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Products"
-        description="Every piece in your catalogue — from sculptural sofas to dining essentials."
-        actions={
-          <Button className="gap-1.5" onClick={() => setAddProductOpen(true)}>
-            <HugeiconsIcon icon={PlusSignIcon} size={16} />
-            Add product
-          </Button>
-        }
-      />
       <AddProductDialog open={addProductOpen} onOpenChange={setAddProductOpen} />
-      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Total products" value="181" delta="+6.2%" icon={PackageIcon} />
-        <StatCard
-          label="Active"
-          value="152"
-          delta="+4.1%"
-          icon={CheckmarkCircle01Icon}
-          accent="#d98e63"
-        />
-        <StatCard label="Low stock" value="8" hint="reorder needed" icon={Alert01Icon} />
-        <StatCard
-          label="Out of stock"
-          value="5"
-          delta="-2"
-          trend="down"
-          icon={PackageOutOfStockIcon}
-          accent="#d98e63"
-        />
-      </div>
-      <DataTable columns={productCols} data={products} keyField={(r) => r.id} />
     </div>
   );
 }

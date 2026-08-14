@@ -22,6 +22,7 @@
     "@tanstack/react-form": "^1.33.3",
     "@tanstack/react-query": "^5.101.4",
     "@tanstack/react-table": "^9.0.0",
+    "@tanstack/zod-form-adapter": "^0.42.1",
     "axios": "^1.19.0",
     "bcryptjs": "^3.0.3",
     "better-auth": "^1.6.25",

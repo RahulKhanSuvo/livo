@@ -5,6 +5,7 @@ import ProductFilterSidebar from '@/components/shared/ProductFilterSidebar';
 import ProductList from '@/components/shared/ProductList';
 import ProductSortBar from '@/components/shared/ProductSortBar';
 import FeaturesBar from '@/components/home/FeaturesBar';
+
 const SofaPage = ({}) => {
   return (
     <section>
