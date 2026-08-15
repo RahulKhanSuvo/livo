@@ -6,7 +6,6 @@ import {
   EyeIcon,
   Copy01Icon,
   Delete02Icon,
-  ViewIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';

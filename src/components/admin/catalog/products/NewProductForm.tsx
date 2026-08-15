@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Updated import
 import { useForm } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { PlusSignIcon, ChevronRightIcon, EditIcon } from '@hugeicons/core-free-icons';
@@ -14,8 +15,8 @@ import { emptyVariant } from '@/components/admin/catalog/products/types';
 import { useQuery } from '@tanstack/react-query';
 import { getClassificationHierarchyAction } from '@/actions/category/category_action';
 import { createProduct } from '@/actions/products/addNewProduct';
+// import { updateProduct } from '@/actions/products/updateProduct'; // Add your update action here
 import { toast } from 'sonner';
-import router from 'next/router';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
@@ -33,31 +34,53 @@ const defaultValues: ProductValidationType = {
   variants: [emptyVariant],
 };
 
-export default function NewProductForm({ mode = 'create' }: { mode?: 'create' | 'edit' }) {
+interface NewProductFormProps {
+  mode?: 'create' | 'edit';
+  initialData?: Partial<ProductValidationType> & { id?: string };
+}
+
+export default function NewProductForm({ mode = 'create', initialData }: NewProductFormProps) {
+  const router = useRouter();
+
   const { data: categoryHierarchy } = useQuery({
     queryKey: ['category'],
     queryFn: () => getClassificationHierarchyAction(),
   });
+
+  // Merge initial values if in edit mode
+  const formValues: ProductValidationType = {
+    ...defaultValues,
+    ...initialData,
+    // Fallback variants if edit data returns empty array
+    variants: initialData?.variants?.length ? initialData.variants : [emptyVariant],
+  };
+
   const form = useForm({
-    defaultValues,
-    // validators: {
-    //   onChange: productValidationSchema,
-    // },
+    defaultValues: formValues,
     onSubmit: async ({ value }) => {
       console.log('Submitting Product Data:', value);
-      const res = await createProduct(value);
-      console.log('create product response ', res);
-      if (res.success) {
+
+      let res;
+      if (mode === 'create') {
+        res = await createProduct(value);
+      } else {
+        // Handle edit action (pass product ID along with updated values)
+        // res = await updateProduct(initialData?.id!, value);
+      }
+
+      console.log('Product response:', res);
+      if (res?.success) {
         toast.success(res.message);
         router.push('/admin/catalog/products');
       } else {
-        toast.error(res.message);
+        toast.error(res?.message || 'Something went wrong');
       }
     },
   });
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Breadcrumbs */}
       <div className="flex gap-2 items-center text-sm">
         <Link href="/admin/catalog/products">
           <p className="text-muted-foreground">Catalog</p>
@@ -69,6 +92,7 @@ export default function NewProductForm({ mode = 'create' }: { mode?: 'create' | 
         <HugeiconsIcon icon={ChevronRightIcon} size={16} />
         <p>{mode === 'create' ? 'Add Product' : 'Edit Product'}</p>
       </div>
+
       {/* Header */}
       <div className="flex items-center gap-3">
         <div>
