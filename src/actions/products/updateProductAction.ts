@@ -68,9 +68,6 @@ export const updateProduct = createSafeAction(
           id: v.id || `new-${Math.random().toString(36).substr(2, 9)}`,
           isNew: !v.id,
           colorHex: v.colorHex || null,
-          sku: v.sku,
-          price: Number(v.price),
-          salePrice: v.salePrice ? Number(v.salePrice) : null,
           stock: Number(v.stock),
           images: {
             deleteMany: {},
@@ -97,11 +94,11 @@ export const updateProduct = createSafeAction(
       data: {
         productTypeId: validatedData.productTypeId,
         name: validatedData.name,
-        slug: validatedData.slug,
         description: validatedData.description || null,
+        price: validatedData.price,
+        salePrice: validatedData.salePrice,
         brand: validatedData.brand || null,
         material: validatedData.material || null,
-        finish: validatedData.finish || null,
         width: validatedData.width ? Number(validatedData.width) : null,
         height: validatedData.height ? Number(validatedData.height) : null,
         depth: validatedData.depth ? Number(validatedData.depth) : null,
@@ -112,9 +109,6 @@ export const updateProduct = createSafeAction(
             where: { id: v.isNew ? 'missing_id' : v.id },
             create: {
               colorHex: v.colorHex,
-              sku: v.sku,
-              price: v.price,
-              salePrice: v.salePrice,
               stock: v.stock,
               images: {
                 create: v.images.create,
@@ -122,9 +116,6 @@ export const updateProduct = createSafeAction(
             },
             update: {
               colorHex: v.colorHex,
-              sku: v.sku,
-              price: v.price,
-              salePrice: v.salePrice,
               stock: v.stock,
               images: v.images,
             },
