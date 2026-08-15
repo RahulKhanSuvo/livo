@@ -1,26 +1,31 @@
+import prisma from '@/lib/prisma';
 import { createSafeAction } from '@/lib/createSafeAction';
 import { productValidationSchema } from './productValidation';
-import prisma from '@/lib/prisma';
 
-export const updateProductAction = createSafeAction(
+export const updateProduct = createSafeAction(
   productValidationSchema,
-  async (data, context: { id: string }) => {
-    const id = context?.id;
-
-    if (!id) {
-      throw new Error('Product ID is required');
-    }
-
-    const existingProduct = await prisma.product.findUnique({
+  async ({ id, ...productData }) => {
+    const product = await prisma.product.update({
       where: { id },
-      select: { id: true },
+      data: {
+        productTypeId: productData.productTypeId,
+        name: productData.name,
+        slug: productData.slug,
+        description: productData.description,
+        brand: productData.brand,
+        material: productData.material,
+        finish: productData.finish,
+        width: productData.width,
+        height: productData.height,
+        depth: productData.depth,
+        weightKg: productData.weightKg,
+        assemblyRequired: productData.assemblyRequired,
+      },
     });
 
-    if (!existingProduct) {
-      throw new Error('Product not found');
-    }
-
-    return;
+    return product;
   },
-  { successMessage: 'Product updated successfully' }
+  {
+    successMessage: 'Product updated successfully',
+  }
 );

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const productValidationSchema = z.object({
+  id: z.string().optional(),
   productTypeId: z.string().min(1, 'Product type is required'),
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
   slug: z.string().min(2, 'Slug is required'),

@@ -14,10 +14,10 @@ export interface SafeActionOptions {
 
 export function createSafeAction<TInput, TOutput, TContext = undefined>(
   schema: z.ZodSchema<TInput>,
-  handler: (validatedData: TInput, context: TContext) => Promise<TOutput>,
+  handler: (validatedData: TInput, context?: TContext) => Promise<TOutput>,
   options?: SafeActionOptions
 ) {
-  return async (input: TInput, context: TContext): Promise<ActionResponse<TOutput>> => {
+  return async (input: TInput, context?: TContext): Promise<ActionResponse<TOutput>> => {
     const validation = schema.safeParse(input);
 
     if (!validation.success) {
@@ -33,7 +33,7 @@ export function createSafeAction<TInput, TOutput, TContext = undefined>(
     try {
       const rawResult = await handler(validation.data, context);
 
-      const serializedData = rawResult == null ? null : JSON.parse(JSON.stringify(rawResult));
+      const serializedData = rawResult != null ? JSON.parse(JSON.stringify(rawResult)) : null;
 
       return {
         success: true,
