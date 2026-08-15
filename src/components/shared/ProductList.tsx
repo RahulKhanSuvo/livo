@@ -12,7 +12,7 @@ const ProductList = () => {
   });
   console.log(data);
   if (isLoading) {
-    return <div>Loaging</div>;
+    return <div>Loading...</div>;
   }
   return (
     <div className="grid grid-cols-3 flex-1 gap-3 ">

@@ -7,6 +7,7 @@ import ProductSortBar from '@/components/shared/ProductSortBar';
 import FeaturesBar from '@/components/home/FeaturesBar';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { getAllFurniture } from '@/actions/furniture/getAllFurniture';
+import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
 const SofaPage = async () => {
   const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const SofaPage = async () => {
     staleTime: 1000 * 60 * 60, // 1 hour
     gcTime: 1000 * 60 * 60 * 6, // 6 hours
   });
+  const data = queryClient.getQueryData<GetAllFurnitureResponse>(['product']);
 
   return (
     <section>
@@ -25,7 +27,7 @@ const SofaPage = async () => {
           <ProductFilterSidebar />
         </div>
         <div className="flex-1">
-          <ProductSortBar className="sticky top-20 z-25" />
+          <ProductSortBar totalProducts={data?.total} className="sticky top-20 z-25" />
           <HydrationBoundary state={dehydrate(queryClient)}>
             <ProductList />
           </HydrationBoundary>
