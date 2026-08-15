@@ -13,7 +13,7 @@ export interface ProductSortBarProps {
 }
 
 export const ProductSortBar: React.FC<ProductSortBarProps> = ({
-  totalProducts = 13,
+  totalProducts = 0,
   onSortChange,
   className,
 }) => {

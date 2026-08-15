@@ -5,10 +5,7 @@ import prisma from '@/lib/prisma';
 export async function getAllFurniture(
   page: number = 1,
   limit: number = 10,
-  category?: string,
   search: string = '',
-  subCategory?: string,
-  type?: string,
   sortBy?: 'asc' | 'desc',
   sortOrder?: 'createdAt' | 'price'
 ) {
@@ -27,9 +24,9 @@ export async function getAllFurniture(
       }[];
     } = {};
 
-    if (category) {
-      where.category = category;
-    }
+    // if (category) {
+    //   where.category = category;
+    // }
 
     if (search) {
       where.OR = [
@@ -39,13 +36,13 @@ export async function getAllFurniture(
       ];
     }
 
-    if (subCategory) {
-      where.subCategory = subCategory;
-    }
+    // if (subCategory) {
+    //   where.subCategory = subCategory;
+    // }
 
-    if (type) {
-      where.type = type;
-    }
+    // if (type) {
+    //   where.type = type;
+    // }
 
     const [products, total] = await Promise.all([
       prisma.product.findMany({

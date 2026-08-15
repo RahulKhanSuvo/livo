@@ -8,12 +8,31 @@ import FeaturesBar from '@/components/home/FeaturesBar';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { getAllFurniture } from '@/actions/furniture/getAllFurniture';
 import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
-const SofaPage = async () => {
+const SofaPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  const queryParamsObjects = await searchParams;
   const queryClient = new QueryClient();
-
+  const {
+    search = '',
+    sortBy = 'asc',
+    sortOrder = 'createdAt',
+    page = '1',
+    limit = '10',
+  } = queryParamsObjects;
+  console.log('searchParamsObjects', queryParamsObjects);
   await queryClient.prefetchQuery({
-    queryKey: ['product'],
-    queryFn: () => getAllFurniture(),
+    queryKey: ['product', queryParamsObjects],
+    queryFn: () =>
+      getAllFurniture(
+        Number(page || 1),
+        Number(limit || 10),
+        search as string,
+        sortBy as 'asc' | 'desc',
+        sortOrder as 'createdAt' | 'price'
+      ),
     staleTime: 1000 * 60 * 60, // 1 hour
     gcTime: 1000 * 60 * 60 * 6, // 6 hours
   });
