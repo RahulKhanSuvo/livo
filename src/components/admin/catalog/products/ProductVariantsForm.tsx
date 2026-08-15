@@ -10,9 +10,6 @@ import { type VariantForm, type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 import { GallerySectionImageAdd } from './GallerySectionImageAdd';
 
-// Gallery Component (Max 4 Images Limit)
-
-// Main Component
 interface ProductVariantsFormProps {
   form: ProductForm;
   emptyVariant: VariantForm;
