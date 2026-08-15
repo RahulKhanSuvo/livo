@@ -13,12 +13,12 @@ const ProductCard = ({
   basePath: string;
 }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
-  const variant = product.variants[selectedVariant];
-  const displayPrice = variant.price;
-  const displaySalePrice = variant.salePrice;
+  const variant = product?.variants[selectedVariant];
+  const displayPrice = variant?.price;
+  const displaySalePrice = variant?.salePrice;
   console.log(product);
-  const firstImage = variant.images[0];
-  const secondImage = variant.images[1];
+  const firstImage = variant?.images[0];
+  const secondImage = variant?.images[1];
 
   const firstImageUrl =
     firstImage instanceof File ? URL.createObjectURL(firstImage) : firstImage?.imageUrl;
@@ -33,7 +33,7 @@ const ProductCard = ({
       >
         <Image
           src={firstImageUrl}
-          alt={product.name}
+          alt={product?.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
           className="absolute inset-0 object-cover p-6 transition-opacity duration-700 ease-in-out group-hover:opacity-0"
@@ -41,7 +41,7 @@ const ProductCard = ({
 
         <Image
           src={secondImageUrl}
-          alt={product.name}
+          alt={product?.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
           className="absolute inset-0 object-cover p-6 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
