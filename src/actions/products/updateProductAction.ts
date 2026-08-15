@@ -116,7 +116,9 @@ export const updateProduct = createSafeAction(
               price: v.price,
               salePrice: v.salePrice,
               stock: v.stock,
-              images: v.images,
+              images: {
+                create: v.images.create,
+              },
             },
             update: {
               colorHex: v.colorHex,
