@@ -44,6 +44,7 @@ model Product {
   weightKg         Float?
   price            Float
   salePrice        Float?
+  soldCount        Int              @default(0)
   assemblyRequired Boolean          @default(false)
   variants         ProductVariant[]
   badges           ProductBadge[]
