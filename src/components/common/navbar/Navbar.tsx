@@ -96,10 +96,7 @@ export const Navbar = ({
             </div>
 
             {/* Right: Actions */}
-            <RightActions
-              onOpenSearch={() => setSearchOpen(true)}
-              onOpenCart={() => setCartOpen(true)}
-            />
+            <RightActions onOpenCart={() => setCartOpen(true)} />
           </Container>
         </div>
 
