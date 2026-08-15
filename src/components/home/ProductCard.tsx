@@ -29,14 +29,14 @@ const ProductCard = ({
     <div className="flex flex-col">
       <Link
         href={`${basePath}/${product.id}`}
-        className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group"
+        className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center overflow-hidden group"
       >
         <Image
           src={firstImageUrl}
           alt={product?.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-cover p-6 transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+          className="absolute inset-0 object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
         />
 
         <Image
@@ -44,7 +44,7 @@ const ProductCard = ({
           alt={product?.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-cover p-6 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+          className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
         />
         <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
           <Button variant={'main'} className={'w-[90%]'}>
@@ -79,9 +79,9 @@ const ProductCard = ({
           )}
         </div>
 
-        {product.variants.length > 1 && (
+        {product?.variants?.length > 1 && (
           <div className="flex items-center gap-1.5 pt-2">
-            {product.variants.map((v, idx) => (
+            {product?.variants?.map((v, idx) => (
               <button
                 key={v.id}
                 onClick={() => setSelectedVariant(idx)}
