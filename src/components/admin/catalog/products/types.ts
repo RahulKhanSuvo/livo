@@ -50,7 +50,7 @@ export const emptyForm: ProductValidationType = {
       colorHex: '',
       sku: '',
       price: 0,
-      salePrice: undefined,
+      salePrice: 0,
       stock: 0,
       images: [],
     },
