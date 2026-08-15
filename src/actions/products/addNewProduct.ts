@@ -35,8 +35,6 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
       return {
         colorHex: v.colorHex || null,
         sku: v.sku,
-        price: Number(v.price),
-        salePrice: v.salePrice ? Number(v.salePrice) : null,
         stock: Number(v.stock),
         images: {
           create: rawImagesPayload,
@@ -51,6 +49,8 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
       productTypeId: validatedData.productTypeId,
       name: validatedData.name,
       slug: validatedData.slug,
+      price: validatedData.price,
+      salePrice: validatedData.salePrice || null,
       description: validatedData.description || null,
       brand: validatedData.brand || null,
       material: validatedData.material || null,

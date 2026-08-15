@@ -14,8 +14,8 @@ const ProductCard = ({
 }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const variant = product?.variants[selectedVariant];
-  const displayPrice = variant?.price;
-  const displaySalePrice = variant?.salePrice;
+  const displayPrice = product?.price;
+  const displaySalePrice = product?.salePrice;
   console.log(product);
   const firstImage = variant?.images[0];
   const secondImage = variant?.images[1];
