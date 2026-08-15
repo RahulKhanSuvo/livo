@@ -23,7 +23,7 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentSort = searchParams.get('sort') ?? 'createdAt';
+  const currentSort = searchParams.get('sortBy') ?? 'createdAt';
   const currentSortOrder = searchParams.get('sortOrder') ?? 'desc';
 
   const activeOption =
@@ -38,7 +38,7 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
 
     const params = new URLSearchParams(searchParams.toString());
 
-    params.set('sort', selectedOption.sort);
+    params.set('sortBy', selectedOption.sort);
     params.set('sortOrder', selectedOption.sortOrder);
 
     // Sorting changes the result set.

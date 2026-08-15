@@ -40,10 +40,12 @@ model Product {
   brand            String?
   material         String?
   finish           String?
-  width            Decimal?         @db.Decimal(10, 2)
-  height           Decimal?         @db.Decimal(10, 2)
-  depth            Decimal?         @db.Decimal(10, 2)
-  weightKg         Decimal?         @db.Decimal(10, 2)
+  width            Float?
+  height           Float?
+  depth            Float?
+  weightKg         Float?
+  price            Float
+  salePrice        Float?
   assemblyRequired Boolean          @default(false)
   variants         ProductVariant[]
   badges           ProductBadge[]
@@ -58,8 +60,6 @@ model ProductVariant {
   product    Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
   colorHex   String?
   sku        String         @unique
-  price      Decimal        @db.Decimal(10, 2)
-  salePrice  Decimal?       @db.Decimal(10, 2)
   stock      Int
   images     ProductImage[]
   createdAt  DateTime       @default(now())
