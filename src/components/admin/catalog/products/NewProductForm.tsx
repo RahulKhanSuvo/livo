@@ -14,7 +14,6 @@ import { ProductIdentityForm } from '@/components/admin/catalog/products/Product
 import { ProductDimensionsForm } from '@/components/admin/catalog/products/ProductDimensionsForm';
 import { ProductClassificationForm } from '@/components/admin/catalog/products/ProductClassificationForm';
 import { ProductVariantsForm } from '@/components/admin/catalog/products/ProductVariantsForm';
-import { emptyVariant } from '@/components/admin/catalog/products/types';
 import { useQuery } from '@tanstack/react-query';
 import { getClassificationHierarchyAction } from '@/actions/category/category_action';
 import { createProduct } from '@/actions/products/addNewProduct';
@@ -25,17 +24,23 @@ import { updateProduct } from '@/actions/products/updateProductAction';
 const defaultValues: ProductValidationType = {
   productTypeId: '',
   name: '',
-  slug: '',
   description: '',
   brand: '',
   material: '',
-  finish: '',
+  price: 0,
+  salePrice: 0,
   width: 0,
   height: 0,
   depth: 0,
   weightKg: 0,
   assemblyRequired: false,
-  variants: [emptyVariant],
+  variants: [
+    {
+      colorHex: '',
+      stock: 0,
+      images: [],
+    },
+  ],
 };
 
 interface NewProductFormProps {
@@ -55,7 +60,9 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   const formValues: ProductValidationType = {
     ...defaultValues,
     ...initialData,
-    variants: initialData?.variants?.length ? initialData.variants : [emptyVariant],
+    variants: initialData?.variants?.length
+      ? initialData.variants
+      : [{ colorHex: '', stock: 0, images: [] }],
   };
 
   const form = useForm({
@@ -124,7 +131,11 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
         <ProductIdentityForm mode={mode} form={form} />
         <ProductDimensionsForm mode={mode} form={form} />
         <ProductClassificationForm categories={categoryHierarchy ?? []} form={form} />
-        <ProductVariantsForm mode={mode} form={form} emptyVariant={emptyVariant} />
+        <ProductVariantsForm
+          mode={mode}
+          form={form}
+          emptyVariant={{ colorHex: '', stock: 0, images: [] }}
+        />
 
         {/* Form Actions */}
         <div className="flex items-center justify-between pt-4 border-t">
