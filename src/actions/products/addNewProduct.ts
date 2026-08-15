@@ -11,47 +11,6 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
     validatedData.variants.map(async (v) => {
       const rawImagesPayload = [];
       let sortOrder = 0;
-
-      // --- Handle Main Image ---
-      if (v.mainImage) {
-        let mainUrl = '';
-        if (typeof v.mainImage === 'string') {
-          mainUrl = v.mainImage;
-        } else if (v.mainImage instanceof File) {
-          const buffer = Buffer.from(await v.mainImage.arrayBuffer());
-          const uploadRes = await uploadFileToCloudinary(buffer, v.mainImage.name);
-          mainUrl = uploadRes.secure_url;
-        }
-
-        if (mainUrl) {
-          rawImagesPayload.push({
-            imageUrl: mainUrl,
-            type: 'MAIN' as const,
-            sortOrder: sortOrder++,
-          });
-        }
-      }
-
-      // --- Handle Hover Image ---
-      if (v.hoverImage) {
-        let hoverUrl = '';
-        if (typeof v.hoverImage === 'string') {
-          hoverUrl = v.hoverImage;
-        } else if (v.hoverImage instanceof File) {
-          const buffer = Buffer.from(await v.hoverImage.arrayBuffer());
-          const uploadRes = await uploadFileToCloudinary(buffer, v.hoverImage.name);
-          hoverUrl = uploadRes.secure_url;
-        }
-
-        if (hoverUrl) {
-          rawImagesPayload.push({
-            imageUrl: hoverUrl,
-            type: 'HOVER' as const,
-            sortOrder: sortOrder++,
-          });
-        }
-      }
-
       // --- Handle Gallery Images ---
       if (Array.isArray(v.gallery)) {
         for (const item of v.gallery) {
