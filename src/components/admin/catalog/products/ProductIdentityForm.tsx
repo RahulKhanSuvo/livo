@@ -42,28 +42,6 @@ export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
             )}
           </form.Field>
 
-          <form.Field name="slug">
-            {(field: AnyFieldApi) => (
-              <div className="space-y-1.5">
-                <Label htmlFor="product-slug">Slug *</Label>
-                <Input
-                  id="product-slug"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="e.g. mello-lounge-sofa"
-                  className="font-mono text-xs"
-                  autoComplete="off"
-                />
-                {field.state.meta.errors.length > 0 && (
-                  <p className="text-xs text-destructive">
-                    {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
-                  </p>
-                )}
-              </div>
-            )}
-          </form.Field>
-
           <form.Field name="description">
             {(field: AnyFieldApi) => (
               <div className="space-y-1.5">
