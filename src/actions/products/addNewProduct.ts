@@ -25,7 +25,6 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
           if (galleryUrl) {
             rawImagesPayload.push({
               imageUrl: galleryUrl,
-              type: 'GALLERY' as const,
               sortOrder: sortOrder++,
             });
           }

@@ -13,14 +13,11 @@ export const galleryImageSchema = z.union([existingImageSchema, z.instanceof(Fil
 
 export const productValidationSchema = z.object({
   id: z.string().optional(),
-
   productTypeId: z.string().min(1, 'Product type is required'),
-
   name: z.string().min(2, 'Name must be at least 2 characters').max(100),
-
   brand: z.string().min(1, 'Brand is required'),
   price: z.coerce.number().positive('Price is required'),
-  salePrice: z.coerce.number().min(0, 'Sale price cannot be negative'),
+  salePrice: z.coerce.number().min(0, 'Sale price cannot be negative').optional(),
   description: z.string().min(1, 'Description is required').max(1000),
 
   material: z.string().min(1, 'Material is required'),

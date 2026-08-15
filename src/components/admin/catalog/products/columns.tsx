@@ -1,17 +1,10 @@
 'use client';
 
-import {
-  Edit02Icon,
-  MoreHorizontalIcon,
-  EyeIcon,
-  Copy01Icon,
-  Delete02Icon,
-} from '@hugeicons/core-free-icons';
+import { Edit02Icon, MoreHorizontalIcon, EyeIcon, Delete02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { DataTableColumn } from '@/components/shared/data-table';
-import { Product } from '@/components/admin/catalog/products/types';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -21,29 +14,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { toast } from 'sonner';
+import { ProductValidationType } from '@/actions/products/productValidation';
 
-export const productColumns: DataTableColumn<Product>[] = [
+export const productColumns: DataTableColumn<ProductValidationType>[] = [
   {
     accessorKey: 'name',
     header: 'Product',
     cell: ({ row }) => {
       const product = row.original;
-      const mainImage =
-        product.variants?.[0]?.images?.find((img) => img.type === 'MAIN')?.imageUrl ||
-        product.variants?.[0]?.images?.[0]?.imageUrl;
+      const image = product.variants?.[0]?.images?.[0];
 
+      const imageUrl = image instanceof File ? URL.createObjectURL(image) : image?.imageUrl;
       return (
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 overflow-hidden rounded-lg border bg-muted shrink-0">
-            {mainImage ? (
-              <Image
-                src={mainImage}
-                alt={product.name}
-                fill
-                className="object-cover"
-                sizes="40px"
-              />
+            {imageUrl ? (
+              <Image src={imageUrl} alt={product.name} fill className="object-cover" sizes="40px" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
                 No img
@@ -52,7 +38,6 @@ export const productColumns: DataTableColumn<Product>[] = [
           </div>
           <div className="min-w-0">
             <div className="truncate font-medium text-foreground">{product.name}</div>
-            <div className="truncate text-xs text-muted-foreground">{product.slug}</div>
           </div>
         </div>
       );
@@ -67,18 +52,8 @@ export const productColumns: DataTableColumn<Product>[] = [
     id: 'price',
     header: 'Price Range',
     cell: ({ row }) => {
-      const variants = row.original.variants || [];
-      if (variants.length === 0) return '—';
-
-      const prices = variants.map((v) => Number(v.price));
-      const minPrice = Math.min(...prices);
-      const maxPrice = Math.max(...prices);
-
-      return (
-        <span className="font-semibold">
-          {minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} - $${maxPrice}`}
-        </span>
-      );
+      const price = row.original.price;
+      return <span className="font-semibold">{`$${price}`}</span>;
     },
   },
   {
@@ -111,11 +86,6 @@ export const productColumns: DataTableColumn<Product>[] = [
     cell: ({ row }) => {
       const product = row.original;
 
-      const handleCopyId = () => {
-        navigator.clipboard.writeText(product.id);
-        toast.success('Product ID copied to clipboard');
-      };
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -127,11 +97,6 @@ export const productColumns: DataTableColumn<Product>[] = [
           <DropdownMenuContent align="end" className="w-48">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-            <DropdownMenuItem onClick={handleCopyId}>
-              <HugeiconsIcon icon={Copy01Icon} className="mr-2 h-4 w-4 text-muted-foreground" />
-              Copy Product ID
-            </DropdownMenuItem>
-
             <DropdownMenuSeparator />
 
             <DropdownMenuItem asChild>
@@ -142,7 +107,7 @@ export const productColumns: DataTableColumn<Product>[] = [
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
-              <Link href={`/products/${product.slug}`} target="_blank">
+              <Link href={`/products/${product.id}`} target="_blank">
                 <HugeiconsIcon icon={EyeIcon} className="mr-2 h-4 w-4 text-muted-foreground" />
                 Preview in Store
               </Link>
