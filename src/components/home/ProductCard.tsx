@@ -31,26 +31,6 @@ const ProductCard = ({
         href={`${basePath}/${product.id}`}
         className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group"
       >
-        {/* {product.badges && product.badges.length > 0 && (
-          <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
-            {product.badges.map((badge, idx) => {
-              const bgColor =
-                badge.type === 'sale'
-                  ? 'bg-[#7A2A2A]'
-                  : badge.type === 'eco-friendly'
-                    ? 'bg-[#4B6B56]'
-                    : 'bg-[#2B54C6]';
-              return (
-                <span
-                  key={idx}
-                  className={`text-[11px] font-medium px-2.5 py-1 rounded-full text-white ${bgColor}`}
-                >
-                  {badge.label}
-                </span>
-              );
-            })}
-          </div>
-        )} */}
         <Image
           src={firstImageUrl}
           alt={product.name}
