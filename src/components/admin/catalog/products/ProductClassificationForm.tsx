@@ -41,23 +41,19 @@ function findClassification(categories: CategoryTree, productTypeId: string) {
 export function ProductClassificationForm({ form, categories }: ProductClassificationFormProps) {
   const productTypeId = form.getFieldValue('productTypeId');
 
-  /*
-   * Initialize from existing product when editing.
-   */
-  const initialClassification = findClassification(categories, productTypeId);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState('');
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState(initialClassification.categoryId);
+  const derivedClassification = findClassification(categories, productTypeId);
+  const effectiveCategoryId = selectedCategoryId || derivedClassification.categoryId;
+  const effectiveSubCategoryId = selectedSubCategoryId || derivedClassification.subCategoryId;
 
-  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(
-    initialClassification.subCategoryId
-  );
-
-  const activeCategory = categories.find((category) => category.id === selectedCategoryId);
+  const activeCategory = categories.find((category) => category.id === effectiveCategoryId);
 
   const subCategories = activeCategory?.subCategories ?? [];
 
   const activeSubCategory = subCategories.find(
-    (subCategory) => subCategory.id === selectedSubCategoryId
+    (subCategory) => subCategory.id === effectiveSubCategoryId
   );
 
   const productTypes = activeSubCategory?.productTypes ?? [];
@@ -75,7 +71,7 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
             <Label>Category</Label>
 
             <Select
-              value={selectedCategoryId}
+              value={effectiveCategoryId}
               onValueChange={(categoryId) => {
                 setSelectedCategoryId(categoryId);
                 setSelectedSubCategoryId('');
@@ -102,8 +98,8 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
             <Label>Sub-Category</Label>
 
             <Select
-              disabled={!selectedCategoryId || subCategories.length === 0}
-              value={selectedSubCategoryId}
+              disabled={!effectiveCategoryId || subCategories.length === 0}
+              value={effectiveSubCategoryId}
               onValueChange={(subCategoryId) => {
                 setSelectedSubCategoryId(subCategoryId);
 
@@ -113,7 +109,7 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
               <SelectTrigger className="w-full">
                 <SelectValue
                   placeholder={
-                    !selectedCategoryId ? 'Select category first' : 'Select Sub-Category'
+                    !effectiveCategoryId ? 'Select category first' : 'Select Sub-Category'
                   }
                 />
               </SelectTrigger>
@@ -135,7 +131,7 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
                 <Label>Product Type *</Label>
 
                 <Select
-                  disabled={!selectedSubCategoryId || productTypes.length === 0}
+                  disabled={!effectiveSubCategoryId || productTypes.length === 0}
                   value={field.state.value}
                   onValueChange={(typeId) => {
                     field.handleChange(typeId);
@@ -144,7 +140,9 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
                   <SelectTrigger className="w-full">
                     <SelectValue
                       placeholder={
-                        !selectedSubCategoryId ? 'Select sub-category first' : 'Select Product Type'
+                        !effectiveSubCategoryId
+                          ? 'Select sub-category first'
+                          : 'Select Product Type'
                       }
                     />
                   </SelectTrigger>
