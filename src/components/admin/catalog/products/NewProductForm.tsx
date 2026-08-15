@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useForm } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { PlusSignIcon, ChevronRightIcon } from '@hugeicons/core-free-icons';
+import { PlusSignIcon, ChevronRightIcon, EditIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { ProductValidationType } from '@/actions/products/productValidation';
 import { ProductIdentityForm } from '@/components/admin/catalog/products/ProductIdentityForm';
@@ -33,7 +33,7 @@ const defaultValues: ProductValidationType = {
   variants: [emptyVariant],
 };
 
-export default function NewProductForm() {
+export default function NewProductForm({ mode = 'create' }: { mode?: 'create' | 'edit' }) {
   const { data: categoryHierarchy } = useQuery({
     queryKey: ['category'],
     queryFn: () => getClassificationHierarchyAction(),
@@ -67,16 +67,18 @@ export default function NewProductForm() {
           <p>Products</p>
         </Link>
         <HugeiconsIcon icon={ChevronRightIcon} size={16} />
-        <p>Add Product</p>
+        <p>{mode === 'create' ? 'Add Product' : 'Edit Product'}</p>
       </div>
       {/* Header */}
       <div className="flex items-center gap-3">
         <div>
           <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Add product
+            {mode === 'create' ? 'Add Product' : 'Edit Product'}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Fill in the details below to create a new product in your catalogue.
+            {mode === 'create'
+              ? 'Fill in the details below to create a new product in your catalogue.'
+              : 'Fill in the details below to edit the product in your catalogue.'}
           </p>
         </div>
       </div>
@@ -103,8 +105,14 @@ export default function NewProductForm() {
           <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
               <Button type="submit" disabled={!canSubmit || isSubmitting} className="gap-1.5">
-                <HugeiconsIcon icon={PlusSignIcon} size={16} />
-                {isSubmitting ? 'Creating...' : 'Create product'}
+                <HugeiconsIcon icon={mode === 'create' ? PlusSignIcon : EditIcon} size={16} />
+                {isSubmitting
+                  ? mode === 'create'
+                    ? 'Creating...'
+                    : 'Updating...'
+                  : mode === 'create'
+                    ? 'Create product'
+                    : 'Update product'}
               </Button>
             )}
           </form.Subscribe>
