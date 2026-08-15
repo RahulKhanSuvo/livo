@@ -38,6 +38,18 @@ const ProductList = ({ queryKey }: ProductListProps) => {
     gcTime: 1000 * 60 * 60 * 6,
   });
 
+  if (!data.products.length) {
+    return (
+      <div className="flex min-h-75 flex-col items-center justify-center text-center">
+        <h3 className="text-base font-medium text-neutral-900">No products found</h3>
+
+        <p className="mt-1 text-sm text-neutral-500">
+          Try adjusting your search or filter to find what you&apos;re looking for.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid flex-1 grid-cols-3 gap-3">
       {data.products.map((item) => (
