@@ -61,8 +61,8 @@ const SofaPage = async ({
         page,
         limit,
         search,
-        sortBy as 'asc' | 'desc',
-        sortOrder as 'createdAt' | 'price'
+        sortOrder as 'asc' | 'desc',
+        sortBy as 'createdAt' | 'price'
       ),
 
     staleTime: 1000 * 60 * 60,

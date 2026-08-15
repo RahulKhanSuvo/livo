@@ -1,25 +1,50 @@
 'use client';
+
 import ProductCard from '../home/ProductCard';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery, type QueryKey } from '@tanstack/react-query';
 import { getAllFurniture } from '@/actions/furniture/getAllFurniture';
 import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
-const ProductList = () => {
-  const { data, isLoading } = useSuspenseQuery<GetAllFurnitureResponse>({
-    queryKey: ['product'],
-    queryFn: () => getAllFurniture(),
-    staleTime: 1000 * 60 * 60, // 1 hour
-    gcTime: 1000 * 60 * 60 * 6, // 6 hours
+
+interface ProductListProps {
+  queryKey: QueryKey;
+}
+
+const ProductList = ({ queryKey }: ProductListProps) => {
+  const { data } = useSuspenseQuery<GetAllFurnitureResponse>({
+    queryKey,
+
+    queryFn: () => {
+      const [, params] = queryKey as [
+        string,
+        {
+          search: string;
+          sortBy: string;
+          sortOrder: 'asc' | 'desc';
+          page: number;
+          limit: number;
+        },
+      ];
+
+      return getAllFurniture(
+        params.page,
+        params.limit,
+        params.search,
+        params.sortOrder,
+        params.sortBy as 'createdAt' | 'price'
+      );
+    },
+
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60 * 6,
   });
-  console.log(data);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+
   return (
-    <div className="grid grid-cols-3 flex-1 gap-3 ">
-      {data?.products.map((item) => (
+    <div className="grid flex-1 grid-cols-3 gap-3">
+      {data.products.map((item) => (
         <ProductCard basePath="living-room/chair" key={item.id} product={item} />
       ))}
     </div>
   );
 };
+
 export default ProductList;
