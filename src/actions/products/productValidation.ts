@@ -37,7 +37,11 @@ export const productValidationSchema = z.object({
       z.object({
         id: z.string().optional(),
 
-        colorHex: z.string().regex(/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/, 'Invalid HEX color'),
+        colorHex: z
+          .string()
+          .regex(/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/, 'Invalid HEX color')
+          .nullable()
+          .optional(),
 
         stock: z.coerce.number().int().min(0, 'Stock cannot be negative'),
 
