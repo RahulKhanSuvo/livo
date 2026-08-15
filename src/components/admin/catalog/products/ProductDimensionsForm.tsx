@@ -23,27 +23,6 @@ export function ProductDimensionsForm({ form, mode }: ProductDimensionsFormProps
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-4">
-          <form.Field name="finish">
-            {(field: AnyFieldApi) => (
-              <div className="space-y-1.5">
-                <Label htmlFor="product-finish">Finish</Label>
-                <Input
-                  id="product-finish"
-                  value={field.state.value ?? ''}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="e.g. Natural, Walnut"
-                  autoComplete="off"
-                />
-                {field.state.meta.errors.length > 0 && (
-                  <FieldError>
-                    {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
-                  </FieldError>
-                )}
-              </div>
-            )}
-          </form.Field>
-
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {['width', 'height', 'depth', 'weightKg'].map((dim) => (
               <form.Field key={dim} name={dim as 'width' | 'height' | 'depth' | 'weightKg'}>
