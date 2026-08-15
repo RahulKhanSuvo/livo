@@ -26,26 +26,7 @@ export type VariantForm = {
   price: number;
   salePrice: number | undefined;
   stock: number;
-  gallery: string[];
-};
-
-export type FormValues = {
-  name: string;
-  slug: string;
-  brand: string;
-  material: string;
-  description: string;
-  categoryName: string;
-  subcategoryName: string;
-  productTypeName: string;
-  productTypeId: string;
-  width: number | undefined;
-  height: number | undefined;
-  depth: number | undefined;
-  weightKg: number | undefined;
-  finish: string;
-  assemblyRequired: boolean;
-  variants: VariantForm[];
+  images: string[];
 };
 
 export type CategoryTree = Category[];
@@ -56,9 +37,6 @@ export const emptyForm: ProductValidationType = {
   brand: '',
   material: '',
   description: '',
-  categoryName: '',
-  subcategoryName: '',
-  productTypeName: '',
   productTypeId: '',
   width: 0,
   height: 0,
@@ -73,7 +51,7 @@ export const emptyForm: ProductValidationType = {
       price: 0,
       salePrice: undefined,
       stock: 0,
-      gallery: [],
+      images: [],
     },
   ],
 };
@@ -84,7 +62,7 @@ export const emptyVariant: VariantForm = {
   price: 0,
   salePrice: undefined,
   stock: 0,
-  gallery: [],
+  images: [],
 };
 
 export const STEPS = ['Identity', 'Classification', 'Variants'] as const;

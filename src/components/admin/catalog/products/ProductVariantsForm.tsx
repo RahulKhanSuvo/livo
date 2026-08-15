@@ -182,7 +182,7 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                   </div>
 
                   {/* Gallery Section with strict 4 limit */}
-                  <form.Field name={`variants[${index}].gallery`}>
+                  <form.Field name={`variants[${index}].images`}>
                     {(galleryField: AnyFieldApi) => (
                       <GallerySectionImageAdd galleryField={galleryField} />
                     )}
