@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
+import { FieldError } from '@/components/ui/field';
 
 interface ProductIdentityFormProps {
   form: ProductForm;
@@ -74,6 +75,11 @@ export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
                   onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="A short note on form, function and feeling."
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-xs text-destructive">
+                    {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -91,6 +97,11 @@ export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
                     placeholder="e.g. SITS"
                     autoComplete="off"
                   />
+                  {field.state.meta.errors.length > 0 && (
+                    <FieldError>
+                      {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
+                    </FieldError>
+                  )}
                 </div>
               )}
             </form.Field>
@@ -107,6 +118,11 @@ export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
                     placeholder="e.g. Oak, bouclé"
                     autoComplete="off"
                   />
+                  {field.state.meta.errors.length > 0 && (
+                    <FieldError>
+                      {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
+                    </FieldError>
+                  )}
                 </div>
               )}
             </form.Field>

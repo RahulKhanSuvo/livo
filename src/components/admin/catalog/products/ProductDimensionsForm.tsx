@@ -6,6 +6,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
+import { FieldError } from '@/components/ui/field';
 
 interface ProductDimensionsFormProps {
   form: ProductForm;
@@ -34,6 +35,11 @@ export function ProductDimensionsForm({ form, mode }: ProductDimensionsFormProps
                   placeholder="e.g. Natural, Walnut"
                   autoComplete="off"
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <FieldError>
+                    {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
+                  </FieldError>
+                )}
               </div>
             )}
           </form.Field>
@@ -56,6 +62,11 @@ export function ProductDimensionsForm({ form, mode }: ProductDimensionsFormProps
                       min={0}
                       step="0.01"
                     />
+                    {field.state.meta.errors.length > 0 && (
+                      <FieldError>
+                        {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
+                      </FieldError>
+                    )}
                   </div>
                 )}
               </form.Field>
