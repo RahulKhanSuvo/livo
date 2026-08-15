@@ -105,6 +105,7 @@ export function GallerySectionImageAdd({ galleryField }: GallerySectionImageAddP
                 src={imageSrc}
                 alt={`Gallery image ${index + 1}`}
                 fill
+                sizes="(max-width: 768px) 33vw, 150px"
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 unoptimized={isFile}
               />

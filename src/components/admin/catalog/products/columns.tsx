@@ -37,7 +37,13 @@ export const productColumns: DataTableColumn<Product>[] = [
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 overflow-hidden rounded-lg border bg-muted shrink-0">
             {mainImage ? (
-              <Image src={mainImage} alt={product.name} fill className="object-cover" />
+              <Image
+                src={mainImage}
+                alt={product.name}
+                fill
+                className="object-cover"
+                sizes="40px"
+              />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
                 No img
