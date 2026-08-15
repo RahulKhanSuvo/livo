@@ -91,6 +91,13 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                               className="font-mono text-xs uppercase"
                             />
                           </div>
+                          {subField.state.meta.errors.length > 0 && (
+                            <p className="text-xs text-destructive">
+                              {subField.state.meta.errors
+                                .map((err) => (typeof err === 'string' ? err : err.message))
+                                .join(', ')}
+                            </p>
+                          )}
                         </div>
                       )}
                     </form.Field>
@@ -108,6 +115,13 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                             value={subField.state.value}
                             onChange={(e) => subField.handleChange(e.target.value)}
                           />
+                          {subField.state.meta.errors.length > 0 && (
+                            <p className="text-xs text-destructive">
+                              {subField.state.meta.errors
+                                .map((err) => (typeof err === 'string' ? err : err.message))
+                                .join(', ')}
+                            </p>
+                          )}
                         </div>
                       )}
                     </form.Field>
@@ -131,6 +145,13 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                               )
                             }
                           />
+                          {subField.state.meta.errors.length > 0 && (
+                            <p className="text-xs text-destructive">
+                              {subField.state.meta.errors
+                                .map((err) => (typeof err === 'string' ? err : err.message))
+                                .join(', ')}
+                            </p>
+                          )}
                         </div>
                       )}
                     </form.Field>
@@ -154,6 +175,13 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                               )
                             }
                           />
+                          {subField.state.meta.errors.length > 0 && (
+                            <p className="text-xs text-destructive">
+                              {subField.state.meta.errors
+                                .map((err) => (typeof err === 'string' ? err : err.message))
+                                .join(', ')}
+                            </p>
+                          )}
                         </div>
                       )}
                     </form.Field>
@@ -176,6 +204,13 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                               )
                             }
                           />
+                          {subField.state.meta.errors.length > 0 && (
+                            <p className="text-xs text-destructive">
+                              {subField.state.meta.errors
+                                .map((err) => (typeof err === 'string' ? err : err.message))
+                                .join(', ')}
+                            </p>
+                          )}
                         </div>
                       )}
                     </form.Field>

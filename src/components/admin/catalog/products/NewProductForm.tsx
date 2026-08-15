@@ -132,18 +132,29 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
             <Link href="/admin/catalog/products">Cancel</Link>
           </Button>
 
-          <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-            {([canSubmit, isSubmitting]) => (
-              <Button type="submit" disabled={!canSubmit || isSubmitting} className="gap-1.5">
-                <HugeiconsIcon icon={mode === 'create' ? PlusSignIcon : EditIcon} size={16} />
-                {isSubmitting
-                  ? mode === 'create'
-                    ? 'Creating...'
-                    : 'Updating...'
-                  : mode === 'create'
-                    ? 'Create product'
-                    : 'Update product'}
-              </Button>
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting, state.errorMap] as const}
+          >
+            {([canSubmit, isSubmitting, errorMap]) => (
+              <div className="flex items-center gap-4">
+                {errorMap && errorMap.onChange && (
+                  <span className="text-xs text-destructive max-w-sm overflow-auto">
+                    {typeof errorMap.onChange === 'string'
+                      ? errorMap.onChange
+                      : JSON.stringify(errorMap.onChange)}
+                  </span>
+                )}
+                <Button type="submit" disabled={!canSubmit || isSubmitting} className="gap-1.5">
+                  <HugeiconsIcon icon={mode === 'create' ? PlusSignIcon : EditIcon} size={16} />
+                  {isSubmitting
+                    ? mode === 'create'
+                      ? 'Creating...'
+                      : 'Updating...'
+                    : mode === 'create'
+                      ? 'Create product'
+                      : 'Update product'}
+                </Button>
+              </div>
             )}
           </form.Subscribe>
         </div>
