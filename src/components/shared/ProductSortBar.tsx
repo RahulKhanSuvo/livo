@@ -2,11 +2,16 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { sortOptionsData } from '@/data/sort-options.data';
-import { Check } from '@hugeicons/core-free-icons';
-import { HugeiconsIcon } from '@hugeicons/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export interface ProductSortBarProps {
   totalProducts?: number;
@@ -23,25 +28,22 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
   const activeOption =
     sortOptionsData.find((option) => option.id === currentSort) ?? sortOptionsData[0];
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleSelect = (sortId: string) => {
+  const handleSortChange = (sort: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    params.set('sort', sortId);
+    params.set('sort', sort);
 
-    // When sorting changes, go back to page 1
+    // Reset pagination when sorting changes
     params.set('page', '1');
 
     router.push(`${pathname}?${params.toString()}`);
-
-    setOpen(false);
   };
 
   return (
     <div
       className={cn(
-        'flex w-full items-center justify-between bg-white py-5 text-neutral-900',
+        'flex w-full items-center justify-between',
+        'bg-white py-5 text-neutral-900',
         className
       )}
     >
@@ -51,45 +53,46 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
       </span>
 
       {/* Sort */}
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger className="flex items-center gap-1.5 text-xs text-neutral-600 transition-colors hover:text-neutral-900 focus:outline-none sm:text-sm">
-          <span className="font-light">Sort by:</span>
+      <div className="flex items-center">
+        <span className="text-xs font-light text-neutral-500 sm:text-sm">Sort by:</span>
 
-          <span className="font-medium text-neutral-900">{activeOption.label}</span>
-        </PopoverTrigger>
+        <Select value={currentSort} onValueChange={handleSortChange}>
+          <SelectTrigger
+            className={cn(
+              'h-auto w-auto border-0 bg-transparent',
+              'px-1.5 py-0',
+              'text-xs font-medium text-neutral-900 sm:text-sm',
+              'shadow-none',
+              'hover:text-neutral-600',
+              'focus:ring-0 focus:ring-offset-0',
+              'focus-visible:ring-0 focus-visible:ring-offset-0'
+            )}
+          >
+            <SelectValue>{activeOption.label}</SelectValue>
+          </SelectTrigger>
 
-        <PopoverContent
-          align="end"
-          sideOffset={8}
-          className="w-56 rounded-xl border border-neutral-100 bg-white p-2 shadow-lg"
-        >
-          <div className="flex flex-col space-y-0.5">
-            {sortOptionsData.map((option) => {
-              const isSelected = option.id === currentSort;
-
-              return (
-                <button
-                  key={option.id}
-                  type="button"
-                  onClick={() => handleSelect(option.id)}
-                  className={cn(
-                    'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs transition-colors',
-                    isSelected
-                      ? 'bg-neutral-100/80 font-medium text-neutral-900'
-                      : 'font-normal text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900'
-                  )}
-                >
-                  <span>{option.label}</span>
-
-                  {isSelected && (
-                    <HugeiconsIcon icon={Check} className="h-3.5 w-3.5 text-neutral-800" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </PopoverContent>
-      </Popover>
+          <SelectContent
+            align="end"
+            sideOffset={8}
+            className="w-52 rounded-xl border-neutral-100 p-1.5 shadow-lg"
+          >
+            {sortOptionsData.map((option) => (
+              <SelectItem
+                key={option.id}
+                value={option.id}
+                className={cn(
+                  'cursor-pointer rounded-lg',
+                  'px-3 py-2',
+                  'text-xs sm:text-sm',
+                  'focus:bg-neutral-100 focus:text-neutral-900'
+                )}
+              >
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 };
