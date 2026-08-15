@@ -6,10 +6,7 @@ import { useForm } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { PlusSignIcon, ChevronRightIcon, EditIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
-import {
-  productValidationSchema,
-  ProductValidationType,
-} from '@/actions/products/productValidation';
+import { ProductValidationType } from '@/actions/products/productValidation';
 import { ProductIdentityForm } from '@/components/admin/catalog/products/ProductIdentityForm';
 import { ProductDimensionsForm } from '@/components/admin/catalog/products/ProductDimensionsForm';
 import { ProductClassificationForm } from '@/components/admin/catalog/products/ProductClassificationForm';
