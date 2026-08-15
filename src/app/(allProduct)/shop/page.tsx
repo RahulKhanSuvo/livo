@@ -11,7 +11,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 
 import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
-import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
+import { FurnitureQuery, furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
 import { ActionResponse } from '@/lib/createSafeAction';
 
 const SofaPage = async ({
@@ -25,16 +25,12 @@ const SofaPage = async ({
 
   const parsed = furnitureQuerySchema.safeParse(queryParams);
 
-  // If somehow parsing fails (shouldn't happen with .catch() guards), fall back to defaults
   const { search, sortBy, sortOrder, page, limit } = parsed.success
     ? parsed.data
     : furnitureQuerySchema.parse({});
 
-  // Define a type for the parsed query parameters
-  type FurnitureQueryParameters = z.infer<typeof furnitureQuerySchema>;
-
   // Explicitly type the parameters object within the queryKey
-  const queryParameters: FurnitureQueryParameters = {
+  const queryParameters: FurnitureQuery = {
     search,
     sortBy,
     sortOrder,
@@ -42,10 +38,7 @@ const SofaPage = async ({
     limit,
   };
 
-  const queryKey = [
-    'products',
-    queryParameters, // Use the explicitly typed object here
-  ];
+  const queryKey = ['products', queryParameters];
 
   const queryClient = new QueryClient();
 
