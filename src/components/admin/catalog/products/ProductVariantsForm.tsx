@@ -21,7 +21,6 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
     <form.Field name="variants" mode="array">
       {(field: AnyFieldApi) => (
         <div className="space-y-8">
-          {/* Section Header */}
           <div className="flex items-center justify-between border-b pb-4">
             <div>
               <h2 className="text-lg font-semibold tracking-tight">
@@ -43,7 +42,6 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
             </Button>
           </div>
 
-          {/* Variant Cards List */}
           <div className="space-y-6">
             {field.state.value.map((_: VariantForm, index: number) => (
               <Card key={index} className="overflow-hidden border-border/80 shadow-xs">
