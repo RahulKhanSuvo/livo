@@ -9,13 +9,14 @@ import { type AnyFieldApi } from '@tanstack/form-core';
 
 interface ProductIdentityFormProps {
   form: ProductForm;
+  mode: 'create' | 'edit';
 }
 
-export function ProductIdentityForm({ form }: ProductIdentityFormProps) {
+export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
   return (
     <Card>
       <CardHeader className="border-b">
-        <CardTitle>Identity</CardTitle>
+        <CardTitle>{mode === 'create' ? 'Identity' : 'Edit Identity'}</CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-4">

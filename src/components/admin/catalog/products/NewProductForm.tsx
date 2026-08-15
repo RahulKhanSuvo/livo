@@ -91,10 +91,10 @@ export default function NewProductForm({ mode = 'create' }: { mode?: 'create' | 
         }}
         className="flex flex-col gap-6"
       >
-        <ProductIdentityForm form={form} />
-        <ProductDimensionsForm form={form} />
-        <ProductClassificationForm categories={categoryHierarchy ?? []} form={form} />
-        <ProductVariantsForm form={form} emptyVariant={emptyVariant} />
+        <ProductIdentityForm mode={mode} form={form} />
+        <ProductDimensionsForm mode={mode} form={form} />
+        <ProductClassificationForm mode={mode} categories={categoryHierarchy ?? []} form={form} />
+        <ProductVariantsForm mode={mode} form={form} emptyVariant={emptyVariant} />
 
         {/* Form Actions */}
         <div className="flex items-center justify-between pt-4 border-t">
