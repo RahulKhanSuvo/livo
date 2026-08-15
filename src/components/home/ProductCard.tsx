@@ -36,7 +36,7 @@ const ProductCard = ({
           alt={product.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-contain p-6 transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+          className="absolute inset-0 object-cover p-6 transition-opacity duration-700 ease-in-out group-hover:opacity-0"
         />
 
         <Image
@@ -44,7 +44,7 @@ const ProductCard = ({
           alt={product.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-contain p-6 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+          className="absolute inset-0 object-cover p-6 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
         />
         <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
           <Button variant={'main'} className={'w-[90%]'}>
