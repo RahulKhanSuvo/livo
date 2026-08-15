@@ -51,7 +51,6 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   const formValues: ProductValidationType = {
     ...defaultValues,
     ...initialData,
-    // Fallback variants if edit data returns empty array
     variants: initialData?.variants?.length ? initialData.variants : [emptyVariant],
   };
 

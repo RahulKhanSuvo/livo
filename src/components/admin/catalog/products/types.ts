@@ -26,8 +26,6 @@ export type VariantForm = {
   price: number;
   salePrice: number | undefined;
   stock: number;
-  mainImage: string;
-  hoverImage?: string;
   gallery: string[];
 };
 
@@ -75,8 +73,6 @@ export const emptyForm: FormValues = {
       price: 0,
       salePrice: undefined,
       stock: 0,
-      mainImage: '',
-      hoverImage: '',
       gallery: [],
     },
   ],
@@ -88,8 +84,6 @@ export const emptyVariant: VariantForm = {
   price: 0,
   salePrice: undefined,
   stock: 0,
-  mainImage: '',
-  hoverImage: '',
   gallery: [],
 };
 

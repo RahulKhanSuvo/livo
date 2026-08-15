@@ -1,14 +1,7 @@
 'use client';
 
-import Image from 'next/image';
-import { useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  PlusSignIcon,
-  Delete02Icon,
-  Upload01Icon,
-  CheckmarkBadge01Icon,
-} from '@hugeicons/core-free-icons';
+import { PlusSignIcon, Delete02Icon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,98 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type VariantForm, type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 import { GallerySectionImageAdd } from './GallerySectionImageAdd';
-
-// Single Image Upload Card Component (Main / Hover Image)
-function SingleImageUpload({
-  label,
-  required = false,
-  field,
-}: {
-  label: string;
-  required?: boolean;
-  field: AnyFieldApi;
-}) {
-  const file = field.state.value as File | undefined | null;
-
-  const previewUrl = useMemo(() => {
-    if (file instanceof File) {
-      return URL.createObjectURL(file);
-    }
-    return null;
-  }, [file]);
-
-  const error = field.state.meta.errors[0];
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {label} {required && <span className="text-destructive">*</span>}
-        </Label>
-        {file && (
-          <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-600">
-            <HugeiconsIcon icon={CheckmarkBadge01Icon} size={12} /> Uploaded
-          </span>
-        )}
-      </div>
-
-      <div className="relative group aspect-video w-full overflow-hidden rounded-xl border-2 border-dashed border-muted-foreground/20 bg-muted/30 transition-all hover:border-primary/50 hover:bg-muted/50">
-        {previewUrl ? (
-          <>
-            <Image src={previewUrl} alt={label} fill className="object-cover" />
-            <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100 flex items-center justify-center gap-2">
-              <Label
-                htmlFor={`file-input-${field.name}`}
-                className="cursor-pointer rounded-lg bg-background/90 px-3 py-1.5 text-xs font-medium shadow-xs hover:bg-background"
-              >
-                Change
-              </Label>
-              <Button
-                type="button"
-                variant="destructive"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => field.handleChange(undefined)}
-              >
-                <HugeiconsIcon icon={Delete02Icon} size={14} />
-              </Button>
-            </div>
-          </>
-        ) : (
-          <Label
-            htmlFor={`file-input-${field.name}`}
-            className="flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2 p-4 text-center"
-          >
-            <div className="rounded-full bg-background p-2.5 shadow-xs border">
-              <HugeiconsIcon icon={Upload01Icon} size={18} className="text-muted-foreground" />
-            </div>
-            <div>
-              <p className="text-xs font-medium text-foreground">Click to upload</p>
-              <p className="text-[10px] text-muted-foreground">PNG, JPG, WEBP up to 5MB</p>
-            </div>
-          </Label>
-        )}
-
-        <input
-          id={`file-input-${field.name}`}
-          type="file"
-          accept="image/*"
-          className="sr-only"
-          onChange={(e) => {
-            const selectedFile = e.target.files?.[0];
-            field.handleChange(selectedFile ?? undefined);
-          }}
-        />
-      </div>
-
-      {error && (
-        <p className="text-xs font-medium text-destructive">
-          {typeof error === 'string' ? error : error?.message}
-        </p>
-      )}
-    </div>
-  );
-}
 
 // Gallery Component (Max 4 Images Limit)
 
@@ -281,28 +182,6 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
                             }
                           />
                         </div>
-                      )}
-                    </form.Field>
-                  </div>
-
-                  {/* Section Divider */}
-                  <div className="relative border-t">
-                    <span className="absolute left-0 -top-2.5 bg-card pr-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                      Media Uploads
-                    </span>
-                  </div>
-
-                  {/* Primary Images */}
-                  <div className="grid gap-6 sm:grid-cols-2">
-                    <form.Field name={`variants[${index}].mainImage`}>
-                      {(subField: AnyFieldApi) => (
-                        <SingleImageUpload label="Main Image" required field={subField} />
-                      )}
-                    </form.Field>
-
-                    <form.Field name={`variants[${index}].hoverImage`}>
-                      {(subField: AnyFieldApi) => (
-                        <SingleImageUpload label="Hover Image" field={subField} />
                       )}
                     </form.Field>
                   </div>

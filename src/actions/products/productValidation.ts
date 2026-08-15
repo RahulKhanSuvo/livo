@@ -27,9 +27,6 @@ export const productValidationSchema = z.object({
         price: z.number().positive('Price is required'),
         salePrice: z.number().optional(),
         stock: z.number().int().min(0, 'Stock cannot be negative'),
-
-        mainImage: z.any().refine((val) => !!val, 'Main image is required'),
-        hoverImage: z.any().optional(),
         gallery: z.array(z.any()).min(1, 'At least one gallery image is required'),
       })
     )
