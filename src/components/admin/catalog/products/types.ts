@@ -23,19 +23,17 @@ export type ProductType = {
 export type VariantForm = {
   id?: string;
   colorHex: string;
-  sku: string;
-  price: number;
-  salePrice: number;
   stock: number;
-  images: string[];
+  images: File[];
 };
 
 export type CategoryTree = Category[];
 
 export const emptyForm: ProductValidationType = {
   name: '',
-  slug: '',
   brand: '',
+  price: 0,
+  salePrice: 0,
   material: '',
   description: '',
   productTypeId: '',
@@ -43,27 +41,14 @@ export const emptyForm: ProductValidationType = {
   height: 0,
   depth: 0,
   weightKg: 0,
-  finish: '',
   assemblyRequired: false,
   variants: [
     {
       colorHex: '',
-      sku: '',
-      price: 0,
-      salePrice: 0,
       stock: 0,
       images: [],
     },
   ],
-};
-
-export const emptyVariant: VariantForm = {
-  colorHex: '',
-  sku: '',
-  price: 0,
-  salePrice: 0,
-  stock: 0,
-  images: [],
 };
 
 export const STEPS = ['Identity', 'Classification', 'Variants'] as const;
