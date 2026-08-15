@@ -22,10 +22,10 @@ export type ProductType = {
 
 export type VariantForm = {
   id?: string;
-  colorHex?: string;
+  colorHex: string;
   sku: string;
   price: number;
-  salePrice: number | undefined;
+  salePrice: number;
   stock: number;
   images: string[];
 };
@@ -61,7 +61,7 @@ export const emptyVariant: VariantForm = {
   colorHex: '',
   sku: '',
   price: 0,
-  salePrice: undefined,
+  salePrice: 0,
   stock: 0,
   images: [],
 };
