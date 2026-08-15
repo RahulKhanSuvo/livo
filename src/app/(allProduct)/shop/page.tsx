@@ -15,20 +15,14 @@ const SofaPage = async ({
 }) => {
   const queryParamsObjects = await searchParams;
   const queryClient = new QueryClient();
-  const {
-    search = '',
-    sortBy = 'asc',
-    sortOrder = 'createdAt',
-    page = '1',
-    limit = '10',
-  } = queryParamsObjects;
+  const { search = '', sortBy = 'asc', sortOrder = 'createdAt' } = queryParamsObjects;
   console.log('searchParamsObjects', queryParamsObjects);
   await queryClient.prefetchQuery({
     queryKey: ['product', queryParamsObjects],
     queryFn: () =>
       getAllFurniture(
-        Number(page || 1),
-        Number(limit || 10),
+        Number(queryParamsObjects.page || 1),
+        Number(queryParamsObjects.limit || 10),
         search as string,
         sortBy as 'asc' | 'desc',
         sortOrder as 'createdAt' | 'price'

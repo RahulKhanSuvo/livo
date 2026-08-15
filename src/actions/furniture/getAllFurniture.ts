@@ -7,7 +7,7 @@ export async function getAllFurniture(
   limit: number = 10,
   search: string = '',
   sortBy?: 'asc' | 'desc',
-  sortOrder?: 'createdAt' | 'price'
+  sortOrder?: 'createdAt' | 'price' | 'soldCount'
 ) {
   try {
     const skip = (page - 1) * limit;

@@ -1,55 +1,63 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { sortOptionsData } from '@/data/sort-options.data';
 import { Check } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 export interface ProductSortBarProps {
   totalProducts?: number;
-  onSortChange?: (sortId: string) => void;
   className?: string;
 }
 
-export const ProductSortBar: React.FC<ProductSortBarProps> = ({
-  totalProducts = 0,
-  onSortChange,
-  className,
-}) => {
-  const [selectedSort, setSelectedSort] = useState<string>('best-selling');
-  const [open, setOpen] = useState(false);
+export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 0, className }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const activeOption = sortOptionsData.find((opt) => opt.id === selectedSort) || sortOptionsData[2];
+  const currentSort = searchParams.get('sort') ?? 'createdAt:desc';
+
+  const activeOption =
+    sortOptionsData.find((option) => option.id === currentSort) ?? sortOptionsData[0];
+
+  const [open, setOpen] = React.useState(false);
 
   const handleSelect = (sortId: string) => {
-    setSelectedSort(sortId);
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set('sort', sortId);
+
+    // When sorting changes, go back to page 1
+    params.set('page', '1');
+
+    router.push(`${pathname}?${params.toString()}`);
+
     setOpen(false);
-    if (onSortChange) {
-      onSortChange(sortId);
-    }
   };
 
   return (
     <div
       className={cn(
-        'flex w-full items-center justify-between py-5 bg-white text-neutral-900',
+        'flex w-full items-center justify-between bg-white py-5 text-neutral-900',
         className
       )}
     >
-      {/* Left: Product Count */}
-      <span className="text-xs sm:text-sm font-normal text-neutral-800">
+      {/* Product count */}
+      <span className="text-xs font-normal text-neutral-800 sm:text-sm">
         {totalProducts} products
       </span>
 
-      {/* Right: Sort By Dropdown */}
+      {/* Sort */}
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger className="flex items-center gap-1.5 text-xs sm:text-sm text-neutral-600 hover:text-neutral-900 focus:outline-none transition-colors">
+        <PopoverTrigger className="flex items-center gap-1.5 text-xs text-neutral-600 transition-colors hover:text-neutral-900 focus:outline-none sm:text-sm">
           <span className="font-light">Sort by:</span>
+
           <span className="font-medium text-neutral-900">{activeOption.label}</span>
         </PopoverTrigger>
 
-        {/* Popover Card with Tooltip Arrow */}
         <PopoverContent
           align="end"
           sideOffset={8}
@@ -57,7 +65,7 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({
         >
           <div className="flex flex-col space-y-0.5">
             {sortOptionsData.map((option) => {
-              const isSelected = option.id === selectedSort;
+              const isSelected = option.id === currentSort;
 
               return (
                 <button
@@ -65,13 +73,14 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({
                   type="button"
                   onClick={() => handleSelect(option.id)}
                   className={cn(
-                    'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs font-normal transition-colors',
+                    'flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs transition-colors',
                     isSelected
                       ? 'bg-neutral-100/80 font-medium text-neutral-900'
-                      : 'text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900'
+                      : 'font-normal text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900'
                   )}
                 >
                   <span>{option.label}</span>
+
                   {isSelected && (
                     <HugeiconsIcon icon={Check} className="h-3.5 w-3.5 text-neutral-800" />
                   )}
