@@ -59,9 +59,9 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   };
 
   const form = useForm({
-    validators: {
-      onChange: (value) => productValidationSchema.safeParse(value),
-    },
+    // validators: {
+    //   onChange: (value) => productValidationSchema.safeParse(value),
+    // },
     defaultValues: formValues,
     onSubmit: async ({ value }) => {
       console.log('Submitting Product Data:', value);

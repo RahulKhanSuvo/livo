@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma';
+'use server';
 import { createSafeAction } from '@/lib/createSafeAction';
 import { productValidationSchema } from './productValidation';
 

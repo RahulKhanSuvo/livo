@@ -23,9 +23,9 @@ export const productValidationSchema = z.object({
           .optional()
           .or(z.literal('')),
         sku: z.string().min(1, 'SKU is required').max(50),
-        price: z.number().positive('Price is required'),
-        salePrice: z.number().optional(),
-        stock: z.number().int().min(0, 'Stock cannot be negative'),
+        price: z.coerce.number().positive('Price is required'),
+        salePrice: z.coerce.number().optional(),
+        stock: z.coerce.number().int().min(0, 'Stock cannot be negative'),
         images: z.array(z.any()).min(1, 'At least one gallery image is required') || [
           {
             id: z.uuid(),
