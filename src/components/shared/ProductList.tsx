@@ -1,44 +1,23 @@
 'use client';
 
 import ProductCard from '../home/ProductCard';
-import { useSuspenseQuery, type QueryKey } from '@tanstack/react-query';
-import { getAllFurniture } from '@/actions/furniture/getAllFurniture';
-import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
+import { useQuery } from '@tanstack/react-query';
+import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
+import { FurnitureQuery } from '@/actions/furniture/furniture.validation';
 
 interface ProductListProps {
-  queryKey: QueryKey;
+  queryKey: FurnitureQuery;
 }
 
 const ProductList = ({ queryKey }: ProductListProps) => {
-  const { data } = useSuspenseQuery<GetAllFurnitureResponse>({
-    queryKey,
-
-    queryFn: () => {
-      const [, params] = queryKey as [
-        string,
-        {
-          search: string;
-          sortBy: string;
-          sortOrder: 'asc' | 'desc';
-          page: number;
-          limit: number;
-        },
-      ];
-
-      return getAllFurniture(
-        params.page,
-        params.limit,
-        params.search,
-        params.sortOrder,
-        params.sortBy as 'createdAt' | 'price'
-      );
-    },
-
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 6,
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', queryKey],
+    queryFn: () => getAllFurnitureAction(queryKey),
   });
-
-  if (!data.products.length) {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (data?.data?.products.length === 0) {
     return (
       <div className="flex min-h-75 flex-col items-center justify-center text-center">
         <h3 className="text-base font-medium text-neutral-900">No products found</h3>
@@ -52,7 +31,7 @@ const ProductList = ({ queryKey }: ProductListProps) => {
 
   return (
     <div className="grid flex-1 grid-cols-3 gap-3">
-      {data.products.map((item) => (
+      {data?.data?.products.map((item) => (
         <ProductCard basePath="living-room/chair" key={item.id} product={item} />
       ))}
     </div>

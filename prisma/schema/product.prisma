@@ -35,15 +35,15 @@ model Product {
   productTypeId    String
   productType      ProductType      @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
   name             String
-  description      String?
-  brand            String?
-  material         String?
-  width            Float?
-  height           Float?
-  depth            Float?
-  weightKg         Float?
+  description      String
+  brand            String
+  material         String
+  width            Float
+  height           Float
+  depth            Float
+  weightKg         Float
   price            Float
-  salePrice        Float?
+  salePrice        Float            @default(0)
   soldCount        Int              @default(0)
   assemblyRequired Boolean          @default(false)
   variants         ProductVariant[]

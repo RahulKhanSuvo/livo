@@ -16,9 +16,9 @@ const ProductCard = ({
   const variant = product?.variants[selectedVariant];
   const displayPrice = product?.price;
   const displaySalePrice = product?.salePrice;
-  console.log(product);
   const firstImage = variant?.images[0];
   const secondImage = variant?.images[1];
+  console.log(product);
 
   const firstImageUrl =
     firstImage instanceof File ? URL.createObjectURL(firstImage) : firstImage?.imageUrl;
