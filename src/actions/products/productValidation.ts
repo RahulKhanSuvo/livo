@@ -17,6 +17,7 @@ export const productValidationSchema = z.object({
   variants: z
     .array(
       z.object({
+        id: z.string().optional(),
         colorHex: z
           .string()
           .regex(/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/, 'Invalid HEX color (e.g. #000000)')

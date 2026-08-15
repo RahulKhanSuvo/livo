@@ -21,6 +21,7 @@ export type ProductType = {
 };
 
 export type VariantForm = {
+  id?: string;
   colorHex?: string;
   sku: string;
   price: number;
