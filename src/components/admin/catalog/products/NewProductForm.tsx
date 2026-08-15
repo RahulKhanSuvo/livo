@@ -60,7 +60,6 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   const form = useForm({
     validators: {
       onChange: (value) => productValidationSchema.safeParse(value),
-      onChangeAsync: (value) => productValidationSchema.safeParseAsync(value),
     },
     defaultValues: formValues,
     onSubmit: async ({ value }) => {
