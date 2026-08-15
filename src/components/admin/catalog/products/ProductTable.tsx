@@ -8,7 +8,6 @@ async function ProductTable() {
     queryKey: ['products'],
     queryFn: () => getAllProducts(1, 5),
   });
-  console.log();
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
