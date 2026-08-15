@@ -1,24 +1,37 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
-import type { Product } from '@/types/product.type';
 import { Button } from '../ui/button';
 import Link from 'next/link';
+import { ProductValidationType } from '@/actions/products/productValidation';
 
-const ProductCard = ({ product, basePath }: { product: Product; basePath: string }) => {
+const ProductCard = ({
+  product,
+  basePath,
+}: {
+  product: ProductValidationType;
+  basePath: string;
+}) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
   const variant = product.variants[selectedVariant];
+  const displayPrice = variant.price;
+  const displaySalePrice = variant.salePrice;
+  console.log(product);
+  const firstImage = variant.images[0];
+  const secondImage = variant.images[1];
 
-  const displayPrice = variant.price ?? product.price;
-  const displaySalePrice = product.salePrice;
+  const firstImageUrl =
+    firstImage instanceof File ? URL.createObjectURL(firstImage) : firstImage?.imageUrl;
 
+  const secondImageUrl =
+    secondImage instanceof File ? URL.createObjectURL(secondImage) : secondImage?.imageUrl;
   return (
     <div className="flex flex-col">
       <Link
         href={`${basePath}/${product.id}`}
         className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center p-8 overflow-hidden group"
       >
-        {product.badges && product.badges.length > 0 && (
+        {/* {product.badges && product.badges.length > 0 && (
           <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-20">
             {product.badges.map((badge, idx) => {
               const bgColor =
@@ -37,10 +50,9 @@ const ProductCard = ({ product, basePath }: { product: Product; basePath: string
               );
             })}
           </div>
-        )}
-
+        )} */}
         <Image
-          src={variant.mainImage}
+          src={firstImageUrl}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
@@ -48,13 +60,12 @@ const ProductCard = ({ product, basePath }: { product: Product; basePath: string
         />
 
         <Image
-          src={variant.hoverImage}
+          src={secondImageUrl}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-contain p-6 transition-opacity duration-700 ease-in-out opacity-0 group-hover:opacity-100"
+          className="absolute inset-0 object-contain p-6 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
         />
-
         <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
           <Button variant={'main'} className={'w-[90%]'}>
             Add to Cart
@@ -97,8 +108,8 @@ const ProductCard = ({ product, basePath }: { product: Product; basePath: string
                 className={`w-4 h-4 rounded-full border transition-all relative overflow-hidden ${
                   idx === selectedVariant ? 'border-neutral-900 scale-110' : 'border-neutral-300'
                 } ${v.stock === 0 ? 'opacity-60' : ''}`}
-                style={{ backgroundColor: v.hex }}
-                aria-label={`${v.color}${v.stock === 0 ? ' (Out of Stock)' : ''}`}
+                style={{ backgroundColor: v.colorHex }}
+                aria-label={`${v.colorHex}${v.stock === 0 ? ' (Out of Stock)' : ''}`}
               >
                 {v.stock === 0 && (
                   <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
