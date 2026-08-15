@@ -104,6 +104,61 @@ export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
                 </div>
               )}
             </form.Field>
+            {/* Price Field */}
+            <form.Field name="price">
+              {(subField: AnyFieldApi) => (
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Price ($) <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    placeholder="0.00"
+                    value={subField.state.value ?? ''}
+                    onChange={(e) =>
+                      subField.handleChange(e.target.value ? parseFloat(e.target.value) : undefined)
+                    }
+                  />
+                  {subField.state.meta.errors.length > 0 && (
+                    <p className="text-xs text-destructive">
+                      {subField.state.meta.errors
+                        .map((err) => (typeof err === 'string' ? err : err.message))
+                        .join(', ')}
+                    </p>
+                  )}
+                </div>
+              )}
+            </form.Field>
+
+            {/* Sale Price Field */}
+            <form.Field name="salePrice">
+              {(subField: AnyFieldApi) => (
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium text-muted-foreground">
+                    Sale Price ($)
+                  </Label>
+                  <Input
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    placeholder="Optional"
+                    value={subField.state.value ?? ''}
+                    onChange={(e) =>
+                      subField.handleChange(e.target.value ? parseFloat(e.target.value) : undefined)
+                    }
+                  />
+                  {subField.state.meta.errors.length > 0 && (
+                    <p className="text-xs text-destructive">
+                      {subField.state.meta.errors
+                        .map((err) => (typeof err === 'string' ? err : err.message))
+                        .join(', ')}
+                    </p>
+                  )}
+                </div>
+              )}
+            </form.Field>
           </div>
         </div>
       </CardContent>
