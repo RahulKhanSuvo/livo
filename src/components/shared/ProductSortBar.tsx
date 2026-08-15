@@ -23,20 +23,31 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentSort = searchParams.get('sort') ?? 'createdAt:desc';
+  const currentSort = searchParams.get('sort') ?? 'createdAt';
+  const currentSortOrder = searchParams.get('sortOrder') ?? 'desc';
 
   const activeOption =
-    sortOptionsData.find((option) => option.id === currentSort) ?? sortOptionsData[0];
+    sortOptionsData.find(
+      (option) => option.sort === currentSort && option.sortOrder === currentSortOrder
+    ) ?? sortOptionsData[0];
 
-  const handleSortChange = (sort: string) => {
+  const handleSortChange = (optionId: string) => {
+    const selectedOption = sortOptionsData.find((option) => option.id === optionId);
+
+    if (!selectedOption) return;
+
     const params = new URLSearchParams(searchParams.toString());
 
-    params.set('sort', sort);
+    params.set('sort', selectedOption.sort);
+    params.set('sortOrder', selectedOption.sortOrder);
 
-    // Reset pagination when sorting changes
+    // Sorting changes the result set.
+    // Always reset pagination.
     params.set('page', '1');
 
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
   return (
@@ -56,7 +67,7 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
       <div className="flex items-center">
         <span className="text-xs font-light text-neutral-500 sm:text-sm">Sort by:</span>
 
-        <Select value={currentSort} onValueChange={handleSortChange}>
+        <Select value={activeOption.id} onValueChange={handleSortChange}>
           <SelectTrigger
             className={cn(
               'h-auto w-auto border-0 bg-transparent',
@@ -68,7 +79,7 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
               'focus-visible:ring-0 focus-visible:ring-offset-0'
             )}
           >
-            <SelectValue>{activeOption.label}</SelectValue>
+            <SelectValue />
           </SelectTrigger>
 
           <SelectContent

@@ -1,36 +1,33 @@
-export type SortField = 'createdAt' | 'soldCount' | 'price';
-export type SortDirection = 'asc' | 'desc';
-
 export interface SortOption {
   id: string;
   label: string;
-  field: SortField;
-  direction: SortDirection;
+  sort: 'createdAt' | 'price' | 'soldCount';
+  sortOrder: 'asc' | 'desc';
 }
 
 export const sortOptionsData: SortOption[] = [
   {
-    id: 'createdAt:desc',
+    id: 'newest',
     label: 'Newest',
-    field: 'createdAt',
-    direction: 'desc',
+    sort: 'createdAt',
+    sortOrder: 'desc',
   },
   {
-    id: 'soldCount:desc',
+    id: 'best-selling',
     label: 'Best Selling',
-    field: 'soldCount',
-    direction: 'desc',
+    sort: 'soldCount',
+    sortOrder: 'desc',
   },
   {
-    id: 'price:asc',
+    id: 'price-low',
     label: 'Price, low to high',
-    field: 'price',
-    direction: 'asc',
+    sort: 'price',
+    sortOrder: 'asc',
   },
   {
-    id: 'price:desc',
+    id: 'price-high',
     label: 'Price, high to low',
-    field: 'price',
-    direction: 'desc',
+    sort: 'price',
+    sortOrder: 'desc',
   },
 ];
