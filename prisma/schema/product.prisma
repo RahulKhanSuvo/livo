@@ -35,11 +35,9 @@ model Product {
   productTypeId    String
   productType      ProductType      @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
   name             String
-  slug             String           @unique
   description      String?
   brand            String?
   material         String?
-  finish           String?
   width            Float?
   height           Float?
   depth            Float?
@@ -59,7 +57,6 @@ model ProductVariant {
   productId  String
   product    Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
   colorHex   String?
-  sku        String         @unique
   stock      Int
   images     ProductImage[]
   createdAt  DateTime       @default(now())
