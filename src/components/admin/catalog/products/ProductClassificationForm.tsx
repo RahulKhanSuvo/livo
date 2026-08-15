@@ -16,9 +16,14 @@ import { type AnyFieldApi } from '@tanstack/form-core';
 interface ProductClassificationFormProps {
   form: ProductForm;
   categories: CategoryTree;
+  mode: 'create' | 'edit';
 }
 
-export function ProductClassificationForm({ form, categories }: ProductClassificationFormProps) {
+export function ProductClassificationForm({
+  form,
+  categories,
+  mode,
+}: ProductClassificationFormProps) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>('');
 
@@ -33,7 +38,7 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
   return (
     <Card>
       <CardHeader className="border-b">
-        <CardTitle>Classification</CardTitle>
+        <CardTitle>{mode === 'create' ? 'Classification' : 'Edit Classification'}</CardTitle>
       </CardHeader>
       <CardContent className="pt-6 space-y-4">
         <div className="grid gap-4 sm:grid-cols-3">

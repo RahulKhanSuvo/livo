@@ -7,11 +7,18 @@ import { Label } from '@/components/ui/label';
 import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 
-export function ProductDimensionsForm({ form }: { form: ProductForm }) {
+interface ProductDimensionsFormProps {
+  form: ProductForm;
+  mode: 'create' | 'edit';
+}
+
+export function ProductDimensionsForm({ form, mode }: ProductDimensionsFormProps) {
   return (
     <Card>
       <CardHeader className="border-b">
-        <CardTitle>Dimensions & Specifications</CardTitle>
+        <CardTitle>
+          {mode === 'create' ? 'Dimensions & Specifications' : 'Edit Dimensions & Specifications'}
+        </CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
         <div className="space-y-4">

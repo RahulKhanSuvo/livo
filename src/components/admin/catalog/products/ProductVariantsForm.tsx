@@ -112,13 +112,13 @@ function SingleImageUpload({
 // Gallery Component (Max 4 Images Limit)
 
 // Main Component
-export function ProductVariantsForm({
-  form,
-  emptyVariant,
-}: {
+interface ProductVariantsFormProps {
   form: ProductForm;
   emptyVariant: VariantForm;
-}) {
+  mode: 'create' | 'edit';
+}
+
+export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariantsFormProps) {
   return (
     <form.Field name="variants" mode="array">
       {(field: AnyFieldApi) => (
@@ -126,7 +126,9 @@ export function ProductVariantsForm({
           {/* Section Header */}
           <div className="flex items-center justify-between border-b pb-4">
             <div>
-              <h2 className="text-lg font-semibold tracking-tight">Product Variants</h2>
+              <h2 className="text-lg font-semibold tracking-tight">
+                {mode === 'create' ? 'Product Variants' : 'Edit Product Variants'}
+              </h2>
               <p className="text-xs text-muted-foreground">
                 Manage color variations, pricing, inventory, and images for this product.
               </p>
