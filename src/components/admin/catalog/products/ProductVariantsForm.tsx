@@ -46,7 +46,7 @@ export function ProductVariantsForm({ form, emptyVariant, mode }: ProductVariant
             {field.state.value.map((_: VariantForm, index: number) => (
               <Card key={index} className="overflow-hidden border-border/80 shadow-xs">
                 {/* Card Header */}
-                <CardHeader className="flex-row items-center justify-between border-b bg-muted/20 px-6 py-3.5">
+                <CardHeader className="flex-row flex items-center justify-between border-b bg-muted/20 px-6 py-3.5">
                   <div className="flex items-center gap-2">
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
                       {index + 1}
