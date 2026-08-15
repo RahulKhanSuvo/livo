@@ -31,7 +31,7 @@ import {
 
 export function AccountMenu() {
   const router = useRouter();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const [pending, setPending] = useState(false);
 
   const user = session?.user;
@@ -42,6 +42,8 @@ export function AccountMenu() {
     router.push('/');
     router.refresh();
   };
+
+  console.log('isPending', isPending);
 
   return (
     <DropdownMenu>
