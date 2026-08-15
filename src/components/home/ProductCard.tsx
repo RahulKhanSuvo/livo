@@ -55,9 +55,9 @@ const ProductCard = ({
 
       <div className="pt-4 flex flex-col space-y-1">
         <span className="text-[11px] tracking-wider text-neutral-400 uppercase font-medium">
-          {product.brand}
+          {product?.brand}
         </span>
-        <h3 className="text-sm font-normal text-neutral-900 tracking-tight">{product.name}</h3>
+        <h3 className="text-sm font-normal text-neutral-900 tracking-tight">{product?.name}</h3>
 
         <div className="flex items-center gap-2 pt-0.5">
           {displaySalePrice ? (
