@@ -20,6 +20,7 @@ import { getClassificationHierarchyAction } from '@/actions/category/category_ac
 import { createProduct } from '@/actions/products/addNewProduct';
 // import { updateProduct } from '@/actions/products/updateProduct'; // Add your update action here
 import { toast } from 'sonner';
+import { updateProduct } from '@/actions/products/updateProductAction';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
@@ -69,8 +70,7 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
       if (mode === 'create') {
         res = await createProduct(value);
       } else {
-        // Handle edit action (pass product ID along with updated values)
-        // res = await updateProduct(initialData?.id!, value);
+        res = await updateProduct({ id: initialData?.id, ...value });
       }
 
       console.log('Product response:', res);
