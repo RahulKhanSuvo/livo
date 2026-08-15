@@ -6,7 +6,10 @@ import { useForm } from '@tanstack/react-form';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { PlusSignIcon, ChevronRightIcon, EditIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
-import { ProductValidationType } from '@/actions/products/productValidation';
+import {
+  productValidationSchema,
+  ProductValidationType,
+} from '@/actions/products/productValidation';
 import { ProductIdentityForm } from '@/components/admin/catalog/products/ProductIdentityForm';
 import { ProductDimensionsForm } from '@/components/admin/catalog/products/ProductDimensionsForm';
 import { ProductClassificationForm } from '@/components/admin/catalog/products/ProductClassificationForm';
@@ -55,6 +58,10 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   };
 
   const form = useForm({
+    validators: {
+      onChange: (value) => productValidationSchema.safeParse(value),
+      onChangeAsync: (value) => productValidationSchema.safeParseAsync(value),
+    },
     defaultValues: formValues,
     onSubmit: async ({ value }) => {
       console.log('Submitting Product Data:', value);
