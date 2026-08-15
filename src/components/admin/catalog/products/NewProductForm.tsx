@@ -116,7 +116,7 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
       >
         <ProductIdentityForm mode={mode} form={form} />
         <ProductDimensionsForm mode={mode} form={form} />
-        <ProductClassificationForm mode={mode} categories={categoryHierarchy ?? []} form={form} />
+        <ProductClassificationForm categories={categoryHierarchy ?? []} form={form} />
         <ProductVariantsForm mode={mode} form={form} emptyVariant={emptyVariant} />
 
         {/* Form Actions */}
