@@ -15,6 +15,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getClassificationHierarchyAction } from '@/actions/category/category_action';
 import { createProduct } from '@/actions/products/addNewProduct';
 import { toast } from 'sonner';
+import router from 'next/router';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
@@ -48,8 +49,7 @@ export default function NewProductForm() {
       console.log('create product response ', res);
       if (res.success) {
         toast.success(res.message);
-        // form.reset();
-        // router.push('/admin/catalog/products');
+        router.push('/admin/catalog/products');
       } else {
         toast.error(res.message);
       }

@@ -36,6 +36,7 @@ export function createSafeAction<TInput, TOutput>(
       return {
         success: true,
         data: serializedData,
+        message: 'Action executed successfully',
       };
     } catch (error) {
       console.error('[SERVER ACTION ERROR]:', error);
