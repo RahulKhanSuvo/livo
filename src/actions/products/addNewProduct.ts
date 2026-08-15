@@ -11,7 +11,6 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
     validatedData.variants.map(async (v) => {
       const rawImagesPayload = [];
       let sortOrder = 0;
-      // --- Handle Gallery Images ---
       if (Array.isArray(v.gallery)) {
         for (const item of v.gallery) {
           let galleryUrl = '';
