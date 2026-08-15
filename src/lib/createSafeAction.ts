@@ -8,15 +8,19 @@ export type ActionResponse<T> = {
   fieldErrors?: Record<string, string[]>;
 };
 
-export function createSafeAction<TInput, TOutput>(
+export interface SafeActionOptions {
+  successMessage?: string;
+}
+
+export function createSafeAction<TInput, TOutput, TContext = undefined>(
   schema: z.ZodSchema<TInput>,
-  handler: (validatedData: TInput) => Promise<TOutput>
+  handler: (validatedData: TInput, context: TContext) => Promise<TOutput>,
+  options?: SafeActionOptions
 ) {
-  return async (input: TInput): Promise<ActionResponse<TOutput>> => {
-    // 1. Zod Validation
+  return async (input: TInput, context: TContext): Promise<ActionResponse<TOutput>> => {
     const validation = schema.safeParse(input);
+
     if (!validation.success) {
-      // Pass a mapper function (issue => issue.message) to suppress the deprecation warning
       const flattened = validation.error.flatten((issue) => issue.message);
 
       return {
@@ -26,19 +30,27 @@ export function createSafeAction<TInput, TOutput>(
       };
     }
 
-    // 2. Execute Action & Catch Errors
     try {
-      const rawResult = await handler(validation.data);
+      const rawResult = await handler(validation.data, context);
 
-      // 3. Auto-serialize Prisma Decimals/Dates so client components never crash
-      const serializedData = JSON.parse(JSON.stringify(rawResult));
+      const serializedData = rawResult == null ? null : JSON.parse(JSON.stringify(rawResult));
 
       return {
         success: true,
         data: serializedData,
-        message: 'Action executed successfully',
+        message: options?.successMessage ?? 'Action executed successfully',
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'digest' in error &&
+        typeof (error as Record<string, unknown>).digest === 'string' &&
+        (error as { digest: string }).digest.startsWith('NEXT_REDIRECT')
+      ) {
+        throw error;
+      }
+
       console.error('[SERVER ACTION ERROR]:', error);
 
       return {
