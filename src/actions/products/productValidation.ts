@@ -6,6 +6,9 @@ export const productValidationSchema = z.object({
   slug: z.string().min(2, 'Slug is required'),
   brand: z.string().optional().or(z.literal('')),
   description: z.string().max(1000).optional().or(z.literal('')),
+  categoryName: z.string().optional().or(z.literal('')),
+  subcategoryName: z.string().optional().or(z.literal('')),
+  productTypeName: z.string().optional().or(z.literal('')),
   material: z.string().optional().or(z.literal('')),
   finish: z.string().optional().or(z.literal('')),
   width: z.coerce.number().min(0, 'Width must be a positive number'),
@@ -27,7 +30,14 @@ export const productValidationSchema = z.object({
         price: z.number().positive('Price is required'),
         salePrice: z.number().optional(),
         stock: z.number().int().min(0, 'Stock cannot be negative'),
-        gallery: z.array(z.any()).min(1, 'At least one gallery image is required'),
+        gallery: z.array(z.any()).min(1, 'At least one gallery image is required') || [
+          {
+            id: z.uuid(),
+            variantId: z.uuid(),
+            imageUrl: z.url(),
+            alt: z.string().optional(),
+          },
+        ],
       })
     )
     .min(1, 'At least one variant is required'),

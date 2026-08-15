@@ -16,66 +16,97 @@ import { type AnyFieldApi } from '@tanstack/form-core';
 interface ProductClassificationFormProps {
   form: ProductForm;
   categories: CategoryTree;
-  mode: 'create' | 'edit';
 }
 
-export function ProductClassificationForm({
-  form,
-  categories,
-  mode,
-}: ProductClassificationFormProps) {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
-  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>('');
+function findClassification(categories: CategoryTree, productTypeId: string) {
+  for (const category of categories) {
+    for (const subCategory of category.subCategories) {
+      const productType = subCategory.productTypes.find((type) => type.id === productTypeId);
 
-  // Get active subcategories based on chosen category
-  const activeCategory = categories.find((c) => c.id === selectedCategoryId);
+      if (productType) {
+        return {
+          categoryId: category.id,
+          subCategoryId: subCategory.id,
+        };
+      }
+    }
+  }
+
+  return {
+    categoryId: '',
+    subCategoryId: '',
+  };
+}
+
+export function ProductClassificationForm({ form, categories }: ProductClassificationFormProps) {
+  const productTypeId = form.getFieldValue('productTypeId');
+
+  /*
+   * Initialize from existing product when editing.
+   */
+  const initialClassification = findClassification(categories, productTypeId);
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState(initialClassification.categoryId);
+
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(
+    initialClassification.subCategoryId
+  );
+
+  const activeCategory = categories.find((category) => category.id === selectedCategoryId);
+
   const subCategories = activeCategory?.subCategories ?? [];
 
-  // Get active product types based on chosen subcategory
-  const activeSubCategory = subCategories.find((s) => s.id === selectedSubCategoryId);
+  const activeSubCategory = subCategories.find(
+    (subCategory) => subCategory.id === selectedSubCategoryId
+  );
+
   const productTypes = activeSubCategory?.productTypes ?? [];
 
   return (
     <Card>
       <CardHeader className="border-b">
-        <CardTitle>{mode === 'create' ? 'Classification' : 'Edit Classification'}</CardTitle>
+        <CardTitle>Classification</CardTitle>
       </CardHeader>
-      <CardContent className="pt-6 space-y-4">
+
+      <CardContent className="space-y-4 pt-6">
         <div className="grid gap-4 sm:grid-cols-3">
-          {/* 1. Category Dropdown */}
+          {/* Category */}
           <div className="space-y-1.5">
             <Label>Category</Label>
+
             <Select
               value={selectedCategoryId}
-              onValueChange={(catId) => {
-                setSelectedCategoryId(catId);
+              onValueChange={(categoryId) => {
+                setSelectedCategoryId(categoryId);
                 setSelectedSubCategoryId('');
-                // Reset form's productTypeId when top category changes
+
                 form.setFieldValue('productTypeId', '');
               }}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Category" />
               </SelectTrigger>
+
               <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
-                    {cat.name}
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
-          {/* 2. SubCategory Dropdown */}
+          {/* Sub Category */}
           <div className="space-y-1.5">
             <Label>Sub-Category</Label>
+
             <Select
               disabled={!selectedCategoryId || subCategories.length === 0}
               value={selectedSubCategoryId}
-              onValueChange={(subCatId) => {
-                setSelectedSubCategoryId(subCatId);
-                // Reset form's productTypeId when subcategory changes
+              onValueChange={(subCategoryId) => {
+                setSelectedSubCategoryId(subCategoryId);
+
                 form.setFieldValue('productTypeId', '');
               }}
             >
@@ -86,25 +117,29 @@ export function ProductClassificationForm({
                   }
                 />
               </SelectTrigger>
+
               <SelectContent>
-                {subCategories.map((sub) => (
-                  <SelectItem key={sub.id} value={sub.id}>
-                    {sub.name}
+                {subCategories.map((subCategory) => (
+                  <SelectItem key={subCategory.id} value={subCategory.id}>
+                    {subCategory.name}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
 
-          {/* 3. ProductType Field (Bound to Form) */}
+          {/* Product Type */}
           <form.Field name="productTypeId">
             {(field: AnyFieldApi) => (
               <div className="space-y-1.5">
                 <Label>Product Type *</Label>
+
                 <Select
                   disabled={!selectedSubCategoryId || productTypes.length === 0}
                   value={field.state.value}
-                  onValueChange={(typeId) => field.handleChange(typeId)}
+                  onValueChange={(typeId) => {
+                    field.handleChange(typeId);
+                  }}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue
@@ -113,10 +148,11 @@ export function ProductClassificationForm({
                       }
                     />
                   </SelectTrigger>
+
                   <SelectContent>
-                    {productTypes.map((pt) => (
-                      <SelectItem key={pt.id} value={pt.id}>
-                        {pt.name}
+                    {productTypes.map((productType) => (
+                      <SelectItem key={productType.id} value={productType.id}>
+                        {productType.name}
                       </SelectItem>
                     ))}
                   </SelectContent>

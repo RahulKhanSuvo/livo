@@ -50,7 +50,7 @@ export type FormValues = {
 
 export type CategoryTree = Category[];
 
-export const emptyForm: FormValues = {
+export const emptyForm: ProductValidationType = {
   name: '',
   slug: '',
   brand: '',
@@ -60,10 +60,10 @@ export const emptyForm: FormValues = {
   subcategoryName: '',
   productTypeName: '',
   productTypeId: '',
-  width: undefined,
-  height: undefined,
-  depth: undefined,
-  weightKg: undefined,
+  width: 0,
+  height: 0,
+  depth: 0,
+  weightKg: 0,
   finish: '',
   assemblyRequired: false,
   variants: [
