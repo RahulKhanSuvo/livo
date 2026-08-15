@@ -18,7 +18,6 @@ import {
 } from '@hugeicons/core-free-icons';
 
 import { authClient } from '@/lib/auth-client';
-import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
