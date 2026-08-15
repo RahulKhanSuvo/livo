@@ -1,10 +1,18 @@
+import { getProductByIdAction } from '@/actions/products/getProductByIdAction';
+import EditProductForm from '@/components/admin/catalog/products/EditProductForm';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+
 const EditProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
-  console.log(id);
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['product-by-id', id],
+    queryFn: () => getProductByIdAction(id),
+  });
   return (
-    <div>
-      <h1>Edit Product {id}</h1>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <EditProductForm id={id} />
+    </HydrationBoundary>
   );
 };
 
