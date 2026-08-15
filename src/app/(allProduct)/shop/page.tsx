@@ -1,4 +1,3 @@
-import { z } from 'zod';
 import ProductPageHeader from '@/components/shared/ProductPageHeader';
 import { Container } from '@/components/shared/Container';
 import headerImage from '@/assets/header/sofa.webp';
