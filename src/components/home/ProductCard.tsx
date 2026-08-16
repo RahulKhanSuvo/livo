@@ -74,7 +74,7 @@ const ProductCard = ({ product, basePath }: { product: ProductCardItem; basePath
             className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
           />
         )}
-        <AddToCartButton productId={product.id!} variantId={variant?.id} />
+        <AddToCartButton product={product} />
       </Link>
 
       <div className="pt-4 flex flex-col space-y-1">

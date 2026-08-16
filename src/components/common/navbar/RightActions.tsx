@@ -21,9 +21,11 @@ export const RightActions = () => {
         className="flex items-center relative gap-1 text-neutral-800 hover:text-black transition-colors cursor-pointer"
       >
         <HugeiconsIcon icon={ShoppingCart02Icon} size={19} strokeWidth={1.5} />
-        <span className="absolute -top-2 -right-2 text-xs font-semibold rounded-full bg-red-500 text-white h-4 w-4 flex items-center justify-center">
-          {items?.length}
-        </span>
+        {items.length > 0 && (
+          <span className="absolute -top-2 -right-2 text-xs font-semibold rounded-full bg-red-500 text-white h-4 w-4 flex items-center justify-center">
+            {items?.length}
+          </span>
+        )}
       </button>
       <CartSheet isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>

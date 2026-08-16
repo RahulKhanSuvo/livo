@@ -2,22 +2,30 @@
 
 import { useCartStore } from '@/stores/cart-store';
 import { Button } from '../ui/button';
+import { ProductCardItem } from './ProductCard';
 
 interface AddToCartButtonProps {
-  productId: string;
-  variantId?: string;
+  product: ProductCardItem;
 }
 
-export function AddToCartButton({ productId, variantId }: AddToCartButtonProps) {
+export function AddToCartButton({ product }: AddToCartButtonProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const firstImage = product?.variants?.[0]?.images?.[0];
+  const firstImageUrl =
+    firstImage instanceof File
+      ? URL.createObjectURL(firstImage)
+      : (firstImage as { imageUrl?: string })?.imageUrl || '';
 
   const handleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
     addItem({
-      productId,
-      variantId,
+      productId: product?.id || '',
+      variantId: product.variants?.[0]?.id || '',
       quantity: 1,
+      price: product?.price || 0,
+      name: product?.name || '',
+      image: firstImageUrl,
     });
   };
 

@@ -4,6 +4,9 @@ export type CartItem = {
   productId: string;
   variantId?: string;
   quantity: number;
+  price: number;
+  name: string;
+  image: string;
 };
 
 type CartStore = {
