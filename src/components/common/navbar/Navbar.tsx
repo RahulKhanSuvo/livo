@@ -9,7 +9,6 @@ import { Menu01Icon, Cancel01Icon, Search01Icon } from '@hugeicons/core-free-ico
 import { Logo } from './Logo';
 import { RightActions } from './RightActions';
 import { SearchModal } from './SearchModal';
-import { CartSheet } from '../cart/CartSheet';
 import { navCategories, NavCategory } from './navbar.data';
 import { Container } from '@/components/shared/Container';
 import { DropdownPanel, DropdownAnimationType } from './DropdownPanel';
@@ -28,7 +27,6 @@ export const Navbar = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
