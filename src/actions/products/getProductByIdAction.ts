@@ -15,6 +15,15 @@ export const getProductByIdAction = createSafeAction(
         },
         material: true,
         brand: true,
+        productType: {
+          include: {
+            subCategory: {
+              include: {
+                category: true,
+              },
+            },
+          },
+        },
       },
     });
 

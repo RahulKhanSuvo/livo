@@ -13,6 +13,8 @@ const ProductList = ({ queryKey }: ProductListProps) => {
   const { data, isLoading } = useQuery({
     queryKey: ['products', queryKey],
     queryFn: () => getAllFurnitureAction(queryKey),
+    staleTime: 1000 * 60 * 60,
+    gcTime: 1000 * 60 * 60 * 6,
   });
   if (isLoading) {
     return <div>Loading...</div>;
