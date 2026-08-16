@@ -31,10 +31,10 @@ export type CategoryTree = Category[];
 
 export const emptyForm: ProductValidationType = {
   name: '',
-  brand: '',
+  brandId: '',
   price: 0,
   salePrice: 0,
-  material: '',
+  materialId: '',
   description: '',
   productTypeId: '',
   width: 0,
