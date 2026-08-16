@@ -176,11 +176,6 @@ export function SearchableCreateCombobox<T>({
 
             return (
               <ComboboxItem key={id} value={item}>
-                <HugeiconsIcon
-                  icon={Tick02Icon}
-                  className={`mr-2 size-4 ${value === id ? 'opacity-100' : 'opacity-0'}`}
-                />
-
                 {label}
               </ComboboxItem>
             );
