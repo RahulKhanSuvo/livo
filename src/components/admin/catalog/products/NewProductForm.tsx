@@ -20,6 +20,8 @@ import { createProduct } from '@/actions/products/addNewProduct';
 // import { updateProduct } from '@/actions/products/updateProduct'; // Add your update action here
 import { toast } from 'sonner';
 import { updateProduct } from '@/actions/products/updateProductAction';
+import { getAllBrandAction } from '@/actions/brand/getAllBrand';
+import { getAllMaterialAction } from '@/actions/material/getAllMaterial';
 
 const defaultValues: ProductValidationType = {
   productTypeId: '',
@@ -54,6 +56,16 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   const { data: categoryHierarchy } = useQuery({
     queryKey: ['category'],
     queryFn: () => getClassificationHierarchyAction(),
+  });
+
+  const { data: materialHierarchy } = useQuery({
+    queryKey: ['material'],
+    queryFn: () => getAllMaterialAction(),
+  });
+
+  const { data: brandHierarchy } = useQuery({
+    queryKey: ['brand'],
+    queryFn: () => getAllBrandAction(),
   });
 
   // Merge initial values if in edit mode
