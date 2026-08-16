@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -15,260 +14,287 @@ import {
 
 import { Sheet, SheetContent, SheetTitle, SheetClose } from '@/components/ui/sheet';
 
-interface CartItem {
-  id: string;
-  name: string;
-  color?: string;
-  price: number;
-  originalPrice?: number;
-  quantity: number;
-  image: string;
-  href: string;
-}
-
-const initialCartItems: CartItem[] = [
-  {
-    id: '1',
-    name: 'Parade 240 HAY table lamp',
-    price: 130,
-    quantity: 1,
-    image:
-      'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?q=80&w=400&auto=format&fit=crop',
-    href: '/shop/parade-240-hay-table-lamp',
-  },
-  {
-    id: '2',
-    name: 'Yasuke DCW Editions table lamp',
-    price: 4500,
-    originalPrice: 5000,
-    quantity: 1,
-    image:
-      'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=400&auto=format&fit=crop',
-    href: '/shop/yasuke-dcw-editions-table-lamp',
-  },
-];
+import { CartItem, useCartStore } from '@/stores/cart-store';
 
 interface CartSheetProps {
+  items: CartItem[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const CartSheet = ({ isOpen, onClose }: CartSheetProps) => {
-  const [items, setItems] = useState<CartItem[]>(initialCartItems);
+export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
 
-  const updateQuantity = (id: string, delta: number) => {
-    setItems((prev) =>
-      prev
-        .map((item) => {
-          if (item.id === id) {
-            const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
-          }
-          return item;
-        })
-        .filter((item): item is CartItem => item !== null)
-    );
-  };
+  const removeItem = useCartStore((state) => state.removeItem);
 
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  // Total number of products
+  const totalCount = items.reduce((total, item) => total + item.quantity, 0);
 
-  const totalCount = items.reduce((acc, item) => acc + item.quantity, 0);
-  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const originalSubtotal = items.reduce(
-    (acc, item) => acc + (item.originalPrice || item.price) * item.quantity,
-    0
-  );
-  const savings = Math.max(0, originalSubtotal - subtotal);
+  // Cart subtotal
+  const subtotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  // Currently we don't have originalPrice in CartItem,
+  // so there is no discount calculation yet.
+  const originalSubtotal = subtotal;
+  const savings = 0;
+
+  // Free delivery threshold
+  const freeDeliveryThreshold = 500;
+
+  const remainingForFreeDelivery = Math.max(0, freeDeliveryThreshold - subtotal);
+
+  const deliveryProgress = Math.min((subtotal / freeDeliveryThreshold) * 100, 100);
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Sheet
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          onClose();
+        }
+      }}
+    >
       <SheetContent
         side="right"
         showCloseButton={false}
-        className="w-full data-[side=right]:sm:max-w-130 bg-white p-0 gap-0 flex flex-col h-full border-l border-neutral-200"
+        className="flex h-full w-full flex-col gap-0 border-l border-neutral-200 bg-white p-0 data-[side=right]:sm:max-w-130"
       >
-        {/* Sheet Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 shrink-0">
+        {/* Header */}
+        <div className="flex shrink-0 items-center justify-between border-b border-neutral-200 px-6 py-4">
           <SheetTitle className="text-xl font-medium text-neutral-900">
             Your cart ({totalCount})
           </SheetTitle>
+
           <SheetClose
             onClick={onClose}
-            className="p-1 text-neutral-600 hover:text-black transition-colors"
+            className="p-1 text-neutral-600 transition-colors hover:text-black"
             aria-label="Close cart"
           >
             <HugeiconsIcon icon={Cancel01Icon} size={24} />
           </SheetClose>
         </div>
 
-        {/* Scrollable Content Container */}
+        {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto">
-          {/* Progress / Discounts Bar */}
-          <div className="bg-[#f5f5f3] px-6 py-3 border-b border-neutral-200">
-            <p className="text-xs text-neutral-600 text-center mb-3">
-              Spend $370.00 more for Free Delivery!
+          {/* Discount / Delivery Progress */}
+          <div className="border-b border-neutral-200 bg-[#f5f5f3] px-6 py-3">
+            <p className="mb-3 text-center text-xs text-neutral-600">
+              {remainingForFreeDelivery > 0
+                ? `Spend $${remainingForFreeDelivery.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })} more for Free Delivery!`
+                : 'You qualify for Free Delivery!'}
             </p>
-            {/* Progress line with nodes */}
-            <div className="relative flex items-center justify-between max-w-70 mx-auto pt-1 pb-1">
-              <div className="absolute top-3.5 left-3 right-3 h-0.75 bg-neutral-200 z-0" />
-              <div className="absolute top-3.5 left-3 w-1/2 h-0.75 bg-[#8a9284] z-0" />
 
-              {/* Node 1: -10% */}
+            <div className="relative mx-auto flex max-w-70 items-center justify-between pb-1 pt-1">
+              {/* Background line */}
+              <div className="absolute left-3 right-3 top-3.5 z-0 h-0.75 bg-neutral-200" />
+
+              {/* Progress line */}
+              <div
+                className="absolute left-3 top-3.5 z-0 h-0.75 bg-[#8a9284] transition-all duration-300"
+                style={{
+                  width: `calc(${deliveryProgress}% - 24px)`,
+                }}
+              />
+
+              {/* Node 1 */}
               <div className="relative z-10 flex flex-col items-center gap-1">
-                <div className="w-6 h-6 rounded-full bg-[#8a9284] text-white flex items-center justify-center text-[10px]">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#8a9284] text-white">
                   <HugeiconsIcon icon={Tag01Icon} size={12} />
                 </div>
+
                 <span className="text-[10px] font-medium text-neutral-600">-10%</span>
               </div>
 
-              {/* Node 2: Free Delivery */}
+              {/* Node 2 */}
               <div className="relative z-10 flex flex-col items-center gap-1">
-                <div className="w-6 h-6 rounded-full bg-[#e8eae6] text-neutral-600 flex items-center justify-center text-[10px]">
+                <div
+                  className={`flex h-6 w-6 items-center justify-center rounded-full ${
+                    subtotal >= freeDeliveryThreshold
+                      ? 'bg-[#8a9284] text-white'
+                      : 'bg-[#e8eae6] text-neutral-600'
+                  }`}
+                >
                   <HugeiconsIcon icon={DeliveryTruck01Icon} size={12} />
                 </div>
+
                 <span className="text-[10px] font-medium text-neutral-600">Free Delivery</span>
               </div>
 
-              {/* Node 3: -20% */}
+              {/* Node 3 */}
               <div className="relative z-10 flex flex-col items-center gap-1">
-                <div className="w-6 h-6 rounded-full bg-[#e8eae6] text-neutral-600 flex items-center justify-center text-[10px]">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e8eae6] text-neutral-600">
                   <HugeiconsIcon icon={Tag01Icon} size={12} />
                 </div>
+
                 <span className="text-[10px] font-medium text-neutral-600">-20%</span>
               </div>
             </div>
           </div>
 
-          {/* Product Items List */}
-          <div className="p-6 space-y-6">
+          {/* Cart Items */}
+          <div className="space-y-6 p-6">
             {items.length === 0 ? (
               <div className="py-12 text-center text-neutral-500">
                 <p className="text-sm font-medium">Your cart is empty.</p>
+
                 <button
                   type="button"
                   onClick={onClose}
-                  className="mt-4 px-5 py-2 bg-black text-white text-xs font-semibold rounded-full hover:bg-neutral-800 transition-colors"
+                  className="mt-4 rounded-full bg-black px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-neutral-800"
                 >
                   Continue Shopping
                 </button>
               </div>
             ) : (
-              items.map((item) => (
-                <div key={item.id} className="flex gap-4 items-center">
-                  {/* Thumbnail */}
-                  <Link
-                    href={item.href}
-                    onClick={onClose}
-                    className="relative w-20 h-20 bg-[#f7f7f7] shrink-0 overflow-hidden flex items-center justify-center border border-neutral-100"
-                  >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      sizes="80px"
-                      className="object-contain"
-                    />
-                  </Link>
+              items.map((item) => {
+                const itemKey = `${item.productId}-${item.variantId ?? 'default'}`;
 
-                  {/* Info & Quantity */}
-                  <div className="flex-1 min-w-0">
+                const itemTotal = item.price * item.quantity;
+
+                return (
+                  <div key={itemKey} className="flex items-center gap-4">
+                    {/* Product image */}
                     <Link
-                      href={item.href}
+                      href={`/shop/${item.productId}`}
                       onClick={onClose}
-                      className="text-sm font-normal text-neutral-900 hover:underline block truncate leading-snug"
+                      className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden border border-neutral-100 bg-[#f7f7f7]"
                     >
-                      {item.name}
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        sizes="80px"
+                        className="object-contain"
+                      />
                     </Link>
 
-                    {/* Quantity Pill + Delete */}
-                    <div className="flex items-center gap-3 mt-3">
-                      <div className="flex items-center border border-neutral-300 rounded-full px-3 py-1 text-xs text-neutral-800 bg-white">
+                    {/* Product info */}
+                    <div className="min-w-0 flex-1">
+                      <Link
+                        href={`/shop/${item.productId}`}
+                        onClick={onClose}
+                        className="block truncate text-sm font-normal leading-snug text-neutral-900 hover:underline"
+                      >
+                        {item.name}
+                      </Link>
+
+                      {/* Quantity + Delete */}
+                      <div className="mt-3 flex items-center gap-3">
+                        <div className="flex items-center rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs text-neutral-800">
+                          {/* Decrease */}
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(item.productId, item.variantId, item.quantity - 1)
+                            }
+                            disabled={item.quantity <= 1}
+                            className="p-0.5 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-40"
+                            aria-label="Decrease quantity"
+                          >
+                            <HugeiconsIcon icon={Remove01Icon} size={10} />
+                          </button>
+
+                          <span className="w-6 text-center font-medium">{item.quantity}</span>
+
+                          {/* Increase */}
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(item.productId, item.variantId, item.quantity + 1)
+                            }
+                            className="p-0.5 transition-colors hover:text-black"
+                            aria-label="Increase quantity"
+                          >
+                            <HugeiconsIcon icon={Add01Icon} size={10} />
+                          </button>
+                        </div>
+
+                        {/* Remove */}
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.id, -1)}
-                          className="p-0.5 hover:text-black transition-colors"
-                          aria-label="Decrease quantity"
+                          onClick={() => removeItem(item.productId, item.variantId)}
+                          className="p-1 text-neutral-400 transition-colors hover:text-red-600"
+                          aria-label={`Remove ${item.name}`}
                         >
-                          <HugeiconsIcon icon={Remove01Icon} size={10} />
-                        </button>
-                        <span className="w-6 text-center font-medium">{item.quantity}</span>
-                        <button
-                          type="button"
-                          onClick={() => updateQuantity(item.id, 1)}
-                          className="p-0.5 hover:text-black transition-colors"
-                          aria-label="Increase quantity"
-                        >
-                          <HugeiconsIcon icon={Add01Icon} size={10} />
+                          <HugeiconsIcon icon={Delete02Icon} size={15} />
                         </button>
                       </div>
+                    </div>
 
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="text-neutral-400 hover:text-red-600 transition-colors p-1"
-                        aria-label="Remove item"
-                      >
-                        <HugeiconsIcon icon={Delete02Icon} size={15} />
-                      </button>
+                    {/* Price */}
+                    <div className="shrink-0 text-right">
+                      <span className="text-sm font-normal text-neutral-900">
+                        $
+                        {itemTotal.toLocaleString('en-US', {
+                          minimumFractionDigits: 2,
+                        })}
+                      </span>
                     </div>
                   </div>
-
-                  {/* Price */}
-                  <div className="text-right shrink-0">
-                    <span className="text-sm font-normal text-neutral-900">
-                      $
-                      {(item.price * item.quantity).toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                      })}
-                    </span>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
 
-        {/* Footer Summary & View Cart */}
+        {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-neutral-200 p-6 bg-white shrink-0 space-y-3">
+          <div className="shrink-0 space-y-3 border-t border-neutral-200 bg-white p-6">
             {/* Subtotal */}
             <div className="flex items-baseline justify-between">
               <span className="text-base font-semibold text-neutral-900">Subtotal</span>
+
               <div className="text-right">
                 <span className="text-lg font-semibold text-neutral-900">
-                  ${subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })} USD
+                  $
+                  {subtotal.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })}{' '}
+                  USD
                 </span>
+
                 {originalSubtotal > subtotal && (
                   <span className="block text-xs text-neutral-400 line-through">
-                    ${originalSubtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    $
+                    {originalSubtotal.toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                    })}
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Savings Callout */}
+            {/* Savings */}
             {savings > 0 && (
               <div className="space-y-0.5 text-xs text-neutral-600">
                 <p className="font-medium text-neutral-800">
-                  You&apos;ve saved ${savings.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                  You&apos;ve saved $
+                  {savings.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })}
                   !
                 </p>
+
                 <p className="flex items-center gap-1 text-[11px] text-neutral-500">
                   <HugeiconsIcon icon={Tag01Icon} size={12} />
-                  10% Off (-${savings.toLocaleString('en-US', { minimumFractionDigits: 2 })})
+                  10% Off (-$
+                  {savings.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                  })}
+                  )
                 </p>
               </div>
             )}
 
             <p className="text-xs text-neutral-400">Shipping &amp; taxes calculated at checkout</p>
 
-            {/* View Cart Button */}
+            {/* View Cart */}
             <Link
               href="/cart"
               onClick={onClose}
-              className="block w-full py-3.5 bg-[#363432] hover:bg-black text-white text-center text-sm font-medium rounded-full transition-colors"
+              className="block w-full rounded-full bg-[#363432] py-3.5 text-center text-sm font-medium text-white transition-colors hover:bg-black"
             >
               View Cart
             </Link>

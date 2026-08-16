@@ -9,8 +9,7 @@ import { useCartStore } from '@/stores/cart-store';
 export const RightActions = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const items = useCartStore((state) => state.items);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const removeItem = useCartStore((state) => state.removeItem);
+  console.log('items.length', items);
   return (
     <div className="flex items-center gap-4 sm:gap-6">
       <AccountMenu />
@@ -27,7 +26,7 @@ export const RightActions = () => {
           </span>
         )}
       </button>
-      <CartSheet isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+      <CartSheet items={items} isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 };
