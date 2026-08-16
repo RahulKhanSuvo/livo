@@ -78,10 +78,10 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
   };
 
   const form = useForm({
-    // validators: {
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   onChange: productValidationSchema as any,
-    // },
+    validators: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onChange: productValidationSchema as any,
+    },
     defaultValues: formValues,
     onSubmit: async ({ value }) => {
       console.log('Submitting Product Data:', value);
