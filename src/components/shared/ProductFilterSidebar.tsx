@@ -285,8 +285,9 @@ export const ProductFilterSidebar = ({
       <ScrollArea>
         <div>
           <Accordion
-            type="multiple"
-            defaultValue={filterGroups.map((g) => g.id)}
+            type="single"
+            collapsible
+            // defaultValue="brand"
             className="w-full border-none bg-white"
           >
             {filterGroups.map((group) => {
