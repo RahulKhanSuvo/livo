@@ -32,6 +32,7 @@ export async function getAllProducts(page: number = 1, limit: number = 10) {
       prisma.product.findMany({
         take: limit,
         skip,
+        orderBy: { createdAt: 'desc' },
         include: {
           variants: {
             include: {
