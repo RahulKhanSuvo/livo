@@ -7,13 +7,16 @@ import { Label } from '@/components/ui/label';
 import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 import { FieldError } from '@/components/ui/field';
+import { Brand, Material } from '@/generated/prisma/client';
 
 interface ProductIdentityFormProps {
   form: ProductForm;
   mode: 'create' | 'edit';
+  brands: Brand[];
+  materials: Material[];
 }
 
-export function ProductIdentityForm({ form, mode }: ProductIdentityFormProps) {
+export function ProductIdentityForm({ brands, form, mode, materials }: ProductIdentityFormProps) {
   return (
     <Card>
       <CardHeader className="border-b">

@@ -140,9 +140,14 @@ export default function NewProductForm({ mode = 'create', initialData }: NewProd
         }}
         className="flex flex-col gap-6"
       >
-        <ProductIdentityForm mode={mode} form={form} />
+        <ProductIdentityForm
+          brands={brandHierarchy?.data ?? []}
+          materials={materialHierarchy?.data ?? []}
+          mode={mode}
+          form={form}
+        />
         <ProductDimensionsForm mode={mode} form={form} />
-        <ProductClassificationForm categories={categoryHierarchy ?? []} form={form} />
+        <ProductClassificationForm categories={categoryHierarchy?.data ?? []} form={form} />
         <ProductVariantsForm
           mode={mode}
           form={form}
