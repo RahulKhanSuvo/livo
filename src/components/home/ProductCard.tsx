@@ -11,6 +11,15 @@ export interface ProductCardItem {
   salePrice?: number | null;
   brand?: { name?: string | null } | string | null;
   brandId?: string | null;
+  productType?: {
+    name?: string | null;
+    subCategory?: {
+      name?: string | null;
+      category?: {
+        name?: string | null;
+      };
+    };
+  };
   variants?: Array<{
     id?: string;
     colorHex?: string | null;

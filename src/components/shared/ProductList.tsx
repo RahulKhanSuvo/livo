@@ -30,7 +30,7 @@ const ProductList = ({ queryKey }: ProductListProps) => {
       </div>
     );
   }
-
+  console.log('product', data);
   const categorySlug = queryKey?.category || 'living-room';
   const subcategorySlug = queryKey?.subcategory || 'all';
   const basePath = `/shop/${categorySlug}/${subcategorySlug}`;

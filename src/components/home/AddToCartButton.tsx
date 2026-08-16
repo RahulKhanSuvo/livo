@@ -26,6 +26,9 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
       price: product?.price || 0,
       name: product?.name || '',
       image: firstImageUrl,
+      productCategory: product.productType?.subCategory?.category?.name || '',
+      productSubCategory: product.productType?.subCategory?.name || '',
+      productType: product.productType?.name || '',
     });
   };
 
