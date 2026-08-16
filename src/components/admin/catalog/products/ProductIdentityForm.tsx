@@ -8,14 +8,7 @@ import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 import { FieldError } from '@/components/ui/field';
 import { Brand, Material } from '@/generated/prisma/client';
-import {
-  Combobox,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from '@/components/ui/combobox';
+import { SearchableCreateCombobox } from '@/components/shared/SearchableCreateCombobox';
 interface ProductIdentityFormProps {
   form: ProductForm;
   mode: 'create' | 'edit';
@@ -78,33 +71,17 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
                 <div className="space-y-1.5">
                   <Label htmlFor="product-brand">Brand</Label>
 
-                  <Combobox
+                  <SearchableCreateCombobox
                     items={brands}
-                    itemToStringValue={(brand) => brand.name}
                     value={field.state.value ?? ''}
-                    onValueChange={(value) => {
-                      field.handleChange(value?.name ?? '');
-                    }}
-                  >
-                    <ComboboxInput
-                      id="product-brand"
-                      placeholder="Search or select a brand..."
-                      autoComplete="off"
-                      onBlur={field.handleBlur}
-                    />
-
-                    <ComboboxContent>
-                      <ComboboxEmpty>No brand found.</ComboboxEmpty>
-
-                      <ComboboxList>
-                        {(brand) => (
-                          <ComboboxItem key={brand.id} value={brand}>
-                            {brand.name}
-                          </ComboboxItem>
-                        )}
-                      </ComboboxList>
-                    </ComboboxContent>
-                  </Combobox>
+                    onChange={field.handleChange}
+                    getItemId={(brand) => brand.id}
+                    getItemLabel={(brand) => brand.name}
+                    placeholder="Select brand..."
+                    searchPlaceholder="Search brand..."
+                    emptyMessage="No brand found."
+                    createMessage={(value) => `Create brand "${value}"`}
+                  />
 
                   {field.state.meta.errors.length > 0 && (
                     <FieldError>
@@ -120,33 +97,17 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
                 <div className="space-y-1.5">
                   <Label htmlFor="product-material">Material</Label>
 
-                  <Combobox
+                  <SearchableCreateCombobox
                     items={materials}
-                    itemToStringValue={(material) => material.name}
                     value={field.state.value ?? ''}
-                    onValueChange={(value) => {
-                      field.handleChange(value?.name ?? '');
-                    }}
-                  >
-                    <ComboboxInput
-                      id="product-material"
-                      placeholder="Search or select a material..."
-                      autoComplete="off"
-                      onBlur={field.handleBlur}
-                    />
-
-                    <ComboboxContent>
-                      <ComboboxEmpty>No material found.</ComboboxEmpty>
-
-                      <ComboboxList>
-                        {(material) => (
-                          <ComboboxItem key={material.id} value={material}>
-                            {material.name}
-                          </ComboboxItem>
-                        )}
-                      </ComboboxList>
-                    </ComboboxContent>
-                  </Combobox>
+                    onChange={field.handleChange}
+                    getItemId={(material) => material.id}
+                    getItemLabel={(material) => material.name}
+                    placeholder="Select material..."
+                    searchPlaceholder="Search material..."
+                    emptyMessage="No material found."
+                    createMessage={(value) => `Create material "${value}"`}
+                  />
 
                   {field.state.meta.errors.length > 0 && (
                     <FieldError>
