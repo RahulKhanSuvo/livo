@@ -111,9 +111,9 @@ export const CartSheet = ({ isOpen, onClose }: CartSheetProps) => {
               Spend $370.00 more for Free Delivery!
             </p>
             {/* Progress line with nodes */}
-            <div className="relative flex items-center justify-between max-w-[280px] mx-auto pt-1 pb-1">
-              <div className="absolute top-3.5 left-3 right-3 h-[3px] bg-neutral-200 -z-0" />
-              <div className="absolute top-3.5 left-3 w-1/2 h-[3px] bg-[#8a9284] -z-0" />
+            <div className="relative flex items-center justify-between max-w-70 mx-auto pt-1 pb-1">
+              <div className="absolute top-3.5 left-3 right-3 h-0.75 bg-neutral-200 z-0" />
+              <div className="absolute top-3.5 left-3 w-1/2 h-0.75 bg-[#8a9284] z-0" />
 
               {/* Node 1: -10% */}
               <div className="relative z-10 flex flex-col items-center gap-1">

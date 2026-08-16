@@ -96,7 +96,7 @@ export const Navbar = ({
             </div>
 
             {/* Right: Actions */}
-            <RightActions onOpenCart={() => setCartOpen(true)} />
+            <RightActions />
           </Container>
         </div>
 
@@ -178,7 +178,6 @@ export const Navbar = ({
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* Cart Sheet Drawer */}
-      <CartSheet isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
       {/* Mobile Drawer Menu with Shutter Animation */}
       <AnimatePresence>
