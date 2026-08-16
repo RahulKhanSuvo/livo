@@ -30,14 +30,32 @@ model ProductType {
   updatedAt     DateTime    @updatedAt
 }
 
+model Brand {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  image       String?
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Material {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model Product {
   id               String           @id @default(cuid())
   productTypeId    String
   productType      ProductType      @relation(fields: [productTypeId], references: [id], onDelete: Cascade)
   name             String
   description      String
-  brand            String
-  material         String
   width            Float
   height           Float
   depth            Float
@@ -48,9 +66,13 @@ model Product {
   assemblyRequired Boolean          @default(false)
   variants         ProductVariant[]
   badges           ProductBadge[]
+  orderItems       OrderItem[]
+  brand            Brand?           @relation(fields: [brandId], references: [id])
+  brandId          String?
+  material         Material?        @relation(fields: [materialId], references: [id])
+  materialId       String?
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  orderItems       OrderItem[]
 }
 
 model ProductVariant {
