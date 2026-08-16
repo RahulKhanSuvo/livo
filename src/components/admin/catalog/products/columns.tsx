@@ -43,11 +43,11 @@ export const productColumns: DataTableColumn<ProductValidationType>[] = [
       );
     },
   },
-  {
-    accessorKey: 'brand',
-    header: 'Brand',
-    cell: ({ row }) => row.original.brand || '—',
-  },
+  // {
+  //   accessorKey: 'brand',
+  //   header: 'Brand',
+  //   cell: ({ row }) => row.original.brand.name || '—',
+  // },
   {
     id: 'price',
     header: 'Price Range',

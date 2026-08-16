@@ -19,32 +19,22 @@ export const productValidationSchema = z.object({
   price: z.coerce.number().positive('Price is required'),
   salePrice: z.coerce.number().min(0, 'Sale price cannot be negative').optional(),
   description: z.string().min(1, 'Description is required').max(1000),
-
   materialId: z.string().min(1, 'Material is required'),
-
   width: z.coerce.number().min(0, 'Width must be a positive number'),
-
   height: z.coerce.number().min(0, 'Height must be a positive number'),
-
   depth: z.coerce.number().min(0, 'Depth must be a positive number'),
-
   weightKg: z.coerce.number().min(0, 'Weight must be a positive number'),
-
   assemblyRequired: z.boolean(),
-
   variants: z
     .array(
       z.object({
         id: z.string().optional(),
-
         colorHex: z
           .string()
           .regex(/^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/, 'Invalid HEX color')
           .nullable()
           .optional(),
-
         stock: z.coerce.number().int().min(0, 'Stock cannot be negative'),
-
         images: z.array(galleryImageSchema).min(1, 'At least one gallery image is required'),
       })
     )

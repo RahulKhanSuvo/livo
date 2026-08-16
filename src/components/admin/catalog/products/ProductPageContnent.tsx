@@ -9,6 +9,7 @@ function ProductPageContnent() {
     queryKey: ['products'],
     queryFn: () => getAllProducts(1, 5),
   });
+  console.log('product', products);
   return (
     <>
       <DataTable columns={productColumns} data={products?.products || []} key="product-table" />

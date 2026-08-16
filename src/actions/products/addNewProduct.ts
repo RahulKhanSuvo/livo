@@ -56,7 +56,6 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
       depth: validatedData.depth ? Number(validatedData.depth) : 0,
       weightKg: validatedData.weightKg ? Number(validatedData.weightKg) : 0,
       assemblyRequired: Boolean(validatedData.assemblyRequired),
-
       variants: {
         create: variantsData,
       },
