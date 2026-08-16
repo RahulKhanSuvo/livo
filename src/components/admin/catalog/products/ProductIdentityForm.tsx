@@ -8,7 +8,14 @@ import { type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
 import { FieldError } from '@/components/ui/field';
 import { Brand, Material } from '@/generated/prisma/client';
-
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from '@/components/ui/combobox';
 interface ProductIdentityFormProps {
   form: ProductForm;
   mode: 'create' | 'edit';
@@ -70,14 +77,35 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
               {(field: AnyFieldApi) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="product-brand">Brand</Label>
-                  <Input
-                    id="product-brand"
+
+                  <Combobox
+                    items={brands}
+                    itemToStringValue={(brand) => brand.name}
                     value={field.state.value ?? ''}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="e.g. SITS"
-                    autoComplete="off"
-                  />
+                    onValueChange={(value) => {
+                      field.handleChange(value?.name ?? '');
+                    }}
+                  >
+                    <ComboboxInput
+                      id="product-brand"
+                      placeholder="Search or select a brand..."
+                      autoComplete="off"
+                      onBlur={field.handleBlur}
+                    />
+
+                    <ComboboxContent>
+                      <ComboboxEmpty>No brand found.</ComboboxEmpty>
+
+                      <ComboboxList>
+                        {(brand) => (
+                          <ComboboxItem key={brand.id} value={brand}>
+                            {brand.name}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+
                   {field.state.meta.errors.length > 0 && (
                     <FieldError>
                       {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
@@ -91,14 +119,35 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
               {(field: AnyFieldApi) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="product-material">Material</Label>
-                  <Input
-                    id="product-material"
+
+                  <Combobox
+                    items={materials}
+                    itemToStringValue={(material) => material.name}
                     value={field.state.value ?? ''}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="e.g. Oak, bouclé"
-                    autoComplete="off"
-                  />
+                    onValueChange={(value) => {
+                      field.handleChange(value?.name ?? '');
+                    }}
+                  >
+                    <ComboboxInput
+                      id="product-material"
+                      placeholder="Search or select a material..."
+                      autoComplete="off"
+                      onBlur={field.handleBlur}
+                    />
+
+                    <ComboboxContent>
+                      <ComboboxEmpty>No material found.</ComboboxEmpty>
+
+                      <ComboboxList>
+                        {(material) => (
+                          <ComboboxItem key={material.id} value={material}>
+                            {material.name}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+
                   {field.state.meta.errors.length > 0 && (
                     <FieldError>
                       {field.state.meta.errors[0]?.message ?? String(field.state.meta.errors[0])}
