@@ -72,6 +72,7 @@ model Product {
   materialId       String?
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
+  cartItems        CartItem[]
 }
 
 model ProductVariant {

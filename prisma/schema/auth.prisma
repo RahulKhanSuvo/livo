@@ -15,6 +15,7 @@ model User {
   accounts      Account[]
   role          Role      @default(USER)
   orders        Order[]
+  cart          Cart?
 
   @@unique([email])
   @@map("user")
