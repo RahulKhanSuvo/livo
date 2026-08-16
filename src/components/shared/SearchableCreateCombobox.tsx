@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 
 import { HugeiconsIcon } from '@hugeicons/react';
-import { PlusSignIcon, Tick02Icon } from '@hugeicons/core-free-icons';
+import { PlusSignIcon } from '@hugeicons/core-free-icons';
 
 import {
   Combobox,
