@@ -21,7 +21,7 @@ export interface ProductCardItem {
     };
   };
   variants?: Array<{
-    id?: string;
+    id: string;
     colorHex?: string | null;
     stock?: number;
     images?: Array<
@@ -83,7 +83,7 @@ const ProductCard = ({ product, basePath }: { product: ProductCardItem; basePath
             className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
           />
         )}
-        <AddToCartButton product={product} />
+        <AddToCartButton product={product} selectedVariant={variant} />
       </Link>
 
       <div className="pt-4 flex flex-col space-y-1">
