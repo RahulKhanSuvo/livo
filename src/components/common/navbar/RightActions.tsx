@@ -1,5 +1,5 @@
 'use client';
-import { ShoppingBag01Icon } from '@hugeicons/core-free-icons';
+import { ShoppingCart02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { AccountMenu } from './account-menu';
 import CartSheet from '../cart/CartSheet';
@@ -11,7 +11,6 @@ export const RightActions = () => {
   const items = useCartStore((state) => state.items);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
-  console.log('cart', items);
   return (
     <div className="flex items-center gap-4 sm:gap-6">
       <AccountMenu />
@@ -19,10 +18,12 @@ export const RightActions = () => {
         type="button"
         onClick={() => setCartOpen(true)}
         aria-label="Cart"
-        className="flex items-center gap-1 text-neutral-800 hover:text-black transition-colors cursor-pointer"
+        className="flex items-center relative gap-1 text-neutral-800 hover:text-black transition-colors cursor-pointer"
       >
-        <HugeiconsIcon icon={ShoppingBag01Icon} size={19} strokeWidth={1.5} />
-        <span className="text-xs font-semibold ml-0.5">{items?.length}</span>
+        <HugeiconsIcon icon={ShoppingCart02Icon} size={19} strokeWidth={1.5} />
+        <span className="absolute -top-2 -right-2 text-xs font-semibold rounded-full bg-red-500 text-white h-4 w-4 flex items-center justify-center">
+          {items?.length}
+        </span>
       </button>
       <CartSheet isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
