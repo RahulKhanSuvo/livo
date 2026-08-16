@@ -1,6 +1,29 @@
 'use server';
 
 import prisma from '@/lib/prisma';
+import { Prisma } from '@/generated/prisma/client';
+
+export type ProductWithRelations = Prisma.ProductGetPayload<{
+  include: {
+    variants: {
+      include: {
+        images: true;
+      };
+    };
+    material: {
+      select: {
+        id: true;
+        name: true;
+      };
+    };
+    brand: {
+      select: {
+        id: true;
+        name: true;
+      };
+    };
+  };
+}>;
 
 export async function getAllProducts(page: number = 1, limit: number = 10) {
   try {

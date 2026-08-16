@@ -14,9 +14,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ProductValidationType } from '@/actions/products/productValidation';
+import { ProductWithRelations } from '@/actions/products/getAllProducts';
 
-export const productColumns: DataTableColumn<ProductValidationType>[] = [
+export const productColumns: DataTableColumn<ProductWithRelations>[] = [
   {
     accessorKey: 'name',
     header: 'Product',
@@ -43,11 +43,11 @@ export const productColumns: DataTableColumn<ProductValidationType>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: 'brand',
-  //   header: 'Brand',
-  //   cell: ({ row }) => row.original.brand.name || '—',
-  // },
+  {
+    accessorKey: 'brand',
+    header: 'Brand',
+    cell: ({ row }) => row.original.brand?.name || '—',
+  },
   {
     id: 'price',
     header: 'Price Range',
