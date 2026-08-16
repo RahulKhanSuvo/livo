@@ -39,6 +39,7 @@ export const uploadFileToCloudinary = async (
           public_id: uniqueName,
         },
         (error, result) => {
+          console.log(error);
           if (error) {
             return reject(new Error('Failed to upload file to Cloudinary'));
           }
