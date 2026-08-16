@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useTransition } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams, useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -21,16 +21,26 @@ export interface SelectedFilter {
   optionLabel: string;
 }
 
-export const ProductFilterSidebar = () => {
+export const ProductFilterSidebar = ({
+  category: propCategory,
+  subcategory: propSubcategory,
+}: {
+  category?: string;
+  subcategory?: string;
+} = {}) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const routeParams = useParams();
   const [, startTransition] = useTransition();
 
-  // Query dynamic filter options directly from database server action
+  const category = propCategory || (routeParams?.category as string) || undefined;
+  const subcategory = propSubcategory || (routeParams?.subcategory as string) || undefined;
+
+  // Query dynamic filter options directly from database server action filtered by category and subcategory
   const { data: filterGroupsResponse, isLoading } = useQuery({
-    queryKey: ['filter-options'],
-    queryFn: () => getFilterOptionsAction(null),
+    queryKey: ['filter-options', category, subcategory],
+    queryFn: () => getFilterOptionsAction({ category, subcategory }),
     staleTime: 1000 * 60 * 10,
   });
 

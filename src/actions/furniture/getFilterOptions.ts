@@ -3,10 +3,90 @@
 import { createSafeAction } from '@/lib/createSafeAction';
 import prisma from '@/lib/prisma';
 import { FilterGroup } from '@/data/filter-sidebar.data';
+import { z } from 'zod';
+import { Prisma } from '@/generated/prisma/client';
+
+const getFilterOptionsSchema = z.object({
+  category: z.string().trim().optional(),
+  subcategory: z.string().trim().optional(),
+});
 
 export const getFilterOptionsAction = createSafeAction(
-  null,
-  async () => {
+  getFilterOptionsSchema,
+  async ({ category, subcategory }) => {
+    const productWhereConditions: Prisma.ProductWhereInput[] = [];
+
+    if (category && category !== 'all') {
+      const normalizedCategory = category.toLowerCase().trim();
+      const categoryBase = normalizedCategory.replace(/-room$/, '').replace(/-/g, ' ');
+
+      productWhereConditions.push({
+        productType: {
+          subCategory: {
+            category: {
+              OR: [
+                { slug: { equals: normalizedCategory, mode: 'insensitive' } },
+                { slug: { equals: categoryBase, mode: 'insensitive' } },
+                { name: { contains: categoryBase, mode: 'insensitive' } },
+              ],
+            },
+          },
+        },
+      });
+    }
+
+    if (subcategory && subcategory !== 'all') {
+      const normalizedSubCategory = subcategory.toLowerCase().trim();
+      const cleanSubName = normalizedSubCategory.replace(/-/g, ' ');
+
+      productWhereConditions.push({
+        productType: {
+          OR: [
+            { slug: { contains: normalizedSubCategory, mode: 'insensitive' } },
+            { name: { contains: cleanSubName, mode: 'insensitive' } },
+            {
+              subCategory: {
+                OR: [
+                  { slug: { contains: normalizedSubCategory, mode: 'insensitive' } },
+                  { name: { contains: cleanSubName, mode: 'insensitive' } },
+                ],
+              },
+            },
+          ],
+        },
+      });
+    }
+
+    const productWhere: Prisma.ProductWhereInput =
+      productWhereConditions.length > 0 ? { AND: productWhereConditions } : {};
+
+    const productTypeWhere: Prisma.ProductTypeWhereInput = {};
+
+    if (subcategory && subcategory !== 'all') {
+      const normalizedSubCategory = subcategory.toLowerCase().trim();
+      const cleanSubName = normalizedSubCategory.replace(/-/g, ' ');
+      productTypeWhere.subCategory = {
+        OR: [
+          { slug: { contains: normalizedSubCategory, mode: 'insensitive' } },
+          { name: { contains: cleanSubName, mode: 'insensitive' } },
+        ],
+      };
+    } else if (category && category !== 'all') {
+      const normalizedCategory = category.toLowerCase().trim();
+      const categoryBase = normalizedCategory.replace(/-room$/, '').replace(/-/g, ' ');
+      productTypeWhere.subCategory = {
+        category: {
+          OR: [
+            { slug: { equals: normalizedCategory, mode: 'insensitive' } },
+            { slug: { equals: categoryBase, mode: 'insensitive' } },
+            { name: { contains: categoryBase, mode: 'insensitive' } },
+          ],
+        },
+      };
+    }
+
+    const hasFilter = productWhereConditions.length > 0;
+
     const [
       brands,
       productTypes,
@@ -18,37 +98,41 @@ export const getFilterOptionsAction = createSafeAction(
       over1000Count,
     ] = await Promise.all([
       prisma.brand.findMany({
+        where: hasFilter ? { products: { some: productWhere } } : {},
         select: {
           id: true,
           name: true,
           _count: {
-            select: { products: true },
+            select: { products: hasFilter ? { where: productWhere } : true },
           },
         },
         orderBy: { name: 'asc' },
       }),
       prisma.productType.findMany({
+        where: productTypeWhere,
         select: {
           id: true,
           name: true,
           _count: {
-            select: { products: true },
+            select: { products: hasFilter ? { where: productWhere } : true },
           },
         },
         orderBy: { name: 'asc' },
       }),
       prisma.material.findMany({
+        where: hasFilter ? { products: { some: productWhere } } : {},
         select: {
           id: true,
           name: true,
           _count: {
-            select: { products: true },
+            select: { products: hasFilter ? { where: productWhere } : true },
           },
         },
         orderBy: { name: 'asc' },
       }),
       prisma.product.count({
         where: {
+          ...productWhere,
           variants: {
             some: {
               stock: { gt: 0 },
@@ -58,6 +142,7 @@ export const getFilterOptionsAction = createSafeAction(
       }),
       prisma.product.count({
         where: {
+          ...productWhere,
           variants: {
             every: {
               stock: { equals: 0 },
@@ -67,16 +152,19 @@ export const getFilterOptionsAction = createSafeAction(
       }),
       prisma.product.count({
         where: {
+          ...productWhere,
           price: { lt: 500 },
         },
       }),
       prisma.product.count({
         where: {
+          ...productWhere,
           price: { gte: 500, lte: 1000 },
         },
       }),
       prisma.product.count({
         where: {
+          ...productWhere,
           price: { gt: 1000 },
         },
       }),
