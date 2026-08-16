@@ -9,6 +9,8 @@ import { type AnyFieldApi } from '@tanstack/form-core';
 import { FieldError } from '@/components/ui/field';
 import { Brand, Material } from '@/generated/prisma/client';
 import { SearchableCreateCombobox } from '@/components/shared/SearchableCreateCombobox';
+import { createMaterialAction } from '@/actions/material/createMaterialAction';
+import { createBrandAction } from '@/actions/brand/createBrandAction';
 interface ProductIdentityFormProps {
   form: ProductForm;
   mode: 'create' | 'edit';
@@ -66,7 +68,7 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
           </form.Field>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <form.Field name="brand">
+            <form.Field name="brandId">
               {(field: AnyFieldApi) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="product-brand">Brand</Label>
@@ -77,10 +79,19 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
                     onChange={field.handleChange}
                     getItemId={(brand) => brand.id}
                     getItemLabel={(brand) => brand.name}
+                    onCreate={async (name) => {
+                      const result = await createBrandAction({ name });
+
+                      if (!result.success || !result.data) {
+                        throw new Error(result.message ?? 'Failed to create brand');
+                      }
+
+                      return result.data;
+                    }}
                     placeholder="Select brand..."
-                    searchPlaceholder="Search brand..."
+                    searchPlaceholder="Search or create brand..."
                     emptyMessage="No brand found."
-                    createMessage={(value) => `Create brand "${value}"`}
+                    createMessage={(name) => `Create brand "${name}"`}
                   />
 
                   {field.state.meta.errors.length > 0 && (
@@ -92,7 +103,7 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
               )}
             </form.Field>
 
-            <form.Field name="material">
+            <form.Field name="materialId">
               {(field: AnyFieldApi) => (
                 <div className="space-y-1.5">
                   <Label htmlFor="product-material">Material</Label>
@@ -103,10 +114,17 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
                     onChange={field.handleChange}
                     getItemId={(material) => material.id}
                     getItemLabel={(material) => material.name}
+                    onCreate={async (name) => {
+                      const result = await createMaterialAction({ name });
+                      if (!result.success || !result.data) {
+                        throw new Error(result.message ?? 'Failed to create material');
+                      }
+                      return result.data;
+                    }}
                     placeholder="Select material..."
-                    searchPlaceholder="Search material..."
+                    searchPlaceholder="Search or create material..."
                     emptyMessage="No material found."
-                    createMessage={(value) => `Create material "${value}"`}
+                    createMessage={(name) => `Create material "${name}"`}
                   />
 
                   {field.state.meta.errors.length > 0 && (
