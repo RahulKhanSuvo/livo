@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { ProductValidationType } from '@/actions/products/productValidation';
+import type { ProductWithDetails } from './ProductDetailsView';
 
-type Variant = ProductValidationType['variants'][number];
+type Variant = ProductWithDetails['variants'][number];
 
 interface VariantSelectorProps {
   variants: Variant[];

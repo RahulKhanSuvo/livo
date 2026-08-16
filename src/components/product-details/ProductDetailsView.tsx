@@ -12,15 +12,27 @@ import { PromoCountdown } from './PromoCountdown';
 import { ProductGuarantees } from './ProductGuarantees';
 import { PaymentMethods } from './PaymentMethods';
 import { Container } from '../shared/Container';
-import { ProductValidationType } from '@/actions/products/productValidation';
+import { Prisma } from '@/generated/prisma/client';
 
-/** Helper: get a display URL from a variant image (ExistingImage | File) */
-function getImageUrl(image: ProductValidationType['variants'][number]['images'][number]): string {
+export type ProductWithDetails = Prisma.ProductGetPayload<{
+  include: {
+    variants: {
+      include: {
+        images: true;
+      };
+    };
+    brand: true;
+    material: true;
+  };
+}>;
+
+/** Helper: get a display URL from a variant image (ExistingImage | File | string) */
+function getImageUrl(image: { imageUrl: string } | File): string {
   if (image instanceof File) return URL.createObjectURL(image);
   return image.imageUrl;
 }
 
-export const ProductDetailsView = ({ product }: { product: ProductValidationType }) => {
+export const ProductDetailsView = ({ product }: { product: ProductWithDetails }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
 
   // First image of the selected variant is the hero image
@@ -83,7 +95,7 @@ export const ProductDetailsView = ({ product }: { product: ProductValidationType
           {/* Details Column */}
           <div className="lg:col-span-5 flex flex-col space-y-4">
             <ProductHeader
-              brand={product.brand}
+              brand={product.brand?.name ?? ''}
               name={product.name}
               price={product.price}
               salePrice={product.salePrice}
@@ -110,7 +122,7 @@ export const ProductDetailsView = ({ product }: { product: ProductValidationType
 
             <ProductAccordions
               description={product.description}
-              material={product.material}
+              material={product.material?.name ?? ''}
               width={product.width}
               height={product.height}
               depth={product.depth}

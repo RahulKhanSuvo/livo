@@ -2,26 +2,27 @@
 import prisma from '@/lib/prisma';
 import { createSafeAction } from '@/lib/createSafeAction';
 
-const getProductById = async (id: string) => {
-  const product = await prisma.product.findUnique({
-    where: { id },
-    include: {
-      variants: {
-        include: {
-          images: true,
+export const getProductByIdAction = createSafeAction(
+  null,
+  async (id: string) => {
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        variants: {
+          include: {
+            images: true,
+          },
         },
+        material: true,
+        brand: true,
       },
-    },
-  });
+    });
 
-  if (!product) {
-    throw new Error('Product not found');
-  }
+    if (!product) {
+      throw new Error('Product not found');
+    }
 
-  return product;
-};
-
-export const getProductByIdAction = createSafeAction<
-  string,
-  Awaited<ReturnType<typeof getProductById>>
->(null, getProductById, { successMessage: 'Product fetched successfully' });
+    return product;
+  },
+  { successMessage: 'Product fetched successfully' }
+);
