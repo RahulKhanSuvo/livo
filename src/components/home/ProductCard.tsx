@@ -3,49 +3,77 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import Link from 'next/link';
-import { ProductValidationType } from '@/actions/products/productValidation';
 
-const ProductCard = ({
-  product,
-  basePath,
-}: {
-  product: ProductValidationType;
-  basePath: string;
-}) => {
+export interface ProductCardItem {
+  id?: string;
+  name: string;
+  price: number;
+  salePrice?: number | null;
+  brand?: { name?: string | null } | string | null;
+  brandId?: string | null;
+  variants?: Array<{
+    id?: string;
+    colorHex?: string | null;
+    stock?: number;
+    images?: Array<
+      | {
+          imageUrl: string;
+        }
+      | File
+    >;
+  }>;
+}
+
+const ProductCard = ({ product, basePath }: { product: ProductCardItem; basePath: string }) => {
   const [selectedVariant, setSelectedVariant] = useState(0);
-  const variant = product?.variants[selectedVariant];
+  const variant = product?.variants?.[selectedVariant];
   const displayPrice = product?.price;
   const displaySalePrice = product?.salePrice;
-  const firstImage = variant?.images[0];
-  const secondImage = variant?.images[1];
-  console.log(product);
+  const firstImage = variant?.images?.[0];
+  const secondImage = variant?.images?.[1];
 
   const firstImageUrl =
-    firstImage instanceof File ? URL.createObjectURL(firstImage) : firstImage?.imageUrl;
+    firstImage instanceof File
+      ? URL.createObjectURL(firstImage)
+      : (firstImage as { imageUrl?: string })?.imageUrl || '';
 
   const secondImageUrl =
-    secondImage instanceof File ? URL.createObjectURL(secondImage) : secondImage?.imageUrl;
+    secondImage instanceof File
+      ? URL.createObjectURL(secondImage)
+      : (secondImage as { imageUrl?: string })?.imageUrl || firstImageUrl;
+
+  const brandName =
+    typeof product?.brand === 'object' && product?.brand !== null
+      ? product.brand.name
+      : typeof product?.brand === 'string'
+        ? product.brand
+        : null;
+
   return (
     <div className="flex flex-col">
       <Link
-        href={`${basePath}/${product.id}`}
+        href={`${basePath}/${product.id || ''}`}
         className="relative cursor-pointer aspect-square w-full bg-[#f6f6f6] flex items-center justify-center overflow-hidden group"
       >
-        <Image
-          src={firstImageUrl}
-          alt={product?.name}
-          fill
-          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
-        />
+        {firstImageUrl && (
+          <Image
+            src={firstImageUrl}
+            alt={product?.name || 'Product'}
+            fill
+            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
+            className="absolute inset-0 object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0"
+          />
+        )}
 
-        <Image
-          src={secondImageUrl}
-          alt={product?.name}
-          fill
-          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-          className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
-        />
+        {secondImageUrl && (
+          <Image
+            src={secondImageUrl}
+            alt={product?.name || 'Product'}
+            fill
+            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
+            className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+          />
+        )}
         <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
           <Button variant={'main'} className={'w-[90%]'}>
             Add to Cart
@@ -54,9 +82,11 @@ const ProductCard = ({
       </Link>
 
       <div className="pt-4 flex flex-col space-y-1">
-        <span className="text-[11px] tracking-wider text-neutral-400 uppercase font-medium">
-          {product?.brand}
-        </span>
+        {brandName && (
+          <span className="text-[11px] tracking-wider text-neutral-400 uppercase font-medium">
+            {brandName}
+          </span>
+        )}
         <h3 className="text-sm font-normal text-neutral-900 tracking-tight">{product?.name}</h3>
 
         <div className="flex items-center gap-2 pt-0.5">
@@ -79,7 +109,7 @@ const ProductCard = ({
           )}
         </div>
 
-        {product?.variants?.length > 1 && (
+        {(product?.variants?.length ?? 0) > 1 && (
           <div className="flex items-center gap-1.5 pt-2">
             {product?.variants?.map((v, idx) => (
               <button

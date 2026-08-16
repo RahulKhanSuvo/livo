@@ -12,7 +12,7 @@ export async function getOrders(userId: string): Promise<ProfileOrder[]> {
       include: {
         items: {
           include: {
-            product: { select: { name: true, slug: true } },
+            product: { select: { name: true, id: true } },
             productVariant: {
               include: {
                 images: { orderBy: { sortOrder: 'asc' }, take: 1 },
@@ -30,11 +30,11 @@ export async function getOrders(userId: string): Promise<ProfileOrder[]> {
       paymentStatus: order.paymentStatus,
       total: order.total.toNumber(),
       createdAt: order.createdAt.toISOString(),
-      itemCount: order.items.reduce((sum, item) => sum + item.quantity, 0),
+      itemCount: order.items.reduce((sum: number, item) => sum + item.quantity, 0),
       items: order.items.map((item) => ({
         id: item.id,
         name: item.product.name,
-        slug: item.product.slug,
+        slug: item.product.id,
         image: item.productVariant.images[0]?.imageUrl ?? null,
         quantity: item.quantity,
         unitPrice: item.unitPrice.toNumber(),

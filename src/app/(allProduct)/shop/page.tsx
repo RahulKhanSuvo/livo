@@ -1,10 +1,10 @@
 import ProductPageHeader from '@/components/shared/ProductPageHeader';
 import { Container } from '@/components/shared/Container';
-import headerImage from '@/assets/header/sofa.webp';
 import ProductFilterSidebar from '@/components/shared/ProductFilterSidebar';
 import ProductList from '@/components/shared/ProductList';
 import ProductSortBar from '@/components/shared/ProductSortBar';
 import FeaturesBar from '@/components/home/FeaturesBar';
+import { getShopHeaderDetails } from '@/components/shared/shopHeader.data';
 
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
@@ -13,7 +13,7 @@ import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { FurnitureQuery, furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
 import { ActionResponse } from '@/lib/createSafeAction';
 
-const SofaPage = async ({
+const ShopPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{
@@ -24,13 +24,14 @@ const SofaPage = async ({
 
   const parsed = furnitureQuerySchema.safeParse(queryParams);
 
-  const { search, sortBy, sortOrder, page, limit } = parsed.success
+  const { search, category, subcategory, sortBy, sortOrder, page, limit } = parsed.success
     ? parsed.data
     : furnitureQuerySchema.parse({});
 
-  // Explicitly type the parameters object within the queryKey
   const queryParameters: FurnitureQuery = {
     search,
+    category,
+    subcategory,
     sortBy,
     sortOrder,
     page,
@@ -43,18 +44,21 @@ const SofaPage = async ({
 
   await queryClient.prefetchQuery({
     queryKey,
-
     queryFn: () => getAllFurnitureAction(queryParameters),
-
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 6,
   });
 
   const data = queryClient.getQueryData<ActionResponse<GetAllFurnitureResponse>>(queryKey);
+  const headerDetails = getShopHeaderDetails(category, subcategory);
 
   return (
     <section>
-      <ProductPageHeader title="Sofa" description="Tjos" imageSrc={headerImage} />
+      <ProductPageHeader
+        title={headerDetails.title}
+        description={headerDetails.description}
+        imageSrc={headerDetails.imageSrc}
+      />
 
       <Container className="flex gap-10 pb-16">
         <div className="sticky top-20 z-20 w-78 self-start">
@@ -75,4 +79,4 @@ const SofaPage = async ({
   );
 };
 
-export default SofaPage;
+export default ShopPage;

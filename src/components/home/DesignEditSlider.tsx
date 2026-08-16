@@ -12,17 +12,28 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 import { Container } from '../shared/Container';
 import ProductCard from './ProductCard';
-import { productsData } from './productsData';
 import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
 import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
+import { useQuery } from '@tanstack/react-query';
+import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 
 export const DesignEditSlider = () => {
   const [activeTab, setActiveTab] = useState<string>('new');
 
-  const filteredProducts = productsData.filter((product) => {
-    if (activeTab === 'new') return true;
-    return product.category === activeTab;
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', 'design-slider', activeTab],
+    queryFn: () =>
+      getAllFurnitureAction({
+        page: 1,
+        limit: 10,
+        search: '',
+        subcategory: activeTab === 'new' ? undefined : activeTab,
+        sortBy: 'soldCount',
+        sortOrder: 'desc',
+      }),
   });
+
+  const products = data?.data?.products || [];
 
   return (
     /* Parent container handles overflow prevention for the page */
@@ -69,38 +80,54 @@ export const DesignEditSlider = () => {
           </TabsList>
 
           <TabsContent value={activeTab} className="mt-0">
-            {/* !overflow-visible allows slides to bleed seamlessly off the right side */}
-            <div className="relative group/swiper">
-              <Swiper
-                modules={[Scrollbar, Navigation]}
-                spaceBetween={9}
-                slidesPerView={1.2}
-                scrollbar={{ draggable: true, el: '.custom-swiper-scrollbar' }}
-                navigation={{
-                  prevEl: '.swiper-prev',
-                  nextEl: '.swiper-next',
-                }}
-                breakpoints={{
-                  640: { slidesPerView: 2.2, spaceBetween: 8 },
-                  1024: { slidesPerView: 3.5, spaceBetween: 8 },
-                  1280: { slidesPerView: 4, spaceBetween: 8 },
-                }}
-                className="w-full pb-8! overflow-visible!"
-              >
-                {filteredProducts.map((product) => (
-                  <SwiperSlide key={product.id}>
-                    <ProductCard product={product} basePath="/sofas" />
-                  </SwiperSlide>
+            {isLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="animate-pulse flex flex-col space-y-3">
+                    <div className="bg-neutral-100 aspect-square w-full rounded-md" />
+                    <div className="h-4 bg-neutral-100 rounded w-1/2" />
+                    <div className="h-4 bg-neutral-100 rounded w-1/4" />
+                  </div>
                 ))}
-              </Swiper>
+              </div>
+            ) : products.length === 0 ? (
+              <div className="py-12 text-center text-sm text-neutral-500">
+                No products found in this category.
+              </div>
+            ) : (
+              /* !overflow-visible allows slides to bleed seamlessly off the right side */
+              <div className="relative group/swiper">
+                <Swiper
+                  modules={[Scrollbar, Navigation]}
+                  spaceBetween={9}
+                  slidesPerView={1.2}
+                  scrollbar={{ draggable: true, el: '.custom-swiper-scrollbar' }}
+                  navigation={{
+                    prevEl: '.swiper-prev',
+                    nextEl: '.swiper-next',
+                  }}
+                  breakpoints={{
+                    640: { slidesPerView: 2.2, spaceBetween: 8 },
+                    1024: { slidesPerView: 3.5, spaceBetween: 8 },
+                    1280: { slidesPerView: 4, spaceBetween: 8 },
+                  }}
+                  className="w-full pb-8! overflow-visible!"
+                >
+                  {products.map((product) => (
+                    <SwiperSlide key={product.id}>
+                      <ProductCard product={product} basePath="/shop/living-room/all" />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
 
-              <button className="swiper-prev absolute left-2 top-1/3 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-neutral-100 cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100">
-                <HugeiconsIcon icon={ArrowLeft02Icon} size="20" />
-              </button>
-              <button className="swiper-next absolute right-2 top-1/3 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-neutral-100 cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100">
-                <HugeiconsIcon icon={ArrowRight02Icon} size="20" />
-              </button>
-            </div>
+                <button className="swiper-prev absolute left-2 top-1/3 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-neutral-100 cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100">
+                  <HugeiconsIcon icon={ArrowLeft02Icon} size="20" />
+                </button>
+                <button className="swiper-next absolute right-2 top-1/3 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-neutral-100 cursor-pointer transition-all duration-300 opacity-0 group-hover/swiper:opacity-100">
+                  <HugeiconsIcon icon={ArrowRight02Icon} size="20" />
+                </button>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </Container>

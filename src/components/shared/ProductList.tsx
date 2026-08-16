@@ -29,10 +29,14 @@ const ProductList = ({ queryKey }: ProductListProps) => {
     );
   }
 
+  const categorySlug = queryKey?.category || 'living-room';
+  const subcategorySlug = queryKey?.subcategory || 'all';
+  const basePath = `/shop/${categorySlug}/${subcategorySlug}`;
+
   return (
     <div className="grid flex-1 grid-cols-3 gap-3">
       {data?.data?.products.map((item) => (
-        <ProductCard basePath="shop/living-room/chair" key={item.id} product={item} />
+        <ProductCard basePath={basePath} key={item.id} product={item} />
       ))}
     </div>
   );
