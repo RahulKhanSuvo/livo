@@ -16,17 +16,12 @@ import {
 
 interface SearchableCreateComboboxProps<T> {
   items: T[];
-
-  /** Selected item ID */
   value: string;
-
-  /** Called with selected/created item ID */
   onChange: (value: string) => void;
 
   getItemId: (item: T) => string;
   getItemLabel: (item: T) => string;
 
-  /** Called when creating a new item */
   onCreate?: (name: string) => Promise<T>;
 
   placeholder?: string;
@@ -44,55 +39,49 @@ export function SearchableCreateCombobox<T>({
   getItemId,
   getItemLabel,
   onCreate,
-  placeholder = 'Select...',
+  searchPlaceholder = 'Search...',
   emptyMessage = 'No item found.',
   createMessage = (value) => `Create "${value}"`,
   disabled = false,
 }: SearchableCreateComboboxProps<T>) {
   const [search, setSearch] = useState('');
-  const [createdItem, setCreatedItem] = useState<T | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
-  /*
-   * Include the newly-created item locally.
-   *
-   * This is important because the parent `items` array won't contain
-   * the new item until React Query refetches.
-   */
-  const allItems = useMemo(() => {
-    if (!createdItem) {
-      return items;
-    }
-
-    const createdId = getItemId(createdItem);
-
-    const alreadyExists = items.some((item) => getItemId(item) === createdId);
-
-    return alreadyExists ? items : [...items, createdItem];
-  }, [items, createdItem, getItemId]);
-
-  /*
-   * Find selected item by ID.
+  /**
+   * Find selected object from the ID stored in the form.
    */
   const selectedItem = useMemo(() => {
-    return allItems.find((item) => getItemId(item) === value) ?? null;
-  }, [allItems, value, getItemId]);
+    return items.find((item) => getItemId(item) === value) ?? null;
+  }, [items, value, getItemId]);
 
-  /*
-   * Filter items using search text.
+  /**
+   * Label of currently selected item.
+   */
+  const selectedLabel = selectedItem ? getItemLabel(selectedItem) : '';
+
+  /**
+   * What should actually be displayed in the input.
+   *
+   * If the user is searching -> show search text.
+   * Otherwise -> show selected item's name.
+   */
+  const inputValue = search || selectedLabel;
+
+  /**
+   * Filter items.
    */
   const filteredItems = useMemo(() => {
     const query = search.trim().toLowerCase();
 
     if (!query) {
-      return allItems;
+      return items;
     }
 
-    return allItems.filter((item) => getItemLabel(item).toLowerCase().includes(query));
-  }, [allItems, search, getItemLabel]);
+    return items.filter((item) => getItemLabel(item).toLowerCase().includes(query));
+  }, [items, search, getItemLabel]);
 
-  /*
-   * Check whether the typed name already exists.
+  /**
+   * Check if exact name already exists.
    */
   const exactMatchExists = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -101,18 +90,24 @@ export function SearchableCreateCombobox<T>({
       return false;
     }
 
-    return allItems.some((item) => getItemLabel(item).trim().toLowerCase() === query);
-  }, [allItems, search, getItemLabel]);
+    return items.some((item) => getItemLabel(item).trim().toLowerCase() === query);
+  }, [items, search, getItemLabel]);
 
-  /*
-   * Select existing item.
+  /**
+   * Existing item selected.
    */
   const handleSelect = (item: T) => {
-    onChange(getItemId(item));
-    setSearch('');
+    const id = getItemId(item);
+    const label = getItemLabel(item);
+
+    // Form stores ID
+    onChange(id);
+
+    // Input displays NAME
+    setSearch(label);
   };
 
-  /*
+  /**
    * Create new item.
    */
   const handleCreate = async () => {
@@ -125,20 +120,16 @@ export function SearchableCreateCombobox<T>({
     try {
       setIsCreating(true);
 
-      const newItem = await onCreate(name);
+      const createdItem = await onCreate(name);
 
-      /*
-       * Keep it locally so the combobox can immediately
-       * display its name.
-       */
-      setCreatedItem(newItem);
+      const id = getItemId(createdItem);
+      const label = getItemLabel(createdItem);
 
-      /*
-       * Store ID in the form.
-       */
-      onChange(getItemId(newItem));
+      // Form stores ID
+      onChange(id);
 
-      setSearch('');
+      // Input displays NAME
+      setSearch(label);
     } catch (error) {
       console.error('Failed to create item:', error);
     } finally {
@@ -159,21 +150,25 @@ export function SearchableCreateCombobox<T>({
 
         handleSelect(item);
       }}
-      inputValue={search}
-      onInputValueChange={setSearch}
-      itemToStringValue={getItemLabel}
+      itemToStringValue={(item) => {
+        if (!item) {
+          return '';
+        }
+
+        return getItemLabel(item);
+      }}
     >
       <ComboboxInput
-        placeholder={
-          isCreating ? 'Creating...' : selectedItem ? getItemLabel(selectedItem) : placeholder
-        }
+        value={inputValue}
+        onChange={(event) => {
+          setSearch(event.target.value);
+        }}
+        placeholder={isCreating ? 'Creating...' : selectedItem ? selectedLabel : searchPlaceholder}
         disabled={disabled || isCreating}
         autoComplete="off"
       />
 
       <ComboboxContent>
-        {filteredItems.length === 0 && <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>}
-
         <ComboboxList>
           {filteredItems.map((item) => {
             const id = getItemId(item);
@@ -190,15 +185,31 @@ export function SearchableCreateCombobox<T>({
               </ComboboxItem>
             );
           })}
+        </ComboboxList>
 
-          {onCreate && search.trim() && !exactMatchExists && (
-            <ComboboxItem value={null} disabled={isCreating} onSelect={handleCreate}>
+        {onCreate && search.trim() && !exactMatchExists && (
+          <div className="border-t p-1">
+            <button
+              type="button"
+              disabled={isCreating}
+              onMouseDown={(event) => {
+                event.preventDefault();
+              }}
+              onClick={() => {
+                void handleCreate();
+              }}
+              className="flex w-full items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+            >
               <HugeiconsIcon icon={PlusSignIcon} className="mr-2 size-4" />
 
               {isCreating ? 'Creating...' : createMessage(search.trim())}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
+            </button>
+          </div>
+        )}
+
+        {filteredItems.length === 0 && search.trim() && (
+          <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
+        )}
       </ComboboxContent>
     </Combobox>
   );

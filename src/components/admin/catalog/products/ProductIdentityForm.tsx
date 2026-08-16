@@ -11,6 +11,7 @@ import { Brand, Material } from '@/generated/prisma/client';
 import { SearchableCreateCombobox } from '@/components/shared/SearchableCreateCombobox';
 import { createMaterialAction } from '@/actions/material/createMaterialAction';
 import { createBrandAction } from '@/actions/brand/createBrandAction';
+import { useQueryClient } from '@tanstack/react-query';
 interface ProductIdentityFormProps {
   form: ProductForm;
   mode: 'create' | 'edit';
@@ -19,6 +20,7 @@ interface ProductIdentityFormProps {
 }
 
 export function ProductIdentityForm({ brands, form, mode, materials }: ProductIdentityFormProps) {
+  const queryClient = useQueryClient();
   return (
     <Card>
       <CardHeader className="border-b">
@@ -85,7 +87,9 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
                       if (!result.success || !result.data) {
                         throw new Error(result.message ?? 'Failed to create brand');
                       }
-
+                      await queryClient.invalidateQueries({
+                        queryKey: ['brand'],
+                      });
                       return result.data;
                     }}
                     placeholder="Select brand..."
@@ -119,6 +123,9 @@ export function ProductIdentityForm({ brands, form, mode, materials }: ProductId
                       if (!result.success || !result.data) {
                         throw new Error(result.message ?? 'Failed to create material');
                       }
+                      await queryClient.invalidateQueries({
+                        queryKey: ['material'],
+                      });
                       return result.data;
                     }}
                     placeholder="Select material..."
