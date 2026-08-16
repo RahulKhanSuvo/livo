@@ -13,7 +13,6 @@ model CartItem {
     productId String
     variantId String?
     quantity  Int
-
-    cart    Cart    @relation(fields: [cartId], references: [id])
-    product Product @relation(fields: [productId], references: [id])
+    cart      Cart    @relation(fields: [cartId], references: [id])
+    product   Product @relation(fields: [productId], references: [id])
 }
