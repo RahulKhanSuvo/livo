@@ -7,6 +7,7 @@ export type CartItem = {
   price: number;
   name: string;
   image: string;
+  salePrice?: number | null;
 };
 
 type CartStore = {
