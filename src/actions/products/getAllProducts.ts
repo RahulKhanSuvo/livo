@@ -15,6 +15,18 @@ export async function getAllProducts(page: number = 1, limit: number = 10) {
               images: true,
             },
           },
+          material: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          brand: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       }),
       prisma.product.count(),
