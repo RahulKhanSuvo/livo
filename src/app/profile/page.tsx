@@ -60,7 +60,7 @@ export default async function ProfilePage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               Total orders
             </p>
-            <p className="mt-3 font-[family-name:var(--font-instrument-serif)] text-4xl">
+            <p className="mt-3 font-(family-name:--font-instrument-serif) text-4xl">
               {orders.length}
             </p>
           </div>
@@ -68,7 +68,7 @@ export default async function ProfilePage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               Total spent
             </p>
-            <p className="mt-3 font-[family-name:var(--font-instrument-serif)] text-4xl">
+            <p className="mt-3 font-(family-name:--font-instrument-serif) text-4xl">
               {formatMoney(totalSpent)}
             </p>
           </div>
