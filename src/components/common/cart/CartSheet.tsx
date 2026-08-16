@@ -157,7 +157,7 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
                   <div key={itemKey} className="flex items-center gap-4">
                     {/* Product image */}
                     <Link
-                      href={`/shop/${item.productId}`}
+                      href={`/shop/${item.productCategory}/${item.productSubCategory}/${item.productId}`}
                       onClick={onClose}
                       className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden border border-neutral-100 bg-[#f7f7f7]"
                     >
@@ -173,7 +173,7 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
                     {/* Product info */}
                     <div className="min-w-0 flex-1">
                       <Link
-                        href={`/shop/${item.productId}`}
+                        href={`/shop/${item.productCategory}/${item.productSubCategory}/${item.productId}`}
                         onClick={onClose}
                         className="block truncate text-sm font-normal leading-snug text-neutral-900 hover:underline"
                       >

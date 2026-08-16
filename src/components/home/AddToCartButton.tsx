@@ -34,8 +34,13 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
 
   return (
     <div className="absolute bottom-0 left-0 right-0 z-20 flex translate-y-full items-center justify-center transition-transform duration-300 ease-out group-hover:-translate-y-6">
-      <Button variant="main" className="w-[90%]" onClick={handleAddToCart}>
-        Add to Cart
+      <Button
+        disabled={product?.variants?.length === 0}
+        variant="main"
+        className="w-[90%]"
+        onClick={handleAddToCart}
+      >
+        {product?.variants?.length === 0 ? 'Out of stock' : 'Add to Cart'}
       </Button>
     </div>
   );
