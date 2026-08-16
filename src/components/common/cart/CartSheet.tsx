@@ -9,8 +9,6 @@ import {
   Add01Icon,
   Remove01Icon,
   Delete02Icon,
-  Tick02Icon,
-  Note01Icon,
   Tag01Icon,
   DeliveryTruck01Icon,
 } from '@hugeicons/core-free-icons';
@@ -57,10 +55,6 @@ interface CartSheetProps {
 
 export const CartSheet = ({ isOpen, onClose }: CartSheetProps) => {
   const [items, setItems] = useState<CartItem[]>(initialCartItems);
-  const [freeAssembly, setFreeAssembly] = useState(false);
-  const [activeTab, setActiveTab] = useState<'none' | 'note' | 'discount' | 'shipping'>('none');
-  const [orderNote, setOrderNote] = useState('');
-  const [discountCode, setDiscountCode] = useState('');
 
   const updateQuantity = (id: string, delta: number) => {
     setItems((prev) =>
@@ -93,7 +87,7 @@ export const CartSheet = ({ isOpen, onClose }: CartSheetProps) => {
       <SheetContent
         side="right"
         showCloseButton={false}
-        className="w-full data-[side=right]:sm:max-w-[420px] bg-white p-0 gap-0 flex flex-col h-full border-l border-neutral-200"
+        className="w-full data-[side=right]:sm:max-w-130 bg-white p-0 gap-0 flex flex-col h-full border-l border-neutral-200"
       >
         {/* Sheet Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 shrink-0">
@@ -234,105 +228,6 @@ export const CartSheet = ({ isOpen, onClose }: CartSheetProps) => {
               ))
             )}
           </div>
-
-          {items.length > 0 && (
-            <>
-              {/* Checkbox: Free Assembly */}
-              <div className="px-6 py-3 border-t border-neutral-100">
-                <label className="flex items-center gap-2.5 text-xs text-neutral-700 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={freeAssembly}
-                    onChange={(e) => setFreeAssembly(e.target.checked)}
-                    className="w-4 h-4 rounded border-neutral-300 text-black focus:ring-0 accent-black cursor-pointer"
-                  />
-                  <span>I choose free assembly</span>
-                </label>
-              </div>
-
-              {/* Action Buttons Row */}
-              <div className="px-6 py-2 border-t border-neutral-100">
-                <div className="grid grid-cols-3 gap-2 py-1">
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab(activeTab === 'note' ? 'none' : 'note')}
-                    className={`flex items-center justify-center gap-1.5 py-1.5 px-2 text-[11px] font-medium transition-colors rounded ${
-                      activeTab === 'note'
-                        ? 'bg-neutral-100 text-black font-semibold'
-                        : 'text-neutral-700 hover:text-black'
-                    }`}
-                  >
-                    <HugeiconsIcon icon={Note01Icon} size={14} />
-                    <span>Order Note</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab(activeTab === 'discount' ? 'none' : 'discount')}
-                    className={`flex items-center justify-center gap-1.5 py-1.5 px-2 text-[11px] font-medium transition-colors rounded ${
-                      activeTab === 'discount'
-                        ? 'bg-neutral-100 text-black font-semibold'
-                        : 'text-neutral-700 hover:text-black'
-                    }`}
-                  >
-                    <HugeiconsIcon icon={Tag01Icon} size={14} />
-                    <span>Discount Code</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab(activeTab === 'shipping' ? 'none' : 'shipping')}
-                    className={`flex items-center justify-center gap-1.5 py-1.5 px-2 text-[11px] font-medium transition-colors rounded ${
-                      activeTab === 'shipping'
-                        ? 'bg-neutral-100 text-black font-semibold'
-                        : 'text-neutral-700 hover:text-black'
-                    }`}
-                  >
-                    <HugeiconsIcon icon={DeliveryTruck01Icon} size={14} />
-                    <span>Shipping</span>
-                  </button>
-                </div>
-
-                {/* Tab Input Panels */}
-                {activeTab === 'note' && (
-                  <div className="mt-2 pb-2">
-                    <textarea
-                      value={orderNote}
-                      onChange={(e) => setOrderNote(e.target.value)}
-                      placeholder="Add special instructions for your order..."
-                      rows={2}
-                      className="w-full text-xs p-2.5 border border-neutral-300 rounded outline-none focus:border-black transition-colors resize-none"
-                    />
-                  </div>
-                )}
-
-                {activeTab === 'discount' && (
-                  <div className="mt-2 pb-2 flex gap-2">
-                    <input
-                      type="text"
-                      value={discountCode}
-                      onChange={(e) => setDiscountCode(e.target.value)}
-                      placeholder="Enter promo code"
-                      className="flex-1 text-xs px-3 py-2 border border-neutral-300 rounded outline-none focus:border-black"
-                    />
-                    <button
-                      type="button"
-                      className="px-4 py-2 bg-neutral-900 text-white text-xs font-semibold rounded hover:bg-black transition-colors"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                )}
-
-                {activeTab === 'shipping' && (
-                  <div className="mt-2 pb-2 text-xs text-neutral-600 bg-neutral-50 p-3 rounded">
-                    <p className="font-medium text-neutral-900 mb-1">Standard Shipping</p>
-                    <p>Free delivery unlocked for orders over $500.00.</p>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
         </div>
 
         {/* Footer Summary & View Cart */}
