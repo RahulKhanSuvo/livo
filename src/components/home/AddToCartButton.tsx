@@ -33,7 +33,7 @@ export function AddToCartButton({ product, selectedVariant }: AddToCartButtonPro
       productId: product.id || '',
       variantId: selectedVariant.id,
       quantity: 1,
-      price: product.salePrice ?? product.price,
+      price: product.salePrice && product.salePrice > 0 ? product.salePrice : product.price,
       name: product.name,
       image: firstImageUrl,
 
