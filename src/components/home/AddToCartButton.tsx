@@ -11,7 +11,9 @@ interface AddToCartButtonProps {
 export function AddToCartButton({ productId, variantId }: AddToCartButtonProps) {
   const addItem = useCartStore((state) => state.addItem);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     addItem({
       productId,
       variantId,
