@@ -1,8 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
-import { Button } from '../ui/button';
 import Link from 'next/link';
+import { AddToCartButton } from './AddToCartButton';
 
 export interface ProductCardItem {
   id?: string;
@@ -74,11 +74,7 @@ const ProductCard = ({ product, basePath }: { product: ProductCardItem; basePath
             className="absolute inset-0 object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
           />
         )}
-        <div className="absolute bottom-0 left-0 right-0 z-20 translate-y-full transition-transform duration-300 ease-out group-hover:-translate-y-6 flex items-center justify-center">
-          <Button variant={'main'} className={'w-[90%]'}>
-            Add to Cart
-          </Button>
-        </div>
+        <AddToCartButton productId={product.id!} variantId={variant?.id} />
       </Link>
 
       <div className="pt-4 flex flex-col space-y-1">
