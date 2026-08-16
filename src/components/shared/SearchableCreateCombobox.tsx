@@ -3,26 +3,31 @@
 import { useMemo, useState } from 'react';
 
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ArrowDown01Icon, PlusSignIcon, Tick02Icon } from '@hugeicons/core-free-icons';
+import { PlusSignIcon, Tick02Icon } from '@hugeicons/core-free-icons';
 
-import { Button } from '@/components/ui/button';
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxList,
+  ComboboxItem,
+} from '@/components/ui/combobox';
 
 interface SearchableCreateComboboxProps<T> {
   items: T[];
+
+  /** Selected item ID */
   value: string;
+
+  /** Returns selected/created item ID */
   onChange: (value: string) => void;
 
   getItemId: (item: T) => string;
   getItemLabel: (item: T) => string;
+
+  /** Called when creating a new item */
+  onCreate?: (name: string) => Promise<T>;
 
   placeholder?: string;
   searchPlaceholder?: string;
@@ -38,114 +43,125 @@ export function SearchableCreateCombobox<T>({
   onChange,
   getItemId,
   getItemLabel,
-  placeholder = 'Select...',
+  onCreate,
   searchPlaceholder = 'Search...',
   emptyMessage = 'No item found.',
   createMessage = (value) => `Create "${value}"`,
   disabled = false,
 }: SearchableCreateComboboxProps<T>) {
-  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
 
-  const normalizedSearch = search.trim().toLowerCase();
+  const selectedItem = useMemo(
+    () => items.find((item) => getItemId(item) === value) ?? null,
+    [items, value, getItemId]
+  );
 
   const filteredItems = useMemo(() => {
-    if (!normalizedSearch) {
+    const query = search.trim().toLowerCase();
+
+    if (!query) {
       return items;
     }
 
-    return items.filter((item) => getItemLabel(item).toLowerCase().includes(normalizedSearch));
-  }, [items, normalizedSearch, getItemLabel]);
+    return items.filter((item) => getItemLabel(item).toLowerCase().includes(query));
+  }, [items, search, getItemLabel]);
 
   const exactMatchExists = useMemo(() => {
-    if (!normalizedSearch) {
+    const query = search.trim().toLowerCase();
+
+    if (!query) {
       return false;
     }
 
-    return items.some((item) => getItemLabel(item).trim().toLowerCase() === normalizedSearch);
-  }, [items, normalizedSearch, getItemLabel]);
+    return items.some((item) => getItemLabel(item).trim().toLowerCase() === query);
+  }, [items, search, getItemLabel]);
 
   const handleSelect = (item: T) => {
-    onChange(getItemLabel(item));
-    setOpen(false);
+    onChange(getItemId(item));
     setSearch('');
   };
 
-  const handleCreate = () => {
-    const newValue = search.trim();
+  const handleCreate = async () => {
+    const name = search.trim();
 
-    if (!newValue) return;
+    if (!name || !onCreate || isCreating) {
+      return;
+    }
 
-    onChange(newValue);
-    setOpen(false);
-    setSearch('');
+    try {
+      setIsCreating(true);
+
+      const createdItem = await onCreate(name);
+
+      onChange(getItemId(createdItem));
+
+      setSearch('');
+    } catch (error) {
+      console.error('Failed to create item:', error);
+    } finally {
+      setIsCreating(false);
+    }
   };
 
   return (
-    <Popover
-      open={open}
-      onOpenChange={(nextOpen) => {
-        setOpen(nextOpen);
-
-        if (!nextOpen) {
+    <Combobox
+      items={filteredItems}
+      value={selectedItem}
+      onValueChange={(item) => {
+        if (!item) {
+          onChange('');
           setSearch('');
+          return;
         }
+
+        handleSelect(item);
       }}
+      inputValue={search}
+      onInputValueChange={(value) => {
+        setSearch(value);
+      }}
+      itemToStringValue={getItemLabel}
     >
-      <PopoverTrigger asChild>
-        <Button
-          type="button"
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          disabled={disabled}
-          className="w-full justify-between"
-        >
-          <span className={value ? '' : 'text-muted-foreground'}>{value || placeholder}</span>
+      <ComboboxInput
+        placeholder={
+          isCreating ? 'Creating...' : selectedItem ? getItemLabel(selectedItem) : searchPlaceholder
+        }
+        disabled={disabled || isCreating}
+        autoComplete="off"
+      />
 
-          <HugeiconsIcon icon={ArrowDown01Icon} className="size-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
+      <ComboboxContent>
+        {filteredItems.length === 0 && !search.trim() && (
+          <ComboboxEmpty>{emptyMessage}</ComboboxEmpty>
+        )}
 
-      <PopoverContent align="start" className="w-(--radix-popover-trigger-width) p-0">
-        <Command shouldFilter={false}>
-          <CommandInput placeholder={searchPlaceholder} value={search} onValueChange={setSearch} />
+        <ComboboxList>
+          {filteredItems.map((item) => {
+            const id = getItemId(item);
+            const label = getItemLabel(item);
 
-          <CommandList>
-            {filteredItems.length === 0 && <CommandEmpty>{emptyMessage}</CommandEmpty>}
+            return (
+              <ComboboxItem key={id} value={item}>
+                <HugeiconsIcon
+                  icon={Tick02Icon}
+                  className={`mr-2 size-4 ${value === id ? 'opacity-100' : 'opacity-0'}`}
+                />
 
-            {filteredItems.length > 0 && (
-              <CommandGroup>
-                {filteredItems.map((item) => {
-                  const id = getItemId(item);
-                  const label = getItemLabel(item);
+                {label}
+              </ComboboxItem>
+            );
+          })}
 
-                  return (
-                    <CommandItem key={id} value={label} onSelect={() => handleSelect(item)}>
-                      <HugeiconsIcon
-                        icon={Tick02Icon}
-                        className={`mr-2 size-4 ${value === label ? 'opacity-100' : 'opacity-0'}`}
-                      />
+          {onCreate && search.trim() && !exactMatchExists && (
+            <ComboboxItem value={null} onSelect={handleCreate} disabled={isCreating}>
+              <HugeiconsIcon icon={PlusSignIcon} className="mr-2 size-4" />
 
-                      {label}
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            )}
-
-            {normalizedSearch && !exactMatchExists && (
-              <CommandGroup>
-                <CommandItem onSelect={handleCreate}>
-                  <HugeiconsIcon icon={PlusSignIcon} className="mr-2 size-4" />
-
-                  {createMessage(search.trim())}
-                </CommandItem>
-              </CommandGroup>
-            )}
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+              {isCreating ? 'Creating...' : createMessage(search.trim())}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   );
 }
