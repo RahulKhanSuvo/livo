@@ -12,11 +12,19 @@ import { PromoCountdown } from './PromoCountdown';
 import { ProductGuarantees } from './ProductGuarantees';
 import { PaymentMethods } from './PaymentMethods';
 import { Container } from '../shared/Container';
-import { Product } from '@/types/product.type';
+import { ProductValidationType } from '@/actions/products/productValidation';
 
-export const ProductDetailsView = ({ product }: { product: Product }) => {
-  // Active variant state
+/** Helper: get a display URL from a variant image (ExistingImage | File) */
+function getImageUrl(image: ProductValidationType['variants'][number]['images'][number]): string {
+  if (image instanceof File) return URL.createObjectURL(image);
+  return image.imageUrl;
+}
+
+export const ProductDetailsView = ({ product }: { product: ProductValidationType }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
+
+  // First image of the selected variant is the hero image
+  const heroImage = selectedVariant.images[0] ? getImageUrl(selectedVariant.images[0]) : null;
 
   return (
     <div className="w-full bg-white py-6">
@@ -27,8 +35,6 @@ export const ProductDetailsView = ({ product }: { product: Product }) => {
             Home
           </Link>
           <span>/</span>
-          <span className="capitalize">{product.category}</span>
-          <span>/</span>
           <span className="text-neutral-700 font-medium">{product.name}</span>
         </nav>
 
@@ -36,24 +42,42 @@ export const ProductDetailsView = ({ product }: { product: Product }) => {
           {/* Gallery */}
           <div className="lg:col-span-7">
             <div className="relative aspect-square w-full bg-[#f5f5f3] rounded-sm p-8">
-              {/* Badges */}
-              {product.badges?.map((badge) => (
-                <span
-                  key={badge.id}
-                  className="absolute top-4 left-4 z-10 rounded-full bg-[#1e40af] px-3 py-1 text-[11px] font-medium text-white"
-                >
-                  {badge.label}
-                </span>
-              ))}
-
-              <Image
-                src={selectedVariant.mainImage}
-                alt={product.name}
-                fill
-                priority
-                className="object-contain"
-              />
+              {heroImage ? (
+                <Image
+                  src={heroImage}
+                  alt={product.name}
+                  fill
+                  priority
+                  className="object-contain"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-neutral-300 text-sm">
+                  No image available
+                </div>
+              )}
             </div>
+
+            {/* Thumbnail strip */}
+            {selectedVariant.images.length > 1 && (
+              <div className="mt-3 flex gap-2 overflow-x-auto">
+                {selectedVariant.images.map((img, i) => {
+                  const url = getImageUrl(img);
+                  return (
+                    <div
+                      key={i}
+                      className="relative h-16 w-16 shrink-0 rounded-sm bg-[#f5f5f3] overflow-hidden border border-neutral-200"
+                    >
+                      <Image
+                        src={url}
+                        alt={`${product.name} thumbnail ${i + 1}`}
+                        fill
+                        className="object-contain p-1"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Details Column */}
@@ -86,7 +110,12 @@ export const ProductDetailsView = ({ product }: { product: Product }) => {
 
             <ProductAccordions
               description={product.description}
-              specifications={product.specifications}
+              material={product.material}
+              width={product.width}
+              height={product.height}
+              depth={product.depth}
+              weightKg={product.weightKg}
+              assemblyRequired={product.assemblyRequired}
             />
           </div>
         </div>

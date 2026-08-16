@@ -10,17 +10,22 @@ import {
 
 interface ProductAccordionsProps {
   description: string;
-  specifications: {
-    material: { frame: string; seat: string; finish: string };
-    dimensions: { width: number; height: number; depth: number };
-    weight?: string;
-    assemblyRequired?: boolean;
-  };
+  material: string;
+  width: number;
+  height: number;
+  depth: number;
+  weightKg: number;
+  assemblyRequired: boolean;
 }
 
 export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
   description,
-  specifications,
+  material,
+  width,
+  height,
+  depth,
+  weightKg,
+  assemblyRequired,
 }) => {
   return (
     <Accordion
@@ -40,32 +45,23 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
 
       <AccordionItem className="data-open:bg-white" value="dimensions">
         <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900 rounded-none">
-          Dimensions & Weight
+          Dimensions &amp; Weight
         </AccordionTrigger>
         <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed space-y-1 bg-white px-0">
-          <p>Width: {specifications.dimensions.width} cm</p>
-          <p>Height: {specifications.dimensions.height} cm</p>
-          <p>Depth: {specifications.dimensions.depth} cm</p>
-          <p>Weight: {specifications.weight ?? 'N/A'}</p>
+          <p>Width: {width} cm</p>
+          <p>Height: {height} cm</p>
+          <p>Depth: {depth} cm</p>
+          <p>Weight: {weightKg} kg</p>
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem className="data-open:bg-white" value="materials">
         <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
-          Materials & Finish
+          Materials &amp; Assembly
         </AccordionTrigger>
         <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed space-y-1">
-          <p>Frame: {specifications.material.frame}</p>
-          <p>Seat: {specifications.material.seat}</p>
-          <p>Finish: {specifications.material.finish}</p>
-          <p>
-            Assembly:{' '}
-            {specifications.assemblyRequired === undefined
-              ? 'N/A'
-              : specifications.assemblyRequired
-                ? 'Required'
-                : 'No Assembly Needed'}
-          </p>
+          <p>Material: {material}</p>
+          <p>Assembly: {assemblyRequired ? 'Required' : 'No Assembly Needed'}</p>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

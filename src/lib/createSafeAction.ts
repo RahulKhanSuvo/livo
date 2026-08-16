@@ -13,25 +13,27 @@ export interface SafeActionOptions {
 }
 
 export function createSafeAction<TInput, TOutput, TContext = undefined>(
-  schema: z.ZodSchema<TInput>,
+  schema: z.ZodSchema<TInput> | null,
   handler: (validatedData: TInput, context?: TContext) => Promise<TOutput>,
   options?: SafeActionOptions
 ) {
   return async (input: TInput, context?: TContext): Promise<ActionResponse<TOutput>> => {
-    const validation = schema.safeParse(input);
+    if (schema !== null) {
+      const validation = schema.safeParse(input);
 
-    if (!validation.success) {
-      const flattened = validation.error.flatten((issue) => issue.message);
+      if (!validation.success) {
+        const flattened = validation.error.flatten((issue) => issue.message);
 
-      return {
-        success: false,
-        message: 'Validation failed. Please check your inputs.',
-        fieldErrors: flattened.fieldErrors as Record<string, string[]>,
-      };
+        return {
+          success: false,
+          message: 'Validation failed. Please check your inputs.',
+          fieldErrors: flattened.fieldErrors as Record<string, string[]>,
+        };
+      }
     }
 
     try {
-      const rawResult = await handler(validation.data, context);
+      const rawResult = await handler(input, context);
 
       const serializedData = rawResult != null ? JSON.parse(JSON.stringify(rawResult)) : null;
 

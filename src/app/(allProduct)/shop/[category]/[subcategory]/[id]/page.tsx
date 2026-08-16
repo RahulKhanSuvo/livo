@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
-import { productsData } from '@/components/home/productsData';
 import ProductDetailsView from '@/components/product-details/ProductDetailsView';
 import FeaturesBar from '@/components/home/FeaturesBar';
 import CustomerReviewsSection from '@/components/common/StarRating/CustomerReviewsSection';
 import GetInspiredBanner from '@/components/home/banner/GetInspiredBanner';
 import InteriorEditSlider from '@/components/home/InteriorEditSlider';
+import { getProductByIdAction } from '@/actions/products/getProductByIdAction';
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -14,9 +14,11 @@ type ProductDetailPageProps = {
 
 const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
   const { id } = await params;
-  const productData = productsData.find((predicate) => predicate.id === id);
+  const result = await getProductByIdAction(id);
 
-  if (!productData) notFound();
+  if (!result.success || !result.data) notFound();
+
+  const productData = result.data;
 
   return (
     <div>

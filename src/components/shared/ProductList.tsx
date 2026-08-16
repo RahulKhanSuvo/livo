@@ -32,7 +32,7 @@ const ProductList = ({ queryKey }: ProductListProps) => {
   return (
     <div className="grid flex-1 grid-cols-3 gap-3">
       {data?.data?.products.map((item) => (
-        <ProductCard basePath="living-room/chair" key={item.id} product={item} />
+        <ProductCard basePath="shop/living-room/chair" key={item.id} product={item} />
       ))}
     </div>
   );

@@ -12,17 +12,66 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 import { Container } from '../shared/Container';
 import ProductCard from './ProductCard';
-import { productsData } from './productsData';
+import { productsData, Product } from './productsData';
 import ArrowRight02Icon from '@hugeicons/core-free-icons/ArrowRight02Icon';
 import ArrowLeft02Icon from '@hugeicons/core-free-icons/ArrowLeft02Icon';
+import type { ProductValidationType } from '@/actions/products/productValidation';
+
+/** Adapts legacy static Product shape → ProductValidationType for ProductCard */
+function toProductValidationType(p: Product): ProductValidationType {
+  return {
+    id: p.id,
+    productTypeId: p.category,
+    name: p.name,
+    brand: p.brand,
+    price: p.price,
+    salePrice: p.salePrice,
+    description: p.description,
+    material: p.specifications.material.frame,
+    width: p.specifications.dimensions.width,
+    height: p.specifications.dimensions.height,
+    depth: p.specifications.dimensions.depth,
+    weightKg: 0,
+    assemblyRequired: p.specifications.assemblyRequired ?? false,
+    variants: p.variants.map((v) => ({
+      id: v.id,
+      colorHex: v.hex,
+      stock: v.stock,
+      images: [
+        // mainImage as a fake ExistingImage
+        {
+          id: `${v.id}-main`,
+          variantId: v.id,
+          imageUrl:
+            typeof v.mainImage === 'string' ? v.mainImage : (v.mainImage as { src: string }).src,
+          alt: p.name,
+          sortOrder: 0,
+          createdAt: new Date(),
+        },
+        // hoverImage as a second image
+        {
+          id: `${v.id}-hover`,
+          variantId: v.id,
+          imageUrl:
+            typeof v.hoverImage === 'string' ? v.hoverImage : (v.hoverImage as { src: string }).src,
+          alt: p.name,
+          sortOrder: 1,
+          createdAt: new Date(),
+        },
+      ],
+    })),
+  };
+}
 
 export const InteriorEditSlider = () => {
   const [activeTab, setActiveTab] = useState<string>('new');
 
-  const filteredProducts = productsData.filter((product) => {
-    if (activeTab === 'new') return true;
-    return product.category === activeTab;
-  });
+  const filteredProducts = productsData
+    .filter((product) => {
+      if (activeTab === 'new') return true;
+      return product.category === activeTab;
+    })
+    .map(toProductValidationType);
 
   return (
     /* Parent container handles overflow prevention for the page */
