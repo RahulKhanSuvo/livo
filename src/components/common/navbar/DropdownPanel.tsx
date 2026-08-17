@@ -44,7 +44,7 @@ export const DropdownPanel = ({
   if (animationType === 'none' || animationType === 'classic') {
     return (
       <div
-        className={`absolute top-full left-0 min-w-[230px] bg-white shadow-xl border border-neutral-100 py-4 px-6 z-50 text-left ${
+        className={`absolute top-full left-0 min-w-57.5 bg-white shadow-xl border border-neutral-100 py-4 px-6 z-50 text-left ${
           animationType === 'classic' ? 'animate-in fade-in slide-in-from-top-1 duration-150' : ''
         }`}
         onMouseEnter={onMouseEnter}
@@ -68,7 +68,7 @@ export const DropdownPanel = ({
             height: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
             opacity: { duration: 0.2 },
           }}
-          className="absolute top-full left-0 min-w-[230px] bg-white shadow-xl border border-neutral-100 py-4 px-6 z-50 text-left overflow-hidden"
+          className="absolute top-full left-0 min-w-57.5 bg-white shadow-xl border border-neutral-100 py-4 px-6 z-50 text-left overflow-hidden"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
