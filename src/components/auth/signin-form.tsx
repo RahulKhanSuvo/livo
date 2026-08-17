@@ -10,9 +10,8 @@ import { Button } from '@/components/ui/button';
 import { authClient } from '@/lib/auth-client';
 import { AuthField } from './auth-field';
 import { signInSchema } from './auth-schema';
-import type { SignInAction } from './auth-actions';
 
-export function SignInForm({ action }: { action: SignInAction }) {
+export function SignInForm() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm({
@@ -29,14 +28,21 @@ export function SignInForm({ action }: { action: SignInAction }) {
     },
     onSubmit: async ({ value }) => {
       setServerError(null);
-      const result = await action(value);
-      if (result.success) {
-        await authClient.getSession();
-        router.push(result.redirectTo ?? '/');
-        router.refresh();
-      } else {
-        setServerError(result.error);
-      }
+      await authClient.signIn.email(
+        {
+          email: value.email,
+          password: value.password,
+        },
+        {
+          onSuccess: () => {
+            router.push('/profile');
+            router.refresh();
+          },
+          onError: (ctx) => {
+            setServerError(ctx.error.message ?? 'Invalid email or password');
+          },
+        }
+      );
     },
   });
 

@@ -10,9 +10,8 @@ import { Button } from '@/components/ui/button';
 import { authClient } from '@/lib/auth-client';
 import { AuthField } from './auth-field';
 import { signUpSchema } from './auth-schema';
-import type { SignUpAction } from './auth-actions';
 
-export function SignUpForm({ action }: { action: SignUpAction }) {
+export function SignUpForm() {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
   const form = useForm({
@@ -31,18 +30,22 @@ export function SignUpForm({ action }: { action: SignUpAction }) {
     },
     onSubmit: async ({ value }) => {
       setServerError(null);
-      const result = await action({
-        name: value.name,
-        email: value.email,
-        password: value.password,
-      });
-      if (result.success) {
-        await authClient.getSession();
-        router.push(result.redirectTo ?? '/');
-        router.refresh();
-      } else {
-        setServerError(result.error);
-      }
+      await authClient.signUp.email(
+        {
+          email: value.email,
+          password: value.password,
+          name: value.name,
+        },
+        {
+          onSuccess: () => {
+            router.push('/profile');
+            router.refresh();
+          },
+          onError: (ctx) => {
+            setServerError(ctx.error.message ?? 'Failed to create account');
+          },
+        }
+      );
     },
   });
 
