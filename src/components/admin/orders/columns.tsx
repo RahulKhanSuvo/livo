@@ -14,8 +14,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { OrderRow } from '@/actions/order/getAllOrdersAction';
+import type { OrderStatus } from '@/generated/prisma/client';
 
-export function orderColumns(onViewDetails: (id: string) => void): DataTableColumn<OrderRow>[] {
+export function orderColumns(handlers: {
+  onViewDetails: (id: string) => void;
+  onUpdateStatus: (id: string, currentStatus: OrderStatus) => void;
+  onCancel: (id: string) => void;
+}): DataTableColumn<OrderRow>[] {
   return [
     {
       accessorKey: 'orderNumber',
@@ -47,9 +52,17 @@ export function orderColumns(onViewDetails: (id: string) => void): DataTableColu
       },
     },
     {
-      accessorKey: 'items',
+      id: 'items',
       header: 'Items',
-      cell: ({ row }) => <span className="text-foreground/80">{row.original.items}</span>,
+      cell: ({ row }) => {
+        const r = row.original;
+        return (
+          <span className="text-foreground/80">
+            {r.firstItem}
+            {r.itemCount > 1 ? ` +${r.itemCount - 1} more` : ''}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'total',
@@ -59,7 +72,7 @@ export function orderColumns(onViewDetails: (id: string) => void): DataTableColu
         return (
           <div>
             <p className="font-medium">{formatMoney(r.total)}</p>
-            <p className="text-xs text-muted-foreground">{r.paymentStatus}</p>
+            <StatusBadge status={r.paymentStatus} />
           </div>
         );
       },
@@ -83,12 +96,24 @@ export function orderColumns(onViewDetails: (id: string) => void): DataTableColu
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="cursor-pointer" onClick={() => onViewDetails(r.id)}>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => handlers.onViewDetails(r.id)}
+                >
                   View details
                 </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">Update status</DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => handlers.onUpdateStatus(r.id, r.status)}
+                >
+                  Update status
+                </DropdownMenuItem>
                 <DropdownMenuItem className="cursor-pointer">Print invoice</DropdownMenuItem>
-                <DropdownMenuItem variant="destructive" className="cursor-pointer">
+                <DropdownMenuItem
+                  variant="destructive"
+                  className="cursor-pointer"
+                  onClick={() => handlers.onCancel(r.id)}
+                >
                   Cancel order
                 </DropdownMenuItem>
               </DropdownMenuContent>
