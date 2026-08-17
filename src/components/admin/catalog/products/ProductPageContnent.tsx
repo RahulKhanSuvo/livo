@@ -1,19 +1,48 @@
 'use client';
-import { getAllProducts } from '@/actions/products/getAllProducts';
+
 import { DataTable } from '@/components/shared/data-table';
 import { useQuery } from '@tanstack/react-query';
 import { productColumns } from './columns';
+import { useServerPagination } from '@/hooks/useServerPagination';
+import { useSearchParams } from 'next/navigation';
+import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 
-function ProductPageContent({ page, limit }: { page: number; limit: number }) {
-  const { data: products } = useQuery({
-    queryKey: ['products', page, limit],
-    queryFn: () => getAllProducts(page, limit),
+function ProductPageContent() {
+  // 2. Pass currentPage & currentLimit to queryKey and queryFn
+  const searchParams = useSearchParams();
+  const { paginationState, handlePaginationChange, isPending } = useServerPagination({
+    searchParams: searchParams,
+    defaultPage: 1,
+    defaultLimit: 2,
   });
-  console.log('product', products);
+  const currentPage = paginationState.pageIndex + 1;
+  const currentLimit = paginationState.pageSize;
+
+  const { data: products } = useQuery({
+    queryKey: ['products', currentPage, currentLimit],
+    queryFn: () =>
+      getAllFurnitureAction({
+        page: currentPage,
+        limit: currentLimit,
+        search: '',
+        sortBy: 'createdAt',
+        sortOrder: 'desc',
+      }),
+  });
+
   return (
-    <>
-      <DataTable columns={productColumns} data={products?.products || []} key="product-table" />
-    </>
+    <DataTable
+      isPending={isPending}
+      pagination={{
+        state: paginationState,
+        onPaginationChange: handlePaginationChange,
+        totalRows: products?.data?.total || 0,
+      }}
+      columns={productColumns}
+      data={products?.data?.products || []}
+      tableKey="product-table"
+    />
   );
 }
+
 export default ProductPageContent;
