@@ -8,10 +8,10 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 
 export function StripeCheckoutForm({
   clientSecret,
-  orderId,
+  onSuccess,
 }: {
   clientSecret: string;
-  orderId: string;
+  onSuccess?: () => void;
 }) {
   return (
     <Elements
@@ -20,7 +20,7 @@ export function StripeCheckoutForm({
         clientSecret,
       }}
     >
-      <PaymentForm orderId={orderId} />
+      <PaymentForm clientSecret={clientSecret} onSuccess={onSuccess} />
     </Elements>
   );
 }
