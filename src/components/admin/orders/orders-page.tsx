@@ -10,10 +10,13 @@ import { useServerPagination } from '@/hooks/useServerPagination';
 import { orderColumns } from './columns';
 import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
 import { OrderDetailModal } from './order-detail-modal';
+import { OrderStatusModal } from './order-status-modal';
+import { OrderCancelModal } from './order-cancel-modal';
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatMoney } from '@/components/admin/ui/format';
+import type { OrderStatus } from '@/generated/prisma/client';
 import { orderSteps } from './orders.data';
 
 const tabs = [
@@ -27,6 +30,9 @@ export function OrdersPage() {
   const status = searchParams.get('status') ?? 'ALL';
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+  const [statusOrderId, setStatusOrderId] = useState<string | null>(null);
+  const [statusCurrent, setStatusCurrent] = useState<OrderStatus | undefined>(undefined);
+  const [cancelOrderId, setCancelOrderId] = useState<string | null>(null);
 
   const { paginationState, handlePaginationChange, isPending } = useServerPagination({
     searchParams,
@@ -97,7 +103,14 @@ export function OrdersPage() {
           onPaginationChange: handlePaginationChange,
           totalRows: total,
         }}
-        columns={orderColumns((id) => setSelectedOrderId(id))}
+        columns={orderColumns({
+          onViewDetails: (id) => setSelectedOrderId(id),
+          onUpdateStatus: (id, currentStatus) => {
+            setStatusOrderId(id);
+            setStatusCurrent(currentStatus);
+          },
+          onCancel: (id) => setCancelOrderId(id),
+        })}
         data={orders}
         tableKey="orders-table"
       />
@@ -108,6 +121,26 @@ export function OrdersPage() {
         onOpenChange={(o) => {
           if (!o) setSelectedOrderId(null);
         }}
+      />
+
+      <OrderStatusModal
+        key={statusOrderId ?? 'none'}
+        orderId={statusOrderId}
+        currentStatus={statusCurrent}
+        open={!!statusOrderId}
+        onOpenChange={(o) => {
+          if (!o) setStatusOrderId(null);
+        }}
+        onUpdated={() => {}}
+      />
+
+      <OrderCancelModal
+        orderId={cancelOrderId}
+        open={!!cancelOrderId}
+        onOpenChange={(o) => {
+          if (!o) setCancelOrderId(null);
+        }}
+        onCancelled={() => {}}
       />
 
       <div className="grid gap-5 sm:grid-cols-3">
