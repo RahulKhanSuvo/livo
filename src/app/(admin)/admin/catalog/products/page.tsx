@@ -1,11 +1,10 @@
 import ProductsState from '@/components/admin/catalog/products/ProductsState';
-import ProductTable from '@/components/admin/catalog/products/ProductTable';
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getAllProducts } from '@/actions/products/getAllProducts';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import ProductPageContent from '@/components/admin/catalog/products/ProductPageContnent';
+import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 
 export default async function ProductsRoute({
   searchParams,
@@ -16,16 +15,21 @@ export default async function ProductsRoute({
 }) {
   // 1. Await searchParams first
   const resolvedParams = await searchParams;
-
-  // 2. Extract page and limit (with fallback defaults)
   const page = Number(resolvedParams.page) || 1;
-  const limit = Number(resolvedParams.limit) || 10;
+  const limit = Number(resolvedParams.limit) || 2;
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ['products', page, limit],
-    queryFn: () => getAllProducts(page, limit),
+    queryFn: () =>
+      getAllFurnitureAction({
+        page,
+        limit,
+        search: '',
+        sortBy: 'createdAt',
+        sortOrder: 'desc',
+      }),
   });
 
   return (
@@ -42,10 +46,8 @@ export default async function ProductsRoute({
         }
       />
       <ProductsState />
-      <ProductTable />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {/* Pass page & limit down if needed */}
-        <ProductPageContent page={page} limit={limit} />
+        <ProductPageContent />
       </HydrationBoundary>
     </div>
   );
