@@ -43,7 +43,15 @@ export const getOrderByIdAction = createSafeAction(
   async ({ id }) => {
     const order = await prisma.order.findUnique({
       where: { id },
-      include: { items: true },
+      include: {
+        items: {
+          include: {
+            productVariant: {
+              include: { images: true },
+            },
+          },
+        },
+      },
     });
 
     if (!order) {
@@ -78,7 +86,7 @@ export const getOrderByIdAction = createSafeAction(
         id: i.id,
         productName: i.productName,
         variantName: i.variantName,
-        imageUrl: i.imageUrl,
+        imageUrl: i.imageUrl || i.productVariant?.images?.[0]?.imageUrl || null,
         quantity: i.quantity,
         unitPrice: Number(i.unitPrice),
         totalPrice: Number(i.totalPrice),
