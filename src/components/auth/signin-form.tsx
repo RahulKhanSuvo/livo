@@ -7,6 +7,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight02Icon } from '@hugeicons/core-free-icons';
 
 import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
 import { AuthField } from './auth-field';
 import { signInSchema } from './auth-schema';
 import type { SignInAction } from './auth-actions';
@@ -30,7 +31,9 @@ export function SignInForm({ action }: { action: SignInAction }) {
       setServerError(null);
       const result = await action(value);
       if (result.success) {
+        await authClient.getSession();
         router.push(result.redirectTo ?? '/');
+        router.refresh();
       } else {
         setServerError(result.error);
       }

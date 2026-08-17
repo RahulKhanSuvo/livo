@@ -7,6 +7,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight02Icon } from '@hugeicons/core-free-icons';
 
 import { Button } from '@/components/ui/button';
+import { authClient } from '@/lib/auth-client';
 import { AuthField } from './auth-field';
 import { signUpSchema } from './auth-schema';
 import type { SignUpAction } from './auth-actions';
@@ -36,7 +37,9 @@ export function SignUpForm({ action }: { action: SignUpAction }) {
         password: value.password,
       });
       if (result.success) {
+        await authClient.getSession();
         router.push(result.redirectTo ?? '/');
+        router.refresh();
       } else {
         setServerError(result.error);
       }
