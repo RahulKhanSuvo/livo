@@ -79,7 +79,7 @@ function DetailContent({ order }: { order: OrderDetail }) {
                 <p className="truncate text-sm font-medium">{item.productName}</p>
                 <p className="text-xs text-muted-foreground">{item.variantName || '—'}</p>
               </div>
-              <div className="text-right text-sm">
+              <div className="shrink-0 text-right text-sm">
                 <p className="font-medium">{formatMoney(item.totalPrice)}</p>
                 <p className="text-xs text-muted-foreground">
                   {item.quantity} × {formatMoney(item.unitPrice)}
