@@ -122,7 +122,6 @@ export function DataTable<T>({
           onPageChange={(i) => table.setPageIndex(i)}
           onPreviousPage={() => table.previousPage()}
           onNextPage={() => table.nextPage()}
-          isPending={isPending}
         />
       )}
     </div>

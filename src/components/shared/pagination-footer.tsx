@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const DOTS = 'dots' as const;
 
@@ -49,7 +48,6 @@ interface PaginationFooterProps {
   onPageChange: (pageIndex: number) => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
-  isPending?: boolean;
 }
 
 export function PaginationFooter({
@@ -60,23 +58,8 @@ export function PaginationFooter({
   onPageChange,
   onPreviousPage,
   onNextPage,
-  isPending = false,
 }: PaginationFooterProps) {
   const currentPage = pageIndex + 1;
-
-  if (isPending) {
-    return (
-      <div className="flex flex-col gap-3 border-t border-foreground/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-        <Skeleton className="h-4 w-24" />
-        <div className="flex items-center gap-1">
-          <Skeleton className="h-8 w-14" />
-          <Skeleton className="h-8 w-8" />
-          <Skeleton className="h-8 w-8" />
-          <Skeleton className="h-8 w-14" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col gap-3 border-t border-foreground/10 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
