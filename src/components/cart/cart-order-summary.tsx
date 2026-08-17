@@ -3,39 +3,50 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { ShoppingCart02Icon } from '@hugeicons/core-free-icons';
+import {
+  ShoppingCart02Icon,
+  Ticket01Icon,
+  Cancel01Icon,
+  AlertCircleIcon,
+} from '@hugeicons/core-free-icons';
 
 import { CartItem } from '@/stores/cart-store';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { authClient } from '@/lib/auth-client';
+import { CheckoutModal } from '@/components/checkout/CheckoutModal';
 
 interface CartOrderSummaryProps {
   items: CartItem[];
 }
 
 export function CartOrderSummary({ items }: CartOrderSummaryProps) {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
+  // Coupon state
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discountAmount, setDiscountAmount] = useState(0);
 
-  const [district, setDistrict] = useState('');
-  const [area, setArea] = useState('');
-  const [dealer, setDealer] = useState('');
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  // Calculations
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const total = Math.max(0, subtotal - discountAmount);
+  const shippingFee = subtotal >= 10000 || subtotal === 0 ? 0 : 100;
+  const total = Math.max(0, subtotal + shippingFee - discountAmount);
 
-  const formattedSubtotal = subtotal.toLocaleString('en-BD', {
-    maximumFractionDigits: 2,
-  });
-
-  const formattedTotal = total.toLocaleString('en-BD', {
-    maximumFractionDigits: 2,
-  });
+  const formattedSubtotal = subtotal.toLocaleString('en-BD', { maximumFractionDigits: 2 });
+  const formattedShipping =
+    shippingFee === 0 ? 'FREE' : `${shippingFee.toLocaleString('en-BD')} BDT`;
+  const formattedTotal = total.toLocaleString('en-BD', { maximumFractionDigits: 2 });
 
   const handleApplyCoupon = (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponCode.trim()) return;
 
-    // Demonstration coupon logic
     if (couponCode.toUpperCase() === 'LIVO10') {
       const discount = subtotal * 0.1;
       setDiscountAmount(discount);
@@ -47,125 +58,135 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
     }
   };
 
+  const handleProceedToCheckout = () => {
+    setErrorMsg(null);
+
+    if (!user) {
+      setErrorMsg('You must be logged in to checkout. Please sign in first.');
+      return;
+    }
+
+    if (!items.length) {
+      setErrorMsg('Your cart is empty.');
+      return;
+    }
+
+    setIsModalOpen(true);
+  };
+
   return (
-    <div className="w-full shrink-0 space-y-6 lg:w-96">
-      {/* Main Order Summary Box */}
-      <div className="border border-neutral-200 bg-white p-6 rounded-md">
-        <h2 className="text-base font-normal text-neutral-800 border-b border-neutral-200 pb-3 mb-4">
-          Order Summary
-        </h2>
+    <>
+      <div className="w-full shrink-0 space-y-6 lg:w-105">
+        <div className="rounded border border-border bg-card p-6 space-y-6">
+          <h2 className="text-lg font-semibold text-foreground font-heading border-b border-border pb-3">
+            Order Summary
+          </h2>
 
-        {/* Subtotal */}
-        <div className="flex items-center justify-between text-sm py-2">
-          <span className="text-neutral-600">Sub Total</span>
-          <span className="font-medium text-neutral-900">{formattedSubtotal} BDT</span>
-        </div>
+          {/* Error Banner */}
+          {errorMsg && (
+            <div className="flex items-start gap-2.5 rounded-xl border border-destructive/20 bg-destructive/10 p-3.5 text-xs text-destructive">
+              <HugeiconsIcon icon={AlertCircleIcon} size={18} className="shrink-0 mt-0.5" />
+              <p className="leading-relaxed">{errorMsg}</p>
+            </div>
+          )}
 
-        {/* Coupon Section */}
-        <form onSubmit={handleApplyCoupon} className="my-4 flex items-center gap-2">
-          <input
-            type="text"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-            placeholder="Enter Coupon code"
-            className="h-10 flex-1 rounded border border-neutral-300 bg-neutral-50/50 px-3 text-xs text-neutral-800 placeholder-neutral-400 outline-none focus:border-neutral-500"
-          />
-          <button
-            type="submit"
-            className="h-10 px-5 rounded bg-neutral-400 text-xs font-medium text-white transition-colors hover:bg-neutral-600"
-          >
-            Apply
-          </button>
-        </form>
+          {/* Pricing Breakdown */}
+          <div className="space-y-2.5 text-xs">
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>Sub Total</span>
+              <span className="font-medium text-foreground">{formattedSubtotal} BDT</span>
+            </div>
 
-        {appliedCoupon && (
-          <div className="mb-4 flex items-center justify-between text-xs text-green-700 bg-green-50 p-2 rounded border border-green-200">
-            <span>Coupon applied: {appliedCoupon}</span>
-            <button
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span>Delivery Fee</span>
+              <span className="font-medium text-foreground">{formattedShipping}</span>
+            </div>
+
+            {discountAmount > 0 && (
+              <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
+                <span>Coupon Discount</span>
+                <span className="font-medium">- {discountAmount.toLocaleString('en-BD')} BDT</span>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between text-sm pt-3 border-t border-dashed border-border font-semibold text-foreground">
+              <span>Total Payable</span>
+              <span className="text-lg font-bold text-primary">{formattedTotal} BDT</span>
+            </div>
+          </div>
+
+          {/* Coupon Code Section */}
+          <form onSubmit={handleApplyCoupon} className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <Input
+                type="text"
+                value={couponCode}
+                onChange={(e) => setCouponCode(e.target.value)}
+                placeholder="Promo Code (e.g. LIVO10)"
+                className="h-10 pl-9 text-xs"
+              />
+              <HugeiconsIcon
+                icon={Ticket01Icon}
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+              />
+            </div>
+            <Button type="submit" variant="secondary" className="h-10 px-4 text-xs font-medium">
+              Apply
+            </Button>
+          </form>
+
+          {appliedCoupon && (
+            <div className="flex items-center justify-between text-xs text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-300 p-2.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
+              <span>Coupon applied: {appliedCoupon}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setAppliedCoupon(null);
+                  setDiscountAmount(0);
+                  setCouponCode('');
+                }}
+                className="text-muted-foreground hover:text-destructive transition-colors ml-2"
+              >
+                <HugeiconsIcon icon={Cancel01Icon} size={14} />
+              </button>
+            </div>
+          )}
+
+          {/* Checkout Button */}
+          <div>
+            <Button
               type="button"
-              onClick={() => {
-                setAppliedCoupon(null);
-                setDiscountAmount(0);
-                setCouponCode('');
-              }}
-              className="text-xs font-semibold underline text-red-600 ml-2"
+              onClick={handleProceedToCheckout}
+              className="w-full h-11 text-xs font-semibold gap-2 shadow-sm"
             >
-              Remove
-            </button>
+              <span>Proceed to Checkout</span>
+              <HugeiconsIcon icon={ShoppingCart02Icon} size={16} />
+            </Button>
           </div>
-        )}
 
-        {/* Total */}
-        <div className="flex items-center justify-between text-sm pt-3 border-t border-dashed border-neutral-200 font-semibold text-neutral-900">
-          <span>Total</span>
-          <span className="text-base">{formattedTotal} BDT</span>
-        </div>
-
-        {/* Delivery Location Section */}
-        <div className="mt-6 rounded border border-neutral-200 bg-[#f6f6f6] p-4">
-          <h3 className="text-xs font-normal text-neutral-700 mb-3">
-            Select Location To EST. Delivery Time
-          </h3>
-
-          <div className="space-y-2.5">
-            <select
-              value={district}
-              onChange={(e) => setDistrict(e.target.value)}
-              className="w-full h-9 rounded border border-neutral-300 bg-white px-3 text-xs text-neutral-600 focus:border-neutral-500 outline-none"
+          {/* Continue Shopping */}
+          <div className="text-center pt-1">
+            <Link
+              href="/shop"
+              className="text-xs font-semibold text-primary hover:underline transition-all"
             >
-              <option value="">Select District</option>
-              <option value="dhaka">Dhaka</option>
-              <option value="chittagong">Chittagong</option>
-              <option value="sylhet">Sylhet</option>
-              <option value="rajshahi">Rajshahi</option>
-            </select>
-
-            <select
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
-              className="w-full h-9 rounded border border-neutral-300 bg-white px-3 text-xs text-neutral-600 focus:border-neutral-500 outline-none"
-            >
-              <option value="">Select Area</option>
-              <option value="gulshan">Gulshan</option>
-              <option value="banani">Banani</option>
-              <option value="dhanmondi font-serif">Dhanmondi</option>
-              <option value="uttara">Uttara</option>
-            </select>
-
-            <select
-              value={dealer}
-              onChange={(e) => setDealer(e.target.value)}
-              className="w-full h-9 rounded border border-neutral-300 bg-white px-3 text-xs text-neutral-600 focus:border-neutral-500 outline-none"
-            >
-              <option value="">Select Dealer</option>
-              <option value="flagship">Livo Flagship Store</option>
-              <option value="central">Central Distribution Center</option>
-            </select>
+              Continue Shopping
+            </Link>
           </div>
-        </div>
-
-        {/* Checkout Button */}
-        <div className="mt-6">
-          <Link
-            href="/checkout"
-            className="flex h-11 w-full items-center justify-center gap-2 rounded border border-neutral-300 bg-white text-sm font-medium text-neutral-800 transition-colors hover:bg-neutral-50 shadow-xs"
-          >
-            <span>Checkout</span>
-            <HugeiconsIcon icon={ShoppingCart02Icon} size={16} />
-          </Link>
-        </div>
-
-        {/* Or / Continue Shopping */}
-        <div className="mt-4 text-center">
-          <span className="text-xs text-neutral-400 block mb-2">Or</span>
-          <Link
-            href="/shop"
-            className="text-xs font-semibold text-red-600 hover:underline transition-all"
-          >
-            Continue Shopping
-          </Link>
         </div>
       </div>
-    </div>
+
+      {/* Multi-Step Checkout Modal */}
+      <CheckoutModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        items={items}
+        subtotal={subtotal}
+        shippingFee={shippingFee}
+        discountAmount={discountAmount}
+        totalAmount={total}
+      />
+    </>
   );
 }
