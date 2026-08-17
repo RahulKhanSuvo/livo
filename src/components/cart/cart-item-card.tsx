@@ -6,6 +6,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { Add01Icon, Remove01Icon, Delete02Icon } from '@hugeicons/core-free-icons';
 
 import { CartItem, useCartStore } from '@/stores/cart-store';
+import { Button } from '@/components/ui/button';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -22,20 +23,20 @@ export function CartItemCard({ item }: CartItemCardProps) {
   });
 
   return (
-    <div className="flex flex-col gap-4 border-b border-neutral-200 py-6 last:border-b-0 sm:flex-row sm:items-start sm:gap-6">
+    <div className="flex flex-col gap-4 border-b border-border py-5 last:border-b-0 sm:flex-row sm:items-center sm:gap-6">
       {/* Product Image */}
-      <div className="relative size-32 shrink-0 overflow-hidden rounded-md border border-neutral-200 bg-neutral-100 sm:size-36">
+      <div className="relative size-28 shrink-0 overflow-hidden rounded-xl border border-border bg-muted sm:size-32">
         {item.image && !imageError ? (
           <Image
             src={item.image}
             alt={item.name}
             fill
-            className="object-cover object-center"
+            className="object-cover object-center transition-transform hover:scale-105 duration-300"
             onError={() => setImageError(true)}
-            sizes="(max-width: 640px) 128px, 144px"
+            sizes="(max-width: 640px) 112px, 128px"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-neutral-400">
+          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
             No image
           </div>
         )}
@@ -43,52 +44,63 @@ export function CartItemCard({ item }: CartItemCardProps) {
 
       {/* Product Info & Controls */}
       <div className="flex flex-1 flex-col justify-between gap-3">
-        <div className="space-y-1.5">
-          <h3 className="font-semibold text-neutral-900 leading-snug sm:text-base">{item.name}</h3>
+        <div className="space-y-1">
+          <h3 className="font-semibold text-foreground font-heading text-sm sm:text-base leading-snug">
+            {item.name}
+          </h3>
           {(item.productCategory || item.productSubCategory || item.productType) && (
-            <p className="text-xs leading-relaxed text-neutral-500 max-w-xl">
+            <p className="text-xs text-muted-foreground max-w-xl">
               {[item.productCategory, item.productSubCategory, item.productType]
                 .filter(Boolean)
                 .join(' • ')}
             </p>
           )}
-          <p className="text-sm font-semibold text-neutral-800 pt-1">
-            Total: <span className="font-bold text-neutral-900">{formattedTotal} BDT</span>
+          <p className="text-xs text-muted-foreground pt-1">
+            Price:{' '}
+            <span className="font-medium text-foreground">
+              {item.price.toLocaleString('en-BD')} BDT
+            </span>
           </p>
         </div>
 
         {/* Quantity Controls & Delete Action */}
-        <div className="flex items-center justify-between pt-2">
-          <div className="flex items-center rounded border border-neutral-300 bg-white">
+        <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center rounded-lg border border-border bg-background shadow-xs">
             <button
               type="button"
               onClick={() => updateQuantity(item.productId, item.variantId, item.quantity - 1)}
-              className="flex size-8 items-center justify-center text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-black"
+              className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground rounded-l-lg"
               aria-label="Decrease quantity"
             >
               <HugeiconsIcon icon={Remove01Icon} size={14} />
             </button>
-            <span className="flex h-8 w-10 items-center justify-center text-xs font-semibold text-neutral-800 border-x border-neutral-200">
+            <span className="flex h-8 w-9 items-center justify-center text-xs font-semibold text-foreground border-x border-border">
               {item.quantity}
             </span>
             <button
               type="button"
               onClick={() => updateQuantity(item.productId, item.variantId, item.quantity + 1)}
-              className="flex size-8 items-center justify-center text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-black"
+              className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground rounded-r-lg"
               aria-label="Increase quantity"
             >
               <HugeiconsIcon icon={Add01Icon} size={14} />
             </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => removeItem(item.productId, item.variantId)}
-            className="flex size-8 items-center justify-center rounded bg-red-50 text-red-600 transition-colors hover:bg-red-100 hover:text-red-700"
-            aria-label="Remove item"
-          >
-            <HugeiconsIcon icon={Delete02Icon} size={16} />
-          </button>
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-bold text-foreground">{formattedTotal} BDT</span>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => removeItem(item.productId, item.variantId)}
+              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+              aria-label="Remove item"
+            >
+              <HugeiconsIcon icon={Delete02Icon} size={16} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
