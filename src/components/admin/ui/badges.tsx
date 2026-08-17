@@ -14,7 +14,7 @@ const statusStyles: Record<string, string> = {
   Draft: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
   Pending: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
   Processing: 'bg-sky-600/10 text-sky-700 dark:text-sky-400',
-  Shipped: 'bg-sky-600/10 text-sky-700 dark:text-sky-400',
+  Shipped: 'bg-indigo-600/10 text-indigo-700 dark:text-indigo-400',
   'In transit': 'bg-sky-600/10 text-sky-700 dark:text-sky-400',
   Refunded: 'bg-violet-600/10 text-violet-700 dark:text-violet-400',
   Low: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
@@ -24,6 +24,16 @@ const statusStyles: Record<string, string> = {
   'Out of stock': 'bg-destructive/10 text-destructive',
   Inactive: 'bg-muted text-muted-foreground',
   Unpublished: 'bg-muted text-muted-foreground',
+  // Order / payment enum values (uppercase)
+  PENDING: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
+  CONFIRMED: 'bg-blue-600/10 text-blue-700 dark:text-blue-400',
+  PROCESSING: 'bg-sky-600/10 text-sky-700 dark:text-sky-400',
+  SHIPPED: 'bg-indigo-600/10 text-indigo-700 dark:text-indigo-400',
+  DELIVERED: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400',
+  CANCELLED: 'bg-muted text-muted-foreground',
+  PAID: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400',
+  FAILED: 'bg-destructive/10 text-destructive',
+  REFUNDED: 'bg-violet-600/10 text-violet-700 dark:text-violet-400',
 };
 
 export function StatusBadge({ status }: { status: string }) {
@@ -31,7 +41,7 @@ export function StatusBadge({ status }: { status: string }) {
     <Badge
       variant="outline"
       className={cn(
-        'rounded-full border-transparent font-medium',
+        'rounded-full border-transparent font-medium capitalize',
         statusStyles[status] ?? 'bg-muted text-muted-foreground'
       )}
     >
