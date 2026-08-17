@@ -15,32 +15,32 @@ enum PaymentStatus {
 }
 
 model Order {
-  id              String        @id @default(cuid())
-  userId          String
-  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orderNumber     String        @unique
+  id                    String        @id @default(cuid())
+  userId                String
+  user                  User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderNumber           String        @unique
   // Stripe
-  stripeSessionId String?       @unique
-  stripePaymentId String?       @unique
-  status          OrderStatus   @default(PENDING)
-  paymentStatus   PaymentStatus @default(PENDING)
-  subtotal        Decimal       @db.Decimal(10, 2)
-  shippingFee     Decimal       @db.Decimal(10, 2)
-  discount        Decimal       @default(0) @db.Decimal(10, 2)
-  total           Decimal       @db.Decimal(10, 2)
-  fullName        String
-  phone           String
-  email           String?
-  country         String
-  division        String
-  district        String
-  area            String
-  postalCode      String?
-  address         String
-  notes           String?
-  items           OrderItem[]
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  stripeSessionId       String?       @unique
+  stripePaymentIntentId String?       @unique
+  status                OrderStatus   @default(PENDING)
+  paymentStatus         PaymentStatus @default(PENDING)
+  subtotal              Decimal       @db.Decimal(10, 2)
+  shippingFee           Decimal       @db.Decimal(10, 2)
+  discount              Decimal       @default(0) @db.Decimal(10, 2)
+  total                 Decimal       @db.Decimal(10, 2)
+  fullName              String
+  phone                 String
+  email                 String?
+  country               String
+  division              String
+  district              String
+  area                  String
+  postalCode            String?
+  address               String
+  notes                 String?
+  items                 OrderItem[]
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
 }
 
 model OrderItem {
