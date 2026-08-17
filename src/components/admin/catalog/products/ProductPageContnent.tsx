@@ -4,10 +4,10 @@ import { DataTable } from '@/components/shared/data-table';
 import { useQuery } from '@tanstack/react-query';
 import { productColumns } from './columns';
 
-function ProductPageContnent() {
+function ProductPageContent({ page, limit }: { page: number; limit: number }) {
   const { data: products } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => getAllProducts(1, 5),
+    queryKey: ['products', page, limit],
+    queryFn: () => getAllProducts(page, limit),
   });
   console.log('product', products);
   return (
@@ -16,4 +16,4 @@ function ProductPageContnent() {
     </>
   );
 }
-export default ProductPageContnent;
+export default ProductPageContent;
