@@ -1,22 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { MoreHorizontalIcon } from '@hugeicons/core-free-icons';
+import { useSearchParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DataTable, type Column } from '@/components/admin/ui/data-table';
-import { StatusBadge, Avatar } from '@/components/admin/ui/badges';
-import { formatMoney, initials } from '@/components/admin/ui/format';
+import { DataTable } from '@/components/shared/data-table';
+import { useServerPagination } from '@/hooks/useServerPagination';
+import { orderColumns } from './columns';
+import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
+import { OrderDetailModal } from './order-detail-modal';
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { orders, orderSteps, countOrdersByStatus, type OrderRow } from './orders.data';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatMoney } from '@/components/admin/ui/format';
+import { orderSteps } from './orders.data';
 
 const tabs = [
   { id: 'ALL', label: 'All' },
@@ -24,79 +22,34 @@ const tabs = [
   { id: 'CANCELLED', label: 'Cancelled' },
 ];
 
-const columns: Column<OrderRow>[] = [
-  {
-    key: 'order',
-    header: 'Order',
-    cell: (r) => (
-      <div>
-        <p className="font-semibold">{r.orderNumber}</p>
-        <p className="text-xs text-muted-foreground">{r.date}</p>
-      </div>
-    ),
-  },
-  {
-    key: 'customer',
-    header: 'Customer',
-    cell: (r) => (
-      <div className="flex items-center gap-2.5">
-        <Avatar initials={initials(r.customer)} tone="#8a9b80" />
-        <div>
-          <p className="font-medium">{r.customer}</p>
-          <p className="text-xs text-muted-foreground">{r.email}</p>
-        </div>
-      </div>
-    ),
-  },
-  { key: 'items', header: 'Items', cell: (r) => <span className="text-foreground/80">{r.items}</span> },
-  {
-    key: 'total',
-    header: 'Total',
-    cell: (r) => (
-      <div>
-        <p className="font-medium">{formatMoney(r.total)}</p>
-        <p className="text-xs text-muted-foreground">{r.paymentStatus}</p>
-      </div>
-    ),
-  },
-  {
-    key: 'status',
-    header: 'Status',
-    cell: (r) => <StatusBadge status={r.status} />,
-  },
-  {
-    key: 'actions',
-    header: '',
-    className: 'text-right',
-    headerClassName: 'text-right',
-    cell: (r) => (
-      <div className="flex justify-end">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm" aria-label={`Actions for ${r.orderNumber}`}>
-              <HugeiconsIcon icon={MoreHorizontalIcon} size={16} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem className="cursor-pointer">View details</DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">Update status</DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">Print invoice</DropdownMenuItem>
-            <DropdownMenuItem variant="destructive" className="cursor-pointer">
-              Cancel order
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    ),
-  },
-];
+export function OrdersPage() {
+  const searchParams = useSearchParams();
+  const status = searchParams.get('status') ?? 'ALL';
 
-export function OrdersPage({ status }: { status: string }) {
-  const active = status || 'ALL';
-  const counts = countOrdersByStatus(orders);
-  const filtered = active === 'ALL' ? orders : orders.filter((o) => o.status === active);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+
+  const { paginationState, handlePaginationChange, isPending } = useServerPagination({
+    searchParams,
+    defaultPage: 1,
+    defaultLimit: 10,
+  });
+
+  const currentPage = paginationState.pageIndex + 1;
+  const currentLimit = paginationState.pageSize;
+
+  const { data } = useQuery({
+    queryKey: ['orders', status, currentPage, currentLimit],
+    queryFn: () => getAllOrdersAction({ page: currentPage, limit: currentLimit, status }),
+  });
+
+  const orders = data?.data?.orders ?? [];
+  const total = data?.data?.total ?? 0;
+  const statusCounts = data?.data?.statusCounts ?? {};
+
+  const counts: Record<string, number> = { ALL: total, ...statusCounts };
   const activeLabel =
-    active === 'ALL' ? 'All orders' : active.charAt(0) + active.slice(1).toLowerCase();
+    status === 'ALL' ? 'All orders' : status.charAt(0) + status.slice(1).toLowerCase();
+  const paidCount = orders.filter((o) => o.paymentStatus === 'PAID').length;
 
   return (
     <div className="space-y-6">
@@ -113,7 +66,7 @@ export function OrdersPage({ status }: { status: string }) {
 
       <div className="flex flex-wrap items-center gap-1.5 rounded-2xl bg-white p-1.5 ring-1 ring-foreground/10">
         {tabs.map((tab) => {
-          const isActive = active === tab.id;
+          const isActive = status === tab.id;
           return (
             <Link
               key={tab.id}
@@ -137,7 +90,25 @@ export function OrdersPage({ status }: { status: string }) {
         })}
       </div>
 
-      <DataTable columns={columns} data={filtered} keyField={(r) => r.id} />
+      <DataTable
+        isPending={isPending}
+        pagination={{
+          state: paginationState,
+          onPaginationChange: handlePaginationChange,
+          totalRows: total,
+        }}
+        columns={orderColumns((id) => setSelectedOrderId(id))}
+        data={orders}
+        tableKey="orders-table"
+      />
+
+      <OrderDetailModal
+        orderId={selectedOrderId}
+        open={!!selectedOrderId}
+        onOpenChange={(o) => {
+          if (!o) setSelectedOrderId(null);
+        }}
+      />
 
       <div className="grid gap-5 sm:grid-cols-3">
         <Card className="bg-white/90">
@@ -150,7 +121,7 @@ export function OrdersPage({ status }: { status: string }) {
           <CardContent>
             <p className="font-heading text-2xl font-semibold">
               {formatMoney(
-                Math.round(filtered.reduce((a, o) => a + o.total, 0) / (filtered.length || 1))
+                Math.round(orders.reduce((a, o) => a + o.total, 0) / (orders.length || 1))
               )}
             </p>
           </CardContent>
@@ -169,7 +140,7 @@ export function OrdersPage({ status }: { status: string }) {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              {filtered.filter((o) => o.paymentStatus === 'PAID').length} of {filtered.length} paid
+              {paidCount} of {orders.length} paid
             </p>
           </CardContent>
         </Card>
