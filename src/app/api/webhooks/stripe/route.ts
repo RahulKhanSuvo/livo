@@ -35,14 +35,50 @@ export async function POST(request: Request) {
         break;
       }
 
-      await prisma.order.update({
-        where: {
-          id: orderId,
-        },
-        data: {
-          paymentStatus: 'PAID',
-          status: 'CONFIRMED',
-        },
+      await prisma.$transaction(async (tx) => {
+        const order = await tx.order.findUnique({
+          where: { id: orderId },
+          include: { items: true },
+        });
+
+        if (!order) {
+          throw new Error('Order not found');
+        }
+
+        // Prevent processing the same webhook twice
+        if (order.paymentStatus === 'PAID') {
+          return;
+        }
+
+        for (const item of order.items) {
+          const result = await tx.productVariant.updateMany({
+            where: {
+              id: item.productVariantId,
+              stock: {
+                gte: item.quantity,
+              },
+            },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
+
+          if (result.count === 0) {
+            throw new Error(`Insufficient stock for variant ${item.productVariantId}`);
+          }
+        }
+
+        await tx.order.update({
+          where: {
+            id: order.id,
+          },
+          data: {
+            paymentStatus: 'PAID',
+            status: 'CONFIRMED',
+          },
+        });
       });
 
       break;
