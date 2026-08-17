@@ -10,7 +10,8 @@ export type OrderRow = {
   orderNumber: string;
   customer: string;
   email: string;
-  items: string;
+  firstItem: string;
+  itemCount: number;
   total: number;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
@@ -52,7 +53,8 @@ export const getAllOrdersAction = createSafeAction(
       orderNumber: o.orderNumber,
       customer: o.fullName,
       email: o.email ?? '',
-      items: o.items.map((i) => `${i.productName} ×${i.quantity}`).join(', '),
+      firstItem: o.items[0]?.productName ?? '',
+      itemCount: o.items.length,
       total: Number(o.total),
       status: o.status,
       paymentStatus: o.paymentStatus,
