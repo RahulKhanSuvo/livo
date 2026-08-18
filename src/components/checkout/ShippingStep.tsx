@@ -18,6 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createPaymentIntent } from '@/actions/checkout/checkout';
+import { formatMoney } from '@/components/admin/ui/format';
 import type { ShippingStepProps } from './checkout-types';
 import { DIVISIONS } from './checkout-types';
 
@@ -391,9 +392,7 @@ export function ShippingStep({
         <div className="flex items-center justify-between border-t border-border pt-4">
           <div className="text-xs text-muted-foreground">
             Total:{' '}
-            <span className="font-bold text-foreground text-sm">
-              {totalAmount.toLocaleString('en-BD')} BDT
-            </span>
+            <span className="font-bold text-foreground text-sm">{formatMoney(totalAmount)}</span>
           </div>
           <Button
             type="submit"
