@@ -1,17 +1,17 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   BellIcon,
-  Calendar01Icon,
+  Globe02Icon,
   Logout01Icon,
   Menu01Icon,
   PanelLeftIcon,
   PlusSignIcon,
   Search01Icon,
   Settings05Icon,
-  UserGroupIcon,
 } from '@hugeicons/core-free-icons';
 
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { adminNavGroups, findActiveItem } from '@/components/admin/sidebar/app-sidebar.data';
+import { initials } from '@/components/admin/ui/format';
+import { authClient } from '@/lib/auth-client';
 
 function useBreadcrumb() {
   const pathname = usePathname();
@@ -54,6 +56,17 @@ export function Topbar({
   onOpenMobile: () => void;
 }) {
   const { title, parent, section } = useBreadcrumb();
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  const displayName = user?.name?.trim() || 'Admin';
+  const displayEmail = user?.email || '';
+
+  const signOut = async () => {
+    await authClient.signOut();
+    router.push('/');
+    router.refresh();
+  };
 
   return (
     <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-3 border-b border-foreground/8 bg-[#f6f5f1]/85 px-4 backdrop-blur-md sm:px-6 lg:px-8">
@@ -109,7 +122,12 @@ export function Topbar({
           />
         </div>
 
-        <Button variant="ghost" size="icon" className="relative shrink-0" aria-label="Notifications">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative shrink-0"
+          aria-label="Notifications"
+        >
           <HugeiconsIcon icon={BellIcon} size={20} />
           <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-destructive ring-2 ring-[#f6f5f1]" />
         </Button>
@@ -126,38 +144,45 @@ export function Topbar({
               className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-full bg-[#4b6b56] text-xs font-bold text-[#f4f1e8] transition-opacity hover:opacity-90"
               aria-label="Account menu"
             >
-              RS
+              {initials(displayName)}
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-60">
             <DropdownMenuLabel className="flex items-center gap-3 py-2">
               <span className="grid size-9 place-items-center rounded-full bg-[#4b6b56] text-xs font-bold text-[#f4f1e8]">
-                RS
+                {initials(displayName)}
               </span>
-              <span>
-                <span className="block text-sm font-semibold">Rahul Sharma</span>
-                <span className="block text-xs font-normal text-muted-foreground">
-                  rahul@livo.com
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-semibold">{displayName}</span>
+                <span className="block truncate text-xs font-normal text-muted-foreground">
+                  {displayEmail}
                 </span>
               </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem className="cursor-pointer">
-                <HugeiconsIcon icon={UserGroupIcon} />
-                Profile
+              <DropdownMenuItem asChild>
+                <Link href="/" target="_blank" rel="noopener noreferrer">
+                  <HugeiconsIcon icon={Globe02Icon} />
+                  Visit storefront
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <HugeiconsIcon icon={Settings05Icon} />
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <HugeiconsIcon icon={Calendar01Icon} />
-                Activity
+              <DropdownMenuItem asChild>
+                <Link href="/admin/settings">
+                  <HugeiconsIcon icon={Settings05Icon} />
+                  Settings
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive" className="cursor-pointer">
+            <DropdownMenuItem
+              variant="destructive"
+              className="cursor-pointer"
+              onSelect={(e) => {
+                e.preventDefault();
+                signOut();
+              }}
+            >
               <HugeiconsIcon icon={Logout01Icon} />
               Log out
             </DropdownMenuItem>
