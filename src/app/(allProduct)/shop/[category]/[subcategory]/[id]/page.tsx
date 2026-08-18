@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import ProductDetailsView from '@/components/product-details/ProductDetailsView';
 import FeaturesBar from '@/components/home/FeaturesBar';
-import CustomerReviewsSection from '@/components/common/StarRating/CustomerReviewsSection';
+import ProductReviews from '@/components/product-details/ProductReviews';
 import GetInspiredBanner from '@/components/home/banner/GetInspiredBanner';
 import InteriorEditSlider from '@/components/home/InteriorEditSlider';
 import { getProductByIdAction } from '@/actions/products/getProductByIdAction';
@@ -24,7 +24,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
     <div>
       <ProductDetailsView product={productData} />
       <FeaturesBar />
-      <CustomerReviewsSection />
+      <ProductReviews productId={productData.id} />
       <GetInspiredBanner />
       <InteriorEditSlider />
     </div>
