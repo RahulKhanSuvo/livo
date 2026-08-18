@@ -6,14 +6,12 @@ import { Logout02Icon, Settings05Icon, UserGroupIcon } from '@hugeicons/core-fre
 import { Brand } from './brand';
 import { SidebarNav } from './sidebar-nav';
 import { adminNavGroups } from './app-sidebar.data';
+import { useAdminUISidebarStore } from '@/stores/sidebar-store';
 
-export function AppSidebar({
-  collapsed = false,
-  onNavigate,
-}: {
-  collapsed?: boolean;
-  onNavigate?: () => void;
-}) {
+export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean } = {}) {
+  const storeCollapsed = useAdminUISidebarStore((s) => s.collapsed);
+  const collapsed = collapsedProp ?? storeCollapsed;
+
   return (
     <div className="relative flex h-full flex-col overflow-hidden bg-sidebar text-sidebar-foreground">
       <div
@@ -30,7 +28,6 @@ export function AppSidebar({
               groups={adminNavGroups}
               collapsed={collapsed}
               defaultOpenPrefix="/admin/catalog"
-              onNavigate={onNavigate}
             />
           </nav>
         </div>
