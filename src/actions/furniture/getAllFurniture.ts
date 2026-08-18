@@ -11,6 +11,7 @@ export const getAllFurnitureAction = createSafeAction(
     page,
     limit,
     search,
+    status,
     category,
     subcategory,
     brand,
@@ -51,6 +52,10 @@ export const getAllFurnitureAction = createSafeAction(
           },
         ],
       });
+    }
+
+    if (status) {
+      whereConditions.push({ status });
     }
 
     if (category) {
