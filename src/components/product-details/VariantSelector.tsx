@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import type { ProductWithDetails } from './ProductDetailsView';
+import type { ProductWithDetails } from './types';
 
 type Variant = ProductWithDetails['variants'][number];
 
