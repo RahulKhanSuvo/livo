@@ -1,6 +1,7 @@
 enum Role {
   USER
   ADMIN
+  SUPER_ADMIN
 }
 
 model User {
@@ -15,6 +16,7 @@ model User {
   accounts      Account[]
   role          Role      @default(USER)
   orders        Order[]
+  reviews        Review[]
   cart          Cart?
 
   @@unique([email])
