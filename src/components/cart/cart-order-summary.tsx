@@ -13,6 +13,7 @@ import {
 import { CartItem } from '@/stores/cart-store';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { formatMoney } from '@/components/admin/ui/format';
 import { authClient } from '@/lib/auth-client';
 import { CheckoutModal } from '@/components/checkout/CheckoutModal';
 import { applyCouponAction } from '@/actions/coupon/applyCouponAction';
@@ -41,10 +42,9 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
   const shippingFee = subtotal >= 10000 || subtotal === 0 ? 0 : 100;
   const total = Math.max(0, subtotal + shippingFee - discountAmount);
 
-  const formattedSubtotal = subtotal.toLocaleString('en-BD', { maximumFractionDigits: 2 });
-  const formattedShipping =
-    shippingFee === 0 ? 'FREE' : `${shippingFee.toLocaleString('en-BD')} BDT`;
-  const formattedTotal = total.toLocaleString('en-BD', { maximumFractionDigits: 2 });
+  const formattedSubtotal = formatMoney(subtotal);
+  const formattedShipping = shippingFee === 0 ? 'FREE' : formatMoney(shippingFee);
+  const formattedTotal = formatMoney(total);
 
   const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,7 +112,7 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
           <div className="space-y-2.5 text-xs">
             <div className="flex items-center justify-between text-muted-foreground">
               <span>Sub Total</span>
-              <span className="font-medium text-foreground">{formattedSubtotal} BDT</span>
+              <span className="font-medium text-foreground">{formattedSubtotal}</span>
             </div>
 
             <div className="flex items-center justify-between text-muted-foreground">
@@ -123,13 +123,13 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
             {discountAmount > 0 && (
               <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
                 <span>Coupon Discount</span>
-                <span className="font-medium">- {discountAmount.toLocaleString('en-BD')} BDT</span>
+                <span className="font-medium">- {formatMoney(discountAmount)}</span>
               </div>
             )}
 
             <div className="flex items-center justify-between text-sm pt-3 border-t border-dashed border-border font-semibold text-foreground">
               <span>Total Payable</span>
-              <span className="text-lg font-bold text-primary">{formattedTotal} BDT</span>
+              <span className="text-lg font-bold text-primary">{formattedTotal}</span>
             </div>
           </div>
 
