@@ -17,16 +17,25 @@ export default async function ProductsRoute({
   const resolvedParams = await searchParams;
   const page = Number(resolvedParams.page) || 1;
   const limit = Number(resolvedParams.limit) || 10;
+  const search = typeof resolvedParams.search === 'string' ? resolvedParams.search : '';
+  const status = typeof resolvedParams.status === 'string' ? resolvedParams.status : '';
+  const brand = typeof resolvedParams.brand === 'string' ? resolvedParams.brand : '';
+  const stock = typeof resolvedParams.stock === 'string' ? resolvedParams.stock : '';
+  const category = typeof resolvedParams.category === 'string' ? resolvedParams.category : '';
 
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: ['products', page, limit],
+    queryKey: ['products', page, limit, search, status, brand, stock, category],
     queryFn: () =>
       getAllFurnitureAction({
         page,
         limit,
-        search: '',
+        search,
+        ...(status === 'ACTIVE' || status === 'DEACTIVATED' ? { status } : {}),
+        ...(brand ? { brand } : {}),
+        ...(stock ? { inStock: stock } : {}),
+        ...(category ? { category } : {}),
         sortBy: 'createdAt',
         sortOrder: 'desc',
       }),
