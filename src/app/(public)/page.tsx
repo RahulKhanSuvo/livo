@@ -14,7 +14,6 @@ import { FeaturedEdits } from '@/components/home/FeaturedEdits';
 import { QuickLinks } from '@/components/home/QuickLinks';
 import { AtelierSection } from '@/components/home/AtelierSection';
 import { TestimonialsSlider } from '@/components/home/TestimonialsSlider';
-import { EditorialCards } from '@/components/home/EditorialCards';
 import { FeaturesBar } from '@/components/home/FeaturesBar';
 
 export default function Home() {
@@ -34,9 +33,8 @@ export default function Home() {
       <BrandValuesMarquee />
       <FeaturedEdits />
       <QuickLinks />
-      <AtelierSection />
       <TestimonialsSlider />
-      <EditorialCards />
+      <AtelierSection />
       <FeaturesBar />
     </section>
   );
