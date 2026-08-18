@@ -38,32 +38,35 @@ export const navCategories: NavCategory[] = [
     columns: [
       {
         header: 'Sofas',
+        headerHref: '/shop/living-room/sofa',
         items: [
-          { title: 'Sectional Sofas', href: '/shop/living-room/sectional-sofas' },
-          { title: 'Modular Sofas', href: '/shop/living-room/modular-sofas' },
-          { title: 'Loveseats', href: '/shop/living-room/loveseats' },
-          { title: 'Sofa Beds', href: '/shop/living-room/sofa-beds' },
-          { title: 'Recliner Sofas', href: '/shop/living-room/recliner-sofas' },
+          { title: 'Sectional Sofas', href: '/shop/living-room/sofa/sectional-sofas' },
+          { title: 'Modular Sofas', href: '/shop/living-room/sofa/modular-sofas' },
+          { title: 'Loveseats', href: '/shop/living-room/sofa/loveseats' },
+          { title: 'Sofa Beds', href: '/shop/living-room/sofa/sofa-beds' },
+          { title: 'Recliner Sofas', href: '/shop/living-room/sofa/recliner-sofas' },
         ],
       },
       {
         header: 'Chairs',
+        headerHref: '/shop/living-room/chair',
         items: [
-          { title: 'Accent Chairs', href: '/shop/living-room/accent-chairs' },
-          { title: 'Lounge Chairs', href: '/shop/living-room/lounge-chairs' },
-          { title: 'Armchairs', href: '/shop/living-room/armchairs' },
-          { title: 'Recliners', href: '/shop/living-room/recliners' },
-          { title: 'Swivel Chairs', href: '/shop/living-room/swivel-chairs' },
+          { title: 'Accent Chairs', href: '/shop/living-room/chair/accent-chairs' },
+          { title: 'Lounge Chairs', href: '/shop/living-room/chair/lounge-chairs' },
+          { title: 'Armchairs', href: '/shop/living-room/chair/armchairs' },
+          { title: 'Recliners', href: '/shop/living-room/chair/recliners' },
+          { title: 'Swivel Chairs', href: '/shop/living-room/chair/swivel-chairs' },
         ],
       },
       {
         header: 'Tables',
+        headerHref: '/shop/living-room/table',
         items: [
-          { title: 'Coffee Tables', href: '/shop/living-room/coffee-tables' },
-          { title: 'Side Tables', href: '/shop/living-room/side-tables' },
-          { title: 'Console Tables', href: '/shop/living-room/console-tables' },
-          { title: 'Nesting Tables', href: '/shop/living-room/nesting-tables' },
-          { title: 'End Tables', href: '/shop/living-room/end-tables' },
+          { title: 'Coffee Tables', href: '/shop/living-room/table/coffee-tables' },
+          { title: 'Side Tables', href: '/shop/living-room/table/side-tables' },
+          { title: 'Console Tables', href: '/shop/living-room/table/console-tables' },
+          { title: 'Nesting Tables', href: '/shop/living-room/table/nesting-tables' },
+          { title: 'End Tables', href: '/shop/living-room/table/end-tables' },
         ],
       },
       {
@@ -81,7 +84,7 @@ export const navCategories: NavCategory[] = [
         title: 'YOUR SOFA, YOUR CONFIGURATION',
         subtitle: 'Built for comfort, and always ready to adapt to the way you live.',
         ctaText: 'SHOP MODULAR SOFAS',
-        ctaHref: '/shop/living-room/modular',
+        ctaHref: '/shop/living-room/sofa/modular-sofas',
         image:
           'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop',
       },
@@ -95,30 +98,36 @@ export const navCategories: NavCategory[] = [
     columns: [
       {
         header: 'Dining Tables',
+        headerHref: '/shop/dining-room/table',
         items: [
-          { title: 'Round Dining Tables', href: '/shop/dining-room/round-dining-tables' },
+          { title: 'Round Dining Tables', href: '/shop/dining-room/table/round-dining-tables' },
           {
             title: 'Rectangular Dining Tables',
-            href: '/shop/dining-room/rectangular-dining-tables',
+            href: '/shop/dining-room/table/rectangular-dining-tables',
           },
-          { title: 'Extendable Dining Tables', href: '/shop/dining-room/extendable-dining-tables' },
-          { title: 'Counter Height Tables', href: '/shop/dining-room/counter-height-tables' },
+          {
+            title: 'Extendable Dining Tables',
+            href: '/shop/dining-room/table/extendable-dining-tables',
+          },
+          { title: 'Counter Height Tables', href: '/shop/dining-room/table/counter-height-tables' },
         ],
       },
       {
         header: 'Dining Chairs',
+        headerHref: '/shop/dining-room/chair',
         items: [
-          { title: 'Upholstered Chairs', href: '/shop/dining-room/upholstered-chairs' },
-          { title: 'Wooden Chairs', href: '/shop/dining-room/wooden-chairs' },
-          { title: 'Arm Dining Chairs', href: '/shop/dining-room/arm-dining-chairs' },
-          { title: 'Side Chairs', href: '/shop/dining-room/side-chairs' },
+          { title: 'Upholstered Chairs', href: '/shop/dining-room/chair/upholstered-chairs' },
+          { title: 'Wooden Chairs', href: '/shop/dining-room/chair/wooden-chairs' },
+          { title: 'Arm Dining Chairs', href: '/shop/dining-room/chair/arm-dining-chairs' },
+          { title: 'Side Chairs', href: '/shop/dining-room/chair/side-chairs' },
         ],
       },
       {
         header: 'Bar Furniture',
+        headerHref: '/shop/dining-room/bar-furniture',
         items: [
-          { title: 'Bar Stools', href: '/shop/dining-room/bar-stools' },
-          { title: 'Bar Tables', href: '/shop/dining-room/bar-tables' },
+          { title: 'Bar Stools', href: '/shop/dining-room/bar-furniture/bar-stools' },
+          { title: 'Bar Tables', href: '/shop/dining-room/bar-furniture/bar-tables' },
         ],
       },
       {
@@ -135,15 +144,15 @@ export const navCategories: NavCategory[] = [
         title: 'DINING CHAIRS FOR EVERY HOME',
         subtitle: 'Designed for spaces where good taste is always on the menu.',
         ctaText: 'SHOP DINING CHAIRS',
-        ctaHref: '/shop/dining-room/dining-chairs',
+        ctaHref: '/shop/dining-room/chair',
         image:
           'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=1000&auto=format&fit=crop',
       },
       {
         title: 'TRAVERTINE DINING TABLES',
         subtitle: 'A true centerpiece for gatherings, big moments, and everyday rituals alike.',
-        ctaText: 'SHOP TRAVERTINE DINING TABLES',
-        ctaHref: '/shop/dining-room/travertine',
+        ctaText: 'SHOP DINING TABLES',
+        ctaHref: '/shop/dining-room/table',
         image:
           'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=1000&auto=format&fit=crop',
       },
@@ -157,6 +166,7 @@ export const navCategories: NavCategory[] = [
     columns: [
       {
         header: 'Storage',
+        headerHref: '/shop/storage',
         items: [
           { title: 'TV Units', href: '/shop/storage/tv-units' },
           { title: 'Sideboards', href: '/shop/storage/sideboards' },
@@ -188,12 +198,13 @@ export const navCategories: NavCategory[] = [
     columns: [
       {
         header: 'Beds',
+        headerHref: '/shop/bed',
         items: [
-          { title: 'Platform Beds', href: '/shop/bedroom/platform-beds' },
-          { title: 'Storage Beds', href: '/shop/bedroom/storage-beds' },
-          { title: 'Upholstered Beds', href: '/shop/bedroom/upholstered-beds' },
-          { title: 'Wooden Beds', href: '/shop/bedroom/wooden-beds' },
-          { title: 'Canopy Beds', href: '/shop/bedroom/canopy-beds' },
+          { title: 'Platform Beds', href: '/shop/bedroom/bed/platform-beds' },
+          { title: 'Storage Beds', href: '/shop/bedroom/bed/storage-beds' },
+          { title: 'Upholstered Beds', href: '/shop/bedroom/bed/upholstered-beds' },
+          { title: 'Wooden Beds', href: '/shop/bedroom/bed/wooden-beds' },
+          { title: 'Canopy Beds', href: '/shop/bedroom/bed/canopy-beds' },
         ],
       },
       {
@@ -226,8 +237,8 @@ export const navCategories: NavCategory[] = [
     type: 'dropdown',
     dropdownItems: [
       { title: 'Lounge Sets', href: '/shop/outdoor/lounge-sets' },
-      { title: 'Outdoor Sofas', href: '/shop/outdoor/outdoor-sofas' },
-      { title: 'Outdoor Chairs', href: '/shop/outdoor/outdoor-chairs' },
+      { title: 'Outdoor Sofas', href: '/shop/outdoor/sofa/outdoor-sofas' },
+      { title: 'Outdoor Chairs', href: '/shop/outdoor/chair/outdoor-chairs' },
       { title: 'Outdoor Dining Sets', href: '/shop/outdoor/outdoor-dining-sets' },
       { title: 'Outdoor Tables', href: '/shop/outdoor/outdoor-tables' },
       { title: 'Sun Loungers', href: '/shop/outdoor/sun-loungers' },
