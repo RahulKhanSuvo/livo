@@ -27,6 +27,7 @@ import {
 import { adminNavGroups, findActiveItem } from '@/components/admin/sidebar/app-sidebar.data';
 import { initials } from '@/components/admin/ui/format';
 import { authClient } from '@/lib/auth-client';
+import { useAdminUISidebarStore } from '@/stores/sidebar-store';
 
 function useBreadcrumb() {
   const pathname = usePathname();
@@ -46,18 +47,13 @@ function useBreadcrumb() {
   return { title: active?.title ?? 'Dashboard', parent, section };
 }
 
-export function Topbar({
-  collapsed,
-  onToggleCollapse,
-  onOpenMobile,
-}: {
-  collapsed: boolean;
-  onToggleCollapse: () => void;
-  onOpenMobile: () => void;
-}) {
+export function Topbar() {
   const { title, parent, section } = useBreadcrumb();
   const router = useRouter();
   const { data: session } = authClient.useSession();
+  const collapsed = useAdminUISidebarStore((s) => s.collapsed);
+  const toggleCollapsed = useAdminUISidebarStore((s) => s.toggleCollapsed);
+  const openMobile = useAdminUISidebarStore((s) => s.openMobile);
   const user = session?.user;
   const displayName = user?.name?.trim() || 'Admin';
   const displayEmail = user?.email || '';
@@ -74,7 +70,7 @@ export function Topbar({
         variant="ghost"
         size="icon"
         className="shrink-0 lg:hidden"
-        onClick={onOpenMobile}
+        onClick={openMobile}
         aria-label="Open navigation"
       >
         <HugeiconsIcon icon={Menu01Icon} size={20} />
@@ -84,7 +80,7 @@ export function Topbar({
         variant="ghost"
         size="icon"
         className="hidden shrink-0 lg:inline-flex"
-        onClick={onToggleCollapse}
+        onClick={toggleCollapsed}
         aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         <HugeiconsIcon icon={PanelLeftIcon} size={20} />
@@ -121,21 +117,6 @@ export function Topbar({
             className="h-9 w-56 rounded-full border border-foreground/10 bg-white pl-9 pr-3 text-sm outline-none transition-all placeholder:text-muted-foreground/70 focus:w-64 focus:border-foreground/25 focus:ring-2 focus:ring-ring/30"
           />
         </div>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative shrink-0"
-          aria-label="Notifications"
-        >
-          <HugeiconsIcon icon={BellIcon} size={20} />
-          <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-destructive ring-2 ring-[#f6f5f1]" />
-        </Button>
-
-        <Button className="hidden shrink-0 gap-1.5 sm:inline-flex">
-          <HugeiconsIcon icon={PlusSignIcon} size={16} />
-          New
-        </Button>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
