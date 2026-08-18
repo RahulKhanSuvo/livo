@@ -115,7 +115,7 @@ export const InteriorEditSlider = () => {
                 >
                   {products.map((product) => (
                     <SwiperSlide key={product.id}>
-                      <ProductCard product={product} basePath="/shop/living-room/all" />
+                      <ProductCard product={product} basePath="/product" />
                     </SwiperSlide>
                   ))}
                 </Swiper>
