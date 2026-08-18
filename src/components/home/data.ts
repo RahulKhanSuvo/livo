@@ -57,32 +57,32 @@ export const departmentData = [
   {
     title: 'Sofas',
     icon: sofa,
-    href: '/sofas',
+    href: '/shop/living-room',
   },
   {
     title: 'Chair',
     icon: chair,
-    href: '/chair',
+    href: '/shop?search=chair',
   },
   {
     title: 'Table',
     icon: table,
-    href: '/table',
+    href: '/shop?search=table',
   },
   {
     title: 'Bed',
     icon: bed,
-    href: '/bed',
+    href: '/shop/bedroom',
   },
   {
     title: 'Storage',
     icon: storage,
-    href: '/storage',
+    href: '/shop/storage-consoles',
   },
   {
     title: 'Lighting',
     icon: lighting,
-    href: '/lighting',
+    href: '/shop/accessories/lighting',
   },
 ];
 export interface EditorialBanner {
