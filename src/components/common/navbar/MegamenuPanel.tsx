@@ -32,9 +32,18 @@ export const MegamenuPanel = ({
             {activeCategory.columns?.map((col, idx) => (
               <div key={idx} className="flex flex-col space-y-3">
                 {col.header ? (
-                  <h3 className="text-[12px] font-semibold tracking-wider text-neutral-900 uppercase">
-                    {col.header}
-                  </h3>
+                  col.headerHref ? (
+                    <Link
+                      href={col.headerHref}
+                      className="text-[12px] font-semibold tracking-wider text-neutral-900 uppercase hover:text-black hover:underline underline-offset-4"
+                    >
+                      {col.header}
+                    </Link>
+                  ) : (
+                    <h3 className="text-[12px] font-semibold tracking-wider text-neutral-900 uppercase">
+                      {col.header}
+                    </h3>
+                  )
                 ) : (
                   <div className="h-0" />
                 )}
