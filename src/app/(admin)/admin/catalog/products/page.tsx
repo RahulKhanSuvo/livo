@@ -16,7 +16,7 @@ export default async function ProductsRoute({
   // 1. Await searchParams first
   const resolvedParams = await searchParams;
   const page = Number(resolvedParams.page) || 1;
-  const limit = Number(resolvedParams.limit) || 2;
+  const limit = Number(resolvedParams.limit) || 10;
 
   const queryClient = new QueryClient();
 

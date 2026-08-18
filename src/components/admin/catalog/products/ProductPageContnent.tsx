@@ -1,19 +1,25 @@
 'use client';
 
+import { useState } from 'react';
 import { DataTable } from '@/components/shared/data-table';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { productColumns } from './columns';
 import { useServerPagination } from '@/hooks/useServerPagination';
 import { useSearchParams } from 'next/navigation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
+import { ProductDeleteModal } from './product-delete-modal';
 
 function ProductPageContent() {
   // 2. Pass currentPage & currentLimit to queryKey and queryFn
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteName, setDeleteName] = useState<string | undefined>(undefined);
+
   const { paginationState, handlePaginationChange, isPending } = useServerPagination({
     searchParams: searchParams,
     defaultPage: 1,
-    defaultLimit: 2,
+    defaultLimit: 10,
   });
   const currentPage = paginationState.pageIndex + 1;
   const currentLimit = paginationState.pageSize;
@@ -31,17 +37,34 @@ function ProductPageContent() {
   });
 
   return (
-    <DataTable
-      isPending={isPending}
-      pagination={{
-        state: paginationState,
-        onPaginationChange: handlePaginationChange,
-        totalRows: products?.data?.total || 0,
-      }}
-      columns={productColumns}
-      data={products?.data?.products || []}
-      tableKey="product-table"
-    />
+    <>
+      <DataTable
+        isPending={isPending}
+        pagination={{
+          state: paginationState,
+          onPaginationChange: handlePaginationChange,
+          totalRows: products?.data?.total || 0,
+        }}
+        columns={productColumns({
+          onDelete: (id, name) => {
+            setDeleteId(id);
+            setDeleteName(name);
+          },
+        })}
+        data={products?.data?.products || []}
+        tableKey="product-table"
+      />
+
+      <ProductDeleteModal
+        productId={deleteId}
+        productName={deleteName}
+        open={!!deleteId}
+        onOpenChange={(o) => {
+          if (!o) setDeleteId(null);
+        }}
+        onDeleted={() => queryClient.invalidateQueries({ queryKey: ['products'] })}
+      />
+    </>
   );
 }
 
