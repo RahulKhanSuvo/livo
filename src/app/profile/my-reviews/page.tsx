@@ -80,7 +80,7 @@ export default async function ReviewsPage() {
             {reviews.map((r) => (
               <Link
                 key={r.id}
-                href={`/shop/${r.productId}`}
+                href={`/product/${r.productId}`}
                 className="border border-neutral-200 bg-white p-6 transition-colors hover:border-neutral-300"
               >
                 <div className="flex items-center justify-between gap-3">
