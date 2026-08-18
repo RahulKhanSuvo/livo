@@ -33,7 +33,7 @@ export const getAllOrdersAction = createSafeAction(
 
     const where: Prisma.OrderWhereInput = statusFilter ? { status: statusFilter } : {};
 
-    const [orders, total, statusGroups] = await Promise.all([
+    const [orders, total, statusGroups, revenueAgg, awaitingPayment, toFulfil] = await Promise.all([
       prisma.order.findMany({
         take: limit,
         skip,
@@ -45,6 +45,16 @@ export const getAllOrdersAction = createSafeAction(
       prisma.order.groupBy({
         by: ['status'],
         _count: { _all: true },
+      }),
+      prisma.order.aggregate({
+        _sum: { total: true },
+        where: { paymentStatus: 'PAID' },
+      }),
+      prisma.order.count({
+        where: { paymentStatus: 'PENDING', status: { not: 'CANCELLED' } },
+      }),
+      prisma.order.count({
+        where: { status: { in: ['CONFIRMED', 'PROCESSING', 'SHIPPED'] } },
       }),
     ]);
 
@@ -78,6 +88,11 @@ export const getAllOrdersAction = createSafeAction(
       hasNextPage: skip + orders.length < total,
       hasPrevPage: page > 1,
       statusCounts,
+      stats: {
+        revenue: Number(revenueAgg._sum.total ?? 0),
+        awaitingPayment,
+        toFulfil,
+      },
     };
   }
 );
