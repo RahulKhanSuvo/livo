@@ -7,6 +7,7 @@ import { Add01Icon, Remove01Icon, Delete02Icon } from '@hugeicons/core-free-icon
 
 import { CartItem, useCartStore } from '@/stores/cart-store';
 import { Button } from '@/components/ui/button';
+import { formatMoney } from '@/components/admin/ui/format';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -18,9 +19,7 @@ export function CartItemCard({ item }: CartItemCardProps) {
   const [imageError, setImageError] = useState(false);
 
   const itemTotal = item.price * item.quantity;
-  const formattedTotal = itemTotal.toLocaleString('en-BD', {
-    maximumFractionDigits: 2,
-  });
+  const formattedTotal = formatMoney(itemTotal);
 
   return (
     <div className="flex flex-col gap-4 border-b border-border py-5 last:border-b-0 sm:flex-row sm:items-center sm:gap-6">
@@ -56,10 +55,7 @@ export function CartItemCard({ item }: CartItemCardProps) {
             </p>
           )}
           <p className="text-xs text-muted-foreground pt-1">
-            Price:{' '}
-            <span className="font-medium text-foreground">
-              {item.price.toLocaleString('en-BD')} BDT
-            </span>
+            Price: <span className="font-medium text-foreground">{formatMoney(item.price)}</span>
           </p>
         </div>
 
@@ -88,7 +84,7 @@ export function CartItemCard({ item }: CartItemCardProps) {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-foreground">{formattedTotal} BDT</span>
+            <span className="text-sm font-bold text-foreground">{formattedTotal}</span>
 
             <Button
               type="button"
