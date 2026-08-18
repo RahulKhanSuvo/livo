@@ -36,7 +36,11 @@ const productCols: Column<(typeof topProducts)[number]>[] = [
     ),
   },
   { key: 'sold', header: 'Sold', cell: (r) => <span className="font-medium">{r.sold}</span> },
-  { key: 'revenue', header: 'Revenue', cell: (r) => <span className="font-medium">{formatMoney(r.revenue)}</span> },
+  {
+    key: 'revenue',
+    header: 'Revenue',
+    cell: (r) => <span className="font-medium">{formatMoney(r.revenue)}</span>,
+  },
   {
     key: 'delta',
     header: 'Δ',
@@ -45,7 +49,11 @@ const productCols: Column<(typeof topProducts)[number]>[] = [
 ];
 
 const orderColumns: Column<(typeof recentOrders)[number]>[] = [
-  { key: 'order', header: 'Order', cell: (r) => <span className="font-semibold">{r.orderNumber}</span> },
+  {
+    key: 'order',
+    header: 'Order',
+    cell: (r) => <span className="font-semibold">{r.orderNumber}</span>,
+  },
   { key: 'customer', header: 'Customer', cell: (r) => r.customer },
   { key: 'total', header: 'Total', cell: (r) => formatMoney(r.total) },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
@@ -58,7 +66,6 @@ export function Overview() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-serif text-lg italic text-[#b56a3f]">Livo Studio</p>
           <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Dashboard
           </h1>
@@ -67,7 +74,6 @@ export function Overview() {
           </p>
         </div>
         <div className="flex shrink-0 gap-2">
-          <Button variant="secondary">Last 30 days</Button>
           <Button asChild className="gap-1.5">
             <Link href="/admin/catalog/products">Manage catalog</Link>
           </Button>
@@ -119,7 +125,10 @@ export function Overview() {
           <CardHeader>
             <CardTitle>Top products</CardTitle>
             <CardAction>
-              <Link href="/admin/analytics#products" className="text-sm font-medium text-[#b56a3f] hover:underline">
+              <Link
+                href="/admin/analytics#products"
+                className="text-sm font-medium text-[#b56a3f] hover:underline"
+              >
                 View analytics
               </Link>
             </CardAction>
@@ -133,7 +142,10 @@ export function Overview() {
           <CardHeader>
             <CardTitle>Low stock</CardTitle>
             <CardAction>
-              <Link href="/admin/catalog/inventory" className="text-sm font-medium text-[#b46a3f] hover:underline">
+              <Link
+                href="/admin/catalog/inventory"
+                className="text-sm font-medium text-[#b46a3f] hover:underline"
+              >
                 Inventory
               </Link>
             </CardAction>
@@ -165,7 +177,10 @@ export function Overview() {
           <CardHeader>
             <CardTitle>Recent orders</CardTitle>
             <CardAction>
-              <Link href="/admin/orders" className="text-sm font-medium text-[#b46a3f] hover:underline">
+              <Link
+                href="/admin/orders"
+                className="text-sm font-medium text-[#b46a3f] hover:underline"
+              >
                 View all
               </Link>
             </CardAction>
@@ -180,7 +195,10 @@ export function Overview() {
             <CardTitle>Traffic source</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <BarChart data={trafficSource.map((t) => ({ label: t.label, value: t.value }))} color="#4b6b56" />
+            <BarChart
+              data={trafficSource.map((t) => ({ label: t.label, value: t.value }))}
+              color="#4b6b56"
+            />
             <div className="space-y-2">
               {trafficSource.map((t) => (
                 <div key={t.label} className="flex items-center gap-2 text-sm">
