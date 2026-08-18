@@ -21,7 +21,13 @@ import { createPaymentIntent } from '@/actions/checkout/checkout';
 import type { ShippingStepProps } from './checkout-types';
 import { DIVISIONS } from './checkout-types';
 
-export function ShippingStep({ items, totalAmount, defaultValues, onComplete }: ShippingStepProps) {
+export function ShippingStep({
+  items,
+  totalAmount,
+  couponCode,
+  defaultValues,
+  onComplete,
+}: ShippingStepProps) {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -76,6 +82,7 @@ export function ShippingStep({ items, totalAmount, defaultValues, onComplete }: 
             address: value.address.trim(),
             notes: value.notes.trim() || undefined,
           },
+          couponCode,
         });
 
         if (!res.success) {
