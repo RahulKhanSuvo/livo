@@ -34,6 +34,8 @@ const statusStyles: Record<string, string> = {
   PAID: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400',
   FAILED: 'bg-destructive/10 text-destructive',
   REFUNDED: 'bg-violet-600/10 text-violet-700 dark:text-violet-400',
+  ACTIVE: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400',
+  DEACTIVATED: 'bg-muted text-muted-foreground',
 };
 
 export function StatusBadge({ status }: { status: string }) {
