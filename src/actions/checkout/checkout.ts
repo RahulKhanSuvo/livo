@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { stripe } from '@/lib/stripe';
+import { evaluateCoupon } from '@/actions/coupon/coupon-utils';
 
 interface CheckoutItem {
   productId: string;
@@ -27,6 +28,7 @@ interface ShippingData {
 interface CheckoutData {
   items: CheckoutItem[];
   shipping: ShippingData;
+  couponCode?: string;
 }
 
 export async function createPaymentIntent(data: CheckoutData) {
@@ -112,7 +114,16 @@ export async function createPaymentIntent(data: CheckoutData) {
 
   const shippingFee = subtotal >= 100 ? 0 : 10;
 
-  const discount = 0;
+  let discount = 0;
+  let appliedCouponCode: string | undefined;
+
+  if (data.couponCode) {
+    const result = await evaluateCoupon(data.couponCode, subtotal);
+    if (result.ok && result.coupon) {
+      discount = result.discount;
+      appliedCouponCode = result.coupon.code;
+    }
+  }
 
   const total = subtotal + shippingFee - discount;
 
@@ -130,6 +141,7 @@ export async function createPaymentIntent(data: CheckoutData) {
       subtotal,
       shippingFee,
       discount,
+      couponCode: appliedCouponCode,
       total,
 
       fullName: data.shipping.fullName,
@@ -160,6 +172,19 @@ export async function createPaymentIntent(data: CheckoutData) {
     },
   });
 
+  await prisma.payment.create({
+    data: {
+      orderId: order.id,
+      orderNumber: order.orderNumber,
+      amount: total,
+      currency: 'usd',
+      method: 'Card',
+      gateway: 'stripe',
+      status: 'PENDING',
+      reference: paymentIntent.id,
+    },
+  });
+
   await prisma.order.update({
     where: {
       id: order.id,
@@ -168,6 +193,13 @@ export async function createPaymentIntent(data: CheckoutData) {
       stripePaymentIntentId: paymentIntent.id,
     },
   });
+
+  if (appliedCouponCode) {
+    await prisma.coupon.updateMany({
+      where: { code: appliedCouponCode },
+      data: { usedCount: { increment: 1 } },
+    });
+  }
 
   return {
     success: true,
