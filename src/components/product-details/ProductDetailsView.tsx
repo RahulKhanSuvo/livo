@@ -3,7 +3,6 @@ import { ProductHeader } from './ProductHeader';
 import { ProductVariantProvider } from './ProductVariantContext';
 import { ProductGallery } from './ProductGallery';
 import { ProductPurchasePanel } from './ProductPurchasePanel';
-import { PaymentMethods } from './PaymentMethods';
 import { ProductAccordions } from './ProductAccordions';
 import { PromoCountdown } from './PromoCountdown';
 import { ProductGuarantees } from './ProductGuarantees';
@@ -47,8 +46,6 @@ export const ProductDetailsView = ({ product }: { product: ProductWithDetails })
 
               {/* Variant + Add to cart + stock (client island) */}
               <ProductPurchasePanel product={product} />
-
-              <PaymentMethods />
 
               <PromoCountdown />
 

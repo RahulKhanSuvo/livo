@@ -64,9 +64,7 @@ export const ProductGuarantees: React.FC = () => {
       {guarantees.map((item, idx) => (
         <div key={idx} className="flex flex-col items-center text-center gap-2 px-1">
           <span className="h-4 w-4 text-neutral-700">{item.icon}</span>
-          <span className="text-[11px] text-neutral-600 font-light leading-tight">
-            {item.title}
-          </span>
+          <span className="text-xs text-neutral-600 font-normal leading-tight">{item.title}</span>
         </div>
       ))}
     </div>

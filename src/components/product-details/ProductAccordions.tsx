@@ -35,19 +35,17 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
       className="w-full border-none bg-white"
     >
       <AccordionItem className="data-open:bg-white" value="description">
-        <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
+        <AccordionTrigger className="hover:no-underline py-4 text-lg font-normal text-neutral-900">
           Description
         </AccordionTrigger>
-        <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed">
-          {description}
-        </AccordionContent>
+        <AccordionContent className="leading-relaxed font-normal">{description}</AccordionContent>
       </AccordionItem>
 
       <AccordionItem className="data-open:bg-white" value="dimensions">
-        <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900 rounded-none">
+        <AccordionTrigger className="hover:no-underline py-4 text-lg font-normal text-neutral-900 rounded-none">
           Dimensions &amp; Weight
         </AccordionTrigger>
-        <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed space-y-1 bg-white px-0">
+        <AccordionContent className="leading-relaxed font-normal">
           <p>Width: {width} cm</p>
           <p>Height: {height} cm</p>
           <p>Depth: {depth} cm</p>
@@ -56,12 +54,27 @@ export const ProductAccordions: React.FC<ProductAccordionsProps> = ({
       </AccordionItem>
 
       <AccordionItem className="data-open:bg-white" value="materials">
-        <AccordionTrigger className="hover:no-underline py-4 text-xs sm:text-sm font-normal text-neutral-900">
+        <AccordionTrigger className="hover:no-underline py-4 text-lg font-normal text-neutral-900">
           Materials &amp; Assembly
         </AccordionTrigger>
-        <AccordionContent className="text-xs text-neutral-600 font-light leading-relaxed space-y-1">
+        <AccordionContent className="leading-relaxed font-normal">
           <p>Material: {material}</p>
           <p>Assembly: {assemblyRequired ? 'Required' : 'No Assembly Needed'}</p>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem className="data-open:bg-white" value="delivery">
+        <AccordionTrigger className="hover:no-underline py-4 text-lg font-normal text-neutral-900">
+          Delivery &amp; Return Policy
+        </AccordionTrigger>
+        <AccordionContent className="leading-relaxed font-normal">
+          <p>
+            Material: Our team will ship your order within 5 business days. The time it takes to
+            receive your order depends on the shipping method chosen at checkout.
+          </p>
+          <p>
+            We hope you to love it, but if you need to make a return, breathe easy. Returns are
+            always free and can be done in person or by mail.
+          </p>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
