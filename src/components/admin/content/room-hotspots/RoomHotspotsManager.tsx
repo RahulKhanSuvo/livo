@@ -5,7 +5,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Upload01Icon, Cursor01Icon } from '@hugeicons/core-free-icons';
 
-import { Card } from '@/components/ui/card';
 import { PageHeader } from '@/components/admin/ui/page-header';
 
 import {
