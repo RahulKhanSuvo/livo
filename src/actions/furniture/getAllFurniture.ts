@@ -5,6 +5,15 @@ import prisma from '@/lib/prisma';
 import { furnitureQuerySchema } from './furniture.validation';
 import { Prisma } from '@/generated/prisma/client';
 
+const TYPE_SUBCATEGORY_SUFFIX: Record<string, string> = {
+  chair: '-chairs',
+  table: '-tables',
+  sofa: '-sofas',
+  bed: '-beds',
+  storage: '-storage',
+  'bar-furniture': '-bar-furniture',
+};
+
 export const getAllFurnitureAction = createSafeAction(
   furnitureQuerySchema,
   async ({
@@ -14,6 +23,8 @@ export const getAllFurnitureAction = createSafeAction(
     status,
     category,
     subcategory,
+    type,
+    subtype,
     brand,
     material,
     productType,
@@ -94,6 +105,48 @@ export const getAllFurnitureAction = createSafeAction(
                 ],
               },
             },
+          ],
+        },
+      });
+    }
+
+    if (type) {
+      const normalizedType = type.toLowerCase().trim();
+      const suffix = TYPE_SUBCATEGORY_SUFFIX[normalizedType];
+
+      if (suffix) {
+        whereConditions.push({
+          productType: {
+            subCategory: {
+              slug: { endsWith: suffix, mode: 'insensitive' },
+            },
+          },
+        });
+      } else {
+        whereConditions.push({
+          productType: {
+            OR: [
+              { slug: { contains: normalizedType, mode: 'insensitive' } },
+              { name: { contains: normalizedType, mode: 'insensitive' } },
+              {
+                subCategory: {
+                  slug: { contains: normalizedType, mode: 'insensitive' },
+                },
+              },
+            ],
+          },
+        });
+      }
+    }
+
+    if (subtype) {
+      const normalizedSubType = subtype.toLowerCase().trim();
+
+      whereConditions.push({
+        productType: {
+          OR: [
+            { slug: { contains: normalizedSubType, mode: 'insensitive' } },
+            { name: { contains: normalizedSubType, mode: 'insensitive' } },
           ],
         },
       });
