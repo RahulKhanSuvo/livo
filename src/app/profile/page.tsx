@@ -17,8 +17,6 @@ import {
   orderStatusLabels,
 } from '@/components/profile/profile.data';
 
-export const metadata = { title: 'Profile' };
-
 export default async function ProfilePage() {
   const user = await getProfileUser();
   const orders = await getOrders(user.id);
@@ -76,7 +74,7 @@ export default async function ProfilePage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               In progress
             </p>
-            <p className="mt-3 font-[family-name:var(--font-instrument-serif)] text-4xl">
+            <p className="mt-3 font-(family-name:--font-instrument-serif) text-4xl">
               {activeOrders}
             </p>
           </div>
@@ -147,9 +145,7 @@ export default async function ProfilePage() {
 
         <div className="mt-14">
           <div className="mb-5 flex items-end justify-between">
-            <h2 className="font-[family-name:var(--font-instrument-serif)] text-3xl">
-              Recent orders
-            </h2>
+            <h2 className="font-(family-name:--font-instrument-serif) text-3xl">Recent orders</h2>
             <Link
               href="/profile/orders"
               className="text-xs font-semibold uppercase tracking-wider text-[#4b6b56] hover:underline"
