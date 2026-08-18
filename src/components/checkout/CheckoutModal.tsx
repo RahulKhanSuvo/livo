@@ -21,6 +21,7 @@ import { useCartStore } from '@/stores/cart-store';
 import { authClient } from '@/lib/auth-client';
 import { ShippingStep } from './ShippingStep';
 import { PaymentStep } from './PaymentStep';
+import { formatMoney } from '@/components/admin/ui/format';
 import type { CheckoutModalProps, CheckoutStep, ShippingFormData } from './checkout-types';
 
 export function CheckoutModal({
@@ -124,7 +125,7 @@ export function CheckoutModal({
                   Amount Due
                 </span>
                 <span className="text-base font-bold text-primary">
-                  {totalAmount.toLocaleString('en-BD')} BDT
+                  {formatMoney(totalAmount)}
                 </span>
               </div> */}
             </div>
