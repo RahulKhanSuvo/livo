@@ -8,10 +8,38 @@ export const dashboardMetrics: {
   trend: MetricTrend;
   hint: string;
 }[] = [
-  { id: 'revenue', label: 'Total Revenue', value: '$128,430', delta: '+12.4%', trend: 'up', hint: 'vs last month' },
-  { id: 'orders', label: 'Orders', value: '1,284', delta: '+8.1%', trend: 'up', hint: 'vs last month' },
-  { id: 'customers', label: 'Customers', value: '3,042', delta: '+5.6%', trend: 'up', hint: 'vs last month' },
-  { id: 'conversion', label: 'Conversion Rate', value: '3.2%', delta: '-0.4%', trend: 'down', hint: 'vs last month' },
+  {
+    id: 'revenue',
+    label: 'Total Sell',
+    value: '$128,430',
+    delta: '+12.4%',
+    trend: 'up',
+    hint: 'vs last month',
+  },
+  {
+    id: 'orders',
+    label: 'Orders',
+    value: '1,284',
+    delta: '+8.1%',
+    trend: 'up',
+    hint: 'vs last month',
+  },
+  {
+    id: 'customers',
+    label: 'Customers',
+    value: '3,042',
+    delta: '+5.6%',
+    trend: 'up',
+    hint: 'vs last month',
+  },
+  {
+    id: 'conversion',
+    label: 'Conversion Rate',
+    value: '3.2%',
+    delta: '-0.4%',
+    trend: 'down',
+    hint: 'vs last month',
+  },
 ];
 
 export const salesSeries = [
@@ -38,19 +66,89 @@ export const categoryShare = [
 ];
 
 export const topProducts = [
-  { id: 'P-1001', name: 'Mello Lounge Sofa', brand: 'SITS', sold: 184, revenue: 237360, delta: '+18%' },
-  { id: 'P-1008', name: 'Beetle Dining Chair', brand: 'GUBI', sold: 156, revenue: 138840, delta: '+12%' },
-  { id: 'P-1010', name: 'Eames Plastic Armchair', brand: 'VITRA', sold: 132, revenue: 100320, delta: '+9%' },
-  { id: 'P-1006', name: 'Offset 3-Seater Sofa', brand: 'MENU', sold: 98, revenue: 161700, delta: '+6%' },
-  { id: 'P-1007', name: 'Oslo Lounge Chair', brand: 'MUUTO', sold: 87, revenue: 97440, delta: '+4%' },
+  {
+    id: 'P-1001',
+    name: 'Mello Lounge Sofa',
+    brand: 'SITS',
+    sold: 184,
+    revenue: 237360,
+    delta: '+18%',
+  },
+  {
+    id: 'P-1008',
+    name: 'Beetle Dining Chair',
+    brand: 'GUBI',
+    sold: 156,
+    revenue: 138840,
+    delta: '+12%',
+  },
+  {
+    id: 'P-1010',
+    name: 'Eames Plastic Armchair',
+    brand: 'VITRA',
+    sold: 132,
+    revenue: 100320,
+    delta: '+9%',
+  },
+  {
+    id: 'P-1006',
+    name: 'Offset 3-Seater Sofa',
+    brand: 'MENU',
+    sold: 98,
+    revenue: 161700,
+    delta: '+6%',
+  },
+  {
+    id: 'P-1007',
+    name: 'Oslo Lounge Chair',
+    brand: 'MUUTO',
+    sold: 87,
+    revenue: 97440,
+    delta: '+4%',
+  },
 ];
 
 export const recentOrders = [
-  { id: 'O-2841', orderNumber: '#LV-2841', customer: 'Michael P.', total: 1290, status: 'PENDING', date: 'Aug 4, 2026' },
-  { id: 'O-2840', orderNumber: '#LV-2840', customer: 'Sarah F.', total: 3560, status: 'CONFIRMED', date: 'Aug 3, 2026' },
-  { id: 'O-2839', orderNumber: '#LV-2839', customer: 'Karolina W.', total: 1520, status: 'PROCESSING', date: 'Aug 3, 2026' },
-  { id: 'O-2838', orderNumber: '#LV-2838', customer: 'Anna K.', total: 2100, status: 'SHIPPED', date: 'Aug 2, 2026' },
-  { id: 'O-2835', orderNumber: '#LV-2835', customer: 'Diego F.', total: 599, status: 'CANCELLED', date: 'Jul 29, 2026' },
+  {
+    id: 'O-2841',
+    orderNumber: '#LV-2841',
+    customer: 'Michael P.',
+    total: 1290,
+    status: 'PENDING',
+    date: 'Aug 4, 2026',
+  },
+  {
+    id: 'O-2840',
+    orderNumber: '#LV-2840',
+    customer: 'Sarah F.',
+    total: 3560,
+    status: 'CONFIRMED',
+    date: 'Aug 3, 2026',
+  },
+  {
+    id: 'O-2839',
+    orderNumber: '#LV-2839',
+    customer: 'Karolina W.',
+    total: 1520,
+    status: 'PROCESSING',
+    date: 'Aug 3, 2026',
+  },
+  {
+    id: 'O-2838',
+    orderNumber: '#LV-2838',
+    customer: 'Anna K.',
+    total: 2100,
+    status: 'SHIPPED',
+    date: 'Aug 2, 2026',
+  },
+  {
+    id: 'O-2835',
+    orderNumber: '#LV-2835',
+    customer: 'Diego F.',
+    total: 599,
+    status: 'CANCELLED',
+    date: 'Jul 29, 2026',
+  },
 ];
 
 export const lowStock = [
