@@ -5,6 +5,7 @@ import { Location01Icon, ShoppingBag02Icon, ArrowLeft01Icon } from '@hugeicons/c
 
 import { Button } from '@/components/ui/button';
 import { StripeCheckoutForm } from './StripeCheckoutForm';
+import { formatMoney } from '@/components/admin/ui/format';
 import type { PaymentStepProps } from './checkout-types';
 
 export function PaymentStep({
@@ -63,9 +64,7 @@ export function PaymentStep({
           <HugeiconsIcon icon={ShoppingBag02Icon} size={15} />
           Order Items ({items.length})
         </span>
-        <span className="font-semibold text-foreground">
-          Total: {totalAmount.toLocaleString('en-BD')} BDT
-        </span>
+        <span className="font-semibold text-foreground">Total: {formatMoney(totalAmount)}</span>
       </div>
 
       {/* Stripe Payment */}
