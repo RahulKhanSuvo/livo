@@ -5,28 +5,33 @@ import {
   PackageOutOfStockIcon,
 } from '@hugeicons/core-free-icons';
 import { StatCard } from '../../ui/stat-card';
+import { getProductStatsAction } from '@/actions/products/getProductStatsAction';
 
-function ProductsState() {
+export default async function ProductsState() {
+  const { data } = await getProductStatsAction();
+  const stats = data ?? { total: 0, active: 0, outOfStock: 0, lowStock: 0 };
+
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-      <StatCard label="Total products" value="181" delta="+6.2%" icon={PackageIcon} />
+      <StatCard label="Total products" value={String(stats.total)} icon={PackageIcon} />
       <StatCard
         label="Active"
-        value="152"
-        delta="+4.1%"
+        value={String(stats.active)}
         icon={CheckmarkCircle01Icon}
         accent="#d98e63"
       />
-      <StatCard label="Low stock" value="8" hint="reorder needed" icon={Alert01Icon} />
+      <StatCard
+        label="Low stock"
+        value={String(stats.lowStock)}
+        hint="reorder needed"
+        icon={Alert01Icon}
+      />
       <StatCard
         label="Out of stock"
-        value="5"
-        delta="-2"
-        trend="down"
+        value={String(stats.outOfStock)}
         icon={PackageOutOfStockIcon}
         accent="#d98e63"
       />
     </div>
   );
 }
-export default ProductsState;
