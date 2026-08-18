@@ -79,6 +79,11 @@ export async function POST(request: Request) {
             status: 'CONFIRMED',
           },
         });
+
+        await tx.payment.updateMany({
+          where: { reference: paymentIntent.id },
+          data: { status: 'PAID' },
+        });
       });
 
       break;
@@ -101,6 +106,11 @@ export async function POST(request: Request) {
         data: {
           paymentStatus: 'FAILED',
         },
+      });
+
+      await prisma.payment.updateMany({
+        where: { reference: paymentIntent.id },
+        data: { status: 'FAILED' },
       });
 
       break;
