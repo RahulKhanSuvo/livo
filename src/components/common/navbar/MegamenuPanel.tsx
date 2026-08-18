@@ -25,7 +25,7 @@ export const MegamenuPanel = ({
 
   const content = (
     <div className="max-w-[1900px] mx-auto px-4 sm:px-6 lg:px-18 py-10">
-      <div className="flex gap-10 items-start justify-between min-h-[380px]">
+      <div className="flex gap-10 items-start justify-between min-h-95">
         {/* Left Side: Category Columns & View All Link */}
         <div className="flex-1 flex flex-col justify-between self-stretch">
           <div className="grid grid-cols-4 gap-8">
@@ -46,7 +46,7 @@ export const MegamenuPanel = ({
                         className={`text-[13px] transition-colors block py-0.5 ${
                           !col.header
                             ? 'font-semibold text-neutral-900 hover:text-black'
-                            : 'font-normal text-neutral-700 hover:text-black'
+                            : 'font-medium text-neutral-700 hover:text-black'
                         }`}
                       >
                         {item.title}
@@ -75,7 +75,7 @@ export const MegamenuPanel = ({
         {activeCategory.promos && activeCategory.promos.length > 0 && (
           <div
             className={`shrink-0 grid gap-5 ${
-              activeCategory.promos.length > 1 ? 'w-[680px] grid-cols-2' : 'w-[360px] grid-cols-1'
+              activeCategory.promos.length > 1 ? 'w-170 grid-cols-2' : 'w-90 grid-cols-1'
             }`}
           >
             {activeCategory.promos.map((promo, pIdx) => (
@@ -134,7 +134,7 @@ export const MegamenuPanel = ({
 };
 
 const PromoCard = ({ promo }: { promo: PromoBanner }) => (
-  <div className="relative group w-full h-[380px] overflow-hidden rounded-xs bg-neutral-900 flex items-center justify-center">
+  <div className="relative group w-full h-95 overflow-hidden rounded-xs bg-neutral-900 flex items-center justify-center">
     <Image
       src={promo.image}
       alt={promo.title}
@@ -142,9 +142,9 @@ const PromoCard = ({ promo }: { promo: PromoBanner }) => (
       sizes="(max-width: 1024px) 100vw, 33vw"
       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-85"
     />
-    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20" />
+    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-black/20" />
 
-    <div className="relative z-10 flex flex-col items-center justify-center text-center p-6 text-white h-full max-w-[280px]">
+    <div className="relative z-10 flex flex-col items-center justify-center text-center p-6 text-white h-full max-w-70">
       <h4 className="text-sm tracking-[0.08em] font-extrabold uppercase text-white mb-2 leading-snug text-center drop-shadow">
         {promo.title}
       </h4>
