@@ -51,11 +51,9 @@ export function OrdersPage() {
   const orders = data?.data?.orders ?? [];
   const total = data?.data?.total ?? 0;
   const statusCounts = data?.data?.statusCounts ?? {};
+  const stats = data?.data?.stats ?? { revenue: 0, awaitingPayment: 0, toFulfil: 0 };
 
   const counts: Record<string, number> = { ALL: total, ...statusCounts };
-  const activeLabel =
-    status === 'ALL' ? 'All orders' : status.charAt(0) + status.slice(1).toLowerCase();
-  const paidCount = orders.filter((o) => o.paymentStatus === 'PAID').length;
 
   return (
     <div className="space-y-6">
@@ -69,6 +67,41 @@ export function OrdersPage() {
           </div>
         }
       />
+
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <Card className="bg-white/90">
+          <CardHeader>
+            <CardTitle>Total orders</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="font-heading text-2xl font-semibold">{total}</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-white/90">
+          <CardHeader>
+            <CardTitle>Revenue (paid)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="font-heading text-2xl font-semibold">{formatMoney(stats.revenue)}</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-white/90">
+          <CardHeader>
+            <CardTitle>Awaiting payment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="font-heading text-2xl font-semibold">{stats.awaitingPayment}</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-white/90">
+          <CardHeader>
+            <CardTitle>To fulfil</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="font-heading text-2xl font-semibold">{stats.toFulfil}</p>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="flex flex-wrap items-center gap-1.5 rounded-2xl bg-white p-1.5 ring-1 ring-foreground/10">
         {tabs.map((tab) => {
@@ -142,42 +175,6 @@ export function OrdersPage() {
         }}
         onCancelled={() => {}}
       />
-
-      <div className="grid gap-5 sm:grid-cols-3">
-        <Card className="bg-white/90">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              Order value
-              <span className="text-xs text-muted-foreground">avg</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="font-heading text-2xl font-semibold">
-              {formatMoney(
-                Math.round(orders.reduce((a, o) => a + o.total, 0) / (orders.length || 1))
-              )}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white/90">
-          <CardHeader>
-            <CardTitle>Fulfilment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">{activeLabel} view</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-white/90">
-          <CardHeader>
-            <CardTitle>Payment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              {paidCount} of {orders.length} paid
-            </p>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }
