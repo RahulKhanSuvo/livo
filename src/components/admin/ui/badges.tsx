@@ -51,7 +51,6 @@ export function StatusBadge({ status }: { status: string }) {
         statusStyles[status] ?? 'bg-muted text-muted-foreground'
       )}
     >
-      <span className="size-1.5 rounded-full bg-current opacity-70" />
       {status}
     </Badge>
   );
