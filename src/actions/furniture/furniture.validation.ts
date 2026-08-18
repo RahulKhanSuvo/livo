@@ -7,6 +7,8 @@ export const furnitureQuerySchema = z.object({
   status: z.enum(['ACTIVE', 'DEACTIVATED']).optional(),
   category: z.string().trim().optional(),
   subcategory: z.string().trim().optional(),
+  type: z.string().trim().optional(),
+  subtype: z.string().trim().optional(),
 
   brand: z.string().trim().optional(),
   material: z.string().trim().optional(),
