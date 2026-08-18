@@ -57,27 +57,27 @@ export const departmentData = [
   {
     title: 'Sofas',
     icon: sofa,
-    href: '/shop/living-room',
+    href: '/shop/sofa',
   },
   {
     title: 'Chair',
     icon: chair,
-    href: '/shop?search=chair',
+    href: '/shop/chair',
   },
   {
     title: 'Table',
     icon: table,
-    href: '/shop?search=table',
+    href: '/shop/table',
   },
   {
     title: 'Bed',
     icon: bed,
-    href: '/shop/bedroom',
+    href: '/shop/bed',
   },
   {
     title: 'Storage',
     icon: storage,
-    href: '/shop/storage-consoles',
+    href: '/shop/storage',
   },
   {
     title: 'Lighting',
