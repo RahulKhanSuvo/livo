@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import { uploadFileToCloudinary } from '@/lib/cloudinary';
 import { createSafeAction } from '@/lib/createSafeAction';
 import { productValidationSchema } from './productValidation';
+import { revalidatePath } from 'next/cache';
 
 export const createProduct = createSafeAction(productValidationSchema, async (validatedData) => {
   // 1. Process variants and upload image files to Cloudinary concurrently
@@ -42,7 +43,7 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
   );
 
   // 2. Save Product and Variants to Prisma DB
-  return await prisma.product.create({
+  const product = await prisma.product.create({
     data: {
       productTypeId: validatedData.productTypeId,
       name: validatedData.name,
@@ -68,4 +69,8 @@ export const createProduct = createSafeAction(productValidationSchema, async (va
       },
     },
   });
+
+  revalidatePath('/admin/catalog/products');
+
+  return product;
 });
