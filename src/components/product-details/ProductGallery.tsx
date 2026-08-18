@@ -115,7 +115,7 @@ export const ProductGallery = ({ name }: { name: string }) => {
       {/* Full-screen image lightbox */}
       {lightboxOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 p-4"
           onClick={() => setLightboxOpen(false)}
           role="dialog"
           aria-modal="true"
