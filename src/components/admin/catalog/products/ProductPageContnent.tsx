@@ -3,11 +3,14 @@
 import { useState } from 'react';
 import { DataTable } from '@/components/shared/data-table';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { productColumns } from './columns';
 import { useServerPagination } from '@/hooks/useServerPagination';
 import { useSearchParams } from 'next/navigation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
+import { updateProductStatusAction } from '@/actions/products/updateProductStatusAction';
 import { ProductDeleteModal } from './product-delete-modal';
+import { ProductsFilterBar } from './ProductsFilterBar';
 
 function ProductPageContent() {
   // 2. Pass currentPage & currentLimit to queryKey and queryFn
@@ -15,6 +18,16 @@ function ProductPageContent() {
   const queryClient = useQueryClient();
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteName, setDeleteName] = useState<string | undefined>(undefined);
+
+  async function handleSetStatus(id: string, status: 'ACTIVE' | 'DEACTIVATED') {
+    const res = await updateProductStatusAction({ id, status });
+    if (res.success) {
+      toast.success(status === 'ACTIVE' ? 'Product activated' : 'Product deactivated');
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    } else {
+      toast.error(res.message || 'Failed to update product status');
+    }
+  }
 
   const { paginationState, handlePaginationChange, isPending } = useServerPagination({
     searchParams: searchParams,
@@ -24,13 +37,23 @@ function ProductPageContent() {
   const currentPage = paginationState.pageIndex + 1;
   const currentLimit = paginationState.pageSize;
 
-  const { data: products } = useQuery({
-    queryKey: ['products', currentPage, currentLimit],
+  const search = searchParams.get('search') ?? '';
+  const status = searchParams.get('status') ?? '';
+  const brand = searchParams.get('brand') ?? '';
+  const stock = searchParams.get('stock') ?? '';
+  const category = searchParams.get('category') ?? '';
+
+  const { data: products, isFetching } = useQuery({
+    queryKey: ['products', currentPage, currentLimit, search, status, brand, stock, category],
     queryFn: () =>
       getAllFurnitureAction({
         page: currentPage,
         limit: currentLimit,
-        search: '',
+        search,
+        ...(status === 'ACTIVE' || status === 'DEACTIVATED' ? { status } : {}),
+        ...(brand ? { brand } : {}),
+        ...(stock ? { inStock: stock } : {}),
+        ...(category ? { category } : {}),
         sortBy: 'createdAt',
         sortOrder: 'desc',
       }),
@@ -38,8 +61,9 @@ function ProductPageContent() {
 
   return (
     <>
+      <ProductsFilterBar />
       <DataTable
-        isPending={isPending}
+        isPending={isPending || isFetching}
         pagination={{
           state: paginationState,
           onPaginationChange: handlePaginationChange,
@@ -50,6 +74,7 @@ function ProductPageContent() {
             setDeleteId(id);
             setDeleteName(name);
           },
+          onSetStatus: handleSetStatus,
         })}
         data={products?.data?.products || []}
         tableKey="product-table"
