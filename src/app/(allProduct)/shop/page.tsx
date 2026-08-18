@@ -67,7 +67,6 @@ const ShopPage = async ({
 
         <div className="flex-1">
           <ProductSortBar totalProducts={data?.data?.total ?? 0} className="sticky top-24 z-25" />
-
           <HydrationBoundary state={dehydrate(queryClient)}>
             <ProductList queryKey={queryParameters} />
           </HydrationBoundary>
