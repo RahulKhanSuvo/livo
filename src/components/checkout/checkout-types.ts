@@ -23,6 +23,7 @@ export interface CheckoutModalProps {
   shippingFee: number;
   discountAmount: number;
   totalAmount: number;
+  couponCode?: string;
 }
 
 export interface ShippingStepProps {
@@ -31,6 +32,7 @@ export interface ShippingStepProps {
   subtotal: number;
   shippingFee: number;
   discountAmount: number;
+  couponCode?: string;
   defaultValues: Partial<ShippingFormData>;
   onComplete: (data: {
     clientSecret: string;
