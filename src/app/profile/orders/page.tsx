@@ -11,8 +11,6 @@ import {
   paymentStatusLabels,
 } from '@/components/profile/profile.data';
 
-export const metadata = { title: 'Orders' };
-
 export default async function OrdersPage() {
   const user = await getProfileUser();
   const orders = await getOrders(user.id);
@@ -23,7 +21,7 @@ export default async function OrdersPage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#d98e63]">
           Order history
         </p>
-        <h1 className="mt-4 font-[family-name:var(--font-instrument-serif)] text-4xl sm:text-5xl">
+        <h1 className="mt-4 font-(family-name:--font-instrument-serif) text-4xl sm:text-5xl">
           Your orders
         </h1>
         <p className="mt-2 text-sm text-neutral-600">

@@ -49,6 +49,11 @@ model Material {
   updatedAt   DateTime  @updatedAt
 }
 
+enum ProductStatus {
+  ACTIVE
+  DEACTIVATED
+}
+
 model Product {
   id               String           @id @default(cuid())
   productTypeId    String
@@ -58,6 +63,7 @@ model Product {
   width            Float
   height           Float
   depth            Float
+  status           ProductStatus    @default(ACTIVE)
   weightKg         Float
   price            Float
   salePrice        Float            @default(0)
