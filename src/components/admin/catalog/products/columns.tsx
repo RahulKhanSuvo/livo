@@ -1,11 +1,18 @@
 'use client';
 
-import { Edit02Icon, MoreHorizontalIcon, EyeIcon, Delete02Icon } from '@hugeicons/core-free-icons';
+import {
+  Edit02Icon,
+  MoreHorizontalIcon,
+  EyeIcon,
+  EyeOffIcon,
+  Delete02Icon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { DataTableColumn } from '@/components/shared/data-table';
 import { Button } from '@/components/ui/button';
+import { StatusBadge } from '@/components/admin/ui/badges';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,9 +22,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ProductWithRelations } from '@/actions/products/getAllProducts';
+import type { ProductStatus } from '@/generated/prisma/client';
 
 export function productColumns(handlers: {
   onDelete: (id: string, name: string) => void;
+  onSetStatus: (id: string, status: ProductStatus) => void;
 }): DataTableColumn<ProductWithRelations>[] {
   return [
     {
@@ -90,6 +99,11 @@ export function productColumns(handlers: {
       cell: ({ row }) => `${row.original.variants?.length || 0} variants`,
     },
     {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => <StatusBadge status={row.original.status} />,
+    },
+    {
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => {
@@ -121,6 +135,24 @@ export function productColumns(handlers: {
                   Preview in Store
                 </Link>
               </DropdownMenuItem>
+
+              {product.status === 'ACTIVE' ? (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => handlers.onSetStatus(product.id, 'DEACTIVATED')}
+                >
+                  <HugeiconsIcon icon={EyeOffIcon} className="mr-2 h-4 w-4 text-muted-foreground" />
+                  Deactivate
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => handlers.onSetStatus(product.id, 'ACTIVE')}
+                >
+                  <HugeiconsIcon icon={EyeIcon} className="mr-2 h-4 w-4 text-muted-foreground" />
+                  Activate
+                </DropdownMenuItem>
+              )}
 
               <DropdownMenuSeparator />
 
