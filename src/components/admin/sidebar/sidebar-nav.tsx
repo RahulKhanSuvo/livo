@@ -8,6 +8,7 @@ import { ChevronDownIcon } from '@hugeicons/core-free-icons';
 
 import { cn } from '@/lib/utils';
 import type { AdminNavItem } from './app-sidebar.data';
+import { useAdminUISidebarStore } from '@/stores/sidebar-store';
 
 function NavItemLink({
   item,
@@ -15,22 +16,21 @@ function NavItemLink({
   collapsed,
   isChildActive,
   isParentActive,
-  onClick,
 }: {
   item: AdminNavItem;
   depth?: number;
   collapsed: boolean;
   isChildActive: boolean;
   isParentActive: boolean;
-  onClick?: () => void;
 }) {
   const isActive = isChildActive || (depth === 0 && isParentActive && !item.children);
+  const closeMobile = useAdminUISidebarStore((s) => s.closeMobile);
 
   if (collapsed) {
     return (
       <Link
         href={item.href}
-        onClick={onClick}
+        onClick={closeMobile}
         title={item.title}
         className={cn(
           'group/nav relative flex h-10 w-full items-center justify-center rounded text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
@@ -52,7 +52,7 @@ function NavItemLink({
   return (
     <Link
       href={item.href}
-      onClick={onClick}
+      onClick={closeMobile}
       className={cn(
         'relative flex h-9.5 w-full items-center gap-2.5 rounded-xl px-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
         depth > 0 && 'h-8.5 pl-8 text-[13px]',
@@ -89,13 +89,11 @@ function NavGroupItem({
   collapsed,
   depth = 0,
   defaultOpen = false,
-  onNavigate,
 }: {
   item: AdminNavItem;
   collapsed: boolean;
   depth?: number;
   defaultOpen?: boolean;
-  onNavigate?: () => void;
 }) {
   const pathname = usePathname();
   const hasChildren = !!item.children?.length;
@@ -111,7 +109,6 @@ function NavGroupItem({
         collapsed={collapsed}
         isChildActive={false}
         isParentActive={isParentActive}
-        onClick={onNavigate}
       />
     );
   }
@@ -157,7 +154,6 @@ function NavGroupItem({
                   collapsed={false}
                   isChildActive={active}
                   isParentActive={false}
-                  onClick={onNavigate}
                 />
               );
             })}
@@ -172,12 +168,10 @@ export function SidebarNav({
   groups,
   collapsed,
   defaultOpenPrefix,
-  onNavigate,
 }: {
   groups: { label: string; items: AdminNavItem[] }[];
   collapsed: boolean;
   defaultOpenPrefix?: string;
-  onNavigate?: () => void;
 }) {
   const pathname = usePathname();
 
@@ -198,7 +192,6 @@ export function SidebarNav({
                 item={item}
                 collapsed={collapsed}
                 defaultOpen={defaultOpenPrefix ? pathname.startsWith(defaultOpenPrefix) : false}
-                onNavigate={onNavigate}
               />
             ))}
           </div>
