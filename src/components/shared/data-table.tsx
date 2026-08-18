@@ -113,7 +113,7 @@ export function DataTable<T>({
         </Table>
       </div>
 
-      {pagination && (
+      {pagination && pagination.totalRows > pagination.state.pageSize && (
         <PaginationFooter
           pageIndex={pagination.state.pageIndex}
           pageCount={table.getPageCount() || 1}
