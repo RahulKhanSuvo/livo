@@ -4,12 +4,10 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  BellIcon,
   Globe02Icon,
   Logout01Icon,
   Menu01Icon,
   PanelLeftIcon,
-  PlusSignIcon,
   Search01Icon,
   Settings05Icon,
 } from '@hugeicons/core-free-icons';
