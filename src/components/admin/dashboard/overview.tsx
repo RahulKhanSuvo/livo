@@ -38,7 +38,7 @@ const productCols: Column<(typeof topProducts)[number]>[] = [
   { key: 'sold', header: 'Sold', cell: (r) => <span className="font-medium">{r.sold}</span> },
   {
     key: 'revenue',
-    header: 'Revenue',
+    header: 'Sales',
     cell: (r) => <span className="font-medium">{formatMoney(r.revenue)}</span>,
   },
   {
@@ -98,7 +98,7 @@ export function Overview() {
       <div className="grid gap-5 lg:grid-cols-3">
         <Card className="bg-white/90 lg:col-span-2">
           <CardHeader>
-            <CardTitle>Revenue</CardTitle>
+            <CardTitle>Sales</CardTitle>
             <CardAction>
               <span className="rounded-full bg-emerald-600/10 px-2.5 py-1 text-xs font-semibold text-emerald-700">
                 +12.4%
