@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { authClient } from '@/lib/auth-client';
 import { CheckoutModal } from '@/components/checkout/CheckoutModal';
+import { applyCouponAction } from '@/actions/coupon/applyCouponAction';
 
 interface CartOrderSummaryProps {
   items: CartItem[];
@@ -28,6 +29,8 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [isApplying, setIsApplying] = useState(false);
+  const [couponError, setCouponError] = useState<string | null>(null);
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,19 +46,35 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
     shippingFee === 0 ? 'FREE' : `${shippingFee.toLocaleString('en-BD')} BDT`;
   const formattedTotal = total.toLocaleString('en-BD', { maximumFractionDigits: 2 });
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!couponCode.trim()) return;
+    setCouponError(null);
+    const code = couponCode.trim();
+    if (!code) return;
 
-    if (couponCode.toUpperCase() === 'LIVO10') {
-      const discount = subtotal * 0.1;
-      setDiscountAmount(discount);
-      setAppliedCoupon('LIVO10 (10% OFF)');
-    } else {
-      setAppliedCoupon(null);
-      setDiscountAmount(0);
-      alert('Invalid coupon code. Try "LIVO10" for 10% off!');
+    setIsApplying(true);
+    try {
+      const res = await applyCouponAction({ code, subtotal });
+      if (res.success && res.data?.ok) {
+        setDiscountAmount(res.data.discount);
+        setAppliedCoupon(code.toUpperCase());
+      } else {
+        setDiscountAmount(0);
+        setAppliedCoupon(null);
+        setCouponError(res.data?.message ?? res.message ?? 'This coupon could not be applied.');
+      }
+    } catch {
+      setCouponError('Something went wrong. Please try again.');
+    } finally {
+      setIsApplying(false);
     }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setDiscountAmount(0);
+    setCouponCode('');
+    setCouponError(null);
   };
 
   const handleProceedToCheckout = () => {
@@ -116,36 +135,42 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
           </div>
 
           {/* Coupon Code Section */}
-          <form onSubmit={handleApplyCoupon} className="flex items-center gap-2">
-            <div className="relative flex-1">
-              <Input
-                type="text"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                placeholder="Promo Code (e.g. LIVO10)"
-                className="h-10 pl-9 text-xs"
-              />
-              <HugeiconsIcon
-                icon={Ticket01Icon}
-                size={16}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
-              />
-            </div>
-            <Button type="submit" variant="secondary" className="h-10 px-4 text-xs font-medium">
-              Apply
-            </Button>
-          </form>
+          {!appliedCoupon && (
+            <form onSubmit={handleApplyCoupon} className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <Input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  placeholder="Enter promo code"
+                  className="h-10 pl-9 text-xs"
+                  disabled={isApplying}
+                />
+                <HugeiconsIcon
+                  icon={Ticket01Icon}
+                  size={16}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                />
+              </div>
+              <Button
+                type="submit"
+                variant="secondary"
+                className="h-10 px-4 text-xs font-medium"
+                disabled={isApplying}
+              >
+                {isApplying ? 'Applying…' : 'Apply'}
+              </Button>
+            </form>
+          )}
+
+          {couponError && <p className="text-xs text-destructive">{couponError}</p>}
 
           {appliedCoupon && (
             <div className="flex items-center justify-between text-xs text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 dark:text-emerald-300 p-2.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
               <span>Coupon applied: {appliedCoupon}</span>
               <button
                 type="button"
-                onClick={() => {
-                  setAppliedCoupon(null);
-                  setDiscountAmount(0);
-                  setCouponCode('');
-                }}
+                onClick={handleRemoveCoupon}
                 className="text-muted-foreground hover:text-destructive transition-colors ml-2"
               >
                 <HugeiconsIcon icon={Cancel01Icon} size={14} />
@@ -186,6 +211,7 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
         shippingFee={shippingFee}
         discountAmount={discountAmount}
         totalAmount={total}
+        couponCode={appliedCoupon ?? undefined}
       />
     </>
   );
