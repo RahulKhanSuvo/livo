@@ -33,7 +33,6 @@ import {
   // Store03Icon,
   UserGroupIcon,
   UserShield01Icon,
-  UserSquareIcon,
 } from '@hugeicons/core-free-icons';
 
 export interface AdminNavItem {
@@ -132,10 +131,7 @@ export const adminNavGroups: AdminNavGroup[] = [
         title: 'Users',
         href: '/admin/users/admins',
         icon: UserGroupIcon,
-        children: [
-          { title: 'Admins', href: '/admin/users/admins', icon: UserShield01Icon },
-          { title: 'Staff', href: '/admin/users/staff', icon: UserSquareIcon },
-        ],
+        children: [{ title: 'Admins', href: '/admin/users/admins', icon: UserShield01Icon }],
       },
     ],
   },
