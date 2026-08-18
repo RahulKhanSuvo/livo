@@ -18,7 +18,7 @@ export default function CartPage() {
       {isEmpty ? (
         <EmptyCart />
       ) : (
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start pb-7">
           {/* Items List (Left Column) */}
           <CartItemsList items={items} />
 
