@@ -22,7 +22,7 @@ async function main() {
       email: 'admin@livo.com',
       password: 'Admin@123456',
       rememberMe: false,
-      role: 'ADMIN',
+      role: 'SUPER_ADMIN',
     },
   });
 
@@ -31,7 +31,7 @@ async function main() {
       id: result.user.id,
     },
     data: {
-      role: 'ADMIN',
+      role: 'SUPER_ADMIN',
     },
   });
 
