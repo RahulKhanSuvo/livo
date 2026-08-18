@@ -8,6 +8,7 @@ export const getClassificationHierarchyAction = createSafeAction(null, async () 
     select: {
       id: true,
       name: true,
+      slug: true,
       subCategories: {
         select: {
           id: true,
