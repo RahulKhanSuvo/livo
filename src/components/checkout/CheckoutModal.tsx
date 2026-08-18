@@ -31,6 +31,7 @@ export function CheckoutModal({
   shippingFee,
   discountAmount,
   totalAmount,
+  couponCode,
 }: CheckoutModalProps) {
   const clearCart = useCartStore((state) => state.clearCart);
   const { data: session } = authClient.useSession();
@@ -176,6 +177,7 @@ export function CheckoutModal({
               subtotal={subtotal}
               shippingFee={shippingFee}
               discountAmount={discountAmount}
+              couponCode={couponCode}
               defaultValues={{
                 fullName: user?.name ?? '',
                 email: user?.email ?? '',
