@@ -25,7 +25,7 @@ export function CartItemCard({ item }: CartItemCardProps) {
   return (
     <div className="flex flex-col gap-4 border-b border-border py-5 last:border-b-0 sm:flex-row sm:items-center sm:gap-6">
       {/* Product Image */}
-      <div className="relative size-28 shrink-0 overflow-hidden rounded-xl border border-border bg-muted sm:size-32">
+      <div className="relative size-28 shrink-0 overflow-hidden border border-border bg-muted sm:size-32">
         {item.image && !imageError ? (
           <Image
             src={item.image}
