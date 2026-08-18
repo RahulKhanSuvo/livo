@@ -19,7 +19,22 @@ export const refundOrderAction = createSafeAction(
     }
 
     if (order.stripePaymentIntentId) {
-      await stripe.refunds.create({ payment_intent: order.stripePaymentIntentId });
+      const refund = await stripe.refunds.create({
+        payment_intent: order.stripePaymentIntentId,
+      });
+
+      await prisma.payment.create({
+        data: {
+          orderId: order.id,
+          orderNumber: order.orderNumber,
+          amount: -Number(order.total),
+          currency: 'usd',
+          method: 'Card',
+          gateway: 'stripe',
+          status: 'REFUNDED',
+          reference: refund.id,
+        },
+      });
     }
 
     await prisma.order.update({
