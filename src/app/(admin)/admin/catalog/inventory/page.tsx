@@ -7,11 +7,8 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import {
   AlertCircleIcon,
   ArchiveIcon,
-  ArrowDown01Icon,
-  ArrowUp01Icon,
   CheckmarkCircle02Icon,
   Download02Icon,
-  FilterIcon,
   MinusPlus01Icon,
   PackageIcon,
   PlusMinus01Icon,
