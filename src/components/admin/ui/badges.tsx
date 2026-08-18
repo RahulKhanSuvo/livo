@@ -24,6 +24,7 @@ const statusStyles: Record<string, string> = {
   'Out of stock': 'bg-destructive/10 text-destructive',
   Inactive: 'bg-muted text-muted-foreground',
   Unpublished: 'bg-muted text-muted-foreground',
+  Hidden: 'bg-muted text-muted-foreground',
   // Order / payment enum values (uppercase)
   PENDING: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
   CONFIRMED: 'bg-blue-600/10 text-blue-700 dark:text-blue-400',
@@ -36,6 +37,9 @@ const statusStyles: Record<string, string> = {
   REFUNDED: 'bg-violet-600/10 text-violet-700 dark:text-violet-400',
   ACTIVE: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400',
   DEACTIVATED: 'bg-muted text-muted-foreground',
+  VIP: 'bg-[#d98e63]/12 text-[#b9703f]',
+  Regular: 'bg-sky-600/10 text-sky-700 dark:text-sky-400',
+  New: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
 };
 
 export function StatusBadge({ status }: { status: string }) {
