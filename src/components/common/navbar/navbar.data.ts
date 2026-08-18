@@ -215,7 +215,7 @@ export const navCategories: NavCategory[] = [
         ctaText: 'SHOP BEDROOM',
         ctaHref: '/shop/bedroom',
         image:
-          'https://images.unsplash.com/photo-1540518614846-7ede433c5172?q=80&w=1000&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1000&auto=format&fit=crop',
       },
     ],
   },
