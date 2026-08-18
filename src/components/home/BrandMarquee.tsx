@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
 import ikeaLogo from '@/assets/mar/Group_1454_2x_ca71a0d1-52f3-4fa1-aa47-fdccb802244c.webp';
-import vitraLogo from '@/assets/mar/logo-philipp_2x_78f312c4-4d9f-41ff-aeb3-d575f6c6251f.avif';
-import hayLogo from '@/assets/mar/tradition-logo_2x_95e1e23d-c653-4fb6-9550-9fd91d283b1b.webp';
+import vitraLogo from '@/assets/mar/tradition-logo_2x_95e1e23d-c653-4fb6-9550-9fd91d283b1b.webp';
+import group1452Logo from '@/assets/mar/Group_1452_2x_ae12c422-6025-4d38-8b6b-e9bb211f3d2e.webp';
+import group1453Logo from '@/assets/mar/Group_1453_2x_8f499999-2ec1-4eee-b326-98c2c8dba7fd.webp';
 import { Marquee } from '../ui/marquee';
 
 const brands = [
@@ -18,8 +19,13 @@ const brands = [
   },
   {
     id: 3,
-    name: 'HAY',
-    logo: hayLogo,
+    name: 'Brand',
+    logo: group1452Logo,
+  },
+  {
+    id: 4,
+    name: 'Brand',
+    logo: group1453Logo,
   },
 ];
 
