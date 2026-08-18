@@ -10,7 +10,7 @@ export async function requireAdmin() {
     throw new Error('Unauthorized');
   }
 
-  if (session.user.role !== 'admin') {
+  if (session.user.role !== 'SUPER_ADMIN') {
     throw new Error('Forbidden');
   }
 
