@@ -87,7 +87,7 @@ export function ProductsFilterBar() {
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <div className="relative min-w-[220px] flex-1">
+      <div className="relative min-w-55 flex-1">
         <HugeiconsIcon
           icon={Search01Icon}
           size={16}
