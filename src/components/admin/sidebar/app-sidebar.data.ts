@@ -115,6 +115,11 @@ export const adminNavGroups: AdminNavGroup[] = [
           { title: 'Collections', href: '/admin/content/collections', icon: FolderOpenIcon },
           { title: 'Blog', href: '/admin/content/blog', icon: BloggerIcon },
           { title: 'Shop the Room', href: '/admin/content/room-hotspots', icon: Image01Icon },
+          {
+            title: 'Product Slider',
+            href: '/admin/content/product-slider',
+            icon: GalleryHorizontalEndIcon,
+          },
         ],
       },
       {
