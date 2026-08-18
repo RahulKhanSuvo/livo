@@ -95,12 +95,11 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
 
   return (
     <>
-      <div className="w-full shrink-0 space-y-6 lg:w-105">
-        <div className="rounded border border-border bg-card p-6 space-y-6">
-          <h2 className="text-lg font-semibold text-foreground font-heading border-b border-border pb-3">
-            Order Summary
-          </h2>
-
+      <div className="w-full shrink-0 space-y-6 lg:w-120 sticky top-24">
+        <div className="rounded border border-border  p-2 space-y-6">
+          <div className=" bg-[#f6f6f6] px-4 py-4">
+            <h2 className="text-base font-normal text-neutral-800">Order Summary</h2>
+          </div>
           {/* Error Banner */}
           {errorMsg && (
             <div className="flex items-start gap-2.5 rounded-xl border border-destructive/20 bg-destructive/10 p-3.5 text-xs text-destructive">
@@ -179,25 +178,31 @@ export function CartOrderSummary({ items }: CartOrderSummaryProps) {
           )}
 
           {/* Checkout Button */}
-          <div>
-            <Button
-              type="button"
-              onClick={handleProceedToCheckout}
-              className="w-full h-11 text-xs font-semibold gap-2 shadow-sm"
-            >
-              <span>Proceed to Checkout</span>
-              <HugeiconsIcon icon={ShoppingCart02Icon} size={16} />
-            </Button>
-          </div>
-
-          {/* Continue Shopping */}
-          <div className="text-center pt-1">
-            <Link
-              href="/shop"
-              className="text-xs font-semibold text-primary hover:underline transition-all"
-            >
-              Continue Shopping
-            </Link>
+          <div className="flex gap-2 flex-col items-center w-full pb-5">
+            <div>
+              <Button
+                type="button"
+                onClick={handleProceedToCheckout}
+                className="w-full h-11 text-xs font-semibold gap-2 shadow-sm"
+              >
+                <span>Proceed to Checkout</span>
+                <HugeiconsIcon icon={ShoppingCart02Icon} size={16} />
+              </Button>
+            </div>
+            {/*or*/}
+            <span className="text-xs text-center font-semibold text-primary hover:underline transition-all">
+              {' '}
+              or{' '}
+            </span>
+            {/* Continue Shopping */}
+            <div className="text-center">
+              <Link
+                href="/shop"
+                className="text-xs font-semibold text-primary hover:underline transition-all"
+              >
+                Continue Shopping
+              </Link>
+            </div>
           </div>
         </div>
       </div>
