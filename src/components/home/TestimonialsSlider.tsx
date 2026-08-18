@@ -6,7 +6,7 @@ import { StarIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Pagination } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -15,12 +15,14 @@ import { Container } from '../shared/Container';
 
 export const TestimonialsSlider = () => {
   return (
-    <section className="w-full bg-white py-16 sm:py-24 border-t border-neutral-100">
+    <section className="w-full bg-white py-16 sm:pt-24 border-t border-neutral-100">
       <Container>
         <Swiper
-          modules={[Pagination]}
+          modules={[Autoplay, Pagination]}
           spaceBetween={32}
           slidesPerView={1.1}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          loop
           pagination={{
             clickable: true,
             bulletClass:
@@ -44,10 +46,10 @@ export const TestimonialsSlider = () => {
               <div className="flex flex-col justify-between h-full text-left">
                 {/* Content Top */}
                 <div>
-                  <h3 className="text-base sm:text-lg font-medium text-neutral-900 mb-2.5">
+                  <h3 className="text-lg sm:text-xl font-medium text-neutral-900 mb-2.5">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
+                  <p className=" sm:text-sm text-neutral-600 font-light leading-relaxed">
                     {item.review}
                   </p>
                 </div>
@@ -56,12 +58,7 @@ export const TestimonialsSlider = () => {
                 <div className="mt-8 flex items-center gap-3">
                   {/* Round Product Thumbnail */}
                   <div className="relative h-12 w-12 shrink-0 rounded-full bg-[#f6f6f4] p-1 overflow-hidden flex items-center justify-center">
-                    <Image
-                      src={item.productImage}
-                      alt={item.title}
-                      fill
-                      className="object-contain p-1.5"
-                    />
+                    <Image src={item.productImage} alt={item.title} fill className="object-cover" />
                   </div>
 
                   {/* Author Name + Star Rating */}
