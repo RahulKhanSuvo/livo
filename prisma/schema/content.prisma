@@ -14,3 +14,15 @@ model RoomScene {
   imageUrl  String
   updatedAt DateTime @updatedAt
 }
+
+model ProductSliderItem {
+  id        String   @id @default(cuid())
+  productId String
+  mediaUrl  String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([order])
+}
