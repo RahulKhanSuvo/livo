@@ -146,27 +146,11 @@ const PromoCard = ({ promo }: { promo: PromoBanner }) => (
   <div className="relative group w-full h-95 overflow-hidden rounded-xs bg-neutral-900 flex items-center justify-center">
     <Image
       src={promo.image}
-      alt={promo.title}
+      alt={'room'}
       fill
       sizes="(max-width: 1024px) 100vw, 33vw"
       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-85"
     />
-    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-black/20" />
-
-    <div className="relative z-10 flex flex-col items-center justify-center text-center p-6 text-white h-full max-w-70">
-      <h4 className="text-sm tracking-[0.08em] font-extrabold uppercase text-white mb-2 leading-snug text-center drop-shadow">
-        {promo.title}
-      </h4>
-      <p className="text-[11px] text-white/90 mb-5 leading-snug font-normal text-center drop-shadow-xs">
-        {promo.subtitle}
-      </p>
-      <Link
-        href={promo.ctaHref}
-        className="text-[11px] font-bold uppercase tracking-wider text-white underline underline-offset-4 hover:opacity-80 transition-opacity drop-shadow"
-      >
-        {promo.ctaText}
-      </Link>
-    </div>
   </div>
 );
 
