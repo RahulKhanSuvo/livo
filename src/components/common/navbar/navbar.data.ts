@@ -1,3 +1,6 @@
+import livingRoomImage from '@/assets/navbar/livingRoom.png';
+import diningRoomImage from '@/assets/navbar/dinningRoom.png';
+import { StaticImageData } from 'next/image';
 export interface NavSubItem {
   title: string;
   href: string;
@@ -10,11 +13,7 @@ export interface NavColumn {
 }
 
 export interface PromoBanner {
-  title: string;
-  subtitle: string;
-  ctaText: string;
-  ctaHref: string;
-  image: string;
+  image: StaticImageData | string;
 }
 
 export interface NavCategory {
@@ -81,12 +80,7 @@ export const navCategories: NavCategory[] = [
     viewAllHref: '/shop/living-room',
     promos: [
       {
-        title: 'YOUR SOFA, YOUR CONFIGURATION',
-        subtitle: 'Built for comfort, and always ready to adapt to the way you live.',
-        ctaText: 'SHOP MODULAR SOFAS',
-        ctaHref: '/shop/living-room/sofa/modular-sofas',
-        image:
-          'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop',
+        image: livingRoomImage,
       },
     ],
   },
@@ -141,18 +135,9 @@ export const navCategories: NavCategory[] = [
     viewAllHref: '/shop/dining-room',
     promos: [
       {
-        title: 'DINING CHAIRS FOR EVERY HOME',
-        subtitle: 'Designed for spaces where good taste is always on the menu.',
-        ctaText: 'SHOP DINING CHAIRS',
-        ctaHref: '/shop/dining-room/chair',
-        image:
-          'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=1000&auto=format&fit=crop',
+        image: diningRoomImage,
       },
       {
-        title: 'TRAVERTINE DINING TABLES',
-        subtitle: 'A true centerpiece for gatherings, big moments, and everyday rituals alike.',
-        ctaText: 'SHOP DINING TABLES',
-        ctaHref: '/shop/dining-room/table',
         image:
           'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=1000&auto=format&fit=crop',
       },
