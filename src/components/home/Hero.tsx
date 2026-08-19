@@ -6,6 +6,7 @@ import 'swiper/css/pagination';
 import { heroData } from './data';
 import Image from 'next/image';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 const HeroSection = () => {
   return (
     <div className="relative">
@@ -37,8 +38,8 @@ const HeroSection = () => {
                 <h1 className="my-4 text-7xl font-medium">{item.title}</h1>
                 <div className="flex items-center gap-10">
                   {item.cts.map((btn, index) => (
-                    <Button className={'px-0'} variant={'editorial-link'} key={index}>
-                      {btn.label}
+                    <Button asChild className={'px-0'} variant={'editorial-link'} key={index}>
+                      <Link href={btn.href}>{btn.label}</Link>
                     </Button>
                   ))}
                 </div>
