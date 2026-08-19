@@ -4,18 +4,16 @@ export interface FooterLink {
 }
 
 export const footerCategories: FooterLink[] = [
-  { label: 'Beds', href: '/collections/beds' },
-  { label: 'Chairs', href: '/collections/chairs' },
-  { label: 'Sofas', href: '/collections/sofas' },
-  { label: 'Decor', href: '/collections/decor' },
-  { label: 'Storage', href: '/collections/storage' },
-  { label: 'Tables', href: '/collections/tables' },
-  { label: 'Modern Luxury', href: '/collections/modern-luxury' },
+  { label: 'Beds', href: '/shop/beds' },
+  { label: 'Chairs', href: '/shop/chairs' },
+  { label: 'Sofas', href: '/shop/sofas' },
+  { label: 'Decor', href: '/shop/decor' },
+  { label: 'Storage', href: '/shop/storage' },
+  { label: 'Tables', href: '/shop/tables' },
 ];
 
 export const footerServices: FooterLink[] = [
   { label: 'About Us', href: '/about' },
-  { label: 'Theme feature', href: '/features' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/contact' },
 ];
