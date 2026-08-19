@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 import { heroData } from './data';
 import Image from 'next/image';
 import { Button } from '../ui/button';
@@ -23,20 +24,27 @@ const HeroSection = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        effect="cards"
-
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
         loop
       >
         {heroData.map((item) => (
           <SwiperSlide key={item.title}>
-            <div className="relative h-[90vh]">
+            <div className="relative h-[70vh] w-full sm:h-[80vh] lg:h-[90vh]">
               <Image src={item.banner} alt={item.title} fill className="object-cover" priority />
 
-              <div className="absolute bottom-24 left-8 text-white">
-                <p className="uppercase tracking-[4px]">{item.subtitle}</p>
+              {/* Legibility scrim */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
 
-                <h1 className="my-4 text-7xl font-medium">{item.title}</h1>
-                <div className="flex items-center gap-10">
+              <div className="absolute inset-x-0 bottom-16 px-5 text-white sm:bottom-24 sm:left-8 sm:right-auto sm:max-w-xl sm:px-0">
+                <p className="text-[11px] uppercase tracking-[3px] sm:tracking-[4px]">
+                  {item.subtitle}
+                </p>
+
+                <h1 className="my-3 text-4xl font-medium leading-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                  {item.title}
+                </h1>
+                <div className="mt-5 flex flex-wrap items-center gap-4 sm:gap-10">
                   {item.cts.map((btn, index) => (
                     <Button asChild className={'px-0'} variant={'editorial-link'} key={index}>
                       <Link href={btn.href}>{btn.label}</Link>
