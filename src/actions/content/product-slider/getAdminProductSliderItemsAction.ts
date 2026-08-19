@@ -25,13 +25,6 @@ export async function getAdminProductSliderItemsAction(): Promise<AdminProductSl
             select: { images: { select: { imageUrl: true }, take: 1 } },
             take: 1,
           },
-          productType: {
-            select: {
-              subCategory: {
-                select: { slug: true, category: { select: { slug: true } } },
-              },
-            },
-          },
         },
       })
     : [];
@@ -43,18 +36,13 @@ export async function getAdminProductSliderItemsAction(): Promise<AdminProductSl
     let product: ProductSliderProduct | null = null;
 
     if (p) {
-      const categorySlug = p.productType?.subCategory?.category?.slug;
-      const subCategorySlug = p.productType?.subCategory?.slug;
       product = {
         id: p.id,
         name: p.name,
         price: Number(p.price),
         brand: p.brand?.name ?? null,
         image: p.variants[0]?.images[0]?.imageUrl ?? null,
-        href:
-          categorySlug && subCategorySlug
-            ? `/shop/${categorySlug}/${subCategorySlug}/${p.id}`
-            : '#',
+        href: `/product/${p.id}`,
       };
     }
 

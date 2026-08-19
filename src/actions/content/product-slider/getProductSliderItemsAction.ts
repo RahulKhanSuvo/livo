@@ -3,13 +3,8 @@
 import prisma from '@/lib/prisma';
 import type { ProductSliderProduct, PublicProductSliderItem } from './product-slider.type';
 
-function buildHref(
-  categorySlug: string | undefined,
-  subCategorySlug: string | undefined,
-  productId: string
-) {
-  if (!categorySlug || !subCategorySlug) return null;
-  return `/shop/${categorySlug}/${subCategorySlug}/${productId}`;
+function buildHref(productId: string) {
+  return `/product/${productId}`;
 }
 
 export async function getProductSliderItemsAction(): Promise<PublicProductSliderItem[]> {
@@ -33,13 +28,6 @@ export async function getProductSliderItemsAction(): Promise<PublicProductSlider
         select: { images: { select: { imageUrl: true }, take: 1 } },
         take: 1,
       },
-      productType: {
-        select: {
-          subCategory: {
-            select: { slug: true, category: { select: { slug: true } } },
-          },
-        },
-      },
     },
   });
 
@@ -50,10 +38,7 @@ export async function getProductSliderItemsAction(): Promise<PublicProductSlider
     const p = productMap.get(item.productId);
     if (!p) continue;
 
-    const categorySlug = p.productType?.subCategory?.category?.slug;
-    const subCategorySlug = p.productType?.subCategory?.slug;
-    const href = buildHref(categorySlug, subCategorySlug, p.id);
-    if (!href) continue;
+    const href = buildHref(p.id);
 
     const product: ProductSliderProduct = {
       id: p.id,
