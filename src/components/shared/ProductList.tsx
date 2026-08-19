@@ -4,6 +4,7 @@ import ProductCard from '../home/ProductCard';
 import { useQuery } from '@tanstack/react-query';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { FurnitureQuery } from '@/actions/furniture/furniture.validation';
+import ProductPagination from './ProductPagination';
 
 interface ProductListProps {
   queryKey: FurnitureQuery;
@@ -33,11 +34,19 @@ const ProductList = ({ queryKey }: ProductListProps) => {
   const basePath = '/product';
 
   return (
-    <div className="grid flex-1 grid-cols-3 gap-3">
-      {data?.data?.products.map((item) => (
-        <ProductCard basePath={basePath} key={item.id} product={item} />
-      ))}
-    </div>
+    <>
+      <div className="grid flex-1 grid-cols-3 gap-3">
+        {data?.data?.products.map((item) => (
+          <ProductCard basePath={basePath} key={item.id} product={item} />
+        ))}
+      </div>
+
+      <ProductPagination
+        total={data?.data?.total ?? 0}
+        limit={queryKey.limit ?? 10}
+        page={queryKey.page ?? 1}
+      />
+    </>
   );
 };
 
