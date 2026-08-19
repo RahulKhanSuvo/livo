@@ -32,7 +32,7 @@ const HeroSection = () => {
             <div className="relative h-[90vh]">
               <Image src={item.banner} alt={item.title} fill className="object-cover" priority />
 
-              <div className="absolute bottom-24 left-20 text-white">
+              <div className="absolute bottom-24 left-8 text-white">
                 <p className="uppercase tracking-[4px]">{item.subtitle}</p>
 
                 <h1 className="my-4 text-7xl font-medium">{item.title}</h1>
