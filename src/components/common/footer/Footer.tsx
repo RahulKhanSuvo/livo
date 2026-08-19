@@ -83,7 +83,7 @@ export const Footer = () => {
 
             {/* Email Input Form */}
             <form onSubmit={handleSubmit} className="w-full max-w-md">
-              <div className="flex items-center rounded-full bg-white p-1 pl-4 shadow-sm border border-neutral-200 focus-within:border-neutral-900 transition-colors">
+              <div className="flex items-center rounded-full bg-white p-1 pl-4 border border-neutral-200 focus-within:border-neutral-900 transition-colors">
                 <input
                   type="email"
                   value={email}
