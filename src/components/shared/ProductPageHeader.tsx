@@ -25,7 +25,7 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
   return (
     <header className={cn('w-full overflow-hidden relative', className)}>
       {/* Background Columns Layer */}
-      <div className="flex min-h-80 sm:min-h-95 lg:min-h-105">
+      <div className="flex min-h-80 sm:min-h-85 lg:min-h-90">
         {/* Left Side: Solid Background */}
         <div className={cn('flex-1', bgColor)} />
 
@@ -48,7 +48,7 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Left Side: Text Details */}
             <div className={cn('max-w-xl pr-6 lg:pr-12', contentClassName)}>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-normal text-neutral-900 tracking-tight mb-4 sm:mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium text-neutral-900 tracking-tight mb-4 sm:mb-6">
                 {title}
               </h1>
               <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
