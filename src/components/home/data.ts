@@ -1,4 +1,4 @@
-import banner1 from '@/assets/hero/hero2.png';
+import banner1 from '@/assets/hero/hero1.png';
 import banner2 from '@/assets/hero/5-1.webp';
 import banner3 from '@/assets/hero/6-1.webp';
 import sofa from '@/assets/department/sofa.webp';
