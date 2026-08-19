@@ -20,7 +20,7 @@ export type OrderRow = {
 
 export const getAllOrdersAction = createSafeAction(
   orderQuerySchema,
-  async ({ page, limit, status }) => {
+  async ({ page, limit, status, search }) => {
     const skip = (page - 1) * limit;
 
     let statusFilter: OrderStatus | undefined;
@@ -31,7 +31,18 @@ export const getAllOrdersAction = createSafeAction(
       }
     }
 
-    const where: Prisma.OrderWhereInput = statusFilter ? { status: statusFilter } : {};
+    const where: Prisma.OrderWhereInput = {
+      ...(statusFilter ? { status: statusFilter } : {}),
+      ...(search
+        ? {
+            OR: [
+              { orderNumber: { contains: search, mode: 'insensitive' } },
+              { fullName: { contains: search, mode: 'insensitive' } },
+              { email: { contains: search, mode: 'insensitive' } },
+            ],
+          }
+        : {}),
+    };
 
     const [orders, total, statusGroups, revenueAgg, awaitingPayment, toFulfil] = await Promise.all([
       prisma.order.findMany({
