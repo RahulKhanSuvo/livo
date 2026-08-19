@@ -18,19 +18,59 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 
 export const InteriorEditSlider = () => {
-  const [activeTab, setActiveTab] = useState<string>('new');
+  const [activeTab, setActiveTab] = useState<string>('most-wanted');
 
   const { data, isLoading } = useQuery({
     queryKey: ['products', 'interior-slider', activeTab],
-    queryFn: () =>
-      getAllFurnitureAction({
+    queryFn: async () => {
+      if (activeTab === 'most-wanted') {
+        const [storageRes, accessoriesRes] = await Promise.all([
+          getAllFurnitureAction({
+            page: 1,
+            limit: 8,
+            search: '',
+            subcategory: 'storage',
+            sortBy: 'createdAt',
+            sortOrder: 'desc',
+          }),
+          getAllFurnitureAction({
+            page: 1,
+            limit: 8,
+            search: '',
+            subcategory: 'accessories',
+            sortBy: 'createdAt',
+            sortOrder: 'desc',
+          }),
+        ]);
+
+        const products = [
+          ...(storageRes.data?.products ?? []),
+          ...(accessoriesRes.data?.products ?? []),
+        ];
+
+        return {
+          success: true,
+          message: 'Action executed successfully',
+          data: {
+            products,
+            total: products.length,
+            page: 1,
+            limit: 10,
+            hasNextPage: false,
+            hasPrevPage: false,
+          },
+        };
+      }
+
+      return getAllFurnitureAction({
         page: 1,
         limit: 10,
         search: '',
-        subcategory: activeTab === 'new' ? undefined : activeTab,
+        subcategory: activeTab,
         sortBy: 'createdAt',
         sortOrder: 'desc',
-      }),
+      });
+    },
   });
 
   const products = data?.data?.products || [];
@@ -50,32 +90,26 @@ export const InteriorEditSlider = () => {
         </div>
 
         {/* Tabs & Swiper Section */}
-        <Tabs defaultValue="new" onValueChange={setActiveTab} className="w-full">
+        <Tabs defaultValue="most-wanted" onValueChange={setActiveTab} className="w-full">
           {/* Minimalist Tab Navigation */}
           <TabsList className="bg-transparent p-0 h-auto gap-6 mb-8 justify-start border-none">
             <TabsTrigger
-              value="new"
+              value="most-wanted"
               className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
-              New In
+              Most Wanted
             </TabsTrigger>
             <TabsTrigger
-              value="sofas"
+              value="storage"
               className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
-              Sofas
+              Storage
             </TabsTrigger>
             <TabsTrigger
-              value="tables"
+              value="accessories"
               className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
             >
-              Tables
-            </TabsTrigger>
-            <TabsTrigger
-              value="chairs"
-              className="p-0 pb-1 rounded-none text-base font-normal text-neutral-500"
-            >
-              Chairs
+              Accessories
             </TabsTrigger>
           </TabsList>
 
