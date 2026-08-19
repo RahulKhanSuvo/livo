@@ -7,7 +7,7 @@ const ProductSpotlight = () => {
   return (
     <section className="relative h-[170vh] bg-[#f0efeb]">
       {/* Sticky Background */}
-      <div className="sticky top-0 h-[calc(125vh)] z-10">
+      <div className="sticky top-0 h-[calc(120vh)] z-10">
         <Image src={second} alt="background" fill priority className="object-cover" />
       </div>
 
