@@ -99,7 +99,7 @@ export function GallerySectionImageAdd({ galleryField }: GallerySectionImageAddP
           return (
             <div
               key={isFile ? `${item.name}-${index}` : item.id}
-              className="group relative aspect-square w-full overflow-hidden rounded-xl border bg-muted/30"
+              className="group relative aspect-square w-full overflow-hidden rounded-sm border bg-muted/30"
             >
               <Image
                 src={imageSrc}
@@ -130,14 +130,14 @@ export function GallerySectionImageAdd({ galleryField }: GallerySectionImageAddP
             type="button"
             onClick={() => fileInputRef.current?.click()}
             className={cn(
-              'flex aspect-square w-full flex-col items-center justify-center gap-1.5 rounded-xl',
+              'flex aspect-square w-full flex-col items-center justify-center gap-1.5 rounded-sm',
               'border-2 border-dashed border-muted-foreground/20',
               'bg-muted/20 text-muted-foreground',
               'transition-colors hover:border-primary/50',
               'hover:bg-muted/40 hover:text-foreground'
             )}
           >
-            <div className="rounded-full border bg-background p-2 shadow-xs">
+            <div className="rounded-sm border bg-background p-2 shadow-xs">
               <HugeiconsIcon icon={PlusSignIcon} size={14} />
             </div>
 
