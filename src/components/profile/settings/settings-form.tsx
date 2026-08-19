@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { LockPasswordIcon } from '@hugeicons/core-free-icons';
 import {
   updateProfileAction,
+  updateProfileImageAction,
   changePasswordAction,
   signOutAction,
 } from '@/components/profile/profile-actions';
@@ -13,12 +14,19 @@ import { initials } from '@/components/profile/profile.data';
 interface SettingsFormProps {
   name: string;
   email: string;
+  image?: string | null;
 }
 
-export function SettingsForm({ name, email }: SettingsFormProps) {
+export function SettingsForm({ name, email, image }: SettingsFormProps) {
   const [profileName, setProfileName] = useState(name);
   const [profileMsg, setProfileMsg] = useState<string | null>(null);
   const [profileErr, setProfileErr] = useState<string | null>(null);
+
+  const [preview, setPreview] = useState<string | null>(image ?? null);
+  const [uploading, setUploading] = useState(false);
+  const [imgMsg, setImgMsg] = useState<string | null>(null);
+  const [imgErr, setImgErr] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -33,6 +41,33 @@ export function SettingsForm({ name, email }: SettingsFormProps) {
     const result = await updateProfileAction({ name: profileName });
     if (result.success) setProfileMsg(result.message ?? 'Saved');
     else setProfileErr(result.error);
+  }
+
+  async function onImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setImgMsg(null);
+    setImgErr(null);
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const result = await updateProfileImageAction(formData);
+      if (result.success) {
+        setPreview(URL.createObjectURL(file));
+        setImgMsg(result.message ?? 'Photo updated');
+      } else {
+        setImgErr(result.error);
+      }
+    } catch {
+      setImgErr('Upload failed, please try again');
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
   }
 
   async function onPassword(e: React.FormEvent) {
@@ -65,15 +100,42 @@ export function SettingsForm({ name, email }: SettingsFormProps) {
 
       <section className="mx-auto max-w-4xl space-y-8 px-6 pb-24">
         <form onSubmit={onProfile} className="border border-neutral-200 bg-white p-6 sm:p-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center bg-[#161512] text-sm text-[#f4f1e8]">
-              {initials(name)}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden bg-[#161512] text-sm text-[#f4f1e8]">
+              {preview ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={preview} alt="" className="h-full w-full object-cover" />
+              ) : (
+                initials(name)
+              )}
             </div>
-            <div>
+            <div className="flex flex-col gap-1">
               <h2 className="text-sm font-medium">Profile details</h2>
-              <p className="text-xs font-light text-neutral-500">Update your display name</p>
+              <p className="text-xs font-light text-neutral-500">
+                Update your photo and display name
+              </p>
+              <div className="mt-1 flex items-center gap-3">
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp,image/gif"
+                  className="hidden"
+                  onChange={onImageChange}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="rounded-full border border-neutral-300 px-4 py-2 text-xs font-medium uppercase tracking-wider text-[#161512] transition-colors hover:bg-neutral-100 disabled:opacity-50"
+                >
+                  {uploading ? 'Uploading…' : preview ? 'Change photo' : 'Upload photo'}
+                </button>
+              </div>
             </div>
           </div>
+
+          {imgMsg && <p className="mt-4 text-sm font-medium text-[#4b6b56]">{imgMsg}</p>}
+          {imgErr && <p className="mt-4 text-sm font-medium text-red-600">{imgErr}</p>}
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             <label className="block">
