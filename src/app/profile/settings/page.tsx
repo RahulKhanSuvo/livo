@@ -6,5 +6,5 @@ export const metadata = { title: 'Settings' };
 export default async function SettingsPage() {
   const user = await getProfileUser();
 
-  return <SettingsForm name={user.name} email={user.email} />;
+  return <SettingsForm name={user.name} email={user.email} image={user.image} />;
 }
