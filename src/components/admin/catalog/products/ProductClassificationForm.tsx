@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -12,6 +11,7 @@ import {
 } from '@/components/ui/select';
 import { type CategoryTree, type ProductForm } from './types';
 import { type AnyFieldApi } from '@tanstack/form-core';
+import { FormSection } from './FormSection';
 
 interface ProductClassificationFormProps {
   form: ProductForm;
@@ -59,12 +59,11 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
   const productTypes = activeSubCategory?.productTypes ?? [];
 
   return (
-    <Card>
-      <CardHeader className="border-b">
-        <CardTitle>Classification</CardTitle>
-      </CardHeader>
-
-      <CardContent className="space-y-4 pt-6">
+    <FormSection
+      title="Classification"
+      description="Choose where this product lives in your catalogue taxonomy."
+    >
+      <div className="space-y-4">
         <div className="grid gap-4 sm:grid-cols-3">
           {/* Category */}
           <div className="space-y-1.5">
@@ -165,7 +164,7 @@ export function ProductClassificationForm({ form, categories }: ProductClassific
             )}
           </form.Field>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </FormSection>
   );
 }
