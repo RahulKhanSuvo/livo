@@ -33,13 +33,13 @@ function NavItemLink({
         onClick={closeMobile}
         title={item.title}
         className={cn(
-          'group/nav relative flex h-10 w-full items-center justify-center rounded text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
+          'group/nav relative flex h-10 w-full items-center justify-center rounded-sm text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
           isActive &&
             'bg-sidebar-primary text-sidebar-primary-foreground hover:text-sidebar-primary-foreground'
         )}
       >
         <HugeiconsIcon icon={item.icon} size={20} strokeWidth={1.75} />
-        <span className="pointer-events-none absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-lg bg-sidebar-primary px-2 py-1 text-xs font-medium text-sidebar-primary-foreground opacity-0 shadow-lg transition-opacity group-hover/nav:block group-hover/nav:opacity-100">
+        <span className="pointer-events-none absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-sm bg-sidebar-primary px-2 py-1 text-xs font-medium text-sidebar-primary-foreground opacity-0 shadow-lg transition-opacity group-hover/nav:block group-hover/nav:opacity-100">
           {item.title}
         </span>
         {item.badge && (
@@ -54,14 +54,14 @@ function NavItemLink({
       href={item.href}
       onClick={closeMobile}
       className={cn(
-        'relative flex h-9.5 w-full items-center gap-2.5 rounded-xl px-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
+        'relative flex h-9.5 w-full items-center gap-2.5 rounded-sm px-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
         depth > 0 && 'h-8.5 pl-8 text-[13px]',
         isActive && 'bg-sidebar-primary font-semibold text-sidebar-primary-foreground shadow-sm',
         isParentActive && depth === 0 && !isActive && 'bg-sidebar-accent text-sidebar-foreground'
       )}
     >
       {isActive && depth > 0 && (
-        <span className="absolute left-2.5 top-1/2 size-1.5 -translate-y-1/2 rounded-full bg-sidebar-primary" />
+        <span className="absolute left-2.5 top-1/2 size-1.5 -translate-y-1/2 rounded-sm bg-sidebar-primary" />
       )}
       <HugeiconsIcon
         icon={item.icon}
@@ -73,7 +73,7 @@ function NavItemLink({
       {item.badge && (
         <span
           className={cn(
-            'ml-auto rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-sidebar-foreground/80',
+            'ml-auto rounded-sm bg-white/10 px-2 py-0.5 text-[10px] font-semibold text-sidebar-foreground/80',
             isActive && 'bg-black/10 text-sidebar-primary-foreground'
           )}
         >
@@ -119,7 +119,7 @@ function NavGroupItem({
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          'flex h-9.5 w-full items-center gap-2.5 rounded-xl px-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
+          'flex h-9.5 w-full items-center gap-2.5 rounded-sm px-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
           (childActive || isParentActive) && 'bg-sidebar-accent text-sidebar-foreground'
         )}
       >
@@ -127,7 +127,7 @@ function NavGroupItem({
         <span className="truncate">{item.title}</span>
         <span
           className={cn(
-            'ml-auto grid size-5 shrink-0 place-items-center rounded-md text-sidebar-foreground/50 transition-transform duration-300',
+            'ml-auto grid size-5 shrink-0 place-items-center rounded-sm text-sidebar-foreground/50 transition-transform duration-300',
             open && 'rotate-180'
           )}
         >
