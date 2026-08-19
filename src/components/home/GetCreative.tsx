@@ -41,21 +41,21 @@ export const GetCreative = () => {
           style={{ y: chairY, rotate: chairRotate, willChange: 'transform' }}
           className="absolute left-[5%] top-[18%]"
         >
-          <Image src={chairImage} alt="" className="w-80 h-auto" priority />
+          <Image src={chairImage} alt="" className="h-auto w-40 sm:w-56 md:w-64 lg:w-80" priority />
         </motion.div>
 
         <motion.div
           style={{ y: tableY, rotate: tableRotate, willChange: 'transform' }}
           className="absolute left-[15%] bottom-[10%]"
         >
-          <Image src={tableImage} alt="" className="w-80 h-auto" />
+          <Image src={tableImage} alt="" className="h-auto w-40 sm:w-56 md:w-64 lg:w-80" />
         </motion.div>
 
         <motion.div
           style={{ y: jarY, rotate: jarRotate, willChange: 'transform' }}
           className="absolute right-[8%] top-[25%]"
         >
-          <Image src={jarImage} alt="" className="w-64 h-auto" />
+          <Image src={jarImage} alt="" className="h-auto w-32 sm:w-48 md:w-56 lg:w-64" />
         </motion.div>
 
         <Container className="relative z-20 flex h-full flex-col items-center text-center">
