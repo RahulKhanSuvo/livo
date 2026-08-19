@@ -1,4 +1,4 @@
-import banner1 from '@/assets/hero/main-banner-7-desktop.webp';
+import banner1 from '@/assets/hero/hero2.png';
 import banner2 from '@/assets/hero/5-1.webp';
 import banner3 from '@/assets/hero/6-1.webp';
 import sofa from '@/assets/department/sofa.webp';
@@ -21,7 +21,7 @@ export const heroData = [
     cts: [
       {
         label: 'Explore Collections',
-        href: '/collections',
+        href: '/shop',
       },
       {
         label: 'Shop',
@@ -36,7 +36,7 @@ export const heroData = [
     cts: [
       {
         label: 'Explore Collections',
-        href: '/collections',
+        href: '/shop',
       },
     ],
   },
@@ -47,7 +47,7 @@ export const heroData = [
     cts: [
       {
         label: 'Shop Lighting',
-        href: '/lanp',
+        href: '/shop/lighting',
       },
     ],
   },
