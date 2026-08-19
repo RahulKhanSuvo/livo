@@ -1,16 +1,49 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Logout02Icon, Settings05Icon, UserGroupIcon } from '@hugeicons/core-free-icons';
 
 import { Brand } from './brand';
 import { SidebarNav } from './sidebar-nav';
-import { adminNavGroups } from './app-sidebar.data';
+import { adminNavGroups, type AdminNavGroup } from './app-sidebar.data';
 import { useAdminUISidebarStore } from '@/stores/sidebar-store';
+import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
+import { getReviewsStatsAction } from '@/actions/reviews/getReviewsStatsAction';
 
 export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean } = {}) {
   const storeCollapsed = useAdminUISidebarStore((s) => s.collapsed);
   const collapsed = collapsedProp ?? storeCollapsed;
+
+  const [ordersTotal, setOrdersTotal] = useState<number | null>(null);
+  const [reviewsTotal, setReviewsTotal] = useState<number | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    Promise.all([getAllOrdersAction({ page: 1, limit: 1, status: 'ALL' }), getReviewsStatsAction()])
+      .then(([orders, reviews]) => {
+        if (!active) return;
+        if (orders?.data) setOrdersTotal(orders.data.total);
+        if (reviews?.data) setReviewsTotal(reviews.data.total);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const navGroups: AdminNavGroup[] = adminNavGroups.map((group) => ({
+    ...group,
+    items: group.items.map((item) => {
+      if (item.href === '/admin/orders') {
+        return { ...item, badge: ordersTotal != null ? String(ordersTotal) : item.badge };
+      }
+      if (item.href === '/admin/reviews') {
+        return { ...item, badge: reviewsTotal != null ? String(reviewsTotal) : item.badge };
+      }
+      return item;
+    }),
+  }));
 
   return (
     <div className="relative flex h-full flex-col overflow-hidden bg-sidebar text-sidebar-foreground">
@@ -25,7 +58,7 @@ export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean }
         <div className="admin-scroll flex-1 overflow-y-auto px-2.5 pb-4">
           <nav>
             <SidebarNav
-              groups={adminNavGroups}
+              groups={navGroups}
               collapsed={collapsed}
               defaultOpenPrefix="/admin/catalog"
             />
@@ -38,22 +71,22 @@ export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean }
               <button
                 type="button"
                 title="Settings"
-                className="flex size-10 w-full items-center justify-center rounded-xl text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                className="flex size-10 w-full items-center justify-center rounded-sm text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
               >
                 <HugeiconsIcon icon={Settings05Icon} size={20} strokeWidth={1.75} />
               </button>
               <button
                 type="button"
                 title="Log out"
-                className="flex size-10 w-full items-center justify-center rounded-xl text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                className="flex size-10 w-full items-center justify-center rounded-sm text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
               >
                 <HugeiconsIcon icon={Logout02Icon} size={20} strokeWidth={1.75} />
               </button>
             </div>
           ) : (
-            <div className="rounded-2xl border border-sidebar-border bg-sidebar-accent p-3">
+            <div className="rounded-sm border border-sidebar-border bg-sidebar-accent p-3">
               <div className="flex items-center gap-3">
-                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#3d5747] text-xs font-bold text-sidebar-foreground">
+                <span className="grid size-9 shrink-0 place-items-center rounded-sm bg-[#3d5747] text-xs font-bold text-sidebar-foreground">
                   RS
                 </span>
                 <div className="min-w-0 flex-1 leading-tight">
@@ -65,7 +98,7 @@ export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean }
                 <button
                   type="button"
                   title="Profile"
-                  className="grid size-7 shrink-0 place-items-center rounded-lg text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                  className="grid size-7 shrink-0 place-items-center rounded-sm text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
                 >
                   <HugeiconsIcon icon={UserGroupIcon} size={15} strokeWidth={2} />
                 </button>
