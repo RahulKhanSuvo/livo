@@ -139,18 +139,20 @@ export default function ReviewsContent() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative max-w-sm">
-        <HugeiconsIcon
-          icon={Search01Icon}
-          size={16}
-          className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
-        />
-        <Input
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search reviews..."
-          className="h-9 rounded-full pl-9"
-        />
+      <div className="flex items-center justify-between gap-3 rounded-sm bg-card p-3 shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/[0.06]">
+        <div className="relative w-full sm:max-w-sm">
+          <HugeiconsIcon
+            icon={Search01Icon}
+            size={16}
+            className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
+          />
+          <Input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search reviews, products, authors…"
+            className="h-9 rounded-sm border-border/60 bg-card pl-9 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-[#4b6b56]/30"
+          />
+        </div>
       </div>
 
       <DataTable
