@@ -23,7 +23,7 @@ const priceFmt = new Intl.NumberFormat('en-US', {
 });
 
 export default function ProductSliderClient({ items }: { items: PublicProductSliderItem[] }) {
-  const [activeIndex, setActiveIndex] = useState(2);
+  const [activeIndex, setActiveIndex] = useState(() => Math.min(2, Math.max(0, items.length - 1)));
   const [isMuted, setIsMuted] = useState(true);
 
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -51,6 +51,18 @@ export default function ProductSliderClient({ items }: { items: PublicProductSli
 
   if (items.length === 0) return null;
 
+  const SLIDES_PER_VIEW = 4;
+  const MIN_LOOP_SLIDES = SLIDES_PER_VIEW * 2 + 1;
+
+  // If there are too few slides for Swiper's loop, duplicate the items so the
+  // carousel can still loop seamlessly (instead of disabling loop + warning).
+  const displayItems =
+    items.length > 0 && items.length < MIN_LOOP_SLIDES
+      ? Array.from({ length: MIN_LOOP_SLIDES }, (_, i) => items[i % items.length])
+      : items;
+
+  const loopEnabled = displayItems.length >= MIN_LOOP_SLIDES;
+
   return (
     <section className="w-full py-12 bg-white overflow-hidden">
       <div>
@@ -60,7 +72,7 @@ export default function ProductSliderClient({ items }: { items: PublicProductSli
         <Swiper
           modules={[Navigation, Pagination]}
           centeredSlides={true}
-          loop={true}
+          loop={loopEnabled}
           spaceBetween={16}
           slidesPerView={4}
           slideToClickedSlide={true}
@@ -79,9 +91,9 @@ export default function ProductSliderClient({ items }: { items: PublicProductSli
           }}
           className="product-swiper pb-12!"
         >
-          {items.map((slide, index) => {
+          {displayItems.map((slide, index) => {
             return (
-              <SwiperSlide key={slide.id}>
+              <SwiperSlide key={`${slide.id}-${index}`}>
                 {({ isActive }) => (
                   <div className="flex flex-col w-full items-center justify-end">
                     {/* Video Container - Height-only Transition */}
