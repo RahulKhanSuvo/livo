@@ -1,16 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { DataTable } from '@/components/shared/data-table';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { productColumns } from './columns';
 import { useServerPagination } from '@/hooks/useServerPagination';
 import { useSearchParams } from 'next/navigation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { updateProductStatusAction } from '@/actions/products/updateProductStatusAction';
 import { ProductDeleteModal } from './product-delete-modal';
 import { ProductsFilterBar } from './ProductsFilterBar';
+import { ProductsGrid } from './ProductsGrid';
 
 function ProductPageContent() {
   // 2. Pass currentPage & currentLimit to queryKey and queryFn
@@ -29,7 +28,7 @@ function ProductPageContent() {
     }
   }
 
-  const { paginationState, handlePaginationChange, isPending } = useServerPagination({
+  const { paginationState, isPending } = useServerPagination({
     searchParams: searchParams,
     defaultPage: 1,
     defaultLimit: 10,
@@ -62,22 +61,17 @@ function ProductPageContent() {
   return (
     <>
       <ProductsFilterBar />
-      <DataTable
+      <ProductsGrid
+        products={products?.data?.products || []}
+        total={products?.data?.total || 0}
+        page={currentPage}
+        limit={currentLimit}
         isPending={isPending || isFetching}
-        pagination={{
-          state: paginationState,
-          onPaginationChange: handlePaginationChange,
-          totalRows: products?.data?.total || 0,
+        onDelete={(id, name) => {
+          setDeleteId(id);
+          setDeleteName(name);
         }}
-        columns={productColumns({
-          onDelete: (id, name) => {
-            setDeleteId(id);
-            setDeleteName(name);
-          },
-          onSetStatus: handleSetStatus,
-        })}
-        data={products?.data?.products || []}
-        tableKey="product-table"
+        onSetStatus={handleSetStatus}
       />
 
       <ProductDeleteModal
