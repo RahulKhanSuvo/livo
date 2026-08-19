@@ -74,7 +74,12 @@ export default function ProductSliderClient({ items }: { items: PublicProductSli
           centeredSlides={true}
           loop={loopEnabled}
           spaceBetween={16}
-          slidesPerView={4}
+          slidesPerView={1.2}
+          breakpoints={{
+            640: { slidesPerView: 2.2, spaceBetween: 12 },
+            1024: { slidesPerView: 3.2, spaceBetween: 16 },
+            1280: { slidesPerView: 4, spaceBetween: 16 },
+          }}
           slideToClickedSlide={true}
           onSlideChange={(swiper) => {
             setActiveIndex(swiper.realIndex);
