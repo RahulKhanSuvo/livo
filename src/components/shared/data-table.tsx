@@ -2,6 +2,8 @@
 
 import { tableFeatures, useTable, rowPaginationFeature } from '@tanstack/react-table';
 import type { ColumnDef, PaginationState, RowData } from '@tanstack/react-table';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { PackageIcon } from '@hugeicons/core-free-icons';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Skeleton } from '../ui/skeleton';
 import { PaginationFooter } from './pagination-footer';
@@ -53,77 +55,165 @@ export function DataTable<T>({
   });
 
   const skeletonRows = pagination?.state.pageSize ?? 5;
+  const rows = table.getRowModel().rows;
+  const isEmpty = !isPending && rows.length === 0;
+  const hasFooter = !!pagination && pagination.totalRows > pagination.state.pageSize;
+
+  const headerGroups = table.getHeaderGroups();
 
   return (
-    <div className="rounded-lg bg-white ring-1 ring-foreground/10">
-      <div className="overflow-x-auto">
-        <Table className="w-full text-left text-sm">
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-b border-foreground/8 bg-[#faf9f5]">
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="px-4 py-3 text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase sm:px-5"
-                  >
-                    {header.isPlaceholder ? null : <table.FlexRender header={header} />}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {isPending ? (
-              Array.from({ length: skeletonRows }).map((_, r) => (
-                <TableRow key={`skeleton-${r}`} className="border-b border-foreground/5">
-                  {columns.map((_, c) => (
-                    <TableCell key={`skeleton-${r}-${c}`} className="px-4 py-3 sm:px-5">
-                      <Skeleton className="h-4 w-full" />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : table.getRowModel().rows.length === 0 ? (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="px-5 py-12 text-center text-sm text-muted-foreground"
-                >
-                  {emptyMessage}
-                </TableCell>
-              </TableRow>
-            ) : (
-              table.getRowModel().rows.map((row) => (
+    <div className="space-y-5">
+      {/* Desktop table */}
+      <div className="hidden overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6 transition-shadow duration-300 md:block">
+        <div className="overflow-x-auto">
+          <Table className="w-full text-left text-sm">
+            <TableHeader>
+              {headerGroups.map((headerGroup) => (
                 <TableRow
-                  key={row.id}
-                  className="border-b border-foreground/5 transition-colors last:border-0 hover:bg-[#f6f5f1]/60"
+                  key={headerGroup.id}
+                  className="border-b border-border/70 bg-[#f7f6f1] hover:bg-[#f7f6f1] dark:bg-muted/40"
                 >
-                  {row.getAllCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="px-4 py-3 align-middle text-foreground/90 sm:px-5"
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      className="px-5 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/80"
                     >
-                      <table.FlexRender cell={cell} />
-                    </TableCell>
+                      {header.isPlaceholder ? null : <table.FlexRender header={header} />}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableHeader>
+            <TableBody className="divide-y divide-border/60">
+              {isPending ? (
+                Array.from({ length: skeletonRows }).map((_, r) => (
+                  <TableRow key={`skeleton-${r}`} className="hover:bg-transparent">
+                    {columns.map((_, c) => (
+                      <TableCell key={`skeleton-${r}-${c}`} className="px-5 py-4">
+                        <Skeleton className="h-4 w-full" />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : isEmpty ? (
+                <TableRow className="hover:bg-transparent">
+                  <TableCell colSpan={columns.length} className="px-5 py-16">
+                    <div className="flex flex-col items-center justify-center text-center">
+                      <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/[0.08] text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
+                        <HugeiconsIcon icon={PackageIcon} size={22} />
+                      </span>
+                      <p className="mt-3 font-serif text-lg text-foreground">Nothing here yet</p>
+                      <p className="mt-1 max-w-xs text-sm text-muted-foreground">{emptyMessage}</p>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    className="transition-colors hover:bg-[#4b6b56]/[0.035] hover:shadow-[inset_2px_0_0_0_#4b6b56]"
+                  >
+                    {row.getAllCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="px-5 py-4 align-middle text-sm text-foreground/90"
+                      >
+                        <table.FlexRender cell={cell} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        {hasFooter && (
+          <PaginationFooter
+            pageIndex={pagination!.state.pageIndex}
+            pageCount={table.getPageCount() || 1}
+            canPreviousPage={table.getCanPreviousPage()}
+            canNextPage={table.getCanNextPage()}
+            onPageChange={(i) => table.setPageIndex(i)}
+            onPreviousPage={() => table.previousPage()}
+            onNextPage={() => table.nextPage()}
+          />
+        )}
       </div>
 
-      {pagination && pagination.totalRows > pagination.state.pageSize && (
-        <PaginationFooter
-          pageIndex={pagination.state.pageIndex}
-          pageCount={table.getPageCount() || 1}
-          canPreviousPage={table.getCanPreviousPage()}
-          canNextPage={table.getCanNextPage()}
-          onPageChange={(i) => table.setPageIndex(i)}
-          onPreviousPage={() => table.previousPage()}
-          onNextPage={() => table.nextPage()}
-        />
+      {/* Mobile cards (auto-generated from column definitions) */}
+      <div className="space-y-3 md:hidden">
+        {isPending ? (
+          Array.from({ length: skeletonRows }).map((_, r) => (
+            <div
+              key={`sk-${r}`}
+              className="rounded-sm border border-border/60 bg-card p-4 shadow-[0_1px_2px_rgba(28,39,32,0.05)]"
+            >
+              <Skeleton className="mb-3 h-4 w-1/2" />
+              <Skeleton className="mb-2 h-3 w-3/4" />
+              <Skeleton className="mb-2 h-3 w-2/3" />
+              <Skeleton className="h-8 w-full" />
+            </div>
+          ))
+        ) : isEmpty ? (
+          <div className="flex flex-col items-center justify-center rounded-sm border border-dashed border-border/70 bg-card px-5 py-14 text-center">
+            <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/[0.08] text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
+              <HugeiconsIcon icon={PackageIcon} size={22} />
+            </span>
+            <p className="mt-3 font-serif text-lg text-foreground">Nothing here yet</p>
+            <p className="mt-1 max-w-xs text-sm text-muted-foreground">{emptyMessage}</p>
+          </div>
+        ) : (
+          rows.map((row) => (
+            <div
+              key={row.id}
+              className="rounded-sm border border-border/60 bg-card p-4 shadow-[0_1px_2px_rgba(28,39,32,0.05)]"
+            >
+              {row.getAllCells().map((cell) => {
+                const def = cell.column.columnDef;
+                const label = typeof def.header === 'string' ? def.header : '';
+                const content = <table.FlexRender cell={cell} />;
+
+                if (!label) {
+                  return (
+                    <div
+                      key={cell.id}
+                      className="mt-2 flex justify-end border-t border-border/60 pt-3"
+                    >
+                      {content}
+                    </div>
+                  );
+                }
+
+                return (
+                  <div key={cell.id} className="flex items-start justify-between gap-3 py-1.5">
+                    <span className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground/80">
+                      {label}
+                    </span>
+                    <span className="text-right text-sm text-foreground">{content}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ))
+        )}
+      </div>
+
+      {hasFooter && (
+        <div className="overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/[0.06] md:hidden">
+          <PaginationFooter
+            pageIndex={pagination!.state.pageIndex}
+            pageCount={table.getPageCount() || 1}
+            canPreviousPage={table.getCanPreviousPage()}
+            canNextPage={table.getCanNextPage()}
+            onPageChange={(i) => table.setPageIndex(i)}
+            onPreviousPage={() => table.previousPage()}
+            onNextPage={() => table.nextPage()}
+          />
+        </div>
       )}
     </div>
   );
 }
+
+export default DataTable;
