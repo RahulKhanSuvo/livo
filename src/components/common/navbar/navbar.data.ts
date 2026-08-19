@@ -162,72 +162,28 @@ export const navCategories: NavCategory[] = [
     id: 'storage-consoles',
     title: 'STORAGE & CONSOLES',
     href: '/shop/storage-consoles',
-    type: 'megamenu',
-    columns: [
-      {
-        header: 'Storage',
-        headerHref: '/shop/storage',
-        items: [
-          { title: 'TV Units', href: '/shop/storage/tv-units' },
-          { title: 'Sideboards', href: '/shop/storage/sideboards' },
-          { title: 'Cabinets', href: '/shop/storage/cabinets' },
-          { title: 'Bookcases', href: '/shop/storage/bookcases' },
-          { title: 'Shelving Units', href: '/shop/storage/shelving-units' },
-          { title: 'Console Tables', href: '/shop/storage/console-tables' },
-        ],
-      },
-    ],
-    viewAllText: 'VIEW ALL STORAGE & CONSOLES',
-    viewAllHref: '/shop/storage-consoles',
-    promos: [
-      {
-        title: 'ORGANIZED LIVING SOLUTIONS',
-        subtitle: 'Sleek consoles and sideboards designed to declutter with style.',
-        ctaText: 'SHOP CONSOLES',
-        ctaHref: '/shop/storage-consoles',
-        image:
-          'https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=1000&auto=format&fit=crop',
-      },
+    type: 'dropdown',
+    dropdownItems: [
+      { title: 'TV Units', href: '/shop/storage/tv-units' },
+      { title: 'Sideboards', href: '/shop/storage/sideboards' },
+      { title: 'Cabinets', href: '/shop/storage/cabinets' },
+      { title: 'Bookcases', href: '/shop/storage/bookcases' },
+      { title: 'Shelving Units', href: '/shop/storage/shelving-units' },
+      { title: 'Console Tables', href: '/shop/storage/console-tables' },
     ],
   },
   {
     id: 'bedroom',
     title: 'BEDROOM',
     href: '/shop/bedroom',
-    type: 'megamenu',
-    columns: [
-      {
-        header: 'Beds',
-        headerHref: '/shop/bed',
-        items: [
-          { title: 'Platform Beds', href: '/shop/bedroom/bed/platform-beds' },
-          { title: 'Storage Beds', href: '/shop/bedroom/bed/storage-beds' },
-          { title: 'Upholstered Beds', href: '/shop/bedroom/bed/upholstered-beds' },
-          { title: 'Wooden Beds', href: '/shop/bedroom/bed/wooden-beds' },
-          { title: 'Canopy Beds', href: '/shop/bedroom/bed/canopy-beds' },
-        ],
-      },
-      {
-        items: [
-          { title: 'Nightstands', href: '/shop/bedroom/nightstands' },
-          { title: 'Dressers', href: '/shop/bedroom/dressers' },
-          { title: 'Wardrobes', href: '/shop/bedroom/wardrobes' },
-          { title: 'Chest of Drawers', href: '/shop/bedroom/chest-of-drawers' },
-          { title: 'Bedroom Benches', href: '/shop/bedroom/bedroom-benches' },
-        ],
-      },
-    ],
-    viewAllText: 'VIEW ALL BEDROOM',
-    viewAllHref: '/shop/bedroom',
-    promos: [
-      {
-        title: 'SERENE BEDROOM SANCTUARY',
-        subtitle: 'Crafted for restful sleep and timeless aesthetic appeal.',
-        ctaText: 'SHOP BEDROOM',
-        ctaHref: '/shop/bedroom',
-        image:
-          'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1000&auto=format&fit=crop',
-      },
+    type: 'dropdown',
+    dropdownItems: [
+      { title: 'Beds', href: '/shop/bedroom/bed' },
+      { title: 'Nightstands', href: '/shop/bedroom/nightstands' },
+      { title: 'Dressers', href: '/shop/bedroom/dressers' },
+      { title: 'Wardrobes', href: '/shop/bedroom/wardrobes' },
+      { title: 'Chest of Drawers', href: '/shop/bedroom/chest-of-drawers' },
+      { title: 'Bedroom Benches', href: '/shop/bedroom/bedroom-benches' },
     ],
   },
   {
