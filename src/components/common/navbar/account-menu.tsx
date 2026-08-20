@@ -42,7 +42,7 @@ export function AccountMenu() {
     router.refresh();
   };
 
-  console.log('isPending', isPending);
+  // console.log('isPending', isPending);
 
   return (
     <DropdownMenu>
