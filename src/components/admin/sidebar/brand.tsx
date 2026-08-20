@@ -15,9 +15,8 @@ export function Brand({ collapsed = false }: { collapsed?: boolean }) {
         <span className="font-bold text-2xl tracking-tight text-sidebar-foreground">L</span>
       ) : (
         <span className="flex flex-col leading-none">
-          <span className="font-bold text-2xl tracking-tight text-sidebar-foreground">LIVO</span>
-          <span className="mt-1 text-[10px] font-semibold tracking-[0.28em] text-sidebar-foreground/50 uppercase">
-            Admin
+          <span className="font-bold text-3xl text-center tracking-tight text-sidebar-foreground">
+            LIVO
           </span>
         </span>
       )}
