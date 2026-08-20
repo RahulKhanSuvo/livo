@@ -20,12 +20,7 @@ export default async function ProductsState() {
         icon={CheckmarkCircle01Icon}
         accent="#d98e63"
       />
-      <StatCard
-        label="Low stock"
-        value={String(stats.lowStock)}
-        hint="reorder needed"
-        icon={Alert01Icon}
-      />
+      <StatCard label="Low stock" value={String(stats.lowStock)} hint="" icon={Alert01Icon} />
       <StatCard
         label="Out of stock"
         value={String(stats.outOfStock)}
