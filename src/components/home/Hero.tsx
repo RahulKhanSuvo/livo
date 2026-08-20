@@ -24,8 +24,7 @@ const HeroSection = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        effect="fade"
-        fadeEffect={{ crossFade: true }}
+        effect="slide"
         loop
       >
         {heroData.map((item) => (
