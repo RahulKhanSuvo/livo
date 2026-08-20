@@ -97,7 +97,7 @@ export function DataTable<T>({
                 <TableRow className="hover:bg-transparent">
                   <TableCell colSpan={columns.length} className="px-5 py-16">
                     <div className="flex flex-col items-center justify-center text-center">
-                      <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/8 text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
+                      <span className="grid size-12 place-items-center rounded-sm bg-primary/8 text-primary ring-1 ring-inset ring-primary/15">
                         <HugeiconsIcon icon={PackageIcon} size={22} />
                       </span>
                       <p className="mt-3 font-serif text-lg text-foreground">Nothing here yet</p>
@@ -109,7 +109,7 @@ export function DataTable<T>({
                 rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    className="transition-colors hover:bg-[#4b6b56]/[0.035] hover:shadow-[inset_2px_0_0_0_#4b6b56]"
+                    className="transition-colors hover:bg-primary/[0.035] hover:shadow-[inset_2px_0_0_0_var(--primary)]"
                   >
                     {row.getAllCells().map((cell) => (
                       <TableCell
@@ -155,7 +155,7 @@ export function DataTable<T>({
           ))
         ) : isEmpty ? (
           <div className="flex flex-col items-center justify-center rounded-sm border border-dashed border-border/70 bg-card px-5 py-14 text-center">
-            <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/8 text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
+            <span className="grid size-12 place-items-center rounded-sm bg-primary/8 text-primary ring-1 ring-inset ring-primary/15">
               <HugeiconsIcon icon={PackageIcon} size={22} />
             </span>
             <p className="mt-3 font-serif text-lg text-foreground">Nothing here yet</p>

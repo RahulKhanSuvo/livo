@@ -67,13 +67,13 @@ export default function LegalAreaPage() {
     <div className="bg-[#f6f5f1] text-[#161512]">
       {/* Editorial Header */}
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-10 sm:pt-24">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d98e63]">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sidebar-primary">
           Legal Area
         </p>
         <h1 className="mt-4         font-medium text-5xl leading-[0.95] sm:text-7xl">
           The fine print,
           <br />
-          <em className="text-[#4b6b56]">made readable.</em>
+          <em className="text-primary">made readable.</em>
         </h1>
         <p className="mt-6 max-w-xl text-sm leading-relaxed text-neutral-600">
           We believe legal should be legible. Below are the essentials that govern shopping with
@@ -94,7 +94,7 @@ export default function LegalAreaPage() {
                 value={`section-${i}`}
                 className="border-b border-neutral-200 last:border-b-0"
               >
-                <AccordionTrigger className="py-5 text-left text-base font-medium text-[#161512] hover:text-[#4b6b56]">
+                <AccordionTrigger className="py-5 text-left text-base font-medium text-[#161512] hover:text-primary">
                   {section.title}
                 </AccordionTrigger>
                 <AccordionContent className="space-y-3 pb-5 text-sm leading-relaxed text-neutral-600">
@@ -108,16 +108,16 @@ export default function LegalAreaPage() {
         </div>
 
         {/* Returns reference */}
-        <div className="mt-8 flex flex-col items-start gap-3 rounded-sm bg-[#4b6b56] p-6 text-[#f4f1e8] sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col items-start gap-3 rounded-sm bg-primary p-6 text-primary-foreground sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h3 className="        font-medium text-xl">Our 30-day return promise</h3>
-            <p className="mt-1 text-sm text-[#f4f1e8]/75">
+            <p className="mt-1 text-sm text-primary-foreground/75">
               Free pickup, full refunds, and easy exchanges.
             </p>
           </div>
           <Link
             href="/return-and-refunds"
-            className="shrink-0 rounded-sm bg-[#f4f1e8] px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#4b6b56] transition-colors hover:bg-white"
+            className="shrink-0 rounded-sm bg-primary-foreground px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-primary transition-colors hover:bg-white"
           >
             Read the policy
           </Link>

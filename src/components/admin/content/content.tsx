@@ -72,7 +72,7 @@ const slideColumns: Column<HeroSlide>[] = [
     header: 'Slide',
     cell: (r) => (
       <div className="flex items-center gap-3">
-        <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-sm bg-[#4b6b56]/10 text-[10px] font-bold uppercase text-[#4b6b56]">
+        <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-sm bg-primary/10 text-[10px] font-bold uppercase text-primary">
           {r.image}
         </span>
         <div>

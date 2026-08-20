@@ -3,11 +3,13 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-[#f6f5f1] px-6 text-center">
-      <Link href="/" className="mb-10 text-2xl font-bold tracking-tight text-[#4b6b56]">
+      <Link href="/" className="mb-10 text-2xl font-bold tracking-tight text-primary">
         LIVO
       </Link>
 
-      <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-[#d98e63]">Error 404</p>
+      <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-sidebar-primary">
+        Error 404
+      </p>
       <h1 className="mt-4 font-serif text-7xl leading-none text-[#161512] sm:text-8xl">404</h1>
       <p className="mt-5 text-lg font-light tracking-tight text-neutral-800 sm:text-xl">
         We can’t find that page.
@@ -20,13 +22,13 @@ export default function NotFound() {
       <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 rounded-full bg-[#161512] px-7 py-3 text-xs font-medium uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#d98e63]"
+          className="inline-flex items-center gap-2 rounded-full bg-[#161512] px-7 py-3 text-xs font-medium uppercase tracking-wider text-primary-foreground transition-colors hover:bg-sidebar-primary"
         >
           Back to home
         </Link>
         <Link
           href="/shop"
-          className="text-xs font-medium uppercase tracking-wider text-[#4b6b56] underline-offset-4 hover:underline"
+          className="text-xs font-medium uppercase tracking-wider text-primary underline-offset-4 hover:underline"
         >
           Browse the collection
         </Link>

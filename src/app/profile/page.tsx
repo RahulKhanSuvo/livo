@@ -10,6 +10,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { getProfileUser } from '@/components/profile/get-session';
 import { getOrders } from './_action';
+import { Button } from '@/components/ui/button';
 import {
   formatMoney,
   formatDate,
@@ -30,12 +31,12 @@ export default async function ProfilePage() {
   return (
     <div className="bg-[#f6f5f1] text-[#161512]">
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#4b6b56]">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
           Your account
         </p>
         <div className="mt-4 flex flex-col gap-6 border-b border-neutral-200 pb-10 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex items-center gap-5">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#161512] text-2xl text-[#f4f1e8]">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#161512] text-2xl text-primary-foreground">
               {initials(user.name)}
             </div>
             <div>
@@ -43,12 +44,9 @@ export default async function ProfilePage() {
               <p className="mt-1 text-sm text-neutral-600">{user.email}</p>
             </div>
           </div>
-          <Link
-            href="/profile/settings"
-            className="inline-flex w-fit items-center gap-2 rounded-full border border-neutral-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors hover:border-neutral-400"
-          >
-            Edit profile
-          </Link>
+          <Button asChild variant="outline" className="w-fit">
+            <Link href="/profile/settings">Edit profile</Link>
+          </Button>
         </div>
       </section>
 
@@ -98,7 +96,7 @@ export default async function ProfilePage() {
           </Link>
           <Link
             href="/profile/my-reviews"
-            className="group rounded-sm border border-neutral-200 bg-[#d98e63]/25 p-5 transition-colors hover:border-neutral-300"
+            className="group rounded-sm border border-neutral-200 bg-sidebar-primary/25 p-5 transition-colors hover:border-neutral-300"
           >
             <HugeiconsIcon icon={StarIcon} size={24} strokeWidth={1.5} />
             <p className="mt-4 text-sm font-semibold">My reviews</p>
@@ -148,7 +146,7 @@ export default async function ProfilePage() {
             <h2 className="font-(family-name:--font-instrument-serif) text-3xl">Recent orders</h2>
             <Link
               href="/profile/orders"
-              className="text-xs font-semibold uppercase tracking-wider text-[#4b6b56] hover:underline"
+              className="text-xs font-semibold uppercase tracking-wider text-primary hover:underline"
             >
               View all
             </Link>
@@ -161,12 +159,9 @@ export default async function ProfilePage() {
               <p className="mt-1 max-w-sm text-sm text-neutral-500">
                 When you place an order, it will appear here with its status and tracking.
               </p>
-              <Link
-                href="/shop"
-                className="mt-6 rounded-full bg-[#161512] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#4b6b56]"
-              >
-                Browse the collection
-              </Link>
+              <Button asChild className="mt-6">
+                <Link href="/shop">Browse the collection</Link>
+              </Button>
             </div>
           ) : (
             <div className="overflow-hidden rounded-sm border border-neutral-200 bg-white">
@@ -187,7 +182,7 @@ export default async function ProfilePage() {
                       {order.itemCount} item{order.itemCount > 1 ? 's' : ''}
                     </span>
                     <span className="text-sm font-semibold">{formatMoney(order.total)}</span>
-                    <span className="rounded-full bg-[#4b6b56]/15 px-3 py-1 text-xs font-semibold capitalize text-[#4b6b56]">
+                    <span className="rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold capitalize text-primary">
                       {orderStatusLabels[order.status]}
                     </span>
                   </div>

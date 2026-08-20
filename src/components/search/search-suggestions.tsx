@@ -37,7 +37,7 @@ export function SearchSuggestions({
                 <Link
                   href={cat.href}
                   onClick={onClose}
-                  className="text-xs font-medium text-[#4b6b56] hover:underline block py-0.5"
+                  className="text-xs font-medium text-primary hover:underline block py-0.5"
                 >
                   {cat.name}
                 </Link>

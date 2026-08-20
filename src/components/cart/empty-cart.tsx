@@ -17,7 +17,7 @@ export function EmptyCart() {
       </p>
       <Link
         href="/shop"
-        className="inline-flex items-center gap-2 rounded-sm bg-[#4b6b56] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[#3d5747]"
+        className="inline-flex items-center gap-2 rounded-sm bg-primary px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[#3d5747]"
       >
         <span>Explore Collection</span>
         <HugeiconsIcon icon={ArrowRight01Icon} size={16} />

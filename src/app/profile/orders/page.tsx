@@ -4,6 +4,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { PackageOpenIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import { getProfileUser } from '@/components/profile/get-session';
 import { getOrders } from '../_action';
+import { Button } from '@/components/ui/button';
 import {
   formatMoney,
   formatDate,
@@ -18,7 +19,7 @@ export default async function OrdersPage() {
   return (
     <div className="bg-white text-[#161512]">
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#d98e63]">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sidebar-primary">
           Order history
         </p>
         <h1 className="mt-4 text-5xl font-medium tracking-tight">Your orders</h1>
@@ -37,17 +38,16 @@ export default async function OrdersPage() {
             <p className="mt-2 max-w-sm text-sm font-light text-neutral-500">
               Your placed orders will live here with live status and delivery updates.
             </p>
-            <Link
-              href="/shop"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-[#161512] px-6 py-3 text-xs font-medium uppercase tracking-wider text-white transition-colors hover:bg-[#d98e63]"
-            >
-              Start shopping
-              <HugeiconsIcon
-                icon={ArrowRight01Icon}
-                size={14}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </Link>
+            <Button asChild className="group mt-8">
+              <Link href="/shop">
+                Start shopping
+                <HugeiconsIcon
+                  icon={ArrowRight01Icon}
+                  size={14}
+                  className="transition-transform group-hover/button:translate-x-0.5"
+                />
+              </Link>
+            </Button>
           </div>
         ) : (
           <div className="space-y-6">
@@ -64,7 +64,7 @@ export default async function OrdersPage() {
                     <span
                       className={
                         'text-[11px] font-medium uppercase tracking-wider ' +
-                        (order.status === 'CANCELLED' ? 'text-red-600' : 'text-[#4b6b56]')
+                        (order.status === 'CANCELLED' ? 'text-red-600' : 'text-primary')
                       }
                     >
                       {orderStatusLabels[order.status]}

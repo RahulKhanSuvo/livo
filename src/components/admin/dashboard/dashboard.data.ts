@@ -59,7 +59,7 @@ export const salesSeries = [
 
 export const categoryShare = [
   { label: 'Sofas', value: 38, color: '#4b6b56' },
-  { label: 'Chairs', value: 26, color: '#d98e63' },
+  { label: 'Chairs', value: 26, color: '#e9c8b3' },
   { label: 'Tables', value: 18, color: '#a9b8a5' },
   { label: 'Lighting & Decor', value: 12, color: '#cbb9a5' },
   { label: 'Beds', value: 6, color: '#8a9b80' },
@@ -160,7 +160,7 @@ export const lowStock = [
 
 export const trafficSource = [
   { label: 'Organic', value: 46, color: '#4b6b56' },
-  { label: 'Direct', value: 24, color: '#d98e63' },
+  { label: 'Direct', value: 24, color: '#e9c8b3' },
   { label: 'Social', value: 18, color: '#a9b8a5' },
   { label: 'Referral', value: 12, color: '#cbb9a5' },
 ];

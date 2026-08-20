@@ -92,13 +92,13 @@ export default function ReturnAndRefundsPage() {
     <div className="bg-[#f6f5f1] text-[#161512]">
       {/* Editorial Header */}
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-10 sm:pt-24">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d98e63]">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sidebar-primary">
           Returns &amp; Refunds
         </p>
         <h1 className="mt-4         font-medium text-5xl leading-[0.95] sm:text-7xl">
           We want you to
           <br />
-          <em className="text-[#4b6b56]">love it. Truly.</em>
+          <em className="text-primary">love it. Truly.</em>
         </h1>
         <p className="mt-6 max-w-xl text-sm leading-relaxed text-neutral-600">
           Furniture should feel right in your home. If a piece doesn’t, our white-glove team makes
@@ -111,7 +111,7 @@ export default function ReturnAndRefundsPage() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {glance.map((item) => (
             <div key={item.title} className="rounded-sm border border-neutral-200 bg-white p-5">
-              <span className="mb-4 grid size-10 place-items-center rounded-sm bg-[#4b6b56]/10 text-[#4b6b56]">
+              <span className="mb-4 grid size-10 place-items-center rounded-sm bg-primary/10 text-primary">
                 <HugeiconsIcon icon={item.icon} size={20} strokeWidth={1.6} />
               </span>
               <h3 className="text-sm font-semibold">{item.title}</h3>
@@ -122,21 +122,23 @@ export default function ReturnAndRefundsPage() {
       </Container>
 
       {/* Process */}
-      <section className="bg-[#4b6b56] py-16 text-[#f4f1e8]">
+      <section className="bg-primary py-16 text-primary-foreground">
         <Container size="md">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d98e63]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sidebar-primary">
             How it works
           </p>
           <h2 className="mt-3         font-medium text-4xl sm:text-5xl">Three simple steps</h2>
           <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
             {steps.map((step, i) => (
-              <div key={step.title} className="border-t border-[#f4f1e8]/20 pt-6">
-                <span className="        font-medium text-3xl text-[#d98e63]">0{i + 1}</span>
-                <span className="ml-3 inline-grid size-9 translate-y-1 place-items-center rounded-sm bg-[#f4f1e8]/10 text-[#f4f1e8]">
+              <div key={step.title} className="border-t border-primary-foreground/20 pt-6">
+                <span className="        font-medium text-3xl text-sidebar-primary">0{i + 1}</span>
+                <span className="ml-3 inline-grid size-9 translate-y-1 place-items-center rounded-sm bg-primary-foreground/10 text-primary-foreground">
                   <HugeiconsIcon icon={step.icon} size={18} strokeWidth={1.6} />
                 </span>
                 <h3 className="mt-5 text-lg font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#f4f1e8]/75">{step.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-primary-foreground/75">
+                  {step.body}
+                </p>
               </div>
             ))}
           </div>
@@ -159,7 +161,7 @@ export default function ReturnAndRefundsPage() {
                   <HugeiconsIcon
                     icon={CheckmarkCircle02Icon}
                     size={18}
-                    className="mt-0.5 shrink-0 text-[#4b6b56]"
+                    className="mt-0.5 shrink-0 text-primary"
                   />
                   <span>{t}</span>
                 </li>
@@ -179,7 +181,7 @@ export default function ReturnAndRefundsPage() {
                   <HugeiconsIcon
                     icon={LockKeyIcon}
                     size={18}
-                    className="mt-0.5 shrink-0 text-[#d98e63]"
+                    className="mt-0.5 shrink-0 text-sidebar-primary"
                   />
                   <span>{t}</span>
                 </li>
@@ -192,7 +194,7 @@ export default function ReturnAndRefundsPage() {
       {/* FAQ */}
       <section className="border-t border-neutral-200 bg-white">
         <Container size="md" className="py-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d98e63]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sidebar-primary">
             Good to know
           </p>
           <h2 className="mt-3         font-medium text-4xl sm:text-5xl">Questions, answered</h2>
@@ -204,7 +206,7 @@ export default function ReturnAndRefundsPage() {
                   value={`item-${i}`}
                   className="border-b border-neutral-200"
                 >
-                  <AccordionTrigger className="py-5 text-left text-base font-medium text-[#161512] hover:text-[#4b6b56]">
+                  <AccordionTrigger className="py-5 text-left text-base font-medium text-[#161512] hover:text-primary">
                     {faq.q}
                   </AccordionTrigger>
                   <AccordionContent className="pb-5 text-sm leading-relaxed text-neutral-600">
@@ -229,7 +231,7 @@ export default function ReturnAndRefundsPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/profile/returns"
-              className="rounded-sm bg-[#161512] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#4b6b56]"
+              className="rounded-sm bg-[#161512] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-primary"
             >
               Start a return
             </Link>

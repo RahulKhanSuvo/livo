@@ -28,7 +28,7 @@ export default async function PaymentsState() {
         label="Success rate"
         value={`${stats.successRate}%`}
         icon={CheckmarkCircle01Icon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
       <StatCard
         label="Pending payouts"
@@ -40,7 +40,7 @@ export default async function PaymentsState() {
         label="Refunds"
         value={`${stats.refundsPercent}%`}
         icon={RefreshIcon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
     </div>
   );

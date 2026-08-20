@@ -13,7 +13,7 @@ export function StatCard({
   trend = 'up',
   icon,
   hint,
-  accent = '#4b6b56',
+  accent = 'var(--primary)',
 }: {
   label: string;
   value: string;
@@ -37,7 +37,11 @@ export function StatCard({
           </div>
           <span
             className="grid size-10 shrink-0 place-items-center rounded-sm ring-1 ring-inset"
-            style={{ backgroundColor: `${accent}14`, color: accent, borderColor: `${accent}26` }}
+            style={{
+              backgroundColor: `color-mix(in srgb, ${accent} 8%, transparent)`,
+              color: accent,
+              borderColor: `color-mix(in srgb, ${accent} 15%, transparent)`,
+            }}
           >
             <HugeiconsIcon icon={icon} size={19} strokeWidth={2} />
           </span>

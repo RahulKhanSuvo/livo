@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 export function BarChart({
   data,
   height = 180,
-  color = '#d98e63',
+  color = '#e9c8b3',
   className,
 }: {
   data: { label: string; value: number }[];

@@ -20,7 +20,7 @@ export const categoryPerformance = [
 
 export const newVsReturning = [
   { label: 'New', value: 42, color: '#4b6b56' },
-  { label: 'Returning', value: 36, color: '#d98e63' },
+  { label: 'Returning', value: 36, color: '#e9c8b3' },
   { label: 'Guest', value: 22, color: '#a9b8a5' },
 ];
 

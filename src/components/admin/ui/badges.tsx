@@ -37,7 +37,7 @@ const statusStyles: Record<string, string> = {
   REFUNDED: 'bg-violet-600/10 text-violet-700 dark:text-violet-400',
   ACTIVE: 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400',
   DEACTIVATED: 'bg-muted text-muted-foreground',
-  VIP: 'bg-[#d98e63]/12 text-[#b9703f]',
+  VIP: 'bg-sidebar-primary/12 text-[#b9703f]',
   Regular: 'bg-sky-600/10 text-sky-700 dark:text-sky-400',
   New: 'bg-amber-600/10 text-amber-700 dark:text-amber-400',
 };
@@ -64,7 +64,7 @@ export function Stars({ rating, size = 13 }: { rating: number; size?: number }) 
           key={i}
           icon={StarIcon}
           size={size}
-          className={i < Math.round(rating) ? 'text-[#d98e63]' : 'text-foreground/15'}
+          className={i < Math.round(rating) ? 'text-sidebar-primary' : 'text-foreground/15'}
         />
       ))}
     </span>
@@ -74,7 +74,7 @@ export function Stars({ rating, size = 13 }: { rating: number; size?: number }) 
 export function Avatar({
   initials,
   className,
-  tone = '#4b6b56',
+  tone = 'var(--primary)',
 }: {
   initials: string;
   className?: string;
@@ -83,7 +83,7 @@ export function Avatar({
   return (
     <span
       className={cn(
-        'grid size-8 shrink-0 place-items-center rounded-full text-[11px] font-bold text-[#f4f1e8]',
+        'grid size-8 shrink-0 place-items-center rounded-full text-[11px] font-bold text-primary-foreground',
         className
       )}
       style={{ backgroundColor: tone }}

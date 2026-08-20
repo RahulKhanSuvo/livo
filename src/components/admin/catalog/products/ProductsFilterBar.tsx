@@ -124,7 +124,7 @@ export function ProductsFilterBar() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search products, brands…"
-            className="h-9 rounded-sm border-border/60 bg-card pl-9 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-[#4b6b56]/30"
+            className="h-9 rounded-sm border-border/60 bg-card pl-9 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-primary/30"
           />
         </div>
 
@@ -215,7 +215,7 @@ export function ProductsFilterBar() {
                 if (chip.key === 'search') setSearchInput('');
                 applyParams({ [chip.key]: chip.clearValue });
               }}
-              className="group inline-flex items-center gap-1 rounded-sm bg-[#4b6b56]/8 px-2 py-1 text-xs font-medium text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15 transition-colors hover:bg-[#4b6b56]/[0.14]"
+              className="group inline-flex items-center gap-1 rounded-sm bg-primary/8 px-2 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/15 transition-colors hover:bg-primary/[0.14]"
             >
               {chip.label}
               <HugeiconsIcon

@@ -60,8 +60,8 @@ export function SignUpForm() {
       noValidate
     >
       <div className="mb-8">
-        <h2 className="font-serif text-4xl tracking-tight text-[#4b6b56]">Create your account</h2>
-        <p className="mt-2 text-sm text-[#4b6b56]/55">
+        <h2 className="font-serif text-4xl tracking-tight text-primary">Create your account</h2>
+        <p className="mt-2 text-sm text-primary/55">
           Join Livo to save favourites and track orders.
         </p>
       </div>
@@ -113,7 +113,7 @@ export function SignUpForm() {
         />
       </div>
 
-      <p className="text-xs leading-relaxed text-[#4b6b56]/45">
+      <p className="text-xs leading-relaxed text-primary/45">
         By creating an account you agree to Livo’s Terms of Service and Privacy Policy.
       </p>
 
@@ -133,12 +133,12 @@ export function SignUpForm() {
             <Button
               type="submit"
               size="lg"
-              className="group/btn h-12 w-full rounded-sm bg-[#4b6b56] font-medium text-[#f4f1e8] transition-all hover:bg-[#3d5747]"
+              className="group/btn h-12 w-full rounded-sm bg-primary font-medium text-primary-foreground transition-all hover:bg-[#3d5747]"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
-                  <span className="size-4 animate-spin rounded-full border-2 border-[#f4f1e8]/40 border-t-[#f4f1e8]" />
+                  <span className="size-4 animate-spin rounded-full border-2 border-primary-foreground/40 border-t-primary-foreground" />
                   Creating account…
                 </span>
               ) : (

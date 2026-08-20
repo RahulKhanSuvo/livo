@@ -3,6 +3,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { StarIcon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import { getProfileUser } from '@/components/profile/get-session';
 import { getUserReviewsAction } from '@/actions/reviews/getUserReviewsAction';
+import { Button } from '@/components/ui/button';
 import { StarRating } from '@/components/common/StarRating/StarRating';
 
 export const metadata = { title: 'My reviews' };
@@ -18,7 +19,7 @@ export default async function ReviewsPage() {
   return (
     <div className="bg-white text-[#161512]">
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#d98e63]">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sidebar-primary">
           Your voice
         </p>
         <h1 className="mt-4 max-w-2xl text-5xl font-medium tracking-tight sm:text-6xl">
@@ -42,18 +43,18 @@ export default async function ReviewsPage() {
               Average rating
             </p>
           </div>
-          <div className="border border-neutral-200 bg-[#161512] p-6 text-[#f4f1e8]">
-            <div className="flex h-11 w-11 items-center justify-center bg-[#d98e63]">
+          <div className="border border-neutral-200 bg-[#161512] p-6 text-primary-foreground">
+            <div className="flex h-11 w-11 items-center justify-center bg-sidebar-primary">
               <HugeiconsIcon icon={StarIcon} size={22} strokeWidth={1.5} />
             </div>
-            <p className="mt-4 text-sm font-light leading-relaxed text-[#f4f1e8]/80">
+            <p className="mt-4 text-sm font-light leading-relaxed text-primary-foreground/80">
               Share your story to help future buyers and inspire our makers.
             </p>
           </div>
         </div>
 
         {reviews.length === 0 ? (
-          <div className="mt-8 flex flex-col items-center border border-dashed border-[#d98e63]/40 bg-[#fbfaf7] px-6 py-20 text-center">
+          <div className="mt-8 flex flex-col items-center border border-dashed border-sidebar-primary/40 bg-[#fbfaf7] px-6 py-20 text-center">
             <span className="flex gap-1">
               {[0, 1, 2, 3, 4].map((i) => (
                 <HugeiconsIcon key={i} icon={StarIcon} size={20} className="text-neutral-300" />
@@ -63,17 +64,16 @@ export default async function ReviewsPage() {
             <p className="mt-2 max-w-sm text-sm font-light text-neutral-500">
               Once you review a purchase you&apos;ve received, it will appear here.
             </p>
-            <Link
-              href="/shop"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-[#161512] px-7 py-3.5 text-xs font-medium uppercase tracking-wider text-white transition-colors hover:bg-[#d98e63]"
-            >
-              Review a piece
-              <HugeiconsIcon
-                icon={ArrowRight01Icon}
-                size={14}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </Link>
+            <Button asChild className="group mt-8">
+              <Link href="/shop">
+                Review a piece
+                <HugeiconsIcon
+                  icon={ArrowRight01Icon}
+                  size={14}
+                  className="transition-transform group-hover/button:translate-x-0.5"
+                />
+              </Link>
+            </Button>
           </div>
         ) : (
           <div className="mt-8 grid gap-4 sm:grid-cols-2">

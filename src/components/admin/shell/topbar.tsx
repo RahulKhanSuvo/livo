@@ -114,7 +114,7 @@ export function Topbar() {
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-full bg-[#4b6b56] text-xs font-bold text-[#f4f1e8] transition-opacity hover:opacity-90"
+              className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground transition-opacity hover:opacity-90"
               aria-label="Account menu"
             >
               {initials(displayName)}
@@ -122,7 +122,7 @@ export function Topbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-60">
             <DropdownMenuLabel className="flex items-center gap-3 py-2">
-              <span className="grid size-9 place-items-center rounded-full bg-[#4b6b56] text-xs font-bold text-[#f4f1e8]">
+              <span className="grid size-9 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                 {initials(displayName)}
               </span>
               <span className="min-w-0">

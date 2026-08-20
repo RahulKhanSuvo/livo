@@ -46,7 +46,7 @@ export function AuthField({
         htmlFor={field.name}
         className={cn(
           'flex items-center justify-between text-xs font-medium tracking-wider uppercase',
-          hasError ? 'text-destructive' : 'text-[#4b6b56]/60'
+          hasError ? 'text-destructive' : 'text-primary/60'
         )}
       >
         {label}
@@ -71,7 +71,7 @@ export function AuthField({
             type="button"
             onClick={() => setShowPassword((v) => !v)}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
-            className="absolute top-1/2 right-3.5 -translate-y-1/2 text-[#4b6b56]/45 transition-colors hover:text-[#4b6b56]"
+            className="absolute top-1/2 right-3.5 -translate-y-1/2 text-primary/45 transition-colors hover:text-primary"
           >
             <HugeiconsIcon
               icon={showPassword ? ViewOffIcon : ViewIcon}

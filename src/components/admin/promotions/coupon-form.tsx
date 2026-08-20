@@ -163,7 +163,7 @@ export function CouponFormModal({
               type="checkbox"
               checked={active}
               onChange={(e) => setActive(e.target.checked)}
-              className="size-4 accent-[#4b6b56]"
+              className="size-4 accent-primary"
             />
             Active
           </label>

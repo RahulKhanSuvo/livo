@@ -44,34 +44,88 @@ function RowActions() {
 
 const zoneCols: Column<ShippingZone>[] = [
   { key: 'name', header: 'Zone', cell: (r) => <span className="font-medium">{r.name}</span> },
-  { key: 'regions', header: 'Regions', cell: (r) => <span className="text-foreground/80">{r.regions}</span> },
-  { key: 'carriers', header: 'Carriers', cell: (r) => <span className="text-foreground/80">{r.carriers}</span> },
-  { key: 'delivery', header: 'Delivery', cell: (r) => <span className="text-[#4b6b56] font-medium">{r.delivery}</span> },
+  {
+    key: 'regions',
+    header: 'Regions',
+    cell: (r) => <span className="text-foreground/80">{r.regions}</span>,
+  },
+  {
+    key: 'carriers',
+    header: 'Carriers',
+    cell: (r) => <span className="text-foreground/80">{r.carriers}</span>,
+  },
+  {
+    key: 'delivery',
+    header: 'Delivery',
+    cell: (r) => <span className="text-primary font-medium">{r.delivery}</span>,
+  },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const feeCols: Column<DeliveryFee>[] = [
   { key: 'zone', header: 'Zone', cell: (r) => <span className="font-medium">{r.zone}</span> },
-  { key: 'method', header: 'Method', cell: (r) => <span className="text-foreground/80">{r.method}</span> },
-  { key: 'threshold', header: 'Weight', cell: (r) => <span className="text-foreground/80">{r.threshold}</span> },
-  { key: 'fee', header: 'Fee', cell: (r) => <span className="font-medium">{formatMoney(r.fee)}</span> },
+  {
+    key: 'method',
+    header: 'Method',
+    cell: (r) => <span className="text-foreground/80">{r.method}</span>,
+  },
+  {
+    key: 'threshold',
+    header: 'Weight',
+    cell: (r) => <span className="text-foreground/80">{r.threshold}</span>,
+  },
+  {
+    key: 'fee',
+    header: 'Fee',
+    cell: (r) => <span className="font-medium">{formatMoney(r.fee)}</span>,
+  },
   {
     key: 'free',
     header: 'Free over',
     cell: (r) =>
-      r.freeOver > 0 ? <span className="text-emerald-700 text-xs">Free over {formatMoney(r.freeOver)}</span> : <span className="text-muted-foreground">—</span>,
+      r.freeOver > 0 ? (
+        <span className="text-emerald-700 text-xs">Free over {formatMoney(r.freeOver)}</span>
+      ) : (
+        <span className="text-muted-foreground">—</span>
+      ),
   },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const trackCols: Column<TrackingRow>[] = [
   { key: 'order', header: 'Order', cell: (r) => <span className="font-semibold">{r.order}</span> },
-  { key: 'carrier', header: 'Carrier', cell: (r) => <span className="text-foreground/80">{r.carrier}</span> },
-  { key: 'trackingNo', header: 'Tracking no.', cell: (r) => <span className="font-mono text-xs">{r.trackingNo}</span> },
+  {
+    key: 'carrier',
+    header: 'Carrier',
+    cell: (r) => <span className="text-foreground/80">{r.carrier}</span>,
+  },
+  {
+    key: 'trackingNo',
+    header: 'Tracking no.',
+    cell: (r) => <span className="font-mono text-xs">{r.trackingNo}</span>,
+  },
   { key: 'eta', header: 'ETA', cell: (r) => <span className="text-foreground/80">{r.eta}</span> },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 export function ZonesPage() {

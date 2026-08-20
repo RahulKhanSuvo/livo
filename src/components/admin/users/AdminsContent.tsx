@@ -97,7 +97,7 @@ export default function AdminsContent() {
       header: 'User',
       cell: (r) => (
         <div className="flex items-center gap-3">
-          <Avatar initials={initials(r.name)} tone="#4b6b56" />
+          <Avatar initials={initials(r.name)} tone="var(--primary)" />
           <div>
             <p className="font-medium">{r.name}</p>
             <p className="text-xs text-muted-foreground">{r.email}</p>

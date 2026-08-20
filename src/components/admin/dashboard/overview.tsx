@@ -90,7 +90,7 @@ export function Overview() {
             trend={m.trend}
             hint={m.hint}
             icon={icons[i]}
-            accent={i === 1 ? '#d98e63' : '#4b6b56'}
+            accent={i === 1 ? 'var(--sidebar-primary)' : 'var(--primary)'}
           />
         ))}
       </div>

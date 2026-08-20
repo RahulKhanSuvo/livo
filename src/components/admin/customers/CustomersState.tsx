@@ -31,7 +31,7 @@ export default async function CustomersState() {
         value={String(stats.active)}
         hint="last 90 days"
         icon={Activity01Icon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
     </div>
   );

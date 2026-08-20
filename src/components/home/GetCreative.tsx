@@ -9,6 +9,7 @@ import { Container } from '@/components/shared/Container';
 
 import { ChevronDownIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { Button } from '../ui/button';
 
 import chairImage from '@/assets/images/00rwz_W.webp';
 import tableImage from '@/assets/images/100i9x_W.webp';
@@ -70,12 +71,9 @@ export const GetCreative = () => {
               10,000 Inspirations
             </h2>
 
-            <Link
-              href="/inspirations"
-              className="inline-flex items-center justify-center rounded-full border border-neutral-300 px-6 py-3 text-sm transition hover:bg-black hover:text-white"
-            >
-              See more
-            </Link>
+            <Button asChild>
+              <Link href="/inspirations">See more</Link>
+            </Button>
           </div>
 
           <div className="pb-8">

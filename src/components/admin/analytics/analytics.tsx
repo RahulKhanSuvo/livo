@@ -34,7 +34,10 @@ function SectionTitle({
     <h2 className="flex items-center gap-2.5 font-serif text-2xl font-semibold text-foreground">
       <span
         className="grid size-8 place-items-center rounded-sm"
-        style={{ backgroundColor: `${tone ?? '#4b6b56'}1a`, color: tone ?? '#4b6b56' }}
+        style={{
+          backgroundColor: `color-mix(in srgb, ${tone ?? 'var(--primary)'} 10%, transparent)`,
+          color: tone ?? 'var(--primary)',
+        }}
       >
         <HugeiconsIcon icon={icon} size={16} />
       </span>
@@ -54,7 +57,7 @@ export function AnalyticsPage() {
             <button className="rounded-full border border-foreground/10 bg-white px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted">
               Last quarter
             </button>
-            <button className="rounded-full bg-[#4b6b56] px-4 py-2 text-sm font-medium text-[#f4f1e8]">
+            <button className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
               Export report
             </button>
           </div>
@@ -68,7 +71,7 @@ export function AnalyticsPage() {
           value="1,284"
           delta="+8.1%"
           icon={Invoice02Icon}
-          accent="#d98e63"
+          accent="var(--sidebar-primary)"
         />
         <StatCard label="AOV" value="$100" delta="+3.9%" icon={PieChart01Icon} />
         <StatCard
@@ -76,7 +79,7 @@ export function AnalyticsPage() {
           value="3,042"
           delta="+5.6%"
           icon={UserGroupIcon}
-          accent="#d98e63"
+          accent="var(--sidebar-primary)"
         />
       </div>
 
@@ -130,7 +133,7 @@ export function AnalyticsPage() {
             <CardContent>
               <BarChart
                 data={categoryPerformance.map((c) => ({ label: c.label, value: c.value }))}
-                color="#d98e63"
+                color="#e9c8b3"
               />
             </CardContent>
           </Card>
@@ -180,7 +183,7 @@ export function AnalyticsPage() {
               <CardTitle>This week</CardTitle>
             </CardHeader>
             <CardContent>
-              <AreaChart data={weeklyRevenue} color="#d98e63" />
+              <AreaChart data={weeklyRevenue} color="#e9c8b3" />
             </CardContent>
           </Card>
         </div>

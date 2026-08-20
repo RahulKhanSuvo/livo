@@ -150,7 +150,7 @@ export default function ReviewsContent() {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search reviews, products, authors…"
-            className="h-9 rounded-sm border-border/60 bg-card pl-9 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-[#4b6b56]/30"
+            className="h-9 rounded-sm border-border/60 bg-card pl-9 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-primary/30"
           />
         </div>
       </div>

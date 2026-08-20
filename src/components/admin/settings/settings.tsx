@@ -42,7 +42,7 @@ function Toggle({
         aria-hidden
         className={
           defaultOn
-            ? 'relative h-6 w-11 shrink-0 rounded-full bg-[#4b6b56]'
+            ? 'relative h-6 w-11 shrink-0 rounded-full bg-primary'
             : 'relative h-6 w-11 shrink-0 rounded-full bg-muted'
         }
       >

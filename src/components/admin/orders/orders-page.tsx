@@ -147,7 +147,7 @@ export function OrdersPage() {
           label="Awaiting payment"
           value={String(stats.awaitingPayment)}
           icon={Alert01Icon}
-          accent="#d98e63"
+          accent="var(--sidebar-primary)"
         />
         <StatCard label="To fulfil" value={String(stats.toFulfil)} icon={PackageOutOfStockIcon} />
       </div>
@@ -196,7 +196,7 @@ export function OrdersPage() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search orders, customers…"
-              className="h-9 w-full rounded-sm border-border/60 bg-card pl-9 pr-3 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-[#4b6b56]/30"
+              className="h-9 w-full rounded-sm border-border/60 bg-card pl-9 pr-3 shadow-[0_1px_2px_rgba(28,39,32,0.04)] focus-visible:ring-primary/30"
             />
           </div>
           <Button variant="secondary" className="shrink-0 gap-1.5">

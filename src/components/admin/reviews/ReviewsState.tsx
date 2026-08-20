@@ -18,7 +18,7 @@ export default async function ReviewsState() {
         label="Total reviews"
         value={String(stats.total)}
         icon={ChatIcon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
       <StatCard
         label="5-star reviews"
@@ -30,7 +30,7 @@ export default async function ReviewsState() {
         value={`${stats.positiveRate}%`}
         hint="4★ and above"
         icon={ThumbsUpIcon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
     </div>
   );

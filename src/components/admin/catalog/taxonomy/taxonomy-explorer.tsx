@@ -269,7 +269,7 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
           <button
             type="button"
             onClick={goUp}
-            className="flex w-full cursor-pointer items-center gap-2 border-b border-foreground/8 px-4 py-3 text-sm font-medium text-[#4b6b56] transition-colors hover:bg-[#f6f5f1]/70"
+            className="flex w-full cursor-pointer items-center gap-2 border-b border-foreground/8 px-4 py-3 text-sm font-medium text-primary transition-colors hover:bg-[#f6f5f1]/70"
           >
             <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
             {selectedSubcategoryId ? `Back to ${selectedCategory?.name}` : 'Back to all categories'}

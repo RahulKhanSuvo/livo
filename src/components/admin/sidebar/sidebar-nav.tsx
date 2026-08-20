@@ -35,11 +35,11 @@ function NavItemLink({
         className={cn(
           'group/nav relative flex h-10 w-full items-center justify-center rounded-sm text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
           isActive &&
-            'bg-sidebar-primary text-sidebar-primary-foreground hover:text-sidebar-primary-foreground'
+            'bg-sidebar-active text-sidebar-primary-foreground hover:text-sidebar-primary-foreground'
         )}
       >
         <HugeiconsIcon icon={item.icon} size={20} strokeWidth={1.75} />
-        <span className="pointer-events-none absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-sm bg-sidebar-primary px-2 py-1 text-xs font-medium text-sidebar-primary-foreground opacity-0 shadow-lg transition-opacity group-hover/nav:block group-hover/nav:opacity-100">
+        <span className="pointer-events-none absolute left-full z-50 ml-3 hidden whitespace-nowrap rounded-sm bg-sidebar-active px-2 py-1 text-xs font-medium text-sidebar-primary-foreground opacity-0 shadow-lg transition-opacity group-hover/nav:block group-hover/nav:opacity-100">
           {item.title}
         </span>
         {item.badge && (
@@ -56,12 +56,12 @@ function NavItemLink({
       className={cn(
         'relative flex h-9.5 w-full items-center gap-2.5 rounded-sm px-3 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
         depth > 0 && 'h-8.5 pl-8 text-[13px]',
-        isActive && 'bg-sidebar-primary font-semibold text-sidebar-primary-foreground shadow-sm',
+        isActive && 'bg-sidebar-active font-semibold text-sidebar-primary-foreground shadow-sm',
         isParentActive && depth === 0 && !isActive && 'bg-sidebar-accent text-sidebar-foreground'
       )}
     >
       {isActive && depth > 0 && (
-        <span className="absolute left-2.5 top-1/2 size-1.5 -translate-y-1/2 rounded-sm bg-sidebar-primary" />
+        <span className="absolute left-2.5 top-1/2 size-1.5 -translate-y-1/2 rounded-sm bg-sidebar-active" />
       )}
       <HugeiconsIcon
         icon={item.icon}

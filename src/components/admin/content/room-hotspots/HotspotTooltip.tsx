@@ -123,7 +123,7 @@ export function HotspotTooltip({
           onClick={() => setIsActive((v) => !v)}
           className={cn(
             'relative h-6 w-11 rounded-full transition-colors',
-            isActive ? 'bg-[#4b6b56]' : 'bg-neutral-300'
+            isActive ? 'bg-primary' : 'bg-neutral-300'
           )}
           aria-pressed={isActive}
         >

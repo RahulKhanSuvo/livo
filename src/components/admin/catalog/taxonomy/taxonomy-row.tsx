@@ -16,8 +16,8 @@ import { cn } from '@/lib/utils';
 import type { RowItem } from './types';
 
 const LEVEL_META = {
-  category: { tone: '#4b6b56', icon: Folder01Icon },
-  subcategory: { tone: '#d98e63', icon: Folder02Icon },
+  category: { tone: 'var(--primary)', icon: Folder01Icon },
+  subcategory: { tone: 'var(--sidebar-primary)', icon: Folder02Icon },
   productType: { tone: '#8a9b80', icon: GroupItemsIcon },
 } as const;
 
@@ -54,7 +54,10 @@ export function ExplorerRow({
     >
       <span
         className="grid size-8 shrink-0 place-items-center rounded-sm"
-        style={{ backgroundColor: `${tone}14`, color: tone }}
+        style={{
+          backgroundColor: `color-mix(in srgb, ${tone} 8%, transparent)`,
+          color: tone,
+        }}
       >
         <HugeiconsIcon icon={icon} size={16} strokeWidth={2} />
       </span>

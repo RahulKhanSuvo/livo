@@ -7,6 +7,7 @@ import {
   LockKeyIcon,
 } from '@hugeicons/core-free-icons';
 import { getProfileUser } from '@/components/profile/get-session';
+import { Button } from '@/components/ui/button';
 
 export const metadata = { title: 'Returns' };
 
@@ -34,7 +35,7 @@ export default async function ReturnsPage() {
   return (
     <div className="bg-white text-[#161512]">
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#4b6b56]">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-primary">
           Returns &amp; exchanges
         </p>
         <h1 className="mt-4 max-w-2xl text-5xl font-medium tracking-tight sm:text-6xl">
@@ -55,7 +56,7 @@ export default async function ReturnsPage() {
                   icon={step.icon}
                   size={24}
                   strokeWidth={1.5}
-                  className="text-[#4b6b56]"
+                  className="text-primary"
                 />
               </div>
               <h2 className="mt-5 text-xl font-medium tracking-tight">{step.title}</h2>
@@ -66,26 +67,23 @@ export default async function ReturnsPage() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-start border border-neutral-200 bg-[#161512] px-6 py-16 text-[#f4f1e8]">
-          <div className="flex h-14 w-14 items-center justify-center bg-[#d98e63]/20">
+        <div className="mt-12 flex flex-col items-start border border-neutral-200 bg-[#161512] px-6 py-16 text-primary-foreground">
+          <div className="flex h-14 w-14 items-center justify-center bg-sidebar-primary/20">
             <HugeiconsIcon
               icon={RefreshIcon}
               size={26}
               strokeWidth={1.5}
-              className="text-[#d98e63]"
+              className="text-sidebar-primary"
             />
           </div>
           <h2 className="mt-6 text-3xl font-medium tracking-tight">No open returns yet</h2>
-          <p className="mt-3 max-w-md text-sm font-light leading-relaxed text-[#f4f1e8]/70">
+          <p className="mt-3 max-w-md text-sm font-light leading-relaxed text-primary-foreground/70">
             Your active returns will appear here. Need to start one? Our concierge is one message
             away.
           </p>
-          <Link
-            href="/shop"
-            className="mt-8 rounded-full bg-[#f4f1e8] px-7 py-3.5 text-xs font-medium uppercase tracking-wider text-[#161512] transition-colors hover:bg-[#d98e63] hover:text-[#f4f1e8]"
-          >
-            Contact us
-          </Link>
+          <Button asChild className="mt-8">
+            <Link href="/shop">Contact us</Link>
+          </Button>
         </div>
       </section>
     </div>

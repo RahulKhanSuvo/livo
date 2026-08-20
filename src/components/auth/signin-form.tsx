@@ -57,8 +57,8 @@ export function SignInForm() {
       noValidate
     >
       <div className="mb-8">
-        <h2 className="font-serif text-4xl tracking-tight text-[#4b6b56]">Welcome back</h2>
-        <p className="mt-2 text-sm text-[#4b6b56]/55">Sign in to continue your design journey.</p>
+        <h2 className="font-serif text-4xl tracking-tight text-primary">Welcome back</h2>
+        <p className="mt-2 text-sm text-primary/55">Sign in to continue your design journey.</p>
       </div>
 
       <form.Field
@@ -88,11 +88,11 @@ export function SignInForm() {
       />
 
       <div className="flex items-center justify-between pt-1">
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-[#4b6b56]/60">
-          <input type="checkbox" className="size-4 accent-[#4b6b56]" />
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-primary/60">
+          <input type="checkbox" className="size-4 accent-primary" />
           Remember me
         </label>
-        <a href="#" className="text-sm font-medium text-[#4b6b56] hover:underline">
+        <a href="#" className="text-sm font-medium text-primary hover:underline">
           Forgot password?
         </a>
       </div>
@@ -113,12 +113,12 @@ export function SignInForm() {
             <Button
               type="submit"
               size="lg"
-              className="group/btn h-12 w-full rounded-sm bg-[#4b6b56] font-medium text-[#f4f1e8] transition-all hover:bg-[#3d5747]"
+              className="group/btn h-12 w-full rounded-sm bg-primary font-medium text-primary-foreground transition-all hover:bg-[#3d5747]"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <span className="flex items-center gap-2">
-                  <span className="size-4 animate-spin rounded-full border-2 border-[#f4f1e8]/40 border-t-[#f4f1e8]" />
+                  <span className="size-4 animate-spin rounded-full border-2 border-primary-foreground/40 border-t-primary-foreground" />
                   Signing in…
                 </span>
               ) : (

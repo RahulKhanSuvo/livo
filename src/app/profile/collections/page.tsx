@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { GridIcon, ArrowRight01Icon, Bookmark02Icon } from '@hugeicons/core-free-icons';
 import { getProfileUser } from '@/components/profile/get-session';
+import { Button } from '@/components/ui/button';
 
 export const metadata = { title: 'Collections' };
 
@@ -11,7 +12,7 @@ export default async function CollectionsPage() {
   return (
     <div className="bg-white text-[#161512]">
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#d98e63]">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-sidebar-primary">
           Saved collections
         </p>
         <h1 className="mt-4 max-w-2xl text-5xl font-medium tracking-tight sm:text-6xl">
@@ -30,7 +31,7 @@ export default async function CollectionsPage() {
                 icon={Bookmark02Icon}
                 size={24}
                 strokeWidth={1.5}
-                className="text-[#d98e63]"
+                className="text-sidebar-primary"
               />
             </div>
             <h2 className="mt-5 text-2xl font-medium tracking-tight">No saved pieces yet</h2>
@@ -39,25 +40,24 @@ export default async function CollectionsPage() {
             </p>
           </div>
 
-          <div className="flex flex-col items-start border border-neutral-200 bg-[#161512] px-6 py-16 text-[#f4f1e8]">
-            <div className="flex h-14 w-14 items-center justify-center bg-[#d98e63]">
+          <div className="flex flex-col items-start border border-neutral-200 bg-[#161512] px-6 py-16 text-primary-foreground">
+            <div className="flex h-14 w-14 items-center justify-center bg-sidebar-primary">
               <HugeiconsIcon icon={GridIcon} size={24} strokeWidth={1.5} />
             </div>
             <h2 className="mt-5 text-2xl font-medium tracking-tight">Explore the collection</h2>
-            <p className="mt-2 max-w-xs text-sm font-light text-[#f4f1e8]/70">
+            <p className="mt-2 max-w-xs text-sm font-light text-primary-foreground/70">
               Discover sofas, tables, and lighting made for real living.
             </p>
-            <Link
-              href="/shop"
-              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-[#f4f1e8] px-6 py-3 text-xs font-medium uppercase tracking-wider text-[#161512] transition-colors hover:bg-[#d98e63] hover:text-[#f4f1e8]"
-            >
-              Browse
-              <HugeiconsIcon
-                icon={ArrowRight01Icon}
-                size={14}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </Link>
+            <Button asChild className="group mt-8">
+              <Link href="/shop">
+                Browse
+                <HugeiconsIcon
+                  icon={ArrowRight01Icon}
+                  size={14}
+                  className="transition-transform group-hover/button:translate-x-0.5"
+                />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

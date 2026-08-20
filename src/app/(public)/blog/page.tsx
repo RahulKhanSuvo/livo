@@ -35,13 +35,13 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <div className="bg-[#f6f5f1] text-[#161512]">
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-10 sm:pt-24">
-        <p className="reveal text-[11px] font-semibold uppercase tracking-[0.25em] text-[#d98e63]">
+        <p className="reveal text-[11px] font-semibold uppercase tracking-[0.25em] text-sidebar-primary">
           The Journal
         </p>
-        <h1 className="reveal reveal-delay-1 mt-4 font-[family-name:var(--font-instrument-serif)] text-5xl leading-[0.95] sm:text-7xl">
+        <h1 className="reveal reveal-delay-1 mt-4 text-5xl leading-[0.95] sm:text-7xl">
           Stories about
           <br />
-          <em className="text-[#4b6b56]">craft &amp; living</em>
+          <em className="text-primary">craft &amp; living</em>
         </h1>
         <p className="reveal reveal-delay-2 mt-6 max-w-xl text-sm leading-relaxed text-neutral-600">
           Essays and field notes from our atelier — on materials, light, and the small rituals that
@@ -60,7 +60,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 className={
                   'rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-colors ' +
                   (isActive
-                    ? 'bg-[#161512] text-[#f4f1e8]'
+                    ? 'bg-[#161512] text-primary-foreground'
                     : 'bg-white text-neutral-600 hover:bg-neutral-100')
                 }
               >
@@ -89,7 +89,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             </Link>
             <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
               <div className="flex items-center gap-3">
-                <span className="rounded-full bg-[#4b6b56]/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#4b6b56]">
+                <span className="rounded-full bg-primary/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
                   Featured
                 </span>
                 <span className="text-[11px] uppercase tracking-wider text-neutral-400">
@@ -105,7 +105,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 {featured.excerpt}
               </p>
               <div className="mt-8 flex items-center gap-4 border-t border-neutral-100 pt-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#161512] text-xs font-semibold text-[#f4f1e8]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#161512] text-xs font-semibold text-primary-foreground">
                   {featured.author
                     .split(' ')
                     .map((n) => n[0])
@@ -144,7 +144,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 </Link>
                 <div className="flex flex-1 flex-col p-6 sm:p-7">
                   <div className="flex items-center gap-3">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#d98e63]">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-sidebar-primary">
                       {post.category}
                     </span>
                     <span className="text-[11px] text-neutral-400">{formatDate(post.date)}</span>
@@ -177,7 +177,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             </p>
             <Link
               href="/blog"
-              className="mt-6 inline-block rounded-full bg-[#161512] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#4b6b56]"
+              className="mt-6 inline-block rounded-full bg-[#161512] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-primary"
             >
               All stories
             </Link>

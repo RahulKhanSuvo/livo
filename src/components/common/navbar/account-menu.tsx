@@ -74,7 +74,7 @@ export function AccountMenu() {
                     icon={ArrowRight01Icon}
                     size={12}
                     strokeWidth={2}
-                    className="ml-auto text-[#4b6b56]/30"
+                    className="ml-auto text-primary/30"
                   />
                 </Link>
               </DropdownMenuItem>
@@ -86,7 +86,7 @@ export function AccountMenu() {
                     icon={ArrowRight01Icon}
                     size={12}
                     strokeWidth={2}
-                    className="ml-auto text-[#4b6b56]/30"
+                    className="ml-auto text-primary/30"
                   />
                 </Link>
               </DropdownMenuItem>
@@ -98,7 +98,7 @@ export function AccountMenu() {
                     icon={ArrowRight01Icon}
                     size={12}
                     strokeWidth={2}
-                    className="ml-auto text-[#4b6b56]/30"
+                    className="ml-auto text-primary/30"
                   />
                 </Link>
               </DropdownMenuItem>
@@ -110,7 +110,7 @@ export function AccountMenu() {
                     icon={ArrowRight01Icon}
                     size={12}
                     strokeWidth={2}
-                    className="ml-auto text-[#4b6b56]/30"
+                    className="ml-auto text-primary/30"
                   />
                 </Link>
               </DropdownMenuItem>
@@ -122,7 +122,7 @@ export function AccountMenu() {
                     icon={ArrowRight01Icon}
                     size={12}
                     strokeWidth={2}
-                    className="ml-auto text-[#4b6b56]/30"
+                    className="ml-auto text-primary/30"
                   />
                 </Link>
               </DropdownMenuItem>

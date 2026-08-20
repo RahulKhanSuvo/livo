@@ -13,7 +13,7 @@ export default async function CouponsState() {
         label="Active"
         value={String(stats.active)}
         icon={CheckmarkCircle01Icon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
       <StatCard label="Expired" value={String(stats.expired)} icon={Clock01Icon} />
     </div>

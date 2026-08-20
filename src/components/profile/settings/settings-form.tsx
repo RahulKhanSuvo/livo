@@ -10,6 +10,7 @@ import {
   signOutAction,
 } from '@/components/profile/profile-actions';
 import { initials } from '@/components/profile/profile.data';
+import { Button } from '@/components/ui/button';
 
 interface SettingsFormProps {
   name: string;
@@ -92,7 +93,7 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
   return (
     <div className="bg-white text-[#161512]">
       <section className="mx-auto max-w-4xl px-6 py-16">
-        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-[#4b6b56]">
+        <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-primary">
           Account settings
         </p>
         <h1 className="mt-4 text-5xl font-medium tracking-tight">Manage your profile</h1>
@@ -101,7 +102,7 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
       <section className="mx-auto max-w-4xl space-y-8 px-6 pb-24">
         <form onSubmit={onProfile} className="border border-neutral-200 bg-white p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-4">
-            <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden bg-[#161512] text-sm text-[#f4f1e8]">
+            <div className="relative flex h-16 w-16 items-center justify-center overflow-hidden bg-[#161512] text-sm text-primary-foreground">
               {preview ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={preview} alt="" className="h-full w-full object-cover" />
@@ -122,19 +123,19 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
                   className="hidden"
                   onChange={onImageChange}
                 />
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={() => fileRef.current?.click()}
                   disabled={uploading}
-                  className="rounded-full border border-neutral-300 px-4 py-2 text-xs font-medium uppercase tracking-wider text-[#161512] transition-colors hover:bg-neutral-100 disabled:opacity-50"
                 >
                   {uploading ? 'Uploading…' : preview ? 'Change photo' : 'Upload photo'}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
 
-          {imgMsg && <p className="mt-4 text-sm font-medium text-[#4b6b56]">{imgMsg}</p>}
+          {imgMsg && <p className="mt-4 text-sm font-medium text-primary">{imgMsg}</p>}
           {imgErr && <p className="mt-4 text-sm font-medium text-red-600">{imgErr}</p>}
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -145,7 +146,7 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
               <input
                 value={profileName}
                 onChange={(e) => setProfileName(e.target.value)}
-                className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-[#4b6b56]"
+                className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
               />
             </label>
             <label className="block">
@@ -160,15 +161,12 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
             </label>
           </div>
 
-          {profileMsg && <p className="mt-4 text-sm font-medium text-[#4b6b56]">{profileMsg}</p>}
+          {profileMsg && <p className="mt-4 text-sm font-medium text-primary">{profileMsg}</p>}
           {profileErr && <p className="mt-4 text-sm font-medium text-red-600">{profileErr}</p>}
 
-          <button
-            type="submit"
-            className="mt-6 rounded-full bg-[#161512] px-6 py-3 text-xs font-medium uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#4b6b56]"
-          >
+          <Button type="submit" className="mt-6">
             Save changes
-          </button>
+          </Button>
         </form>
 
         <form onSubmit={onPassword} className="border border-neutral-200 bg-white p-6 sm:p-8">
@@ -191,7 +189,7 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-[#4b6b56]"
+                className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
               />
             </label>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -203,7 +201,7 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-[#4b6b56]"
+                  className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
                 />
               </label>
               <label className="block">
@@ -214,33 +212,27 @@ export function SettingsForm({ name, email, image }: SettingsFormProps) {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-[#4b6b56]"
+                  className="mt-2 w-full rounded-none border border-neutral-300 px-4 py-3 text-sm outline-none transition-colors focus:border-primary"
                 />
               </label>
             </div>
           </div>
 
-          {pwMsg && <p className="mt-4 text-sm font-medium text-[#4b6b56]">{pwMsg}</p>}
+          {pwMsg && <p className="mt-4 text-sm font-medium text-primary">{pwMsg}</p>}
           {pwErr && <p className="mt-4 text-sm font-medium text-red-600">{pwErr}</p>}
 
-          <button
-            type="submit"
-            className="mt-6 rounded-full bg-[#161512] px-6 py-3 text-xs font-medium uppercase tracking-wider text-[#f4f1e8] transition-colors hover:bg-[#4b6b56]"
-          >
+          <Button type="submit" className="mt-6">
             Update password
-          </button>
+          </Button>
         </form>
 
         <div className="border border-red-200 bg-red-50 p-6 sm:p-8">
           <h2 className="text-sm font-medium text-red-900">Sign out</h2>
           <p className="mt-1 text-xs font-light text-red-700">You can sign back in any time.</p>
           <form action={signOutAction}>
-            <button
-              type="submit"
-              className="mt-4 rounded-full border border-red-300 px-6 py-3 text-xs font-medium uppercase tracking-wider text-red-700 transition-colors hover:bg-red-100"
-            >
+            <Button type="submit" variant="destructive" className="mt-4">
               Sign out
-            </button>
+            </Button>
           </form>
         </div>
       </section>

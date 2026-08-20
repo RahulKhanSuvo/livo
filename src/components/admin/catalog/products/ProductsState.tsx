@@ -18,14 +18,14 @@ export default async function ProductsState() {
         label="Active"
         value={String(stats.active)}
         icon={CheckmarkCircle01Icon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
       <StatCard label="Low stock" value={String(stats.lowStock)} hint="" icon={Alert01Icon} />
       <StatCard
         label="Out of stock"
         value={String(stats.outOfStock)}
         icon={PackageOutOfStockIcon}
-        accent="#d98e63"
+        accent="var(--sidebar-primary)"
       />
     </div>
   );
