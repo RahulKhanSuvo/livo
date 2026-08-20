@@ -79,7 +79,7 @@ export const Footer = () => {
               Sign up to our Newsletter
             </h4>
             <p className="text-xs text-neutral-600 font-light leading-relaxed mb-6 max-w-sm">
-              Be the first to know the least relases, news, collaborations, exclusives and offers!
+              Be the first to know the least releases, news, collaborations, exclusives and offers!
             </p>
 
             {/* Email Input Form */}
