@@ -65,7 +65,7 @@ export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean }
           </nav>
         </div>
 
-        <div className="p-2.5">
+        {/*<div className="p-2.5">
           {collapsed ? (
             <div className="flex flex-col items-center gap-1">
               <button
@@ -105,7 +105,7 @@ export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean }
               </div>
             </div>
           )}
-        </div>
+        </div>*/}
       </div>
     </div>
   );
