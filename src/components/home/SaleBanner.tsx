@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '../shared/Container';
-import bannerImage from '@/assets/images/sale-table-picture.webp';
+import bannerImage from '@/assets/background/sale.jpeg';
 import SaleTimer from './SaleTimer';
 export interface SaleBannerData {
   title: string;
