@@ -66,7 +66,7 @@ export function Overview() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-serif text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h1 className=" text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Dashboard
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">

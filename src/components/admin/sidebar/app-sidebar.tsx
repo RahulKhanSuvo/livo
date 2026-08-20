@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Logout02Icon, Settings05Icon, UserGroupIcon } from '@hugeicons/core-free-icons';
 
 import { Brand } from './brand';
 import { SidebarNav } from './sidebar-nav';
