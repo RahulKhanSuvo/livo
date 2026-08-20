@@ -6,7 +6,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Globe02Icon,
   Logout01Icon,
-  Menu02Icon,
+  Menu01Icon,
   PanelLeftIcon,
   Search01Icon,
   Settings05Icon,
@@ -64,15 +64,9 @@ export function Topbar() {
 
   return (
     <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-3 border-b border-foreground/8 bg-[#f6f5f1]/85 px-4 backdrop-blur-md sm:px-6 lg:px-8">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="shrink-0 lg:hidden"
-        onClick={openMobile}
-        aria-label="Open navigation"
-      >
-        <HugeiconsIcon icon={Menu02Icon} size={20} />
-      </Button>
+      <button className="shrink-0 lg:hidden" onClick={openMobile} aria-label="Open navigation">
+        <HugeiconsIcon icon={Menu01Icon} size={20} />
+      </button>
 
       <Button
         variant="ghost"
