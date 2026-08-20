@@ -19,6 +19,6 @@ export const footerServices: FooterLink[] = [
 ];
 
 export const footerInformation: FooterLink[] = [
-  { label: 'Return and Refunds', href: '/returns' },
-  { label: 'Legal Area', href: '/legal' },
+  { label: 'Return and Refunds', href: '/return-and-refunds' },
+  { label: 'Legal Area', href: '/legal-area' },
 ];
