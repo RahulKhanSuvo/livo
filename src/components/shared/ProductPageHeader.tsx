@@ -28,44 +28,82 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
 }) => {
   return (
     <header className={cn('w-full overflow-hidden relative', className)}>
-      {/* Background Columns Layer */}
-      <div className="flex min-h-60 md:min-h-20 lg:min-h-90">
-        {/* Left Side: Solid Background (per-category color) */}
-        <div className={cn('flex-1', bgColor)}></div>
+      {/* =========================
+          DESKTOP / TABLET
+          ========================= */}
+      <div className="hidden md:flex min-h-[320px] lg:min-h-[360px]">
+        {/* Left Side - Background */}
+        <div className={cn('flex-1', bgColor)} />
 
-        {/* Right Side: Hero Image */}
-        <div className="relative flex-1 min-h-65 sm:min-h-85">
+        {/* Right Side - Hero Image */}
+        <div className="relative flex-1">
           <Image
             src={imageSrc}
             alt={imageAlt || title}
             fill
             priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
+            sizes="(max-width: 1024px) 50vw, 50vw"
             className="object-cover object-center"
           />
         </div>
       </div>
 
-      {/* Overlay Layer: Text Content Constrained inside Container */}
-      <div className="absolute inset-0 pointer-events-none z-10 flex items-center">
-        <Container className="w-full pointer-events-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {/* Left Side: Text Details */}
-            <div className={cn('max-w-xl pr-6 lg:pr-12', contentClassName)}>
+      {/* Desktop Text Overlay */}
+      <div className="hidden md:flex absolute inset-0 z-10 items-center pointer-events-none">
+        <Container className="w-full">
+          <div className="grid grid-cols-2">
+            {/* Left Side - Content */}
+            <div className={cn('max-w-xl pr-6 lg:pr-12 pointer-events-auto', contentClassName)}>
               <h1
                 className={cn(
-                  'text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight mb-4 sm:mb-6',
+                  'text-3xl lg:text-5xl font-medium tracking-tight mb-4 lg:mb-6',
                   titleColor
                 )}
               >
                 {title}
               </h1>
-              <p className={cn('text-xs sm:text-sm font-light leading-relaxed', descColor)}>
+
+              <p className={cn('text-sm lg:text-base font-light leading-relaxed', descColor)}>
                 {description}
               </p>
             </div>
           </div>
         </Container>
+      </div>
+
+      {/* =========================
+          MOBILE
+          Image TOP → Content BELOW
+          ========================= */}
+      <div className="flex flex-col md:hidden">
+        {/* Hero Image */}
+        <div className="relative w-full h-44">
+          <Image
+            src={imageSrc}
+            alt={imageAlt || title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* Content */}
+        <div className={cn('w-full px-5 py-8 sm:px-8 sm:py-10', bgColor)}>
+          <Container className="w-full px-0">
+            <div className={cn('max-w-xl', contentClassName)}>
+              <h1
+                className={cn('text-2xl sm:text-3xl font-medium tracking-tight mb-4', titleColor)}
+              >
+                {title}
+              </h1>
+
+              <p className={cn('text-sm sm:text-base font-light leading-relaxed', descColor)}>
+                {description}
+              </p>
+            </div>
+          </Container>
+        </div>
       </div>
     </header>
   );
