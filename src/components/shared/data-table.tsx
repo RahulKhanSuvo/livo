@@ -97,7 +97,7 @@ export function DataTable<T>({
                 <TableRow className="hover:bg-transparent">
                   <TableCell colSpan={columns.length} className="px-5 py-16">
                     <div className="flex flex-col items-center justify-center text-center">
-                      <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/[0.08] text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
+                      <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/8 text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
                         <HugeiconsIcon icon={PackageIcon} size={22} />
                       </span>
                       <p className="mt-3 font-serif text-lg text-foreground">Nothing here yet</p>
@@ -155,7 +155,7 @@ export function DataTable<T>({
           ))
         ) : isEmpty ? (
           <div className="flex flex-col items-center justify-center rounded-sm border border-dashed border-border/70 bg-card px-5 py-14 text-center">
-            <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/[0.08] text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
+            <span className="grid size-12 place-items-center rounded-sm bg-[#4b6b56]/8 text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15">
               <HugeiconsIcon icon={PackageIcon} size={22} />
             </span>
             <p className="mt-3 font-serif text-lg text-foreground">Nothing here yet</p>
@@ -198,7 +198,7 @@ export function DataTable<T>({
       </div>
 
       {hasFooter && (
-        <div className="overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/[0.06] md:hidden">
+        <div className="overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6 md:hidden">
           <PaginationFooter
             pageIndex={pagination!.state.pageIndex}
             pageCount={table.getPageCount() || 1}
