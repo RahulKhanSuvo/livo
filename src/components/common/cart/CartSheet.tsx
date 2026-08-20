@@ -293,7 +293,7 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
             <p className="text-xs text-neutral-400">Shipping &amp; taxes calculated at checkout</p>
 
             {/* View Cart */}
-            <Button asChild size="lg" className="w-full px-5 h- rounded-4xl">
+            <Button asChild size="lg" className="w-full px-5 h-12 rounded-4xl">
               <Link href="/cart" onClick={onClose}>
                 View Cart
               </Link>
