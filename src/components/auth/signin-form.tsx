@@ -46,6 +46,17 @@ export function SignInForm() {
     },
   });
 
+  const demoCredentials = {
+    admin: { email: 'admin@livo.com', password: 'Admin@123456' },
+    user: { email: 'test@gmail.com', password: 'Pa$$w0rd!' },
+  } as const;
+
+  const fillCredentials = (role: keyof typeof demoCredentials) => {
+    const creds = demoCredentials[role];
+    form.setFieldValue('email', creds.email);
+    form.setFieldValue('password', creds.password);
+  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -57,8 +68,30 @@ export function SignInForm() {
       noValidate
     >
       <div className="mb-8">
-        <h2 className="font-serif text-4xl tracking-tight text-primary">Welcome back</h2>
+        <h2 className="text-4xl tracking-tight text-primary">Welcome back</h2>
         <p className="mt-2 text-sm text-primary/55">Sign in to continue your design journey.</p>
+      </div>
+
+      {/* Quick demo login — fills credentials, does not submit */}
+      <div className="mb-6 grid grid-cols-2 gap-3">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="w-full"
+          onClick={() => fillCredentials('admin')}
+        >
+          Login as Admin
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="w-full"
+          onClick={() => fillCredentials('user')}
+        >
+          Login as User
+        </Button>
       </div>
 
       <form.Field

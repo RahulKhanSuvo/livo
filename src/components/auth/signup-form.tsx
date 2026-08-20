@@ -60,7 +60,7 @@ export function SignUpForm() {
       noValidate
     >
       <div className="mb-8">
-        <h2 className="font-serif text-4xl tracking-tight text-primary">Create your account</h2>
+        <h2 className="text-4xl tracking-tight text-primary">Create your account</h2>
         <p className="mt-2 text-sm text-primary/55">
           Join Livo to save favourites and track orders.
         </p>
