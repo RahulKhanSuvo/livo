@@ -204,7 +204,7 @@ export const Navbar = ({
                       <Link
                         href={category.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="font-semibold tracking-wider uppercase text-neutral-900"
+                        className="font-semibold tracking-wider text-sm uppercase text-neutral-900"
                       >
                         {category.title}
                       </Link>
