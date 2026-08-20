@@ -33,10 +33,10 @@ export default function SpotDataGrid() {
     <section className="py-12 md:py-20">
       <div className="relative z-10 mx-auto max-w-350 px-4">
         {/* Responsive Grid: 1 col mobile, 2 col tablet, 3 col desktop */}
-        <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 md:mb-12 lg:grid-cols-3">
+        <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6 md:mb-12 lg:grid-cols-3">
           {cards.map((card, index) => (
             <div key={index} className="flex flex-col overflow-hidden">
-              <div className="relative h-56 overflow-hidden sm:h-72 lg:h-96">
+              <div className="relative h-56 overflow-hidden sm:h-48 lg:h-96">
                 <Image
                   src={card.image}
                   alt={card.alt}
@@ -45,7 +45,7 @@ export default function SpotDataGrid() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex flex-1 flex-col justify-between bg-white/40 p-6 md:p-8">
+              <div className="flex flex-1 flex-col justify-between bg-white/90 p-6 md:p-8">
                 <div>
                   <h3 className="mb-4 text-xl font-medium text-gray-900">{card.title}</h3>
                   <p className="text-sm leading-relaxed text-gray-600">{card.description}</p>
