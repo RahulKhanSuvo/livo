@@ -31,7 +31,7 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
       {/* =========================
           DESKTOP / TABLET
           ========================= */}
-      <div className="hidden md:flex min-h-[320px] lg:min-h-[360px]">
+      <div className="hidden md:flex min-h-80 lg:min-h-90">
         {/* Left Side - Background */}
         <div className={cn('flex-1', bgColor)} />
 
