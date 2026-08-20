@@ -2,15 +2,20 @@
 
 import ProductCard from '../home/ProductCard';
 import { useQuery } from '@tanstack/react-query';
+import { usePathname, useRouter } from 'next/navigation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { FurnitureQuery } from '@/actions/furniture/furniture.validation';
 import ProductPagination from './ProductPagination';
+import { ProductSkeletonGrid } from './ProductSkeleton';
+import { EmptyProducts } from './EmptyProducts';
 
 interface ProductListProps {
   queryKey: FurnitureQuery;
 }
 
 const ProductList = ({ queryKey }: ProductListProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const { data, isLoading } = useQuery({
     queryKey: ['products', queryKey],
     queryFn: () => getAllFurnitureAction(queryKey),
@@ -18,18 +23,10 @@ const ProductList = ({ queryKey }: ProductListProps) => {
     gcTime: 1000 * 60 * 60 * 6,
   });
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <ProductSkeletonGrid count={queryKey.limit ?? 10} />;
   }
   if (data?.data?.products.length === 0) {
-    return (
-      <div className="flex min-h-75 flex-col items-center justify-center text-center">
-        <h3 className="text-base font-medium text-neutral-900">No products found</h3>
-
-        <p className="mt-1 text-sm text-neutral-500">
-          Try adjusting your search or filter to find what you&apos;re looking for.
-        </p>
-      </div>
-    );
+    return <EmptyProducts onReset={() => router.push(pathname)} />;
   }
   const basePath = '/product';
 
