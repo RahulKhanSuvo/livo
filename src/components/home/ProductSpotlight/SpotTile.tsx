@@ -7,7 +7,9 @@ export default function SpotProductTitle() {
       </span>
 
       {/* Main Title */}
-      <h1 className="text-6xl sm:text-7xl font-normal tracking-tight mb-6">Pumpkin Sofa</h1>
+      <h1 className="text-4xl font-normal tracking-tight mb-6 sm:text-6xl lg:text-7xl">
+        Pumpkin Sofa
+      </h1>
 
       {/* Description */}
       <p className="max-w-xl text-lg sm:text-xl font-light leading-relaxed text-gray-800">
