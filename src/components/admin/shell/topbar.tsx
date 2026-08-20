@@ -6,7 +6,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Globe02Icon,
   Logout01Icon,
-  Menu01Icon,
+  Menu02Icon,
   PanelLeftIcon,
   Search01Icon,
   Settings05Icon,
@@ -71,7 +71,7 @@ export function Topbar() {
         onClick={openMobile}
         aria-label="Open navigation"
       >
-        <HugeiconsIcon icon={Menu01Icon} size={20} />
+        <HugeiconsIcon icon={Menu02Icon} size={20} />
       </Button>
 
       <Button
