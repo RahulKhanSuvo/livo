@@ -5,6 +5,14 @@ import { MoreHorizontalIcon } from '@hugeicons/core-free-icons';
 
 import { DataTableColumn } from '@/components/shared/data-table';
 import { StatusBadge, Avatar } from '@/components/admin/ui/badges';
+import { cn } from '@/lib/utils';
+
+const paymentDot: Record<string, string> = {
+  PAID: 'bg-emerald-600',
+  PENDING: 'bg-amber-500',
+  FAILED: 'bg-destructive',
+  REFUNDED: 'bg-violet-600',
+};
 import { formatMoney, initials } from '@/components/admin/ui/format';
 import { Button } from '@/components/ui/button';
 import {
@@ -72,7 +80,16 @@ export function orderColumns(handlers: {
         return (
           <div>
             <p className="font-medium">{formatMoney(r.total)}</p>
-            <StatusBadge status={r.paymentStatus} />
+            <span className="mt-1 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span
+                className={cn(
+                  'size-1.5 rounded-full',
+                  paymentDot[r.paymentStatus] ?? 'bg-muted-foreground'
+                )}
+              />
+              <span className="capitalize">{r.paymentStatus.toLowerCase()}</span>
+              <span className="text-muted-foreground/60">payment</span>
+            </span>
           </div>
         );
       },
