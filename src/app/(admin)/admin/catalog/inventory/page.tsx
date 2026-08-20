@@ -188,7 +188,7 @@ export default function InventoryPage() {
                 {totalUnits.toLocaleString()} units
               </p>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-sm bg-blue-500/10 text-blue-500 flex items-center justify-center">
               <HugeiconsIcon icon={PackageIcon} className="h-5 w-5" />
             </div>
           </CardContent>
@@ -204,7 +204,7 @@ export default function InventoryPage() {
                 ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}
               </p>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-sm bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
               <HugeiconsIcon icon={ArchiveIcon} className="h-5 w-5" />
             </div>
           </CardContent>
@@ -220,7 +220,7 @@ export default function InventoryPage() {
                 {lowStockCount} SKUs
               </p>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-sm bg-amber-500/10 text-amber-500 flex items-center justify-center">
               <HugeiconsIcon icon={AlertCircleIcon} className="h-5 w-5" />
             </div>
           </CardContent>
@@ -236,7 +236,7 @@ export default function InventoryPage() {
                 {outOfStockCount} SKUs
               </p>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-sm bg-rose-500/10 text-rose-500 flex items-center justify-center">
               <HugeiconsIcon icon={AlertCircleIcon} className="h-5 w-5" />
             </div>
           </CardContent>
@@ -244,12 +244,12 @@ export default function InventoryPage() {
       </div>
 
       {/* 3. TOOLBAR FILTERS & CONTROLS */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card/40 p-3 rounded-2xl border border-border/60">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card/40 p-3 rounded-sm border border-border/60">
         <div className="flex items-center gap-2 w-full sm:w-auto">
           {/* Filter Pills */}
           <button
             onClick={() => setActiveTab('ALL')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-sm transition-all ${
               activeTab === 'ALL'
                 ? 'bg-foreground text-background shadow-xs'
                 : 'text-muted-foreground hover:bg-muted'
@@ -259,7 +259,7 @@ export default function InventoryPage() {
           </button>
           <button
             onClick={() => setActiveTab('LOW')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-sm transition-all ${
               activeTab === 'LOW'
                 ? 'bg-amber-500/20 text-amber-600 font-semibold'
                 : 'text-muted-foreground hover:bg-muted'
@@ -269,7 +269,7 @@ export default function InventoryPage() {
           </button>
           <button
             onClick={() => setActiveTab('OUT')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-sm transition-all ${
               activeTab === 'OUT'
                 ? 'bg-rose-500/20 text-rose-600 font-semibold'
                 : 'text-muted-foreground hover:bg-muted'
@@ -308,7 +308,7 @@ export default function InventoryPage() {
       </div>
 
       {/* 4. PREMIUM INVENTORY DATA TABLE */}
-      <div className="rounded-2xl border border-border/60 bg-card overflow-hidden shadow-xs">
+      <div className="rounded-sm border border-border/60 bg-card overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="bg-muted/40 text-xs font-semibold uppercase text-muted-foreground border-b border-border/60">
@@ -334,7 +334,7 @@ export default function InventoryPage() {
                     {/* Item Info */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border bg-muted">
+                        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-sm border bg-muted">
                           {item.imageUrl ? (
                             <Image
                               src={item.imageUrl}
@@ -353,7 +353,7 @@ export default function InventoryPage() {
                             {item.productName}
                           </p>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <span className="font-mono text-[11px] text-muted-foreground bg-muted/60 px-1.5 py-0.5 rounded-md">
+                            <span className="font-mono text-[11px] text-muted-foreground bg-muted/60 px-1.5 py-0.5 rounded-sm">
                               {item.sku}
                             </span>
                             {item.variantColorName && (
@@ -437,10 +437,10 @@ export default function InventoryPage() {
 
                     {/* Quick +/- Increments */}
                     <td className="px-6 py-4">
-                      <div className="flex items-center justify-center gap-1 bg-muted/40 p-1 rounded-xl w-fit mx-auto border border-border/40">
+                      <div className="flex items-center justify-center gap-1 bg-muted/40 p-1 rounded-sm w-fit mx-auto border border-border/40">
                         <button
                           onClick={() => handleStockAdjust(item.id, -1)}
-                          className="h-7 w-7 rounded-lg bg-background hover:bg-muted flex items-center justify-center text-foreground transition-all shadow-2xs active:scale-95"
+                          className="h-7 w-7 rounded-sm bg-background hover:bg-muted flex items-center justify-center text-foreground transition-all shadow-2xs active:scale-95"
                           title="Decrease 1"
                         >
                           <HugeiconsIcon icon={MinusPlus01Icon} className="h-3.5 w-3.5" />
@@ -450,7 +450,7 @@ export default function InventoryPage() {
                         </span>
                         <button
                           onClick={() => handleStockAdjust(item.id, +1)}
-                          className="h-7 w-7 rounded-lg bg-background hover:bg-muted flex items-center justify-center text-foreground transition-all shadow-2xs active:scale-95"
+                          className="h-7 w-7 rounded-sm bg-background hover:bg-muted flex items-center justify-center text-foreground transition-all shadow-2xs active:scale-95"
                           title="Increase 1"
                         >
                           <HugeiconsIcon icon={PlusMinus01Icon} className="h-3.5 w-3.5" />

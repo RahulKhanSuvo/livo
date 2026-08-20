@@ -60,8 +60,8 @@ export function SignUpForm() {
       noValidate
     >
       <div className="mb-8">
-        <h2 className="font-serif text-4xl tracking-tight text-[#4c4a45]">Create your account</h2>
-        <p className="mt-2 text-sm text-[#4c4a45]/55">
+        <h2 className="font-serif text-4xl tracking-tight text-[#4b6b56]">Create your account</h2>
+        <p className="mt-2 text-sm text-[#4b6b56]/55">
           Join Livo to save favourites and track orders.
         </p>
       </div>
@@ -113,7 +113,7 @@ export function SignUpForm() {
         />
       </div>
 
-      <p className="text-xs leading-relaxed text-[#4c4a45]/45">
+      <p className="text-xs leading-relaxed text-[#4b6b56]/45">
         By creating an account you agree to Livo’s Terms of Service and Privacy Policy.
       </p>
 
@@ -123,7 +123,7 @@ export function SignUpForm() {
           <div className="space-y-3">
             {serverError && (
               <p
-                className="rounded-lg bg-destructive/10 px-3 py-2.5 text-sm font-medium text-destructive"
+                className="rounded-sm bg-destructive/10 px-3 py-2.5 text-sm font-medium text-destructive"
                 role="alert"
               >
                 {serverError}
@@ -133,7 +133,7 @@ export function SignUpForm() {
             <Button
               type="submit"
               size="lg"
-              className="group/btn h-12 w-full rounded-xl bg-[#4b6b56] font-medium text-[#f4f1e8] transition-all hover:bg-[#3d5747]"
+              className="group/btn h-12 w-full rounded-sm bg-[#4b6b56] font-medium text-[#f4f1e8] transition-all hover:bg-[#3d5747]"
               disabled={isSubmitting}
             >
               {isSubmitting ? (

@@ -85,14 +85,14 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 
           <SelectContent
             align="end"
             sideOffset={8}
-            className="w-52 rounded-xl border-neutral-100 p-1.5 shadow-lg"
+            className="w-52 rounded-sm border-neutral-100 p-1.5 shadow-lg"
           >
             {sortOptionsData.map((option) => (
               <SelectItem
                 key={option.id}
                 value={option.id}
                 className={cn(
-                  'cursor-pointer rounded-lg',
+                  'cursor-pointer rounded-sm',
                   'px-3 py-2',
                   'text-xs sm:text-sm',
                   'focus:bg-neutral-100 focus:text-neutral-900'

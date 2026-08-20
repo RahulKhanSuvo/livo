@@ -22,9 +22,7 @@ export function DataTable<T>({
   emptyMessage?: string;
 }) {
   return (
-    <div
-      className={cn('overflow-hidden rounded-2xl bg-white ring-1 ring-foreground/10', className)}
-    >
+    <div className={cn('overflow-hidden rounded-sm bg-white ring-1 ring-foreground/10', className)}>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead>

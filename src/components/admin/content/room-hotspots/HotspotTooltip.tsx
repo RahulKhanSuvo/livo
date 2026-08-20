@@ -54,7 +54,7 @@ export function HotspotTooltip({
           flipY ? 'calc(-100% - 16px)' : '16px'
         })`,
       }}
-      className="absolute z-40 w-72 rounded-xl border border-black/10 bg-white p-4 shadow-2xl"
+      className="absolute z-40 w-72 rounded-sm border border-black/10 bg-white p-4 shadow-2xl"
     >
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-medium">Hotspot</h3>

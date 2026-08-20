@@ -26,8 +26,8 @@ export function SearchProductList({
 
       {isSearching ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="h-20 bg-neutral-100 rounded-md animate-pulse" />
-          <div className="h-20 bg-neutral-100 rounded-md animate-pulse" />
+          <div className="h-20 bg-neutral-100 rounded-sm animate-pulse" />
+          <div className="h-20 bg-neutral-100 rounded-sm animate-pulse" />
         </div>
       ) : trimmed && products.length === 0 ? (
         <div className="py-8 text-center sm:text-left">

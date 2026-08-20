@@ -14,7 +14,7 @@ export function SearchProductItem({ product, onSelect }: SearchProductItemProps)
     <Link
       href={product.href}
       onClick={onSelect}
-      className="flex items-center gap-3.5 group rounded-md p-1.5 transition-colors hover:bg-neutral-50"
+      className="flex items-center gap-3.5 group rounded-sm p-1.5 transition-colors hover:bg-neutral-50"
     >
       <div className="relative size-16 sm:size-20 bg-[#f7f7f7] rounded flex items-center justify-center p-2 shrink-0 overflow-hidden border border-neutral-200/60">
         {product.image ? (

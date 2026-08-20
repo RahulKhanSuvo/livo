@@ -21,11 +21,19 @@ import {
   acquisitionSeries,
 } from './analytics.data';
 
-function SectionTitle({ icon, tone, children }: { icon: typeof BanknoteIcon; tone?: string; children: React.ReactNode }) {
+function SectionTitle({
+  icon,
+  tone,
+  children,
+}: {
+  icon: typeof BanknoteIcon;
+  tone?: string;
+  children: React.ReactNode;
+}) {
   return (
     <h2 className="flex items-center gap-2.5 font-serif text-2xl font-semibold text-foreground">
       <span
-        className="grid size-8 place-items-center rounded-lg"
+        className="grid size-8 place-items-center rounded-sm"
         style={{ backgroundColor: `${tone ?? '#4b6b56'}1a`, color: tone ?? '#4b6b56' }}
       >
         <HugeiconsIcon icon={icon} size={16} />
@@ -55,9 +63,21 @@ export function AnalyticsPage() {
 
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Net revenue" value="$128.4k" delta="+12.4%" icon={BanknoteIcon} />
-        <StatCard label="Orders" value="1,284" delta="+8.1%" icon={Invoice02Icon} accent="#d98e63" />
+        <StatCard
+          label="Orders"
+          value="1,284"
+          delta="+8.1%"
+          icon={Invoice02Icon}
+          accent="#d98e63"
+        />
         <StatCard label="AOV" value="$100" delta="+3.9%" icon={PieChart01Icon} />
-        <StatCard label="Customers" value="3,042" delta="+5.6%" icon={UserGroupIcon} accent="#d98e63" />
+        <StatCard
+          label="Customers"
+          value="3,042"
+          delta="+5.6%"
+          icon={UserGroupIcon}
+          accent="#d98e63"
+        />
       </div>
 
       <section id="sales" className="scroll-mt-20 space-y-5">
@@ -81,14 +101,19 @@ export function AnalyticsPage() {
               <CardTitle>Sales by category</CardTitle>
             </CardHeader>
             <CardContent>
-              <BarChart data={categoryPerformance.map((c) => ({ label: c.label, value: c.value }))} color="#4b6b56" />
+              <BarChart
+                data={categoryPerformance.map((c) => ({ label: c.label, value: c.value }))}
+                color="#4b6b56"
+              />
             </CardContent>
           </Card>
         </div>
       </section>
 
       <section id="products" className="scroll-mt-20 space-y-5">
-        <SectionTitle icon={ChartColumnIcon} tone="#b46a3f">Products</SectionTitle>
+        <SectionTitle icon={ChartColumnIcon} tone="#b46a3f">
+          Products
+        </SectionTitle>
         <div className="grid gap-5 lg:grid-cols-3">
           <Card className="bg-white">
             <CardHeader>
@@ -103,7 +128,10 @@ export function AnalyticsPage() {
               <CardTitle>Units sold by category</CardTitle>
             </CardHeader>
             <CardContent>
-              <BarChart data={categoryPerformance.map((c) => ({ label: c.label, value: c.value }))} color="#d98e63" />
+              <BarChart
+                data={categoryPerformance.map((c) => ({ label: c.label, value: c.value }))}
+                color="#d98e63"
+              />
             </CardContent>
           </Card>
         </div>
@@ -132,14 +160,19 @@ export function AnalyticsPage() {
       </section>
 
       <section id="revenue" className="scroll-mt-20 space-y-5">
-        <SectionTitle icon={PieChart01Icon} tone="#b46a3f">Revenue</SectionTitle>
+        <SectionTitle icon={PieChart01Icon} tone="#b46a3f">
+          Revenue
+        </SectionTitle>
         <div className="grid gap-5 lg:grid-cols-5">
           <Card className="bg-white lg:col-span-3">
             <CardHeader>
               <CardTitle>Revenue by channel</CardTitle>
             </CardHeader>
             <CardContent>
-              <BarChart data={revenueChannels.map((c) => ({ label: c.label, value: c.value }))} color="#4b6b56" />
+              <BarChart
+                data={revenueChannels.map((c) => ({ label: c.label, value: c.value }))}
+                color="#4b6b56"
+              />
             </CardContent>
           </Card>
           <Card className="bg-white lg:col-span-2">

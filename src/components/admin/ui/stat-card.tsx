@@ -36,7 +36,7 @@ export function StatCard({
             </p>
           </div>
           <span
-            className="grid size-10 shrink-0 place-items-center rounded-xl ring-1 ring-inset"
+            className="grid size-10 shrink-0 place-items-center rounded-sm ring-1 ring-inset"
             style={{ backgroundColor: `${accent}14`, color: accent, borderColor: `${accent}26` }}
           >
             <HugeiconsIcon icon={icon} size={19} strokeWidth={2} />

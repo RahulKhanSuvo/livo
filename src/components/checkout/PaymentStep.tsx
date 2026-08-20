@@ -68,7 +68,7 @@ export function PaymentStep({
       </div>
 
       {/* Stripe Payment */}
-      <div className="rounded-xl border border-border bg-card p-4 sm:p-5 shadow-xs">
+      <div className="rounded-sm border border-border bg-card p-4 sm:p-5 shadow-xs">
         <StripeCheckoutForm clientSecret={clientSecret} onSuccess={onSuccess} />
       </div>
 

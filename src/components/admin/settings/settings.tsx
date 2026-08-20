@@ -18,12 +18,20 @@ function Input({ defaultValue }: { defaultValue: string }) {
   return (
     <input
       defaultValue={defaultValue}
-      className="h-10 w-full rounded-xl border border-foreground/10 bg-white px-3.5 text-sm text-foreground outline-none transition-colors focus:border-foreground/25 focus:ring-2 focus:ring-ring/30"
+      className="h-10 w-full rounded-sm border border-foreground/10 bg-white px-3.5 text-sm text-foreground outline-none transition-colors focus:border-foreground/25 focus:ring-2 focus:ring-ring/30"
     />
   );
 }
 
-function Toggle({ label, description, defaultOn = true }: { label: string; description: string; defaultOn?: boolean }) {
+function Toggle({
+  label,
+  description,
+  defaultOn = true,
+}: {
+  label: string;
+  description: string;
+  defaultOn?: boolean;
+}) {
   return (
     <div className="flex items-center justify-between gap-6 py-1">
       <div>
@@ -84,11 +92,21 @@ export function SettingsPage() {
         <CardContent className="space-y-4">
           <Toggle label="New order alerts" description="Email me the moment an order is placed." />
           <Separator />
-          <Toggle label="Low stock warnings" description="Alert me when items fall below reorder point." />
+          <Toggle
+            label="Low stock warnings"
+            description="Alert me when items fall below reorder point."
+          />
           <Separator />
-          <Toggle label="Review notifications" description="Let me know when a new review is submitted." defaultOn={false} />
+          <Toggle
+            label="Review notifications"
+            description="Let me know when a new review is submitted."
+            defaultOn={false}
+          />
           <Separator />
-          <Toggle label="Weekly summary" description="A digest of revenue and orders every Monday." />
+          <Toggle
+            label="Weekly summary"
+            description="A digest of revenue and orders every Monday."
+          />
         </CardContent>
       </Card>
 

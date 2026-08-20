@@ -84,7 +84,7 @@ export const DesignEditSlider = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8">
                 {[...Array(4)].map((_, i) => (
                   <div key={i} className="animate-pulse flex flex-col space-y-3">
-                    <div className="bg-neutral-100 aspect-square w-full rounded-md" />
+                    <div className="bg-neutral-100 aspect-square w-full rounded-sm" />
                     <div className="h-4 bg-neutral-100 rounded w-1/2" />
                     <div className="h-4 bg-neutral-100 rounded w-1/4" />
                   </div>

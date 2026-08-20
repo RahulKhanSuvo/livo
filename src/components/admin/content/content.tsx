@@ -46,10 +46,24 @@ function RowActions() {
 
 const bannerCols: Column<ContentRow>[] = [
   { key: 'title', header: 'Banner', cell: (r) => <span className="font-medium">{r.title}</span> },
-  { key: 'placement', header: 'Placement', cell: (r) => <span className="text-foreground/80">{r.placement}</span> },
+  {
+    key: 'placement',
+    header: 'Placement',
+    cell: (r) => <span className="text-foreground/80">{r.placement}</span>,
+  },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'updated', header: 'Updated', cell: (r) => <span className="text-foreground/80">{r.updated}</span> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'updated',
+    header: 'Updated',
+    cell: (r) => <span className="text-foreground/80">{r.updated}</span>,
+  },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const slideColumns: Column<HeroSlide>[] = [
@@ -58,7 +72,7 @@ const slideColumns: Column<HeroSlide>[] = [
     header: 'Slide',
     cell: (r) => (
       <div className="flex items-center gap-3">
-        <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-lg bg-[#4b6b56]/10 text-[10px] font-bold uppercase text-[#4b6b56]">
+        <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-sm bg-[#4b6b56]/10 text-[10px] font-bold uppercase text-[#4b6b56]">
           {r.image}
         </span>
         <div>
@@ -69,15 +83,35 @@ const slideColumns: Column<HeroSlide>[] = [
     ),
   },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const collectionCols: Column<Collection>[] = [
   { key: 'name', header: 'Collection', cell: (r) => <span className="font-medium">{r.name}</span> },
-  { key: 'products', header: 'Products', cell: (r) => <span className="font-medium">{r.products}</span> },
-  { key: 'updated', header: 'Updated', cell: (r) => <span className="text-foreground/80">{r.updated}</span> },
+  {
+    key: 'products',
+    header: 'Products',
+    cell: (r) => <span className="font-medium">{r.products}</span>,
+  },
+  {
+    key: 'updated',
+    header: 'Updated',
+    cell: (r) => <span className="text-foreground/80">{r.updated}</span>,
+  },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 const blogCols: Column<BlogPost>[] = [
@@ -103,7 +137,13 @@ const blogCols: Column<BlogPost>[] = [
   },
   { key: 'views', header: 'Views', cell: (r) => <span className="font-medium">{r.views}</span> },
   { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  { key: 'actions', header: '', headerClassName: 'text-right', className: 'text-right', cell: () => <RowActions /> },
+  {
+    key: 'actions',
+    header: '',
+    headerClassName: 'text-right',
+    className: 'text-right',
+    cell: () => <RowActions />,
+  },
 ];
 
 export function BannersPage() {

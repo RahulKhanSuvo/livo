@@ -17,7 +17,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, c
   return (
     <div
       className={cn(
-        'flex flex-col justify-between rounded-xl bg-[#F8F7F5] p-6 sm:p-8 min-w-70 sm:min-w-85 max-w-110 shrink-0 lg:flex-1 transition-all',
+        'flex flex-col justify-between rounded-sm bg-[#F8F7F5] p-6 sm:p-8 min-w-70 sm:min-w-85 max-w-110 shrink-0 lg:flex-1 transition-all',
         className
       )}
     >
@@ -28,7 +28,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, c
       <div className="flex items-center gap-3 pt-4">
         {/* Product Thumbnail */}
         {productThumbnail && (
-          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md bg-white border border-neutral-200/60">
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-sm bg-white border border-neutral-200/60">
             <Image
               src={productThumbnail}
               alt={`${author}'s purchased product`}

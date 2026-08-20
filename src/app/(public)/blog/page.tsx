@@ -73,7 +73,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
       <Container className="pb-24">
         {featured && (
-          <article className="reveal group grid grid-cols-1 overflow-hidden rounded-3xl bg-white lg:grid-cols-2">
+          <article className="reveal group grid grid-cols-1 overflow-hidden rounded-sm bg-white lg:grid-cols-2">
             <Link
               href={`/blog/${featured.slug}`}
               className="relative aspect-4/3 overflow-hidden lg:aspect-auto lg:min-h-[480px]"
@@ -128,7 +128,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             {rest.map((post, index) => (
               <article
                 key={post.id}
-                className={`reveal reveal-delay-${Math.min((index % 3) + 1, 6)} group flex flex-col overflow-hidden rounded-3xl bg-white`}
+                className={`reveal reveal-delay-${Math.min((index % 3) + 1, 6)} group flex flex-col overflow-hidden rounded-sm bg-white`}
               >
                 <Link
                   href={`/blog/${post.slug}`}
@@ -168,7 +168,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         )}
 
         {posts.length === 0 && (
-          <div className="rounded-3xl border border-dashed border-neutral-300 bg-white px-6 py-20 text-center">
+          <div className="rounded-sm border border-dashed border-neutral-300 bg-white px-6 py-20 text-center">
             <h2 className="font-[family-name:var(--font-instrument-serif)] text-2xl">
               No stories here yet
             </h2>

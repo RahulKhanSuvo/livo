@@ -165,7 +165,7 @@ export function OrdersPage() {
                 className={cn(
                   'inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all',
                   isActive
-                    ? 'bg-sidebar text-sidebar-foreground shadow-[0_2px_8px_-2px_rgba(75,107,86,0.55)]'
+                    ? 'bg-sidebar text-sidebar-foreground shadow-[0_2px_8px_-2px_rgba(75, 107, 86,0.55)]'
                     : 'text-muted-foreground hover:bg-white hover:text-foreground dark:hover:bg-background'
                 )}
               >

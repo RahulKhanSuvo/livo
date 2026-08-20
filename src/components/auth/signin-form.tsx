@@ -57,8 +57,8 @@ export function SignInForm() {
       noValidate
     >
       <div className="mb-8">
-        <h2 className="font-serif text-4xl tracking-tight text-[#4c4a45]">Welcome back</h2>
-        <p className="mt-2 text-sm text-[#4c4a45]/55">Sign in to continue your design journey.</p>
+        <h2 className="font-serif text-4xl tracking-tight text-[#4b6b56]">Welcome back</h2>
+        <p className="mt-2 text-sm text-[#4b6b56]/55">Sign in to continue your design journey.</p>
       </div>
 
       <form.Field
@@ -88,7 +88,7 @@ export function SignInForm() {
       />
 
       <div className="flex items-center justify-between pt-1">
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-[#4c4a45]/60">
+        <label className="flex cursor-pointer items-center gap-2 text-sm text-[#4b6b56]/60">
           <input type="checkbox" className="size-4 accent-[#4b6b56]" />
           Remember me
         </label>
@@ -103,7 +103,7 @@ export function SignInForm() {
           <div className="space-y-3">
             {serverError && (
               <p
-                className="rounded-lg bg-destructive/10 px-3 py-2.5 text-sm font-medium text-destructive"
+                className="rounded-sm bg-destructive/10 px-3 py-2.5 text-sm font-medium text-destructive"
                 role="alert"
               >
                 {serverError}
@@ -113,7 +113,7 @@ export function SignInForm() {
             <Button
               type="submit"
               size="lg"
-              className="group/btn h-12 w-full rounded-xl bg-[#4b6b56] font-medium text-[#f4f1e8] transition-all hover:bg-[#3d5747]"
+              className="group/btn h-12 w-full rounded-sm bg-[#4b6b56] font-medium text-[#f4f1e8] transition-all hover:bg-[#3d5747]"
               disabled={isSubmitting}
             >
               {isSubmitting ? (

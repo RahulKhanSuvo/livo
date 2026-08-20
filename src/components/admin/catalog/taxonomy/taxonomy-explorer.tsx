@@ -264,7 +264,7 @@ export function TaxonomyExplorer({ focus }: { focus: TaxonomyFocus }) {
       </div>
 
       {/* List */}
-      <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-foreground/10">
+      <div className="overflow-hidden rounded-sm bg-white ring-1 ring-foreground/10">
         {selectedCategoryId && (
           <button
             type="button"

@@ -293,7 +293,7 @@ export function RoomHotspotsManager() {
 
           {!hasImage && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <p className="rounded-md bg-white/80 px-4 py-2 text-sm text-muted-foreground">
+              <p className="rounded-sm bg-white/80 px-4 py-2 text-sm text-muted-foreground">
                 Upload a background image to start adding hotspots.
               </p>
             </div>

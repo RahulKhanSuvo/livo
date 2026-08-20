@@ -61,11 +61,11 @@ export function CartItemCard({ item }: CartItemCardProps) {
 
         {/* Quantity Controls & Delete Action */}
         <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center rounded-lg border border-border bg-background shadow-xs">
+          <div className="flex items-center rounded-sm border border-border bg-background shadow-xs">
             <button
               type="button"
               onClick={() => updateQuantity(item.productId, item.variantId, item.quantity - 1)}
-              className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground rounded-l-lg"
+              className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground rounded-l-sm"
               aria-label="Decrease quantity"
             >
               <HugeiconsIcon icon={Remove01Icon} size={14} />
@@ -76,7 +76,7 @@ export function CartItemCard({ item }: CartItemCardProps) {
             <button
               type="button"
               onClick={() => updateQuantity(item.productId, item.variantId, item.quantity + 1)}
-              className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground rounded-r-lg"
+              className="flex size-8 items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground rounded-r-sm"
               aria-label="Increase quantity"
             >
               <HugeiconsIcon icon={Add01Icon} size={14} />

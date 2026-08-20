@@ -56,9 +56,9 @@ function DetailContent({ order }: { order: OrderDetail }) {
           {order.items.map((item) => (
             <div
               key={item.id}
-              className="flex items-center gap-3 rounded-xl border border-foreground/10 p-2.5"
+              className="flex items-center gap-3 rounded-sm border border-foreground/10 p-2.5"
             >
-              <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-muted">
+              <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm bg-muted">
                 {item.imageUrl ? (
                   <Image
                     src={item.imageUrl}

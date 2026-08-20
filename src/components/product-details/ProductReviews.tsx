@@ -49,7 +49,7 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
 
 function ReviewCard({ review }: { review: ProductReview }) {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-white p-5">
+    <div className="rounded-sm border border-foreground/10 bg-white p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <span className="grid size-9 place-items-center rounded-full bg-[#4b6b56] text-xs font-bold text-[#f4f1e8]">
@@ -140,7 +140,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
 
         <div className="mt-8">
           {isAuthed && canReview && !existingReview && (
-            <div className="mb-6 rounded-2xl border border-dashed border-[#d98e63]/40 bg-white p-5">
+            <div className="mb-6 rounded-sm border border-dashed border-[#d98e63]/40 bg-white p-5">
               {open ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -214,7 +214,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
           )}
 
           {isAuthed && canReview && existingReview && (
-            <div className="mb-6 rounded-2xl border border-[#d98e63]/30 bg-white p-5">
+            <div className="mb-6 rounded-sm border border-[#d98e63]/30 bg-white p-5">
               <p className="flex items-center gap-2 text-sm font-medium text-[#b9703f]">
                 <HugeiconsIcon icon={CheckmarkCircle01Icon} size={18} />
                 You reviewed this purchase

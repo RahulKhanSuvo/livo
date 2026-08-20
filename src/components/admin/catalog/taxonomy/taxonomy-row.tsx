@@ -53,7 +53,7 @@ export function ExplorerRow({
       className="group flex cursor-pointer items-center gap-3 px-4 py-3.5 transition-colors hover:bg-[#f6f5f1]/70"
     >
       <span
-        className="grid size-8 shrink-0 place-items-center rounded-lg"
+        className="grid size-8 shrink-0 place-items-center rounded-sm"
         style={{ backgroundColor: `${tone}14`, color: tone }}
       >
         <HugeiconsIcon icon={icon} size={16} strokeWidth={2} />

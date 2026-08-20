@@ -54,7 +54,7 @@ export default async function ProfilePage() {
 
       <section className="mx-auto max-w-6xl px-6 pb-20">
         <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-sm border border-neutral-200 bg-white p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               Total orders
             </p>
@@ -62,7 +62,7 @@ export default async function ProfilePage() {
               {orders.length}
             </p>
           </div>
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-sm border border-neutral-200 bg-white p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               Total spent
             </p>
@@ -70,7 +70,7 @@ export default async function ProfilePage() {
               {formatMoney(totalSpent)}
             </p>
           </div>
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+          <div className="rounded-sm border border-neutral-200 bg-white p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               In progress
             </p>
@@ -83,7 +83,7 @@ export default async function ProfilePage() {
         <div className="mt-10 grid gap-4 sm:grid-cols-4">
           <Link
             href="/profile/orders"
-            className="group rounded-3xl border border-neutral-200 bg-[#a3b899]/30 p-5 transition-colors hover:border-neutral-300"
+            className="group rounded-sm border border-neutral-200 bg-[#a3b899]/30 p-5 transition-colors hover:border-neutral-300"
           >
             <HugeiconsIcon icon={PackageOpenIcon} size={24} strokeWidth={1.5} />
             <p className="mt-4 text-sm font-semibold">Orders</p>
@@ -98,7 +98,7 @@ export default async function ProfilePage() {
           </Link>
           <Link
             href="/profile/my-reviews"
-            className="group rounded-3xl border border-neutral-200 bg-[#d98e63]/25 p-5 transition-colors hover:border-neutral-300"
+            className="group rounded-sm border border-neutral-200 bg-[#d98e63]/25 p-5 transition-colors hover:border-neutral-300"
           >
             <HugeiconsIcon icon={StarIcon} size={24} strokeWidth={1.5} />
             <p className="mt-4 text-sm font-semibold">My reviews</p>
@@ -113,7 +113,7 @@ export default async function ProfilePage() {
           </Link>
           <Link
             href="/profile/collections"
-            className="group rounded-3xl border border-neutral-200 bg-neutral-100 p-5 transition-colors hover:border-neutral-300"
+            className="group rounded-sm border border-neutral-200 bg-neutral-100 p-5 transition-colors hover:border-neutral-300"
           >
             <HugeiconsIcon icon={GridIcon} size={24} strokeWidth={1.5} />
             <p className="mt-4 text-sm font-semibold">Collections</p>
@@ -128,7 +128,7 @@ export default async function ProfilePage() {
           </Link>
           <Link
             href="/profile/returns"
-            className="group rounded-3xl border border-neutral-200 bg-[#f6f5f1] p-5 transition-colors hover:border-neutral-300"
+            className="group rounded-sm border border-neutral-200 bg-[#f6f5f1] p-5 transition-colors hover:border-neutral-300"
           >
             <HugeiconsIcon icon={RefreshIcon} size={24} strokeWidth={1.5} />
             <p className="mt-4 text-sm font-semibold">Returns</p>
@@ -155,7 +155,7 @@ export default async function ProfilePage() {
           </div>
 
           {recentOrders.length === 0 ? (
-            <div className="flex flex-col items-center rounded-3xl border border-dashed border-neutral-300 bg-white px-6 py-16 text-center">
+            <div className="flex flex-col items-center rounded-sm border border-dashed border-neutral-300 bg-white px-6 py-16 text-center">
               <HugeiconsIcon icon={DocumentValidationIcon} size={32} strokeWidth={1.5} />
               <p className="mt-4 text-sm font-semibold">No orders yet</p>
               <p className="mt-1 max-w-sm text-sm text-neutral-500">
@@ -169,7 +169,7 @@ export default async function ProfilePage() {
               </Link>
             </div>
           ) : (
-            <div className="overflow-hidden rounded-3xl border border-neutral-200 bg-white">
+            <div className="overflow-hidden rounded-sm border border-neutral-200 bg-white">
               {recentOrders.map((order, i) => (
                 <div
                   key={order.id}

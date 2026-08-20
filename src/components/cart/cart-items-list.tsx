@@ -20,7 +20,7 @@ export function CartItemsList({ items }: CartItemsListProps) {
       </div>
 
       {/* Items Container */}
-      <div className="rounded-b-md bg-white px-3">
+      <div className="rounded-b-sm bg-white px-3">
         {items.map((item) => (
           <CartItemCard key={`${item.productId}-${item.variantId}`} item={item} />
         ))}

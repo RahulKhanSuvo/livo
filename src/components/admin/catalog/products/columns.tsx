@@ -39,7 +39,7 @@ export function productColumns(handlers: {
         const imageUrl = image instanceof File ? URL.createObjectURL(image) : image?.imageUrl;
         return (
           <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 overflow-hidden rounded-lg border bg-muted shrink-0">
+            <div className="relative h-10 w-10 overflow-hidden rounded-sm border bg-muted shrink-0">
               {imageUrl ? (
                 <Image
                   src={imageUrl}

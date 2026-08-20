@@ -90,7 +90,7 @@ export function PaymentForm({ clientSecret, onSuccess }: PaymentFormProps) {
       {/* Card Number */}
       <div className="space-y-1.5">
         <Label className="text-xs font-medium text-foreground">Card Number</Label>
-        <div className="relative flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-xs focus-within:ring-1 focus-within:ring-ring">
+        <div className="relative flex h-10 w-full items-center rounded-sm border border-input bg-background px-3 py-2 text-xs focus-within:ring-1 focus-within:ring-ring">
           <CardNumberElement options={ELEMENT_OPTIONS} className="w-full" />
         </div>
       </div>
@@ -99,21 +99,21 @@ export function PaymentForm({ clientSecret, onSuccess }: PaymentFormProps) {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
           <Label className="text-xs font-medium text-foreground">Expiration Date</Label>
-          <div className="relative flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-xs focus-within:ring-1 focus-within:ring-ring">
+          <div className="relative flex h-10 w-full items-center rounded-sm border border-input bg-background px-3 py-2 text-xs focus-within:ring-1 focus-within:ring-ring">
             <CardExpiryElement options={ELEMENT_OPTIONS} className="w-full" />
           </div>
         </div>
 
         <div className="space-y-1.5">
           <Label className="text-xs font-medium text-foreground">CVC</Label>
-          <div className="relative flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-xs focus-within:ring-1 focus-within:ring-ring">
+          <div className="relative flex h-10 w-full items-center rounded-sm border border-input bg-background px-3 py-2 text-xs focus-within:ring-1 focus-within:ring-ring">
             <CardCvcElement options={ELEMENT_OPTIONS} className="w-full" />
           </div>
         </div>
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive">
+        <div className="flex items-center gap-2 rounded-sm border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive">
           <HugeiconsIcon icon={AlertCircleIcon} size={16} className="shrink-0" />
           <span>{error}</span>
         </div>

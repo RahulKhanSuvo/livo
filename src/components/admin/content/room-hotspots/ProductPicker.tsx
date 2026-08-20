@@ -72,7 +72,7 @@ export function ProductPicker({
         </button>
       )}
       {open && (
-        <div className="absolute z-50 mt-1 max-h-64 w-full overflow-auto rounded-md border bg-popover p-1 shadow-xl">
+        <div className="absolute z-50 mt-1 max-h-64 w-full overflow-auto rounded-sm border bg-popover p-1 shadow-xl">
           {isFetching && <p className="px-3 py-2 text-xs text-muted-foreground">Searching…</p>}
           {!isFetching && products.length === 0 && (
             <p className="px-3 py-2 text-xs text-muted-foreground">No products found</p>

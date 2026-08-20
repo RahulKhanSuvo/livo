@@ -47,7 +47,7 @@ export function AuthShell({ mode, children }: { mode: AuthMode; children: ReactN
           transition={{ duration: 0.8, ease }}
           className="absolute top-10 left-10 z-10 flex items-center gap-3"
         >
-          <span className="grid size-10 place-items-center rounded-xl bg-[#d98e63] font-serif text-xl text-[#161512] shadow-lg shadow-black/20">
+          <span className="grid size-10 place-items-center rounded-sm bg-[#d98e63] font-serif text-xl text-[#161512] shadow-lg shadow-black/20">
             L
           </span>
           <span className="font-serif text-2xl tracking-tight text-[#f4f1e8]">LIVO</span>
@@ -97,10 +97,10 @@ export function AuthShell({ mode, children }: { mode: AuthMode; children: ReactN
       <div className="bg-grain relative flex flex-col items-center justify-center px-6 py-12 sm:px-10 lg:px-16">
         {/* Mobile brand */}
         <Link href="/" className="mb-8 flex items-center gap-2.5 lg:hidden">
-          <span className="grid size-9 place-items-center rounded-xl bg-[#d98e63] font-serif text-lg text-[#161512]">
+          <span className="grid size-9 place-items-center rounded-sm bg-[#d98e63] font-serif text-lg text-[#161512]">
             L
           </span>
-          <span className="font-serif text-2xl tracking-tight text-[#4c4a45]">LIVO</span>
+          <span className="font-serif text-2xl tracking-tight text-[#4b6b56]">LIVO</span>
         </Link>
 
         <div className="w-full max-w-md">
@@ -120,7 +120,7 @@ export function AuthShell({ mode, children }: { mode: AuthMode; children: ReactN
           </AnimatePresence>
 
           {/* Footer link */}
-          <p className="mt-8 text-center text-sm text-[#4c4a45]/50">
+          <p className="mt-8 text-center text-sm text-[#4b6b56]/50">
             {mode === 'signin' ? (
               <>
                 New to Livo?{' '}

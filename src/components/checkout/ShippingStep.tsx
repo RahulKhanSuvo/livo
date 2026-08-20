@@ -129,7 +129,7 @@ export function ShippingStep({
 
       {/* Error Banner */}
       {errorMsg && (
-        <div className="flex items-start gap-2.5 rounded-xl border border-destructive/20 bg-destructive/10 p-3.5 text-xs text-destructive">
+        <div className="flex items-start gap-2.5 rounded-sm border border-destructive/20 bg-destructive/10 p-3.5 text-xs text-destructive">
           <HugeiconsIcon icon={AlertCircleIcon} size={18} className="shrink-0 mt-0.5" />
           <p className="leading-relaxed">{errorMsg}</p>
         </div>
@@ -268,7 +268,7 @@ export function ShippingStep({
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
                     required
-                    className="w-full h-9 rounded-md border border-input bg-background px-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                    className="w-full h-9 rounded-sm border border-input bg-background px-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
                   >
                     {DIVISIONS.map((div) => (
                       <option key={div} value={div}>

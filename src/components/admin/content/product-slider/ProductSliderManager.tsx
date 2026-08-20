@@ -211,7 +211,7 @@ export function ProductSliderManager() {
           ))}
         </div>
       ) : slides.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-10 text-center">
+        <div className="rounded-sm border border-dashed p-10 text-center">
           <HugeiconsIcon
             icon={Video01Icon}
             size={28}
