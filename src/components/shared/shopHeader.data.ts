@@ -1,6 +1,13 @@
 import headerImage from '@/assets/header/sofa.webp';
 import { StaticImageData } from 'next/image';
 
+import livingRoom from '@/assets/productCat/livingRoom.png';
+import diningRoom from '@/assets/productCat/diningRoom.jpeg';
+import bedRoom from '@/assets/productCat/bedRoom.jpeg';
+import storage from '@/assets/productCat/storage.jpeg';
+import outDoor from '@/assets/productCat/outDoor.jpeg';
+import accerious from '@/assets/productCat/accerious.jpeg';
+
 export interface ShopHeaderTheme {
   bg: string;
   title: string;
@@ -398,18 +405,17 @@ export const CATEGORY_THEMES: Record<string, ShopHeaderTheme> = {
   default: { bg: 'bg-[#f4f2ee]', title: 'text-neutral-900', muted: 'text-neutral-600' },
 };
 
-// Per-category hero images (right panel). Placeholder Unsplash-sourced (picsum)
-// URLs — replace with your chosen specific Unsplash photo URLs.
-export const CATEGORY_IMAGES: Record<string, string> = {
-  'living-room': 'https://picsum.photos/seed/livo-living/1200/900',
-  'dining-room': 'https://picsum.photos/seed/livo-dining/1200/900',
-  bedroom: 'https://picsum.photos/seed/livo-bedroom/1200/900',
-  'storage-consoles': 'https://picsum.photos/seed/livo-storage/1200/900',
-  outdoor: 'https://picsum.photos/seed/livo-outdoor/1200/900',
-  accessories: 'https://picsum.photos/seed/livo-accessories/1200/900',
-  living: 'https://picsum.photos/seed/livo-living/1200/900',
-  dining: 'https://picsum.photos/seed/livo-dining/1200/900',
-  storage: 'https://picsum.photos/seed/livo-storage/1200/900',
+// Per-category hero images (right panel) — local assets from src/assets/productCat.
+export const CATEGORY_IMAGES: Record<string, string | StaticImageData> = {
+  'living-room': livingRoom,
+  'dining-room': diningRoom,
+  bedroom: bedRoom,
+  'storage-consoles': storage,
+  outdoor: outDoor,
+  accessories: accerious,
+  living: livingRoom,
+  dining: diningRoom,
+  storage: storage,
 };
 
 export function getShopHeaderDetails(category?: string, subcategory?: string): ShopHeaderInfo {
