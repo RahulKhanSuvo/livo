@@ -50,7 +50,7 @@ export function AddToCartButton({ product, selectedVariant }: AddToCartButtonPro
       <Button
         disabled={!isStockAvailable}
         variant="main"
-        className="w-[90%] h-8 text-xs lg:h-9 lg:text-sm"
+        className="w-[90%] text-xs rounded-full lg:text-sm"
         onClick={handleAddToCart}
       >
         {isStockAvailable ? 'Add to Cart' : 'Out of stock'}
