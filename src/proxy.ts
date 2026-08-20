@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
 
   const isAuth = isAuthRoute(pathname);
   const routerOwner = getRouteOwner(pathname);
-  if (isAuth && session && pathname !== '/verify-email' && pathname !== '/reset-password') {
+  if (isAuth && user && pathname !== '/verify-email' && pathname !== '/reset-password') {
     return NextResponse.redirect(
       new URL(getDefaultDashboardRoute(user?.role as UserRole), request.url)
     );
