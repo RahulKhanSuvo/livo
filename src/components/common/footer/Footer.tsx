@@ -94,7 +94,7 @@ export const Footer = () => {
                   suppressHydrationWarning
                   className="w-full bg-transparent text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
                 />
-                <Button type="submit" className="shrink-0">
+                <Button type="submit" className="shrink-0 rounded-full">
                   Subscribe
                 </Button>
               </div>
