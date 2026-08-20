@@ -182,13 +182,13 @@ export const Navbar = ({
         {mobileMenuOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'calc(100vh - 60px)', opacity: 1 }}
+            animate={{ height: 'calc(100vh - 48px)', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{
               height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
               opacity: { duration: 0.2 },
             }}
-            className="fixed inset-0 top-16 bg-white z-50 lg:hidden overflow-y-auto border-t border-neutral-200"
+            className="fixed inset-0 top-12 bg-white z-50 lg:hidden overflow-y-auto border-t border-neutral-200"
           >
             <motion.div
               initial={{ y: -15, opacity: 0 }}
