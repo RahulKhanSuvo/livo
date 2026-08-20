@@ -1,5 +1,6 @@
 import { OrdersPage } from '@/components/admin/orders/orders-page';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
 import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
 
 export default async function OrdersRoute({
@@ -14,7 +15,7 @@ export default async function OrdersRoute({
   const page = Number(resolvedParams.page) || 1;
   const limit = Number(resolvedParams.limit) || 10;
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ['orders', status, page, limit],

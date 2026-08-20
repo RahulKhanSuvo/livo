@@ -4,6 +4,10 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { sortOptionsData } from '@/data/sort-options.data';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
+import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
+import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
+import { ActionResponse } from '@/lib/createSafeAction';
 
 import {
   Select,
@@ -14,14 +18,22 @@ import {
 } from '@/components/ui/select';
 
 export interface ProductSortBarProps {
-  totalProducts?: number;
   className?: string;
 }
 
-export const ProductSortBar: React.FC<ProductSortBarProps> = ({ totalProducts = 0, className }) => {
+export const ProductSortBar: React.FC<ProductSortBarProps> = ({ className }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+
+  // Read total from the cached query data so we don't need a server prop
+  const queryParameters = furnitureQuerySchema.parse(Object.fromEntries(searchParams.entries()));
+  const cached = queryClient.getQueryData<ActionResponse<GetAllFurnitureResponse>>([
+    'products',
+    queryParameters,
+  ]);
+  const totalProducts = cached?.data?.total ?? 0;
 
   const currentSort = searchParams.get('sortBy') ?? 'createdAt';
   const currentSortOrder = searchParams.get('sortOrder') ?? 'desc';

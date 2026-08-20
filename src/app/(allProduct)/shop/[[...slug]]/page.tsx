@@ -5,15 +5,12 @@ import ProductList from '@/components/shared/ProductList';
 import ProductSortBar from '@/components/shared/ProductSortBar';
 import FeaturesBar from '@/components/home/FeaturesBar';
 import { getShopHeading, resolveShopSlugs } from '@/lib/shopRoute';
-import headerImage from '@/assets/header/sofa.webp';
-
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-
-import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
+import { getQueryClient } from '@/lib/query-client';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { getFilterOptionsAction } from '@/actions/furniture/getFilterOptions';
-import { FurnitureQuery, furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
-import { ActionResponse } from '@/lib/createSafeAction';
+import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
+import headerImage from '@/assets/header/sofa.webp';
 
 const ShopCatchAllPage = async ({
   params,
@@ -27,22 +24,27 @@ const ShopCatchAllPage = async ({
 
   const slugs = resolvedParams.slug ?? [];
   const resolved = resolveShopSlugs(slugs);
+  const heading = getShopHeading(resolved);
 
-  const queryParameters: FurnitureQuery = furnitureQuerySchema.parse({
-    ...rawSearchParams,
+  // Build the exact same query parameters the client components derive from
+  // the URL, so the prefetch key matches the useQuery key 1:1.
+  const sp = Object.fromEntries(
+    Object.entries(rawSearchParams).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])
+  );
+
+  const queryParameters = furnitureQuerySchema.parse({
+    ...sp,
     category: resolved.room,
     type: resolved.type,
     subtype: resolved.subtype,
   });
 
-  const queryKey = ['products', queryParameters];
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey,
+    queryKey: ['products', queryParameters],
     queryFn: () => getAllFurnitureAction(queryParameters),
-    staleTime: 1000 * 60 * 60,
-    gcTime: 1000 * 60 * 60 * 6,
+    staleTime: 1000 * 60 * 5,
   });
 
   await queryClient.prefetchQuery({
@@ -50,9 +52,6 @@ const ShopCatchAllPage = async ({
     queryFn: () => getFilterOptionsAction({ category: resolved.room, subcategory: resolved.type }),
     staleTime: 1000 * 60 * 10,
   });
-
-  const data = queryClient.getQueryData<ActionResponse<GetAllFurnitureResponse>>(queryKey);
-  const heading = getShopHeading(resolved);
 
   return (
     <section>
@@ -66,18 +65,18 @@ const ShopCatchAllPage = async ({
       />
 
       <Container className="flex gap-10 pb-16">
-        <div className="flex-1">
-          <div className="sticky top-11 md:top-24 z-25 flex items-center gap-3 bg-white">
-            <div className="flex-1">
-              <ProductSortBar totalProducts={data?.data?.total ?? 0} />
+        <HydrationBoundary state={dehydrate(queryClient)}>
+          <div className="flex-1">
+            <div className="sticky top-11 md:top-24 z-25 flex items-center gap-3 bg-white">
+              <div className="flex-1">
+                <ProductSortBar />
+              </div>
+              <ProductFilterSheet category={resolved.room} subcategory={resolved.type} />
             </div>
-            <ProductFilterSheet category={resolved.room} subcategory={resolved.type} />
-          </div>
 
-          <HydrationBoundary state={dehydrate(queryClient)}>
-            <ProductList queryKey={queryParameters} />
-          </HydrationBoundary>
-        </div>
+            <ProductList category={resolved.room} type={resolved.type} subtype={resolved.subtype} />
+          </div>
+        </HydrationBoundary>
       </Container>
 
       <FeaturesBar />

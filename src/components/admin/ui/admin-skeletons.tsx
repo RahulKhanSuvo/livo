@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 function PageHeaderSkeleton({ withAction = false }: { withAction?: boolean }) {
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-      <div className="space-y-3">
+      <div className="overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6">
         <Skeleton className="h-9 w-44" />
         <Skeleton className="h-4 w-96 max-w-full" />
       </div>
@@ -12,11 +12,14 @@ function PageHeaderSkeleton({ withAction = false }: { withAction?: boolean }) {
   );
 }
 
-function StatCardsSkeleton() {
+export function StatCardsSkeleton() {
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
       {Array.from({ length: 4 }).map((_, i) => (
-        <Skeleton key={i} className="h-24 w-full" />
+        <Skeleton
+          key={i}
+          className="h-24 w-full overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6"
+        />
       ))}
     </div>
   );

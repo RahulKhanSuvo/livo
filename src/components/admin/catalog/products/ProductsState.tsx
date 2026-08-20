@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Alert01Icon,
   CheckmarkCircle01Icon,
@@ -6,10 +8,19 @@ import {
 } from '@hugeicons/core-free-icons';
 import { StatCard } from '../../ui/stat-card';
 import { getProductStatsAction } from '@/actions/products/getProductStatsAction';
+import { useQuery } from '@tanstack/react-query';
+import { StatCardsSkeleton } from '@/components/admin/ui/admin-skeletons';
 
-export default async function ProductsState() {
-  const { data } = await getProductStatsAction();
-  const stats = data ?? { total: 0, active: 0, outOfStock: 0, lowStock: 0 };
+export default function ProductsState() {
+  const { data, isLoading } = useQuery({
+    queryKey: ['product-stats'],
+    queryFn: () => getProductStatsAction(),
+    staleTime: 5 * 60 * 1000, // cache for 5 minutes
+  });
+
+  if (isLoading) return <StatCardsSkeleton />;
+
+  const stats = data?.data ?? { total: 0, active: 0, outOfStock: 0, lowStock: 0 };
 
   return (
     <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">

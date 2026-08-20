@@ -2,18 +2,16 @@ import ProductsState from '@/components/admin/catalog/products/ProductsState';
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import ProductPageContent from '@/components/admin/catalog/products/ProductPageContnent';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
+import ProductPageContent from '@/components/admin/catalog/products/ProductPageContnent';
 
 export default async function ProductsRoute({
   searchParams,
 }: {
-  searchParams: Promise<{
-    [key: string]: string | string[] | undefined;
-  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  // 1. Await searchParams first
   const resolvedParams = await searchParams;
   const page = Number(resolvedParams.page) || 1;
   const limit = Number(resolvedParams.limit) || 10;
@@ -23,7 +21,7 @@ export default async function ProductsRoute({
   const stock = typeof resolvedParams.stock === 'string' ? resolvedParams.stock : '';
   const category = typeof resolvedParams.category === 'string' ? resolvedParams.category : '';
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ['products', page, limit, search, status, brand, stock, category],

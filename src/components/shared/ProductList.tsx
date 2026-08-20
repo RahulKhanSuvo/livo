@@ -2,32 +2,46 @@
 
 import ProductCard from '../home/ProductCard';
 import { useQuery } from '@tanstack/react-query';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
-import { FurnitureQuery } from '@/actions/furniture/furniture.validation';
+import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
 import ProductPagination from './ProductPagination';
 import { ProductSkeletonGrid } from './ProductSkeleton';
 import { EmptyProducts } from './EmptyProducts';
 
 interface ProductListProps {
-  queryKey: FurnitureQuery;
+  category?: string;
+  type?: string;
+  subtype?: string;
 }
 
-const ProductList = ({ queryKey }: ProductListProps) => {
+const ProductList = ({ category, type, subtype }: ProductListProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const queryParameters = furnitureQuerySchema.parse({
+    ...Object.fromEntries(searchParams.entries()),
+    category,
+    type,
+    subtype,
+  });
+
   const { data, isLoading } = useQuery({
-    queryKey: ['products', queryKey],
-    queryFn: () => getAllFurnitureAction(queryKey),
-    staleTime: 1000 * 60 * 60,
+    queryKey: ['products', queryParameters],
+    queryFn: () => getAllFurnitureAction(queryParameters),
+    staleTime: 1000 * 60 * 5, // 5 minutes
     gcTime: 1000 * 60 * 60 * 6,
   });
+
   if (isLoading) {
-    return <ProductSkeletonGrid count={queryKey.limit ?? 10} />;
+    return <ProductSkeletonGrid count={queryParameters.limit ?? 10} />;
   }
+
   if (data?.data?.products.length === 0) {
     return <EmptyProducts onReset={() => router.push(pathname)} />;
   }
+
   const basePath = '/product';
 
   return (
@@ -40,8 +54,8 @@ const ProductList = ({ queryKey }: ProductListProps) => {
 
       <ProductPagination
         total={data?.data?.total ?? 0}
-        limit={queryKey.limit ?? 10}
-        page={queryKey.page ?? 1}
+        limit={queryParameters.limit ?? 10}
+        page={queryParameters.page ?? 1}
       />
     </>
   );

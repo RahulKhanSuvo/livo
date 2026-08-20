@@ -1,6 +1,7 @@
 import CustomersState from '@/components/admin/customers/CustomersState';
 import { PageHeader } from '@/components/admin/ui/page-header';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
 import CustomersPageContent from '@/components/admin/customers/CustomersPageContnent';
 import { getCustomersAction } from '@/actions/customer/getCustomersAction';
 
@@ -16,7 +17,7 @@ export default async function CustomersRoute({
   const limit = Number(resolvedParams.limit) || 10;
   const search = typeof resolvedParams.search === 'string' ? resolvedParams.search : '';
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
     queryKey: ['customers', page, limit, search],
