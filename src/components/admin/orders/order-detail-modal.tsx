@@ -90,7 +90,7 @@ function DetailContent({ order }: { order: OrderDetail }) {
         </div>
       </div>
 
-      <div className="space-y-1.5 rounded-xl bg-muted/40 p-3 text-sm">
+      <div className="space-y-1.5 rounded bg-muted/40 p-3 text-sm">
         <div className="flex justify-between text-muted-foreground">
           <span>Subtotal</span>
           <span>{formatMoney(order.subtotal)}</span>
