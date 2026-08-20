@@ -30,7 +30,7 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
     <header className={cn('w-full overflow-hidden relative', className)}>
       {/* Background Columns Layer */}
       <div className="flex min-h-80 sm:min-h-85 lg:min-h-90">
-        {/* Left Side: Solid Background */}
+        {/* Left Side: Solid Background (per-category color) */}
         <div className={cn('flex-1', bgColor)} />
 
         {/* Right Side: Hero Image */}
