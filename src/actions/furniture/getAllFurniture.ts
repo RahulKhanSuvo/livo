@@ -231,9 +231,7 @@ export const getAllFurnitureAction = createSafeAction(
         take: limit,
         skip,
         where,
-        orderBy: {
-          [sortBy]: sortOrder,
-        },
+        orderBy: [{ [sortBy]: sortOrder }, { id: 'asc' }],
         include: {
           variants: {
             include: {

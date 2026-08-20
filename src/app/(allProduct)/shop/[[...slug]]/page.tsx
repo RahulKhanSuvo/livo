@@ -11,6 +11,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 
 import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
+import { getFilterOptionsAction } from '@/actions/furniture/getFilterOptions';
 import { FurnitureQuery, furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
 import { ActionResponse } from '@/lib/createSafeAction';
 
@@ -42,6 +43,12 @@ const ShopCatchAllPage = async ({
     queryFn: () => getAllFurnitureAction(queryParameters),
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 6,
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['filter-options', resolved.room, resolved.type],
+    queryFn: () => getFilterOptionsAction({ category: resolved.room, subcategory: resolved.type }),
+    staleTime: 1000 * 60 * 10,
   });
 
   const data = queryClient.getQueryData<ActionResponse<GetAllFurnitureResponse>>(queryKey);

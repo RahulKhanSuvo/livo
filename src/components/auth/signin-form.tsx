@@ -34,8 +34,10 @@ export function SignInForm() {
           password: value.password,
         },
         {
-          onSuccess: () => {
-            router.push('/profile');
+          onSuccess: (ctx) => {
+            const data = ctx.data as { user?: { role?: string } } | undefined;
+            const role = data?.user?.role;
+            router.push(role === 'ADMIN' || role === 'SUPER_ADMIN' ? '/admin' : '/profile');
             router.refresh();
           },
           onError: (ctx) => {

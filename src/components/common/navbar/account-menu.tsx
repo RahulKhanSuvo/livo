@@ -13,6 +13,7 @@ import {
   StarIcon,
   RefreshIcon,
   GridIcon,
+  DashboardSquare01Icon,
   Logout01Icon,
   ArrowRight01Icon,
 } from '@hugeicons/core-free-icons';
@@ -74,6 +75,20 @@ export function AccountMenu() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
+              {(user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') && (
+                <DropdownMenuItem asChild>
+                  <Link href="/admin">
+                    <HugeiconsIcon icon={DashboardSquare01Icon} size={15} strokeWidth={2} />
+                    Dashboard
+                    <HugeiconsIcon
+                      icon={ArrowRight01Icon}
+                      size={12}
+                      strokeWidth={2}
+                      className="ml-auto text-primary/30"
+                    />
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem asChild>
                 <Link href="/profile/orders">
                   <HugeiconsIcon icon={PackageOpenIcon} size={15} strokeWidth={2} />

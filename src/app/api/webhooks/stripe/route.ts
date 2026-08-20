@@ -80,6 +80,24 @@ export async function POST(request: Request) {
           },
         });
 
+        const soldByProduct = new Map<string, number>();
+
+        for (const item of order.items) {
+          soldByProduct.set(
+            item.productId,
+            (soldByProduct.get(item.productId) ?? 0) + item.quantity
+          );
+        }
+
+        await Promise.all(
+          Array.from(soldByProduct.entries()).map(([productId, qty]) =>
+            tx.product.update({
+              where: { id: productId },
+              data: { soldCount: { increment: qty } },
+            })
+          )
+        );
+
         await tx.payment.updateMany({
           where: { reference: paymentIntent.id },
           data: { status: 'PAID' },
