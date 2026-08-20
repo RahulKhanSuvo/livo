@@ -316,12 +316,12 @@ export const ProductFilterSidebar = ({
                         return (
                           <label
                             key={option.id}
-                            className="flex items-center gap-2.5 cursor-pointer text-xs sm:text-sm text-neutral-800 hover:text-black transition-colors"
+                            className="flex items-center gap-2.5 cursor-pointer text-xs sm:text-sm text-neutral-800 hover:text-primary transition-colors"
                           >
                             <Checkbox
                               checked={isChecked}
                               onCheckedChange={() => handleFilterToggle(group.id, option.id)}
-                              className="h-4 w-4 rounded-none border-neutral-300 data-[state=checked]:bg-white data-[state=checked]:text-black data-[state=checked]:border-neutral-900"
+                              className="h-4 w-4 rounded-none border-neutral-300 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary"
                             />
                             <span className="font-light text-xs sm:text-sm">
                               {option.label} ({option.count})

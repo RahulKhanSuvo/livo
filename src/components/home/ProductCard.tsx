@@ -92,7 +92,7 @@ const ProductCard = ({ product, basePath }: { product: ProductCardItem; basePath
             {brandName}
           </span>
         )}
-        <h3 className="text-sm font-normal text-neutral-900 tracking-tight">{product?.name}</h3>
+        <h3 className="text-lg font-normal text-black tracking-tight">{product?.name}</h3>
 
         <div className="flex items-center gap-2 pt-0.5">
           {displaySalePrice ? (

@@ -1,6 +1,5 @@
 import ProductPageHeader from '@/components/shared/ProductPageHeader';
 import { Container } from '@/components/shared/Container';
-import ProductFilterSidebar from '@/components/shared/ProductFilterSidebar';
 import ProductFilterSheet from '@/components/shared/ProductFilterSheet';
 import ProductList from '@/components/shared/ProductList';
 import ProductSortBar from '@/components/shared/ProductSortBar';
@@ -57,16 +56,12 @@ const ShopCatchAllPage = async ({
       />
 
       <Container className="flex gap-10 pb-16">
-        <div className="sticky top-20 z-20 hidden w-78 self-start lg:block">
-          <ProductFilterSidebar category={resolved.room} subcategory={resolved.type} />
-        </div>
-
         <div className="flex-1">
-          <div className="sticky top-20 z-25 flex items-center gap-3 bg-white">
-            <ProductFilterSheet category={resolved.room} subcategory={resolved.type} />
+          <div className="sticky top-24 z-25 flex items-center gap-3 bg-white">
             <div className="flex-1">
               <ProductSortBar totalProducts={data?.data?.total ?? 0} />
             </div>
+            <ProductFilterSheet category={resolved.room} subcategory={resolved.type} />
           </div>
 
           <HydrationBoundary state={dehydrate(queryClient)}>
