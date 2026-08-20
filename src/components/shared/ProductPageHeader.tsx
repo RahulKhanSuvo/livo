@@ -9,6 +9,8 @@ export interface ProductPageHeaderProps {
   imageSrc: string | StaticImageData;
   imageAlt?: string;
   bgColor?: string;
+  titleColor?: string;
+  descColor?: string;
   className?: string;
   contentClassName?: string;
 }
@@ -19,6 +21,8 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
   imageSrc,
   imageAlt,
   bgColor = 'bg-[#f4f2ee]',
+  titleColor = 'text-neutral-900',
+  descColor = 'text-neutral-600',
   className,
   contentClassName,
 }) => {
@@ -48,10 +52,15 @@ export const ProductPageHeader: React.FC<ProductPageHeaderProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2">
             {/* Left Side: Text Details */}
             <div className={cn('max-w-xl pr-6 lg:pr-12', contentClassName)}>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-medium text-neutral-900 tracking-tight mb-4 sm:mb-6">
+              <h1
+                className={cn(
+                  'text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight mb-4 sm:mb-6',
+                  titleColor
+                )}
+              >
                 {title}
               </h1>
-              <p className="text-xs sm:text-sm text-neutral-600 font-light leading-relaxed">
+              <p className={cn('text-xs sm:text-sm font-light leading-relaxed', descColor)}>
                 {description}
               </p>
             </div>

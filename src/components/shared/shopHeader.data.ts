@@ -1,10 +1,17 @@
 import headerImage from '@/assets/header/sofa.webp';
 import { StaticImageData } from 'next/image';
 
+export interface ShopHeaderTheme {
+  bg: string;
+  title: string;
+  muted: string;
+}
+
 export interface ShopHeaderInfo {
   title: string;
   description: string;
   imageSrc: string | StaticImageData;
+  theme?: ShopHeaderTheme;
 }
 
 function formatSlugToTitle(slug: string): string {
@@ -376,29 +383,64 @@ CATEGORY_MAP['living'] = CATEGORY_MAP['living-room'];
 CATEGORY_MAP['dining'] = CATEGORY_MAP['dining-room'];
 CATEGORY_MAP['storage'] = CATEGORY_MAP['storage-consoles'];
 
+// Per-category header color themes (left panel background + text colors).
+// Edit in one place to retheme a category.
+export const CATEGORY_THEMES: Record<string, ShopHeaderTheme> = {
+  'living-room': { bg: 'bg-[#e8ede9]', title: 'text-[#2f3a32]', muted: 'text-[#586158]' },
+  'dining-room': { bg: 'bg-[#f4e6dc]', title: 'text-[#5c3a2b]', muted: 'text-[#7c5648]' },
+  bedroom: { bg: 'bg-[#e9e7f1]', title: 'text-[#37324a]', muted: 'text-[#5c5572]' },
+  'storage-consoles': { bg: 'bg-[#e8ebef]', title: 'text-[#2b323a]', muted: 'text-[#525a63]' },
+  outdoor: { bg: 'bg-[#eef0e5]', title: 'text-[#3a402c]', muted: 'text-[#5f664d]' },
+  accessories: { bg: 'bg-[#f7ecdf]', title: 'text-[#4d3b29]', muted: 'text-[#6f5a45]' },
+  living: { bg: 'bg-[#e8ede9]', title: 'text-[#2f3a32]', muted: 'text-[#586158]' },
+  dining: { bg: 'bg-[#f4e6dc]', title: 'text-[#5c3a2b]', muted: 'text-[#7c5648]' },
+  storage: { bg: 'bg-[#e8ebef]', title: 'text-[#2b323a]', muted: 'text-[#525a63]' },
+  default: { bg: 'bg-[#f4f2ee]', title: 'text-neutral-900', muted: 'text-neutral-600' },
+};
+
+// Per-category hero images (right panel). Placeholder Unsplash-sourced (picsum)
+// URLs — replace with your chosen specific Unsplash photo URLs.
+export const CATEGORY_IMAGES: Record<string, string> = {
+  'living-room': 'https://picsum.photos/seed/livo-living/1200/900',
+  'dining-room': 'https://picsum.photos/seed/livo-dining/1200/900',
+  bedroom: 'https://picsum.photos/seed/livo-bedroom/1200/900',
+  'storage-consoles': 'https://picsum.photos/seed/livo-storage/1200/900',
+  outdoor: 'https://picsum.photos/seed/livo-outdoor/1200/900',
+  accessories: 'https://picsum.photos/seed/livo-accessories/1200/900',
+  living: 'https://picsum.photos/seed/livo-living/1200/900',
+  dining: 'https://picsum.photos/seed/livo-dining/1200/900',
+  storage: 'https://picsum.photos/seed/livo-storage/1200/900',
+};
+
 export function getShopHeaderDetails(category?: string, subcategory?: string): ShopHeaderInfo {
+  const defaultTheme = CATEGORY_THEMES['default'];
+
   if (!category) {
     return {
       title: 'Shop All Furniture',
       description:
         'Explore our complete collection of modern, minimalist furniture designed for refined everyday living.',
       imageSrc: headerImage,
+      theme: defaultTheme,
     };
   }
 
   const normalizedCategory = category.toLowerCase().trim();
   const categoryConfig = CATEGORY_MAP[normalizedCategory];
+  const theme = CATEGORY_THEMES[normalizedCategory] ?? defaultTheme;
+  const image = CATEGORY_IMAGES[normalizedCategory] ?? headerImage;
 
   if (subcategory) {
     const normalizedSub = subcategory.toLowerCase().trim();
     if (categoryConfig?.subcategories?.[normalizedSub]) {
-      return categoryConfig.subcategories[normalizedSub];
+      return { ...categoryConfig.subcategories[normalizedSub], theme, imageSrc: image };
     }
 
     return {
       title: formatSlugToTitle(normalizedSub),
       description: `Browse our selected collection of ${formatSlugToTitle(normalizedSub).toLowerCase()}.`,
-      imageSrc: headerImage,
+      imageSrc: image,
+      theme,
     };
   }
 
@@ -406,13 +448,15 @@ export function getShopHeaderDetails(category?: string, subcategory?: string): S
     return {
       title: categoryConfig.title,
       description: categoryConfig.description,
-      imageSrc: categoryConfig.imageSrc,
+      imageSrc: image,
+      theme,
     };
   }
 
   return {
     title: formatSlugToTitle(normalizedCategory),
     description: `Browse our selected collection of ${formatSlugToTitle(normalizedCategory).toLowerCase()}.`,
-    imageSrc: headerImage,
+    imageSrc: image,
+    theme,
   };
 }

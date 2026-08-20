@@ -52,7 +52,10 @@ const ShopCatchAllPage = async ({
       <ProductPageHeader
         title={heading.title}
         description={heading.description}
-        imageSrc={headerImage}
+        imageSrc={heading.imageSrc ?? headerImage}
+        bgColor={heading.bgColor}
+        titleColor={heading.titleColor}
+        descColor={heading.descColor}
       />
 
       <Container className="flex gap-10 pb-16">
