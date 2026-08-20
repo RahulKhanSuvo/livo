@@ -45,7 +45,7 @@ export default function SpotDataGrid() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex flex-1 flex-col justify-between bg-white/90 p-6 md:p-8">
+              <div className="flex flex-1 flex-col justify-between bg-white/90 p-4 md:p-5 lg:p-6">
                 <div>
                   <h3 className="mb-4 text-xl font-medium text-gray-900">{card.title}</h3>
                   <p className="text-sm leading-relaxed text-gray-600">{card.description}</p>
