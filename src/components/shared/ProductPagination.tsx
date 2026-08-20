@@ -49,7 +49,7 @@ export const ProductPagination = ({ total, limit, page }: ProductPaginationProps
         type="button"
         onClick={() => goToPage(page - 1)}
         disabled={page <= 1}
-        className="flex h-9 items-center rounded-none border border-neutral-300 px-3 text-xs text-neutral-700 transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex h-9 items-center rounded-sm border border-neutral-300 px-3 text-xs text-neutral-700 transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-30"
       >
         Prev
       </button>
@@ -64,7 +64,7 @@ export const ProductPagination = ({ total, limit, page }: ProductPaginationProps
             key={item}
             type="button"
             onClick={() => goToPage(item)}
-            className={`h-9 w-9 rounded-none border text-xs transition-colors ${
+            className={`h-9 w-9 rounded-sm border text-xs transition-colors cursor-pointer ${
               item === page
                 ? 'border-primary bg-primary text-primary-foreground'
                 : 'border-neutral-300 text-neutral-700 hover:border-primary'
@@ -79,7 +79,7 @@ export const ProductPagination = ({ total, limit, page }: ProductPaginationProps
         type="button"
         onClick={() => goToPage(page + 1)}
         disabled={page >= totalPages}
-        className="flex h-9 items-center rounded-none border border-neutral-300 px-3 text-xs text-neutral-700 transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-30"
+        className="flex cursor-pointer h-9 items-center rounded-sm border border-neutral-300 px-3 text-xs text-neutral-700 transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-30"
       >
         Next
       </button>
