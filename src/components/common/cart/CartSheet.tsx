@@ -13,6 +13,7 @@ import {
 } from '@hugeicons/core-free-icons';
 
 import { Sheet, SheetContent, SheetTitle, SheetClose } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 
 import { CartItem, useCartStore } from '@/stores/cart-store';
 
@@ -67,7 +68,7 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
 
           <SheetClose
             onClick={onClose}
-            className="p-1 text-neutral-600 transition-colors hover:text-black"
+            className="p-1 text-neutral-600 transition-colors hover:text-primary"
             aria-label="Close cart"
           >
             <HugeiconsIcon icon={Cancel01Icon} size={24} />
@@ -139,13 +140,14 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
               <div className="py-12 text-center text-neutral-500">
                 <p className="text-sm font-medium">Your cart is empty.</p>
 
-                <button
+                <Button
                   type="button"
                   onClick={onClose}
-                  className="mt-4 rounded-full bg-black px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-neutral-800"
+                  size="sm"
+                  className="mt-4 px-5 py-2 rounded-4xl"
                 >
                   Continue Shopping
-                </button>
+                </Button>
               </div>
             ) : (
               items.map((item) => {
@@ -190,7 +192,7 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
                               updateQuantity(item.productId, item.variantId, item.quantity - 1)
                             }
                             disabled={item.quantity <= 1}
-                            className="p-0.5 transition-colors hover:text-black disabled:cursor-not-allowed disabled:opacity-40"
+                            className="p-0.5 transition-colors hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
                             aria-label="Decrease quantity"
                           >
                             <HugeiconsIcon icon={Remove01Icon} size={10} />
@@ -204,7 +206,7 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
                             onClick={() =>
                               updateQuantity(item.productId, item.variantId, item.quantity + 1)
                             }
-                            className="p-0.5 transition-colors hover:text-black"
+                            className="p-0.5 transition-colors hover:text-primary"
                             aria-label="Increase quantity"
                           >
                             <HugeiconsIcon icon={Add01Icon} size={10} />
@@ -291,13 +293,11 @@ export const CartSheet = ({ items, isOpen, onClose }: CartSheetProps) => {
             <p className="text-xs text-neutral-400">Shipping &amp; taxes calculated at checkout</p>
 
             {/* View Cart */}
-            <Link
-              href="/cart"
-              onClick={onClose}
-              className="block w-full rounded-full bg-[#363432] py-3.5 text-center text-sm font-medium text-white transition-colors hover:bg-black"
-            >
-              View Cart
-            </Link>
+            <Button asChild size="lg" className="w-full px-5 h- rounded-4xl">
+              <Link href="/cart" onClick={onClose}>
+                View Cart
+              </Link>
+            </Button>
           </div>
         )}
       </SheetContent>

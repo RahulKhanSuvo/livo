@@ -6,6 +6,7 @@ import { Container } from '@/components/shared/Container';
 import { footerCategories, footerServices, footerInformation } from './footer.data';
 import brandLogo from '@/assets/icons/logo1.svg';
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 export const Footer = () => {
   const [email, setEmail] = useState('');
   const [agreed, setAgreed] = useState(false);
@@ -29,7 +30,7 @@ export const Footer = () => {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className=" text-neutral-600 hover:text-neutral-900 transition-colors"
+                    className=" text-neutral-600 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -46,7 +47,7 @@ export const Footer = () => {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className=" text-neutral-600 hover:text-neutral-900 transition-colors"
+                    className=" text-neutral-600 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -63,7 +64,7 @@ export const Footer = () => {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className=" text-neutral-600 hover:text-neutral-900 transition-colors"
+                    className=" text-neutral-600 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -83,7 +84,7 @@ export const Footer = () => {
 
             {/* Email Input Form */}
             <form onSubmit={handleSubmit} className="w-full max-w-md">
-              <div className="flex items-center rounded-full bg-white p-1 pl-4 border border-neutral-200 focus-within:border-neutral-900 transition-colors">
+              <div className="flex items-center rounded-full bg-white p-1 pl-4 border border-neutral-200 focus-within:border-primary transition-colors">
                 <input
                   type="email"
                   value={email}
@@ -93,12 +94,9 @@ export const Footer = () => {
                   suppressHydrationWarning
                   className="w-full bg-transparent text-xs text-neutral-900 placeholder:text-neutral-400 focus:outline-none"
                 />
-                <button
-                  type="submit"
-                  className="shrink-0 rounded-full bg-[#3d3a37] px-5 py-2.5 text-xs font-normal text-white hover:bg-neutral-900 transition-colors"
-                >
+                <Button type="submit" className="shrink-0">
                   Subscribe
-                </button>
+                </Button>
               </div>
 
               {/* Checkbox agreement */}
@@ -107,7 +105,7 @@ export const Footer = () => {
                   type="checkbox"
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
-                  className="h-3.5 w-3.5 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-800"
+                  className="h-3.5 w-3.5 rounded border-neutral-300 text-primary focus:ring-primary"
                 />
                 <span className="text-[11px] text-neutral-600 font-light">
                   I want to sign up for the Newsletter.
