@@ -1,5 +1,3 @@
-'use client';
-
 import { tableFeatures, useTable, rowPaginationFeature } from '@tanstack/react-table';
 import type { ColumnDef, PaginationState, RowData } from '@tanstack/react-table';
 import { HugeiconsIcon } from '@hugeicons/react';

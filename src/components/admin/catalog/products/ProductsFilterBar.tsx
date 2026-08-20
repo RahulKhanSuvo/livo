@@ -112,7 +112,7 @@ export function ProductsFilterBar() {
     'h-9 rounded-sm border-border/60 bg-card text-sm shadow-[0_1px_2px_rgba(28,39,32,0.04)]';
 
   return (
-    <div className="rounded-sm bg-card p-3 shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/[0.06]">
+    <div className="rounded-sm bg-card p-3 shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
         <div className="relative flex-1">
           <HugeiconsIcon
@@ -130,7 +130,7 @@ export function ProductsFilterBar() {
 
         <div className="flex flex-wrap items-center gap-2">
           <Select value={statusValue} onValueChange={(v) => applyParams({ status: v })}>
-            <SelectTrigger className={`${triggerClass} w-[150px]`}>
+            <SelectTrigger className={`${triggerClass} w-37.5`}>
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -141,7 +141,7 @@ export function ProductsFilterBar() {
           </Select>
 
           <Select value={categoryValue} onValueChange={(v) => applyParams({ category: v })}>
-            <SelectTrigger className={`${triggerClass} w-[160px]`}>
+            <SelectTrigger className={`${triggerClass} w-40`}>
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -155,7 +155,7 @@ export function ProductsFilterBar() {
           </Select>
 
           <Select value={brandValue} onValueChange={(v) => applyParams({ brand: v })}>
-            <SelectTrigger className={`${triggerClass} w-[150px]`}>
+            <SelectTrigger className={`${triggerClass} w-37.5`}>
               <SelectValue placeholder="Brand" />
             </SelectTrigger>
             <SelectContent>
@@ -169,7 +169,7 @@ export function ProductsFilterBar() {
           </Select>
 
           <Select value={stockValue} onValueChange={(v) => applyParams({ stock: v })}>
-            <SelectTrigger className={`${triggerClass} w-[140px]`}>
+            <SelectTrigger className={`${triggerClass} w-35`}>
               <SelectValue placeholder="Stock" />
             </SelectTrigger>
             <SelectContent>
@@ -215,7 +215,7 @@ export function ProductsFilterBar() {
                 if (chip.key === 'search') setSearchInput('');
                 applyParams({ [chip.key]: chip.clearValue });
               }}
-              className="group inline-flex items-center gap-1 rounded-sm bg-[#4b6b56]/[0.08] px-2 py-1 text-xs font-medium text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15 transition-colors hover:bg-[#4b6b56]/[0.14]"
+              className="group inline-flex items-center gap-1 rounded-sm bg-[#4b6b56]/8 px-2 py-1 text-xs font-medium text-[#4b6b56] ring-1 ring-inset ring-[#4b6b56]/15 transition-colors hover:bg-[#4b6b56]/[0.14]"
             >
               {chip.label}
               <HugeiconsIcon
