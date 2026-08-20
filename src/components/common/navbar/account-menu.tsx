@@ -35,14 +35,22 @@ export function AccountMenu() {
 
   const user = session?.user;
 
+  if (isPending) {
+    return (
+      <div
+        className="h-4.75 w-4.75 animate-pulse rounded-sm bg-neutral-200"
+        role="status"
+        aria-label="Loading account menu"
+      />
+    );
+  }
+
   const handleSignOut = async () => {
     setPending(true);
     await authClient.signOut();
     router.push('/');
     router.refresh();
   };
-
-  // console.log('isPending', isPending);
 
   return (
     <DropdownMenu>
