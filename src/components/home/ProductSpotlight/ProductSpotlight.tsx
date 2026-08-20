@@ -1,4 +1,4 @@
-import second from '@/assets/images/background.webp';
+import second from '@/assets/background/sp.png';
 import Image from 'next/image';
 import SpotProductTitle from './SpotTile';
 import SpotDataGrid from './SpotDataGrid';
