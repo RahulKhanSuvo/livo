@@ -56,25 +56,19 @@ export default async function ProfilePage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               Total orders
             </p>
-            <p className="mt-3 font-(family-name:--font-instrument-serif) text-4xl">
-              {orders.length}
-            </p>
+            <p className="mt-3  text-4xl">{orders.length}</p>
           </div>
           <div className="rounded-sm border border-neutral-200 bg-white p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               Total spent
             </p>
-            <p className="mt-3 font-(family-name:--font-instrument-serif) text-4xl">
-              {formatMoney(totalSpent)}
-            </p>
+            <p className="mt-3  text-4xl">{formatMoney(totalSpent)}</p>
           </div>
           <div className="rounded-sm border border-neutral-200 bg-white p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.15em] text-neutral-500">
               In progress
             </p>
-            <p className="mt-3 font-(family-name:--font-instrument-serif) text-4xl">
-              {activeOrders}
-            </p>
+            <p className="mt-3 text-4xl">{activeOrders}</p>
           </div>
         </div>
 
@@ -143,7 +137,7 @@ export default async function ProfilePage() {
 
         <div className="mt-14">
           <div className="mb-5 flex items-end justify-between">
-            <h2 className="font-(family-name:--font-instrument-serif) text-3xl">Recent orders</h2>
+            <h2 className=" text-3xl">Recent orders</h2>
             <Link
               href="/profile/orders"
               className="text-xs font-semibold uppercase tracking-wider text-primary hover:underline"

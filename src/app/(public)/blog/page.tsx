@@ -76,7 +76,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           <article className="reveal group grid grid-cols-1 overflow-hidden rounded-sm bg-white lg:grid-cols-2">
             <Link
               href={`/blog/${featured.slug}`}
-              className="relative aspect-4/3 overflow-hidden lg:aspect-auto lg:min-h-[480px]"
+              className="relative aspect-4/3 overflow-hidden lg:aspect-auto lg:min-h-120"
             >
               <Image
                 src={featured.imageSrc}
@@ -97,9 +97,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                 </span>
               </div>
               <Link href={`/blog/${featured.slug}`}>
-                <h2 className="mt-6 font-[family-name:var(--font-instrument-serif)] text-3xl leading-tight sm:text-5xl">
-                  {featured.title}
-                </h2>
+                <h2 className="mt-6 text-3xl leading-tight sm:text-5xl">{featured.title}</h2>
               </Link>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-600">
                 {featured.excerpt}
@@ -150,9 +148,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                     <span className="text-[11px] text-neutral-400">{formatDate(post.date)}</span>
                   </div>
                   <Link href={`/blog/${post.slug}`} className="mt-4">
-                    <h3 className="font-[family-name:var(--font-instrument-serif)] text-2xl leading-snug">
-                      {post.title}
-                    </h3>
+                    <h3 className=" text-2xl leading-snug">{post.title}</h3>
                   </Link>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-neutral-600">
                     {post.excerpt}
@@ -169,9 +165,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
         {posts.length === 0 && (
           <div className="rounded-sm border border-dashed border-neutral-300 bg-white px-6 py-20 text-center">
-            <h2 className="font-[family-name:var(--font-instrument-serif)] text-2xl">
-              No stories here yet
-            </h2>
+            <h2 className=" text-2xl">No stories here yet</h2>
             <p className="mt-2 text-sm text-neutral-500">
               Try another category, or browse the full journal.
             </p>

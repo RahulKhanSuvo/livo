@@ -79,7 +79,7 @@ export default async function OrdersPage() {
                   <ul className="divide-y divide-neutral-100">
                     {order.items.map((item) => (
                       <li key={item.id} className="flex items-center gap-4 py-3">
-                        <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden bg-neutral-100">
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden bg-neutral-100">
                           {item.image ? (
                             <Image
                               src={item.image}

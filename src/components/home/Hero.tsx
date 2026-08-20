@@ -33,7 +33,7 @@ const HeroSection = () => {
               <Image src={item.banner} alt={item.title} fill className="object-cover" priority />
 
               {/* Legibility scrim */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/55 via-black/10 to-transparent" />
 
               <div className="absolute inset-x-0 bottom-16 px-5 text-white sm:bottom-24 sm:left-8 sm:right-auto sm:max-w-xl sm:px-0">
                 <p className="text-[11px] uppercase tracking-[3px] sm:tracking-[4px]">
