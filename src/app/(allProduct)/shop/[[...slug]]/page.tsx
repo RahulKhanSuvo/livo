@@ -60,7 +60,7 @@ const ShopCatchAllPage = async ({
 
       <Container className="flex gap-10 pb-16">
         <div className="flex-1">
-          <div className="sticky top-24 z-25 flex items-center gap-3 bg-white">
+          <div className="sticky top-11 md:top-24 z-25 flex items-center gap-3 bg-white">
             <div className="flex-1">
               <ProductSortBar totalProducts={data?.data?.total ?? 0} />
             </div>
