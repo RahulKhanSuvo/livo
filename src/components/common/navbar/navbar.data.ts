@@ -1,5 +1,6 @@
 import livingRoomImage from '@/assets/navbar/livingRoom.png';
 import diningRoomImage from '@/assets/navbar/dinningRoom.png';
+import diningRoomImage2 from '@/assets/productCat/chairTable.png';
 import { StaticImageData } from 'next/image';
 export interface NavSubItem {
   title: string;
@@ -138,8 +139,7 @@ export const navCategories: NavCategory[] = [
         image: diningRoomImage,
       },
       {
-        image:
-          'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?q=80&w=1000&auto=format&fit=crop',
+        image: diningRoomImage2,
       },
     ],
   },
