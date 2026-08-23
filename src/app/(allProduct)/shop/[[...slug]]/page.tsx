@@ -11,6 +11,8 @@ import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { getFilterOptionsAction } from '@/actions/furniture/getFilterOptions';
 import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
 import headerImage from '@/assets/header/sofa.webp';
+import { Suspense } from 'react';
+import ProductLoading from '@/components/product-details/prductLoading';
 
 const ShopCatchAllPage = async ({
   params,
@@ -25,9 +27,6 @@ const ShopCatchAllPage = async ({
   const slugs = resolvedParams.slug ?? [];
   const resolved = resolveShopSlugs(slugs);
   const heading = getShopHeading(resolved);
-
-  // Build the exact same query parameters the client components derive from
-  // the URL, so the prefetch key matches the useQuery key 1:1.
   const sp = Object.fromEntries(
     Object.entries(rawSearchParams).map(([k, v]) => [k, Array.isArray(v) ? v[0] : v])
   );
@@ -65,18 +64,24 @@ const ShopCatchAllPage = async ({
       />
 
       <Container className="flex gap-10 pb-16">
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <div className="flex-1">
-            <div className="sticky top-11 md:top-24 z-25 flex items-center gap-3 bg-white">
-              <div className="flex-1">
-                <ProductSortBar />
+        <Suspense fallback={<ProductLoading />}>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <div className="flex-1">
+              <div className="sticky top-11 md:top-24 z-25 flex items-center gap-3 bg-white">
+                <div className="flex-1">
+                  <ProductSortBar />
+                </div>
+                <ProductFilterSheet category={resolved.room} subcategory={resolved.type} />
               </div>
-              <ProductFilterSheet category={resolved.room} subcategory={resolved.type} />
-            </div>
 
-            <ProductList category={resolved.room} type={resolved.type} subtype={resolved.subtype} />
-          </div>
-        </HydrationBoundary>
+              <ProductList
+                category={resolved.room}
+                type={resolved.type}
+                subtype={resolved.subtype}
+              />
+            </div>
+          </HydrationBoundary>
+        </Suspense>
       </Container>
 
       <FeaturesBar />

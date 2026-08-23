@@ -1,7 +1,7 @@
 import { Container } from '@/components/shared/Container';
 import { ProductSkeleton } from '@/components/shared/ProductSkeleton';
 
-export default function Loading() {
+export default function ProductLoading() {
   const skeletonCards = Array.from({ length: 10 });
 
   return (
@@ -9,8 +9,7 @@ export default function Loading() {
       {/* =========================
           HEADER (mirrors ProductPageHeader)
           ========================= */}
-      <header className="relative w-full overflow-hidden">
-        {/* Desktop / tablet — split: color panel + image */}
+      {/*<header className="relative w-full overflow-hidden">
         <div className="hidden w-full md:flex min-h-80 lg:min-h-90">
           <div className="flex-1 bg-neutral-200 animate-pulse" />
           <div className="flex-1 bg-neutral-200 animate-pulse" />
@@ -26,8 +25,6 @@ export default function Loading() {
             </div>
           </Container>
         </div>
-
-        {/* Mobile — image top, content below */}
         <div className="flex flex-col md:hidden">
           <div className="relative h-44 w-full bg-neutral-200 animate-pulse" />
           <div className="w-full bg-neutral-200 px-5 py-8 animate-pulse sm:px-8 sm:py-10">
@@ -38,7 +35,7 @@ export default function Loading() {
             </div>
           </div>
         </div>
-      </header>
+      </header>*/}
 
       <Container className="flex gap-10 pb-16">
         <div className="flex-1">
