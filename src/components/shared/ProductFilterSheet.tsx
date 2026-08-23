@@ -22,7 +22,7 @@ export const ProductFilterSheet = ({
           <HugeiconsIcon icon={FilterHorizontalIcon} size={16} strokeWidth={1.8} />
           Filters
         </SheetTrigger>
-        <SheetContent side="right" className="w-full p-0 sm:max-w-md">
+        <SheetContent side="right" className="w-full p-0 sm:max-w-lg lg:max-w-xl">
           <SheetHeader className="border-b border-neutral-200">
             <SheetTitle>Filter</SheetTitle>
           </SheetHeader>

@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ScrollArea } from '../ui/scroll-area';
+import { Skeleton } from '../ui/skeleton';
 import { getFilterOptionsAction } from '@/actions/furniture/getFilterOptions';
 import { FilterGroup } from '@/data/filter-sidebar.data';
 
@@ -232,13 +233,26 @@ export const ProductFilterSidebar = ({
 
   if (isLoading) {
     return (
-      <aside className="bg-white text-neutral-900 pt-5 space-y-4">
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="animate-pulse space-y-2 py-3 border-b">
-            <div className="h-4 bg-neutral-100 rounded w-1/3" />
-            <div className="h-3 bg-neutral-100 rounded w-2/3" />
-          </div>
-        ))}
+      <aside className="bg-white text-neutral-900 pt-5">
+        <div className="mb-6 flex items-center justify-between px-3">
+          <Skeleton className="h-4 w-12" />
+          <Skeleton className="h-3 w-16" />
+        </div>
+        <div className="divide-y">
+          {[...Array(4)].map((_, s) => (
+            <div key={s} className="py-4">
+              <Skeleton className="mb-4 h-5 w-1/2" />
+              <div className="space-y-3 px-1">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <Skeleton className="h-4 w-4 rounded-none" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </aside>
     );
   }
