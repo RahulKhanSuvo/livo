@@ -10,14 +10,14 @@ export interface QuickLinkItem {
 }
 
 export const quickLinksData: QuickLinkItem[] = [
-  { id: '1', label: 'New Arrivals', href: '/collections/new-arrivals' },
-  { id: '2', label: 'Bestsellers', href: '/collections/bestsellers' },
-  { id: '3', label: 'Sale', href: '/collections/sale' },
-  { id: '4', label: 'Small Spaces', href: '/collections/small-spaces' },
-  { id: '5', label: 'Last Pieces', href: '/collections/last-pieces' },
-  { id: '6', label: 'Gift Ideas', href: '/collections/gift-ideas' },
-  { id: '7', label: 'Sustainable Choice', href: '/collections/sustainable-choice' },
-  { id: '8', label: 'Outlet', href: '/collections/outlet' },
+  { id: '1', label: 'Sofas', href: '/shop/sofa' },
+  { id: '2', label: 'Chairs', href: '/shop/chair' },
+  { id: '3', label: 'Tables', href: '/shop/table' },
+  { id: '4', label: 'Beds', href: '/shop/bed' },
+  { id: '5', label: 'Storage', href: '/shop/storage' },
+  { id: '6', label: 'Living Room', href: '/shop/living-room' },
+  { id: '7', label: 'Dining Room', href: '/shop/dining-room' },
+  { id: '8', label: 'Outdoor', href: '/shop/outdoor' },
 ];
 
 export const QuickLinks = () => {
