@@ -41,6 +41,7 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({
     category,
     type,
     subtype,
+    light: true,
   });
 
   const { data } = useQuery({

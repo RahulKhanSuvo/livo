@@ -19,6 +19,7 @@ export const furnitureQuerySchema = z.object({
 
   sortBy: z.enum(['createdAt', 'price', 'soldCount']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
+  light: z.boolean().optional().default(false),
 });
 
 export type FurnitureQuery = z.infer<typeof furnitureQuerySchema>;

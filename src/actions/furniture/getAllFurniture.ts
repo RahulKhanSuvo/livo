@@ -33,6 +33,7 @@ export const getAllFurnitureAction = createSafeAction(
     inStock,
     sortBy,
     sortOrder,
+    light,
   }) => {
     const skip = (page - 1) * limit;
 
@@ -43,12 +44,6 @@ export const getAllFurnitureAction = createSafeAction(
         OR: [
           {
             name: {
-              contains: search,
-              mode: 'insensitive' as const,
-            },
-          },
-          {
-            description: {
               contains: search,
               mode: 'insensitive' as const,
             },
@@ -78,8 +73,8 @@ export const getAllFurnitureAction = createSafeAction(
           subCategory: {
             category: {
               OR: [
-                { slug: { equals: normalizedCategory, mode: 'insensitive' } },
-                { slug: { equals: categoryBase, mode: 'insensitive' } },
+                { slug: { equals: normalizedCategory } },
+                { slug: { equals: categoryBase } },
                 { name: { contains: categoryBase, mode: 'insensitive' } },
               ],
             },
@@ -95,12 +90,12 @@ export const getAllFurnitureAction = createSafeAction(
       whereConditions.push({
         productType: {
           OR: [
-            { slug: { contains: normalizedSubCategory, mode: 'insensitive' } },
+            { slug: { contains: normalizedSubCategory } },
             { name: { contains: cleanSubName, mode: 'insensitive' } },
             {
               subCategory: {
                 OR: [
-                  { slug: { contains: normalizedSubCategory, mode: 'insensitive' } },
+                  { slug: { contains: normalizedSubCategory } },
                   { name: { contains: cleanSubName, mode: 'insensitive' } },
                 ],
               },
@@ -118,7 +113,7 @@ export const getAllFurnitureAction = createSafeAction(
         whereConditions.push({
           productType: {
             subCategory: {
-              slug: { endsWith: suffix, mode: 'insensitive' },
+              slug: { endsWith: suffix },
             },
           },
         });
@@ -126,7 +121,7 @@ export const getAllFurnitureAction = createSafeAction(
         whereConditions.push({
           productType: {
             OR: [
-              { slug: { contains: normalizedType, mode: 'insensitive' } },
+              { slug: { contains: normalizedType } },
               { name: { contains: normalizedType, mode: 'insensitive' } },
               {
                 subCategory: {
@@ -145,7 +140,7 @@ export const getAllFurnitureAction = createSafeAction(
       whereConditions.push({
         productType: {
           OR: [
-            { slug: { contains: normalizedSubType, mode: 'insensitive' } },
+            { slug: { contains: normalizedSubType } },
             { name: { contains: normalizedSubType, mode: 'insensitive' } },
           ],
         },
@@ -232,24 +227,25 @@ export const getAllFurnitureAction = createSafeAction(
         skip,
         where,
         orderBy: [{ [sortBy]: sortOrder }, { id: 'asc' }],
-        include: {
-          variants: {
-            include: {
-              images: true,
-            },
-          },
-          brand: true,
-          material: true,
-          productType: {
-            include: {
-              subCategory: {
+        include: light
+          ? {
+              variants: { include: { images: { take: 2 } } },
+              brand: { select: { name: true } },
+            }
+          : {
+              variants: { include: { images: true } },
+              brand: true,
+              material: true,
+              productType: {
                 include: {
-                  category: true,
+                  subCategory: {
+                    include: {
+                      category: true,
+                    },
+                  },
                 },
               },
             },
-          },
-        },
       }),
 
       prisma.product.count({

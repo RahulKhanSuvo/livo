@@ -36,8 +36,10 @@ model Brand {
   image       String?
   description String?
   products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
 }
 
 model Material {
@@ -45,8 +47,10 @@ model Material {
   name        String
   description String?
   products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
 }
 
 enum ProductStatus {
@@ -80,6 +84,13 @@ model Product {
   updatedAt        DateTime         @updatedAt
   cartItems        CartItem[]
   reviews          Review[]
+
+  @@index([productTypeId])
+  @@index([status])
+  @@index([name])
+  @@index([createdAt])
+  @@index([price])
+  @@index([soldCount])
 }
 
 model ProductVariant {
@@ -92,6 +103,9 @@ model ProductVariant {
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
   orderItems OrderItem[]
+
+  @@index([productId])
+  @@index([productId, stock])
 }
 
 model ProductImage {
