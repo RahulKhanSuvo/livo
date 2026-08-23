@@ -3,8 +3,7 @@ import { MoreHorizontalIcon, PlusSignIcon } from '@hugeicons/core-free-icons';
 
 import { PageHeader } from '@/components/admin/ui/page-header';
 import { DataTable, type Column } from '@/components/admin/ui/data-table';
-import { StatusBadge, Avatar } from '@/components/admin/ui/badges';
-import { initials } from '@/components/admin/ui/format';
+import { StatusBadge } from '@/components/admin/ui/badges';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,11 +15,9 @@ import {
   banners,
   heroSlides,
   collections,
-  blogPosts,
   type ContentRow,
   type HeroSlide,
   type Collection,
-  type BlogPost,
 } from './content.data';
 
 function RowActions() {
@@ -114,38 +111,6 @@ const collectionCols: Column<Collection>[] = [
   },
 ];
 
-const blogCols: Column<BlogPost>[] = [
-  {
-    key: 'title',
-    header: 'Post',
-    cell: (r) => (
-      <div>
-        <p className="font-medium">{r.title}</p>
-        <p className="text-xs text-muted-foreground">{r.category}</p>
-      </div>
-    ),
-  },
-  {
-    key: 'author',
-    header: 'Author',
-    cell: (r) => (
-      <div className="flex items-center gap-2.5">
-        <Avatar initials={initials(r.author)} tone="#8a9b80" />
-        <span className="font-medium">{r.author}</span>
-      </div>
-    ),
-  },
-  { key: 'views', header: 'Views', cell: (r) => <span className="font-medium">{r.views}</span> },
-  { key: 'status', header: 'Status', cell: (r) => <StatusBadge status={r.status} /> },
-  {
-    key: 'actions',
-    header: '',
-    headerClassName: 'text-right',
-    className: 'text-right',
-    cell: () => <RowActions />,
-  },
-];
-
 export function BannersPage() {
   return (
     <div className="space-y-6">
@@ -196,24 +161,6 @@ export function CollectionsPage() {
         }
       />
       <DataTable columns={collectionCols} data={collections} keyField={(r) => r.id} />
-    </div>
-  );
-}
-
-export function BlogPage() {
-  return (
-    <div className="space-y-6">
-      <PageHeader
-        title="Blog"
-        description="Stories and guides from your editorial team."
-        actions={
-          <Button className="gap-1.5">
-            <HugeiconsIcon icon={PlusSignIcon} size={16} />
-            Write post
-          </Button>
-        }
-      />
-      <DataTable columns={blogCols} data={blogPosts} keyField={(r) => r.id} />
     </div>
   );
 }

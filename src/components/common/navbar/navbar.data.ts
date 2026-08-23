@@ -201,10 +201,4 @@ export const navCategories: NavCategory[] = [
       { title: 'Decorative Objects', href: '/shop/accessories/decorative-objects' },
     ],
   },
-  {
-    id: 'blog',
-    title: 'BLOG',
-    href: '/blog',
-    type: 'link',
-  },
 ];

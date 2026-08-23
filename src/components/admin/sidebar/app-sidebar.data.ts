@@ -2,7 +2,6 @@ import type { AdminIcon } from '@/components/admin/ui/icon';
 import {
   Analytics02Icon,
   BanknoteIcon,
-  BloggerIcon,
   // BoxesIcon,
   ChartColumnIcon,
   ChartHistogramIcon,
@@ -113,7 +112,6 @@ export const adminNavGroups: AdminNavGroup[] = [
             icon: GalleryHorizontalEndIcon,
           },
           { title: 'Collections', href: '/admin/content/collections', icon: FolderOpenIcon },
-          { title: 'Blog', href: '/admin/content/blog', icon: BloggerIcon },
           { title: 'Shop the Room', href: '/admin/content/room-hotspots', icon: Image01Icon },
           {
             title: 'Product Slider',
