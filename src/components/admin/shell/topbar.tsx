@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   Globe02Icon,
+  LoadingIcon,
   Logout01Icon,
   Menu01Icon,
   PanelLeftIcon,
@@ -56,10 +58,17 @@ export function Topbar() {
   const displayName = user?.name?.trim() || 'Admin';
   const displayEmail = user?.email || '';
 
+  const [isSigningOut, setIsSigningOut] = useState(false);
+
   const signOut = async () => {
-    await authClient.signOut();
-    router.push('/');
-    router.refresh();
+    try {
+      setIsSigningOut(true);
+      await authClient.signOut();
+      router.push('/');
+      router.refresh();
+    } finally {
+      setIsSigningOut(false);
+    }
   };
 
   return (
@@ -151,13 +160,17 @@ export function Topbar() {
             <DropdownMenuItem
               variant="destructive"
               className="cursor-pointer"
+              disabled={isSigningOut}
               onSelect={(e) => {
                 e.preventDefault();
                 signOut();
               }}
             >
-              <HugeiconsIcon icon={Logout01Icon} />
-              Log out
+              <HugeiconsIcon
+                icon={isSigningOut ? LoadingIcon : Logout01Icon}
+                className={isSigningOut ? 'animate-spin' : undefined}
+              />
+              {isSigningOut ? 'Logging out…' : 'Log out'}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
