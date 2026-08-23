@@ -23,7 +23,7 @@ export function ProductSkeleton({ className }: { className?: string }) {
 
 export function ProductSkeletonGrid({ count = 10 }: { count?: number }) {
   return (
-    <div className="grid flex-1 grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
+    <div className="grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
       {Array.from({ length: count }).map((_, i) => (
         <ProductSkeleton key={i} />
       ))}
