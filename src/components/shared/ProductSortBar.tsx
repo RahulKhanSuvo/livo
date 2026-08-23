@@ -4,10 +4,9 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { sortOptionsData } from '@/data/sort-options.data';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
-import { GetAllFurnitureResponse } from '@/actions/furniture/furniture.type';
-import { ActionResponse } from '@/lib/createSafeAction';
+import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 
 import {
   Select,
@@ -19,21 +18,38 @@ import {
 
 export interface ProductSortBarProps {
   className?: string;
+  category?: string;
+  type?: string;
+  subtype?: string;
 }
 
-export const ProductSortBar: React.FC<ProductSortBarProps> = ({ className }) => {
+export const ProductSortBar: React.FC<ProductSortBarProps> = ({
+  className,
+  category,
+  type,
+  subtype,
+}) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const queryClient = useQueryClient();
 
-  // Read total from the cached query data so we don't need a server prop
-  const queryParameters = furnitureQuerySchema.parse(Object.fromEntries(searchParams.entries()));
-  const cached = queryClient.getQueryData<ActionResponse<GetAllFurnitureResponse>>([
-    'products',
-    queryParameters,
-  ]);
-  const totalProducts = cached?.data?.total ?? 0;
+  // Build the SAME query parameters ProductList uses (including the
+  // category/type derived from the URL slug) so the cache key matches and
+  // we can read the correct total.
+  const queryParameters = furnitureQuerySchema.parse({
+    ...Object.fromEntries(searchParams.entries()),
+    category,
+    type,
+    subtype,
+  });
+
+  const { data } = useQuery({
+    queryKey: ['products', queryParameters],
+    queryFn: () => getAllFurnitureAction(queryParameters),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const totalProducts = data?.data?.total ?? 0;
 
   const currentSort = searchParams.get('sortBy') ?? 'createdAt';
   const currentSortOrder = searchParams.get('sortOrder') ?? 'desc';
