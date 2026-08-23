@@ -25,7 +25,6 @@ const ProductList = ({ category, type, subtype }: ProductListProps) => {
     category,
     type,
     subtype,
-    light: true,
   });
 
   const { data, isLoading } = useQuery({

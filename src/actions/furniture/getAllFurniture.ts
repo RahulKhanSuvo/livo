@@ -33,7 +33,6 @@ export const getAllFurnitureAction = createSafeAction(
     inStock,
     sortBy,
     sortOrder,
-    light,
   }) => {
     const skip = (page - 1) * limit;
 
@@ -227,25 +226,24 @@ export const getAllFurnitureAction = createSafeAction(
         skip,
         where,
         orderBy: [{ [sortBy]: sortOrder }, { id: 'asc' }],
-        include: light
-          ? {
-              variants: { include: { images: { take: 2 } } },
-              brand: { select: { name: true } },
-            }
-          : {
-              variants: { include: { images: true } },
-              brand: true,
-              material: true,
-              productType: {
+        include: {
+          variants: {
+            include: {
+              images: { take: 2 },
+            },
+          },
+          brand: true,
+          material: true,
+          productType: {
+            include: {
+              subCategory: {
                 include: {
-                  subCategory: {
-                    include: {
-                      category: true,
-                    },
-                  },
+                  category: true,
                 },
               },
             },
+          },
+        },
       }),
 
       prisma.product.count({
