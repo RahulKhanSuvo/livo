@@ -6,6 +6,7 @@ interface ProductPaginationProps {
   total: number;
   limit: number;
   page: number;
+  onPageChange?: (state: { pageIndex: number; pageSize: number }) => void;
 }
 
 function getPageItems(current: number, totalPages: number): (number | '...')[] {
@@ -26,7 +27,7 @@ function getPageItems(current: number, totalPages: number): (number | '...')[] {
   return pages;
 }
 
-export const ProductPagination = ({ total, limit, page }: ProductPaginationProps) => {
+export const ProductPagination = ({ total, limit, page, onPageChange }: ProductPaginationProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -35,6 +36,11 @@ export const ProductPagination = ({ total, limit, page }: ProductPaginationProps
   if (totalPages <= 1) return null;
 
   const goToPage = (next: number) => {
+    if (onPageChange) {
+      onPageChange({ pageIndex: next - 1, pageSize: limit });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const params = new URLSearchParams(searchParams.toString());
     params.set('page', String(next));
     router.push(`${pathname}?${params.toString()}`);
