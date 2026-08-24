@@ -129,9 +129,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
             rating={data?.averageRating ? Math.round(data.averageRating) : 5}
             starClassName="h-4 w-4"
           />
-          <h2 className="font-[family-name:var(--font-instrument-serif)] text-3xl">
-            Customer Reviews
-          </h2>
+          <h2 className="text-3xl">Customer Reviews</h2>
           <p className="text-sm text-neutral-600">
             {data?.total ?? 0} review{data?.total === 1 ? '' : 's'} ·{' '}
             {Number(data?.averageRating ?? 0).toFixed(1)} average

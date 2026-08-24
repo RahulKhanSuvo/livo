@@ -41,7 +41,7 @@ export const ProductGallery = ({ name }: { name: string }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 lg:flex-row lg:gap-4">
         {/* Main image */}
         <div
           role="button"
@@ -50,7 +50,7 @@ export const ProductGallery = ({ name }: { name: string }) => {
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') setLightboxOpen(true);
           }}
-          className="relative aspect-square w-full bg-[#f5f5f3] rounded-sm p-8 cursor-zoom-in"
+          className="relative aspect-square w-full bg-[#f5f5f3] rounded-sm p-8 cursor-zoom-in order-1 lg:order-2 lg:flex-1"
         >
           {heroImage ? (
             <Image
@@ -87,7 +87,7 @@ export const ProductGallery = ({ name }: { name: string }) => {
 
         {/* Thumbnail selector — bottom of main image */}
         {images.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+          <div className="order-2 lg:order-1 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible lg:flex-col lg:overflow-visible lg:shrink-0">
             {images.map((img, i) => (
               <button
                 key={i}
