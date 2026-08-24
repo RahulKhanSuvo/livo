@@ -51,7 +51,11 @@ function ProductPageContent() {
   // Products Query (suspense)
   // --------------------------------------------------
 
-  const { data: products, isFetching } = useQuery({
+  const {
+    data: products,
+    isFetching,
+    isLoading,
+  } = useQuery({
     ...productsQuery({
       page: currentPage,
       limit: currentLimit,
@@ -101,7 +105,8 @@ function ProductPageContent() {
         total={products?.data?.total ?? 0}
         page={currentPage}
         limit={currentLimit}
-        isPending={isPending || isFetching}
+        isLoading={isLoading}
+        isRefreshing={isPending || isFetching}
         onDelete={(id, name) => {
           setDeleteId(id);
           setDeleteName(name);
