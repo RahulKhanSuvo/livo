@@ -61,9 +61,26 @@ export const useServerPagination = ({
     [pathname, router, paginationState, setOptimisticPage]
   );
 
+  const navigate = useCallback(
+    (updates: Record<string, string>) => {
+      const params = new URLSearchParams(window.location.search);
+      for (const [key, value] of Object.entries(updates)) {
+        if (value) params.set(key, value);
+        else params.delete(key);
+      }
+      params.set('page', '1');
+      const nextUrl = `${pathname}?${params.toString()}`;
+      startTransition(() => {
+        router.replace(nextUrl, { scroll: false });
+      });
+    },
+    [pathname, router, startTransition]
+  );
+
   return {
     paginationState,
     handlePaginationChange,
     isPending,
+    navigate,
   };
 };
