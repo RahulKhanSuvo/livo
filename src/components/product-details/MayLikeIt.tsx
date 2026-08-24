@@ -1,5 +1,4 @@
 import { Container } from '../shared/Container';
-import ProductCard, { ProductCardItem } from '../home/ProductCard';
 import { getRelatedProductsAction } from '@/actions/products/getRelatedProductsAction';
 import ProductSlider from '../shared/ProductSlider';
 
@@ -18,7 +17,7 @@ export const YouMayLikeIt = async ({
     productTypeId,
   });
 
-  if (!products || products.length === 0) return null;
+  if (!products || products.length === 0) return <div className="py-20"></div>;
 
   return (
     <Container className="py-12">
