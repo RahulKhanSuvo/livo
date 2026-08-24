@@ -24,7 +24,7 @@ export const QuantityAddToCart: React.FC<QuantityAddToCartProps> = ({ stock, onA
   return (
     <div className="flex items-center gap-3 pt-2">
       {/* Stepper */}
-      <div className="flex items-center justify-between h-11 w-28 rounded-full border border-neutral-300 px-3 bg-white">
+      <div className="flex-1 flex items-center justify-between h-11 w-28 rounded-full border border-neutral-300 px-3 bg-white">
         <button
           type="button"
           onClick={handleDecrease}
