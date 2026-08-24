@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Minus, Plus } from '@hugeicons/core-free-icons';
+import { Button } from '../ui/button';
 
 interface QuantityAddToCartProps {
   stock: number;
@@ -49,14 +50,14 @@ export const QuantityAddToCart: React.FC<QuantityAddToCartProps> = ({ stock, onA
       </div>
 
       {/* Add To Cart */}
-      <button
+      <Button
         type="button"
         disabled={isOutOfStock}
         onClick={() => onAddToCart && onAddToCart(quantity)}
-        className="flex-1 h-11 rounded-full bg-[#032371] text-white text-xs font-medium hover:bg-[#021a56] disabled:bg-neutral-300 disabled:cursor-not-allowed transition-colors"
+        className="flex-1 h-11 rounded-full text-white text-xs font-medium disabled:bg-neutral-300 disabled:cursor-not-allowed transition-colors"
       >
         {isOutOfStock ? 'Out of Stock' : 'Add to cart'}
-      </button>
+      </Button>
     </div>
   );
 };
