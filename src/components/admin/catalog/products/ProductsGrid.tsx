@@ -19,6 +19,7 @@ interface ProductsGridProps {
   isPending: boolean;
   onDelete: (id: string, name: string) => void;
   onSetStatus: (id: string, status: ProductStatus) => void;
+  onPageChange?: (state: { pageIndex: number; pageSize: number }) => void;
 }
 
 const btnCls = 'rounded-sm';
@@ -31,8 +32,9 @@ export function ProductsGrid({
   isPending,
   onDelete,
   onSetStatus,
+  onPageChange,
 }: ProductsGridProps) {
-  const showSkeleton = isPending && products.length === 0;
+  const showSkeleton = isPending;
 
   return (
     <TooltipProvider>
@@ -176,7 +178,7 @@ export function ProductsGrid({
           </div>
         )}
 
-        <ProductPagination total={total} limit={limit} page={page} />
+        <ProductPagination total={total} limit={limit} page={page} onPageChange={onPageChange} />
       </div>
     </TooltipProvider>
   );
