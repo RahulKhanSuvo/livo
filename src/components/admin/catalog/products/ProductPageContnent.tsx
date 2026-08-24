@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSuspenseQuery, useQueryClient, useIsFetching } from '@tanstack/react-query';
+import { useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useSearchParams } from 'next/navigation';
 
@@ -25,7 +25,7 @@ function ProductPageContent() {
   // Pagination
   // --------------------------------------------------
 
-  const { paginationState, isPending } = useServerPagination({
+  const { paginationState, isPending, handlePaginationChange, navigate } = useServerPagination({
     searchParams,
     defaultPage: 1,
     defaultLimit: 10,
@@ -51,8 +51,8 @@ function ProductPageContent() {
   // Products Query (suspense)
   // --------------------------------------------------
 
-  const { data: products } = useSuspenseQuery(
-    productsQuery({
+  const { data: products, isFetching } = useQuery({
+    ...productsQuery({
       page: currentPage,
       limit: currentLimit,
       search,
@@ -60,10 +60,9 @@ function ProductPageContent() {
       brand: brand || undefined,
       stock: stock || undefined,
       category: category || undefined,
-    })
-  );
-
-  const isFetching = useIsFetching({ queryKey: ['products'] }) > 0;
+    }),
+    placeholderData: keepPreviousData,
+  });
 
   // --------------------------------------------------
   // Product Status
@@ -95,7 +94,7 @@ function ProductPageContent() {
 
   return (
     <>
-      <ProductsFilterBar />
+      <ProductsFilterBar onNavigate={navigate} />
 
       <ProductsGrid
         products={products?.data?.products ?? []}
@@ -108,6 +107,7 @@ function ProductPageContent() {
           setDeleteName(name);
         }}
         onSetStatus={handleSetStatus}
+        onPageChange={(s) => handlePaginationChange(s)}
       />
 
       <ProductDeleteModal
