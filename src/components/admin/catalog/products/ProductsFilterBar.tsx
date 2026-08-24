@@ -19,7 +19,11 @@ import { Search01Icon, Cancel01Icon, FilterIcon } from '@hugeicons/core-free-ico
 
 const ALL = 'all';
 
-export function ProductsFilterBar() {
+export function ProductsFilterBar({
+  onNavigate,
+}: {
+  onNavigate?: (updates: Record<string, string>) => void;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -54,9 +58,20 @@ export function ProductsFilterBar() {
 
   const applyParams = useCallback(
     (updates: Record<string, string>) => {
-      const params = new URLSearchParams(window.location.search);
+      // Normalize: 'all'/empty -> '' so the receiver deletes the param.
+      const normalized: Record<string, string> = {};
       for (const [key, value] of Object.entries(updates)) {
-        if (value && value !== ALL) params.set(key, value);
+        normalized[key] = value === ALL ? '' : value;
+      }
+
+      if (onNavigate) {
+        onNavigate(normalized);
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      for (const [key, value] of Object.entries(normalized)) {
+        if (value) params.set(key, value);
         else params.delete(key);
       }
       params.set('page', '1');
@@ -64,11 +79,13 @@ export function ProductsFilterBar() {
         scroll: false,
       });
     },
-    [router]
+    [router, onNavigate]
   );
 
-  // Debounced push of the search term to the URL.
+  // Debounced push of the search term to the URL. Skip the initial mount
+  // (searchInput === URL value) so we don't fire a redundant ?page=1 redirect.
   useEffect(() => {
+    if (searchInput === searchValue) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       applyParams({ search: searchInput });
@@ -76,7 +93,7 @@ export function ProductsFilterBar() {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
-  }, [searchInput, applyParams]);
+  }, [searchInput, searchValue, applyParams]);
 
   const hasActiveFilters =
     searchValue !== '' ||
