@@ -41,33 +41,7 @@ export const ProductGallery = ({ name }: { name: string }) => {
 
   return (
     <>
-      <div className="flex gap-4">
-        {/* Thumbnail selector — left side */}
-        {images.length > 0 && (
-          <div className="flex flex-col gap-2 shrink-0">
-            {images.map((img, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setSelectedImageIndex(i)}
-                aria-label={`View image ${i + 1}`}
-                className={`relative h-16 w-16 rounded-sm bg-[#f5f5f3] overflow-hidden border transition-colors ${
-                  i === selectedImageIndex
-                    ? 'border-neutral-900'
-                    : 'border-neutral-200 hover:border-neutral-400'
-                }`}
-              >
-                <Image
-                  src={getImageUrl(img)}
-                  alt={`${name} thumbnail ${i + 1}`}
-                  fill
-                  className="object-contain p-1"
-                />
-              </button>
-            ))}
-          </div>
-        )}
-
+      <div className="flex flex-col gap-3">
         {/* Main image */}
         <div
           role="button"
@@ -76,7 +50,7 @@ export const ProductGallery = ({ name }: { name: string }) => {
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') setLightboxOpen(true);
           }}
-          className="relative flex-1 aspect-square w-full bg-[#f5f5f3] rounded-sm p-8 cursor-zoom-in"
+          className="relative aspect-square w-full bg-[#f5f5f3] rounded-sm p-8 cursor-zoom-in"
         >
           {heroImage ? (
             <Image
@@ -110,6 +84,32 @@ export const ProductGallery = ({ name }: { name: string }) => {
             </svg>
           </span>
         </div>
+
+        {/* Thumbnail selector — bottom of main image */}
+        {images.length > 0 && (
+          <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+            {images.map((img, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setSelectedImageIndex(i)}
+                aria-label={`View image ${i + 1}`}
+                className={`relative h-16 w-16 shrink-0 rounded-sm bg-[#f5f5f3] overflow-hidden border transition-colors ${
+                  i === selectedImageIndex
+                    ? 'border-neutral-900'
+                    : 'border-neutral-200 hover:border-neutral-400'
+                }`}
+              >
+                <Image
+                  src={getImageUrl(img)}
+                  alt={`${name} thumbnail ${i + 1}`}
+                  fill
+                  className="object-contain p-1"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Full-screen image lightbox */}
