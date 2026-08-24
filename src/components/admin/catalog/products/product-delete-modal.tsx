@@ -38,6 +38,7 @@ export function ProductDeleteModal({
       if (res.success) {
         toast.success('Product deleted');
         queryClient.invalidateQueries({ queryKey: ['products'] });
+        queryClient.invalidateQueries({ queryKey: ['product-stats'] });
         onDeleted();
         onOpenChange(false);
       } else {
