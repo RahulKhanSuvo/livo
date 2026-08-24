@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { sortOptionsData } from '@/data/sort-options.data';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 
@@ -43,13 +43,15 @@ export const ProductSortBar: React.FC<ProductSortBarProps> = ({
     subtype,
   });
 
-  const { data } = useQuery({
+  const { data } = useInfiniteQuery({
     queryKey: ['products', queryParameters],
-    queryFn: () => getAllFurnitureAction(queryParameters),
+    queryFn: ({ pageParam }) => getAllFurnitureAction({ ...queryParameters, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: () => undefined,
     staleTime: 1000 * 60 * 5,
   });
 
-  const totalProducts = data?.data?.total ?? 0;
+  const totalProducts = data?.pages?.[0]?.data?.total ?? 0;
 
   const currentSort = searchParams.get('sortBy') ?? 'createdAt';
   const currentSortOrder = searchParams.get('sortOrder') ?? 'desc';

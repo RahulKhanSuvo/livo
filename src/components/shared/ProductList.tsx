@@ -1,11 +1,10 @@
 'use client';
 
 import ProductCard from '../home/ProductCard';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getAllFurnitureAction } from '@/actions/furniture/getAllFurniture';
 import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
-import ProductPagination from './ProductPagination';
 import { ProductSkeletonGrid } from './ProductSkeleton';
 import { EmptyProducts } from './EmptyProducts';
 
@@ -27,18 +26,26 @@ const ProductList = ({ category, type, subtype }: ProductListProps) => {
     subtype,
   });
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['products', queryParameters],
-    queryFn: () => getAllFurnitureAction(queryParameters),
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    queryFn: ({ pageParam }) => getAllFurnitureAction({ ...queryParameters, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const d = lastPage.data;
+      return d?.hasNextPage ? (d.page ?? 1) + 1 : undefined;
+    },
+    staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 60 * 6,
   });
+
+  const products = data?.pages.flatMap((p) => p.data?.products ?? []) ?? [];
+  const total = data?.pages[0]?.data?.total ?? 0;
 
   if (isLoading) {
     return <ProductSkeletonGrid count={queryParameters.limit ?? 10} />;
   }
 
-  if (data?.data?.products.length === 0) {
+  if (products.length === 0) {
     return <EmptyProducts onReset={() => router.push(pathname)} />;
   }
 
@@ -47,16 +54,26 @@ const ProductList = ({ category, type, subtype }: ProductListProps) => {
   return (
     <>
       <div className="grid flex-1 grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 sm:gap-3">
-        {data?.data?.products.map((item) => (
+        {products.map((item) => (
           <ProductCard basePath={basePath} key={item.id} product={item} />
         ))}
       </div>
 
-      <ProductPagination
-        total={data?.data?.total ?? 0}
-        limit={queryParameters.limit ?? 10}
-        page={queryParameters.page ?? 1}
-      />
+      {hasNextPage && (
+        <div className="mt-10 flex flex-col items-center gap-3">
+          <span className="text-xs text-neutral-400">
+            Showing {products.length} of {total}
+          </span>
+          <button
+            type="button"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="rounded-full border border-neutral-300 px-8 py-3 text-xs font-semibold uppercase tracking-wider text-neutral-700 transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isFetchingNextPage ? 'Loading…' : 'Load more'}
+          </button>
+        </div>
+      )}
     </>
   );
 };
