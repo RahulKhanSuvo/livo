@@ -16,7 +16,8 @@ interface ProductsGridProps {
   total: number;
   page: number;
   limit: number;
-  isPending: boolean;
+  isLoading: boolean;
+  isRefreshing?: boolean;
   onDelete: (id: string, name: string) => void;
   onSetStatus: (id: string, status: ProductStatus) => void;
   onPageChange?: (state: { pageIndex: number; pageSize: number }) => void;
@@ -29,12 +30,14 @@ export function ProductsGrid({
   total,
   page,
   limit,
-  isPending,
+  isLoading,
+  isRefreshing,
   onDelete,
   onSetStatus,
   onPageChange,
 }: ProductsGridProps) {
-  const showSkeleton = isPending;
+  const showSkeleton = isLoading;
+  const isDimmed = Boolean(isRefreshing) && !isLoading && products.length > 0;
 
   return (
     <TooltipProvider>
@@ -60,7 +63,11 @@ export function ProductsGrid({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div
+            className={`grid grid-cols-2 gap-4 transition-opacity sm:grid-cols-3 lg:grid-cols-4 ${
+              isDimmed ? 'pointer-events-none opacity-60' : ''
+            }`}
+          >
             {products.map((product) => {
               const image = product.variants?.[0]?.images?.[0];
               const imageUrl = image instanceof File ? URL.createObjectURL(image) : image?.imageUrl;
