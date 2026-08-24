@@ -21,13 +21,16 @@ export default function Loading() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
           {/* Gallery (col-span-7) */}
           <div className="lg:col-span-7">
-            <div className="flex gap-4">
-              <div className="flex shrink-0 flex-col gap-2">
+            <div className="flex flex-col gap-3">
+              <div className="relative aspect-square w-full rounded-sm bg-[#f5f5f3] animate-pulse p-8" />
+              <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
                 {thumbnails.map((_, i) => (
-                  <div key={i} className="h-16 w-16 rounded-sm bg-[#f5f5f3] animate-pulse" />
+                  <div
+                    key={i}
+                    className="h-16 w-16 shrink-0 rounded-sm bg-[#f5f5f3] animate-pulse"
+                  />
                 ))}
               </div>
-              <div className="relative aspect-square w-full flex-1 rounded-sm bg-[#f5f5f3] animate-pulse p-8" />
             </div>
           </div>
 
