@@ -25,6 +25,36 @@ export function StatCardsSkeleton() {
   );
 }
 
+export function ProductGridSkeleton() {
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Filter bar */}
+      <div className="flex flex-col gap-3 rounded-sm bg-card p-3 shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6 lg:flex-row lg:items-center lg:justify-between">
+        <Skeleton className="h-9 w-full lg:w-72" />
+        <div className="flex gap-2">
+          <Skeleton className="h-9 w-32" />
+          <Skeleton className="h-9 w-32" />
+          <Skeleton className="h-9 w-32" />
+        </div>
+      </div>
+
+      {/* Product grid */}
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="flex flex-col border border-neutral-200 bg-white">
+            <Skeleton className="aspect-square w-full rounded-none" />
+            <div className="space-y-2 p-3">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+              <Skeleton className="h-3 w-1/3" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function TableSkeleton({ cols = 6, rows = 10 }: { cols?: number; rows?: number }) {
   return (
     <div className="overflow-hidden rounded-sm bg-card shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6">
@@ -54,32 +84,14 @@ export function ProductsSkeleton() {
       <PageHeaderSkeleton withAction />
       <StatCardsSkeleton />
 
-      {/* Filter bar */}
-      <div className="flex flex-col gap-3 rounded-sm bg-card p-3 shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6 lg:flex-row lg:items-center lg:justify-between">
-        <Skeleton className="h-9 w-full lg:w-72" />
-        <div className="flex gap-2">
-          <Skeleton className="h-9 w-32" />
-          <Skeleton className="h-9 w-32" />
-          <Skeleton className="h-9 w-32" />
-        </div>
-      </div>
-
-      {/* Product grid */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="flex flex-col border border-neutral-200 bg-white">
-            <Skeleton className="aspect-square w-full rounded-none" />
-            <div className="space-y-2 p-3">
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-3 w-1/2" />
-              <Skeleton className="h-3 w-1/3" />
-            </div>
-          </div>
-        ))}
-      </div>
+      <ProductGridSkeleton />
     </div>
   );
 }
+
+// Full-page fallback (header + stats + grid). Useful if you ever want a single
+// top-level Suspense boundary instead of the split stats/list boundaries.
+export const ProductsPageSkeleton = ProductsSkeleton;
 
 export function OrdersSkeleton() {
   return (
