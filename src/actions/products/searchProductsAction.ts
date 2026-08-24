@@ -87,8 +87,6 @@ export async function searchProductsAction(query: string): Promise<SearchActionR
 
     const formattedProducts: SearchProductResult[] = products.map((p) => {
       const firstImage = p.variants[0]?.images[0]?.imageUrl || '';
-      const categorySlug = p.productType?.subCategory?.category?.slug || 'catalog';
-      const subCategorySlug = p.productType?.subCategory?.slug || 'all';
 
       return {
         id: p.id,
@@ -96,7 +94,7 @@ export async function searchProductsAction(query: string): Promise<SearchActionR
         brand: p.brand?.name || 'LIVO',
         price: `${p.price.toLocaleString('en-BD')} BDT`,
         image: firstImage,
-        href: `/shop/${categorySlug}/${subCategorySlug}/${p.id}`,
+        href: `/product/${p.id}`,
       };
     });
 
