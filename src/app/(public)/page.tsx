@@ -1,7 +1,6 @@
 import HeroSection from '@/components/home/Hero';
 import DepartmentGrid from '@/components/home/DepartmentGrid';
 import EditorialGrid from '@/components/home/EditorialGrid';
-import InteriorEditSlider from '@/components/home/InteriorEditSlider';
 import { DesignEditSlider } from '@/components/home/DesignEditSlider';
 import { SaleBanner } from '@/components/home/SaleBanner';
 import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
@@ -15,6 +14,7 @@ import { QuickLinks } from '@/components/home/QuickLinks';
 import { AtelierSection } from '@/components/home/AtelierSection';
 import { TestimonialsSlider } from '@/components/home/TestimonialsSlider';
 import { FeaturesBar } from '@/components/home/FeaturesBar';
+import InteriorEditSection from '@/components/home/InteriorEditSection';
 
 export default function Home() {
   return (
@@ -24,7 +24,7 @@ export default function Home() {
       <EditorialGrid />
       <DesignEditSlider />
       <SaleBanner />
-      <InteriorEditSlider />
+      <InteriorEditSection />
       <ProductSpotlight />
       <ProductSlider />
       <BrandMarquee />
