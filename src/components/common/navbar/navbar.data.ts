@@ -30,6 +30,7 @@ export interface NavCategory {
 }
 
 export const navCategories: NavCategory[] = [
+  { id: 'All Categories', title: 'All Categories', href: '/shop', type: 'link' },
   {
     id: 'living',
     title: 'LIVING',
