@@ -1,7 +1,6 @@
 import HeroSection from '@/components/home/Hero';
 import DepartmentGrid from '@/components/home/DepartmentGrid';
 import EditorialGrid from '@/components/home/EditorialGrid';
-import { DesignEditSlider } from '@/components/home/DesignEditSlider';
 import { SaleBanner } from '@/components/home/SaleBanner';
 import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
 import ProductSlider from '@/components/home/ProductSlider/ProductSlider';
@@ -15,6 +14,9 @@ import { AtelierSection } from '@/components/home/AtelierSection';
 import { TestimonialsSlider } from '@/components/home/TestimonialsSlider';
 import { FeaturesBar } from '@/components/home/FeaturesBar';
 import InteriorEditSection from '@/components/home/InteriorEditSection';
+import { ProductSkeleton } from '@/components/shared/ProductSkeleton';
+import { Suspense } from 'react';
+import DesignEditSection from '@/components/home/DesignEditSection';
 
 export default function Home() {
   return (
@@ -22,9 +24,13 @@ export default function Home() {
       <HeroSection />
       <DepartmentGrid />
       <EditorialGrid />
-      <DesignEditSlider />
+      <Suspense fallback={<ProductSkeleton />}>
+        <DesignEditSection />
+      </Suspense>
       <SaleBanner />
-      <InteriorEditSection />
+      <Suspense fallback={<ProductSkeleton />}>
+        <InteriorEditSection />
+      </Suspense>
       <ProductSpotlight />
       <ProductSlider />
       <BrandMarquee />
