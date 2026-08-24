@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation';
 import ProductDetailsView from '@/components/product-details/ProductDetailsView';
 import FeaturesBar from '@/components/home/FeaturesBar';
 import ProductReviews from '@/components/product-details/ProductReviews';
-import InteriorEditSlider from '@/components/home/InteriorEditSlider';
 import { getProductByIdAction } from '@/actions/products/getProductByIdAction';
+import { YouMayLikeIt } from '@/components/product-details/MayLikeIt';
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -24,7 +24,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
       <ProductDetailsView product={productData} />
       <FeaturesBar />
       <ProductReviews productId={productData.id} />
-      <InteriorEditSlider />
+      <YouMayLikeIt />
     </div>
   );
 };
