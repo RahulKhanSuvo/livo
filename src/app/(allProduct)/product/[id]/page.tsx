@@ -24,7 +24,10 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
       <ProductDetailsView product={productData} />
       <FeaturesBar />
       <ProductReviews productId={productData.id} />
-      <YouMayLikeIt />
+      <YouMayLikeIt
+        currentId={productData.id}
+        categoryId={productData.productType?.subCategory?.categoryId}
+      />
     </div>
   );
 };
