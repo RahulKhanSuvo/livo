@@ -26,7 +26,8 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
       <ProductReviews productId={productData.id} />
       <YouMayLikeIt
         currentId={productData.id}
-        categoryId={productData.productType?.subCategory?.categoryId}
+        categoryId={productData.productType?.subCategory?.category?.id ?? null}
+        productTypeId={productData.productTypeId}
       />
     </div>
   );
