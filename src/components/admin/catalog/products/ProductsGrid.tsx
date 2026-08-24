@@ -103,7 +103,7 @@ export function ProductsGrid({
                           size="icon-sm"
                           className={`${btnCls} absolute right-2 top-2 bg-white/90`}
                         >
-                          <Link href={`/products/${product.id}`} target="_blank">
+                          <Link href={`/product/${product.id}`} target="_blank">
                             <HugeiconsIcon icon={EyeIcon} size={14} />
                             <span className="sr-only">Preview</span>
                           </Link>
