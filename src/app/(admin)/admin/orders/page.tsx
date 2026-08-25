@@ -1,7 +1,7 @@
-import { OrdersPage } from '@/components/admin/orders/orders-page';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
 import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
+import OrdersPage from '@/components/admin/orders/orders-page';
 
 export default async function OrdersRoute({
   searchParams,
@@ -24,7 +24,7 @@ export default async function OrdersRoute({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <OrdersPage />
+      <OrdersPage resolvedParams={resolvedParams} />
     </HydrationBoundary>
   );
 }
