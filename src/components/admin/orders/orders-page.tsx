@@ -1,22 +1,19 @@
 'use client';
-import DataTable from '@/components/shared/data-table';
+
+import { OrderQuery } from '@/actions/order/order.validation';
+import { ordersQueryOptions } from '@/queries/orders.query';
 import { useQuery } from '@tanstack/react-query';
 
-const OrdersPage = ({
-  resolvedParams,
-}: {
-  resolvedParams: {
-    [key: string]: string | string[] | undefined;
-  };
-}) => {
-  const { data: orders, isLoading } = useQuery({
-    queryKey: ['orders', resolvedParams],
-    queryFn: () => {},
-  });
+const OrdersPage = ({ query }: { query: OrderQuery }) => {
+  const { data: orders, isLoading } = useQuery(ordersQueryOptions(query));
+
+  console.log('orders', orders);
+
   return (
     <>
-      <DataTable data={orders} isLoading={isLoading} />
+      <div></div>
     </>
   );
 };
+
 export default OrdersPage;
