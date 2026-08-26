@@ -44,12 +44,6 @@ export function DataTable<T>({
     data: data as RowData[],
     manualPagination: true,
     rowCount: pagination?.totalRows,
-    state: pagination
-      ? {
-          pagination: pagination.state,
-        }
-      : undefined,
-    onPaginationChange: pagination?.onPaginationChange,
   });
 
   const skeletonRows = pagination?.state.pageSize ?? 5;
