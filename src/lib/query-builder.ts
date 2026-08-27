@@ -1,11 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-// Generic, type-safe Prisma query builder.
-//
-// Parameterized by a model's `FindManyArgs` (e.g. `Prisma.OrderFindManyArgs`).
-// Each `.include('relation')` accumulates the relation into a `TInclude` map at
-// the type level, so `build()` returns a precise `include` object and
-// `prisma.model.findMany(query)` infers the relations as REQUIRED — no casts.
-
 export class QueryBuilder<
   TArgs extends {
     where?: Record<string, unknown>;
@@ -14,7 +6,8 @@ export class QueryBuilder<
     skip?: number;
     take?: number;
   },
-  TInclude extends Record<string, unknown> = {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  TInclude = {},
 > {
   private where: NonNullable<TArgs['where']> = {} as NonNullable<TArgs['where']>;
 
@@ -70,13 +63,23 @@ export class QueryBuilder<
     return this;
   }
 
-  include<K extends keyof NonNullable<TArgs['include']>>(
+  include<K extends keyof NonNullable<TArgs['include']>, TOptions = undefined>(
     relation: K,
-    options?: NonNullable<TArgs['include']>[K]
-  ): QueryBuilder<TArgs, TInclude & { [P in K]: true }> {
+    options?: TOptions
+  ): QueryBuilder<
+    TArgs,
+    TInclude & {
+      [P in K]: [TOptions] extends [undefined] ? true : TOptions;
+    }
+  > {
     (this.includeRelations as Record<string, unknown>)[relation as string] = options ?? true;
 
-    return this as unknown as QueryBuilder<TArgs, TInclude & { [P in K]: true }>;
+    return this as unknown as QueryBuilder<
+      TArgs,
+      TInclude & {
+        [P in K]: [TOptions] extends [undefined] ? true : TOptions;
+      }
+    >;
   }
 
   paginate(page?: string | number, limit?: string | number): this {

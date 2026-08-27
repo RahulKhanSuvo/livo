@@ -1,7 +1,7 @@
-import { OrderItemRow, OrderRow } from '@/actions/order/getAllOrdersAction';
 import { BoxIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import Image from 'next/image';
+import type { OrderRow, OrderItemRow } from '@/actions/order/getAllOrdersAction';
 
 type OrderProductCellProps = {
   item?: OrderItemRow;
