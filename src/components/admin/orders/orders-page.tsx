@@ -8,7 +8,6 @@ import { OrdersTable } from './OrdersTable';
 import { OrderCancelModal } from './order-cancel-modal';
 import { OrderStatusModal } from './order-status-modal';
 import { OrderDetailModal } from './order-detail-modal';
-import { OrderRow } from '@/actions/order/getAllOrdersAction';
 import type { OrderStatus } from '@/generated/prisma/client';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -44,7 +43,7 @@ const OrdersPage = ({ query }: { query: OrderQuery }) => {
     setDetailModalOpen(true);
   };
 
-  const handlePrintOrder = (order: OrderRow) => {
+  const handlePrintOrder = () => {
     window.print();
   };
 
