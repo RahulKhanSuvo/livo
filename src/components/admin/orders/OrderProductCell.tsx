@@ -19,7 +19,7 @@ export function OrderProductCell({ item, order, onItemClick }: OrderProductCellP
   return (
     <div className="flex items-stretch gap-3 ">
       {/* Product image thumbnail */}
-      <div className="h-14 w-14 shrink-0 overflow-hidden rounded border border-gray-200 dark:border-zinc-800 bg-gray-100 dark:bg-zinc-800/80 p-1 flex items-center justify-center relative">
+      <div className="size-20 shrink-0 overflow-hidden rounded dark:border-zinc-800 bg-gray-100 dark:bg-zinc-800/80 p-1 flex items-center justify-center relative">
         {productItem.imageUrl ? (
           <div className="relative size-full overflow-hidden rounded">
             <Image
@@ -27,7 +27,6 @@ export function OrderProductCell({ item, order, onItemClick }: OrderProductCellP
               alt={productItem.productName}
               fill
               className="object-cover"
-              sizes="56px"
             />
           </div>
         ) : (

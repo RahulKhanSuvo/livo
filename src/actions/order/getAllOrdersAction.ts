@@ -35,7 +35,7 @@ export const getAllOrdersAction = createSafeAction(orderQuerySchema, async (inpu
 
   const query = new QueryBuilder<Prisma.OrderFindManyArgs>()
     .filter('status', status)
-    .filter('paymentStatus', 'PAID')
+    // .filter('paymentStatus', 'PAID')
     .search(['orderNumber'], search)
     .sort('createdAt', 'desc')
     .include('user', { select: { name: true, email: true, id: true } })
