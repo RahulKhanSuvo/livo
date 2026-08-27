@@ -17,9 +17,9 @@ export function OrderProductCell({ item, order, onItemClick }: OrderProductCellP
   }
 
   return (
-    <div className="flex items-stretch gap-3 ">
-      {/* Product image thumbnail */}
-      <div className="size-20 shrink-0 overflow-hidden rounded dark:border-zinc-800 bg-gray-100 dark:bg-zinc-800/80 p-1 flex items-center justify-center relative">
+    <div className="flex items-stretch gap-3">
+      {/* Product image */}
+      <div className="relative size-18 shrink-0 overflow-hidden rounded bg-gray-100 p-1 dark:bg-zinc-800/80">
         {productItem.imageUrl ? (
           <div className="relative size-full overflow-hidden rounded">
             <Image
@@ -30,23 +30,33 @@ export function OrderProductCell({ item, order, onItemClick }: OrderProductCellP
             />
           </div>
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground font-medium">
+          <div className="flex size-full items-center justify-center text-muted-foreground">
             <HugeiconsIcon icon={BoxIcon} />
           </div>
         )}
       </div>
 
       {/* Product information */}
-      <div className=" flex flex-col justify-between h-full">
+      <div className="flex h-17 min-w-0 flex-col justify-between">
         <h4
           onClick={onItemClick}
-          className="font-bold text-sm text-gray-900 dark:text-zinc-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors line-clamp-1"
+          className="cursor-pointer line-clamp-1 text-sm font-medium  dark:text-zinc-100 dark:hover:text-blue-400"
         >
           {productItem.productName}
         </h4>
 
-        <div className="mt-0.5 text-xs text-gray-500 dark:text-zinc-400 font-normal space-y-0.5">
-          {productItem.variantName && <p>Variant: {productItem.variantName}</p>}
+        <div className="flex items-center gap-1 text-xs">
+          <p>Color:</p>
+
+          {productItem.colorName && (
+            <span
+              className="inline-block size-3 rounded-full border border-white shadow-sm"
+              style={{ backgroundColor: productItem.colorName }}
+            />
+          )}
+        </div>
+
+        <div className="text-xs font-normal text-gray-500 dark:text-zinc-400">
           <p>Quantity: {productItem.quantity}</p>
         </div>
       </div>

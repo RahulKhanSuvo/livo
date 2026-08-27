@@ -15,6 +15,7 @@ export type OrderItemRow = {
   quantity: number;
   unitPrice: number;
   totalPrice: number;
+  colorName: string | null;
 };
 
 export type OrderRow = {
@@ -70,6 +71,7 @@ export const getAllOrdersAction = createSafeAction(orderQuerySchema, async (inpu
       variantName: item.variantName,
       imageUrl: item.productVariant?.images?.[0]?.imageUrl ?? item.imageUrl ?? null,
       quantity: item.quantity,
+      colorName: item.productVariant.colorHex,
       unitPrice: Number(item.unitPrice),
       totalPrice: Number(item.totalPrice),
     })),

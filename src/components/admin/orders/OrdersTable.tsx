@@ -86,7 +86,7 @@ export function OrdersTable({
   return (
     <div className="w-full bg-white dark:bg-zinc-900">
       {/* Top Column Headers */}
-      <div className="grid grid-cols-12 items-center bg-[#f8fafb] px-4 py-3 rounded border-b">
+      <div className="grid grid-cols-12 items-center bg-[#f8fafb] px-6 py-3 rounded border-b">
         <div className="col-span-5 flex items-center gap-3">
           <span>Product</span>
         </div>
@@ -171,11 +171,11 @@ export function OrdersTable({
 
             {/* Show More / Show Less Footer */}
             {order.items.length > 1 && (
-              <div className="px-4 py-2 border-t border-gray-100 dark:border-zinc-800/80 bg-gray-50/30 dark:bg-zinc-900/20">
+              <div className="px-4 py-2 ">
                 <button
                   type="button"
                   onClick={() => toggleExpand(order.id)}
-                  className="text-xs font-semibold text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-1.5 cursor-pointer"
+                  className="text-sm font-semibold text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>{isExpanded ? 'Show less' : 'Show more'}</span>
                   <HugeiconsIcon
