@@ -1,29 +1,58 @@
-export class QueryBuilder<TWhere extends object, TOrderBy extends object, TInclude extends object> {
-  private where: TWhere = {} as TWhere;
-  private orderBy: TOrderBy[] = [];
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+// Generic, type-safe Prisma query builder.
+//
+// Parameterized by a model's `FindManyArgs` (e.g. `Prisma.OrderFindManyArgs`).
+// Each `.include('relation')` accumulates the relation into a `TInclude` map at
+// the type level, so `build()` returns a precise `include` object and
+// `prisma.model.findMany(query)` infers the relations as REQUIRED — no casts.
+
+export class QueryBuilder<
+  TArgs extends {
+    where?: Record<string, unknown>;
+    orderBy?: unknown;
+    include?: Record<string, unknown> | null;
+    skip?: number;
+    take?: number;
+  },
+  TInclude extends Record<string, unknown> = {},
+> {
+  private where: NonNullable<TArgs['where']> = {} as NonNullable<TArgs['where']>;
+
+  private orderBy: TArgs['orderBy'] = [] as TArgs['orderBy'];
+
   private includeRelations: TInclude = {} as TInclude;
 
   private skip = 0;
+
   private take = 10;
 
-  filter<K extends keyof TWhere>(field: K, value: TWhere[K]) {
+  filter<K extends keyof NonNullable<TArgs['where']>>(
+    field: K,
+    value: NonNullable<TArgs['where']>[K]
+  ): this {
     if (value === undefined || value === null || value === '') {
       return this;
     }
 
-    this.where[field] = value;
+    (this.where as Record<string, unknown>)[field as string] = value;
 
     return this;
   }
 
-  search(fields: string[], searchTerm?: string) {
+  search(fields: string[], searchTerm?: string): this {
     const term = searchTerm?.trim();
 
     if (!term) {
       return this;
     }
 
-    (this.where as Record<string, unknown>).OR = fields.map((field) => ({
+    const validFields = fields.filter((field) => field.trim().length > 0);
+
+    if (validFields.length === 0) {
+      return this;
+    }
+
+    (this.where as Record<string, unknown>).OR = validFields.map((field) => ({
       [field]: {
         contains: term,
         mode: 'insensitive',
@@ -33,25 +62,24 @@ export class QueryBuilder<TWhere extends object, TOrderBy extends object, TInclu
     return this;
   }
 
-  sort(field: string, order: 'asc' | 'desc' = 'desc') {
-    if (!field) {
-      return this;
-    }
-
-    this.orderBy.push({
+  sort(field: string, order: 'asc' | 'desc' = 'desc'): this {
+    (this.orderBy as unknown as Record<string, unknown>[]).push({
       [field]: order,
-    } as TOrderBy);
+    });
 
     return this;
   }
 
-  include<K extends keyof TInclude>(relation: K, options: TInclude[K] = true as TInclude[K]) {
-    this.includeRelations[relation] = options;
+  include<K extends keyof NonNullable<TArgs['include']>>(
+    relation: K,
+    options?: NonNullable<TArgs['include']>[K]
+  ): QueryBuilder<TArgs, TInclude & { [P in K]: true }> {
+    (this.includeRelations as Record<string, unknown>)[relation as string] = options ?? true;
 
-    return this;
+    return this as unknown as QueryBuilder<TArgs, TInclude & { [P in K]: true }>;
   }
 
-  paginate(page?: string | number, limit?: string | number) {
+  paginate(page?: string | number, limit?: string | number): this {
     const validPage = Math.max(1, Number(page) || 1);
 
     const validLimit = Math.max(1, Number(limit) || 10);
@@ -63,16 +91,13 @@ export class QueryBuilder<TWhere extends object, TOrderBy extends object, TInclu
     return this;
   }
 
-  build() {
+  build(): Omit<TArgs, 'include'> & { include: TInclude } {
     return {
       where: this.where,
-
-      orderBy: this.orderBy.length > 0 ? this.orderBy : undefined,
-
-      include: Object.keys(this.includeRelations).length > 0 ? this.includeRelations : undefined,
-
+      orderBy: this.orderBy,
+      include: this.includeRelations,
       skip: this.skip,
       take: this.take,
-    };
+    } as Omit<TArgs, 'include'> & { include: TInclude };
   }
 }
