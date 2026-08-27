@@ -1,13 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { OrderRow } from '@/actions/order/getAllOrdersAction';
-import { Checkbox } from '@/components/ui/checkbox';
 import { OrderMetaRow } from './OrderMetaRow';
 import { OrderProductCell } from './OrderProductCell';
 import { OrderActions } from './OrderActions';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { ArrowDown01Icon, ArrowUp01Icon } from '@hugeicons/core-free-icons';
 import { formatMoney } from '@/components/admin/ui/format';
 import type { OrderStatus } from '@/generated/prisma/client';
 
@@ -26,34 +22,6 @@ export function OrdersTable({
   onViewOrderDetails,
   onPrintOrder,
 }: OrdersTableProps) {
-  const [selectedOrderIds, setSelectedOrderIds] = useState<string[]>([]);
-  const [expandedOrderIds, setExpandedOrderIds] = useState<Record<string, boolean>>({});
-
-  const allSelected = orders.length > 0 && selectedOrderIds.length === orders.length;
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedOrderIds(orders.map((o) => o.id));
-    } else {
-      setSelectedOrderIds([]);
-    }
-  };
-
-  const handleSelectOrder = (orderId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedOrderIds((prev) => [...prev, orderId]);
-    } else {
-      setSelectedOrderIds((prev) => prev.filter((id) => id !== orderId));
-    }
-  };
-
-  const toggleExpand = (orderId: string) => {
-    setExpandedOrderIds((prev) => ({
-      ...prev,
-      [orderId]: !prev[orderId],
-    }));
-  };
-
   const getStatusBadgeStyle = (status: OrderStatus) => {
     switch (status) {
       case 'PENDING':
@@ -104,15 +72,10 @@ export function OrdersTable({
   }
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full ">
       {/* Top Column Headers */}
-      <div className="grid grid-cols-12 items-center px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-800 bg-gray-50/90 dark:bg-zinc-900/80 text-xs font-semibold text-gray-700 dark:text-zinc-300 gap-4">
+      <div className="grid grid-cols-12 items-center text-sm bg-[#f8fafb] px-4 py-3 rounded border-b">
         <div className="col-span-5 flex items-center gap-3">
-          <Checkbox
-            checked={allSelected}
-            onCheckedChange={(checked) => handleSelectAll(!!checked)}
-            aria-label="Select all orders"
-          />
           <span>Product</span>
         </div>
         <div className="col-span-2">Price</div>
@@ -123,25 +86,17 @@ export function OrdersTable({
 
       {/* List of Order Cards */}
       {orders.map((order) => {
-        const isSelected = selectedOrderIds.includes(order.id);
-        const isExpanded = !!expandedOrderIds[order.id];
-        const displayItems = isExpanded ? order.items : order.items.slice(0, 1);
-
         return (
           <div
             key={order.id}
-            className="rounded-xl border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm overflow-hidden transition-all"
+            className="rounded dark:border-zinc-800 bg-white dark:bg-zinc-900  transition-all"
           >
             {/* Order Card Header */}
-            <OrderMetaRow
-              order={order}
-              isSelected={isSelected}
-              onSelectChange={(checked) => handleSelectOrder(order.id, checked)}
-            />
+            <OrderMetaRow order={order} />
 
             {/* Order Items */}
             <div className="divide-y divide-gray-100 dark:divide-zinc-800/60">
-              {displayItems.map((item, index) => (
+              {order.items.map((item, index) => (
                 <div
                   key={item.id || index}
                   className="grid grid-cols-12 items-start px-4 py-4 gap-4"
@@ -198,23 +153,6 @@ export function OrdersTable({
                 </div>
               ))}
             </div>
-
-            {/* Show More / Show Less Footer */}
-            {order.items.length > 1 && (
-              <div className="px-4 py-2 border-t border-gray-100 dark:border-zinc-800/80 bg-gray-50/30 dark:bg-zinc-900/20">
-                <button
-                  type="button"
-                  onClick={() => toggleExpand(order.id)}
-                  className="text-xs font-semibold text-gray-700 dark:text-zinc-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span>{isExpanded ? 'Show less' : 'Show more'}</span>
-                  <HugeiconsIcon
-                    icon={isExpanded ? ArrowUp01Icon : ArrowDown01Icon}
-                    className="size-3.5"
-                  />
-                </button>
-              </div>
-            )}
           </div>
         );
       })}
