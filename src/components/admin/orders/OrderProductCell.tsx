@@ -6,10 +6,9 @@ import type { OrderRow, OrderItemRow } from '@/actions/order/getAllOrdersAction'
 type OrderProductCellProps = {
   item?: OrderItemRow;
   order?: OrderRow;
-  onItemClick?: () => void;
 };
 
-export function OrderProductCell({ item, order, onItemClick }: OrderProductCellProps) {
+export function OrderProductCell({ item, order }: OrderProductCellProps) {
   const productItem = item ?? order?.items?.[0];
 
   if (!productItem) {
@@ -38,10 +37,7 @@ export function OrderProductCell({ item, order, onItemClick }: OrderProductCellP
 
       {/* Product information */}
       <div className="flex h-17 min-w-0 flex-col justify-between">
-        <h4
-          onClick={onItemClick}
-          className="cursor-pointer line-clamp-1 text-sm font-medium  dark:text-zinc-100 dark:hover:text-blue-400"
-        >
+        <h4 className="cursor-pointer line-clamp-1 text-sm font-medium  dark:text-zinc-100 dark:hover:text-blue-400">
           {productItem.productName}
         </h4>
 

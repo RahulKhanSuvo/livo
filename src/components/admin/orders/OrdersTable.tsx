@@ -10,7 +10,6 @@ type OrdersTableProps = {
   orders: OrderRow[];
   onCancelOrder?: (orderId: string) => void;
   onUpdateStatus?: (orderId: string, currentStatus: OrderStatus) => void;
-  onViewOrderDetails?: (orderId: string) => void;
   onPrintOrder?: (order: OrderRow) => void;
 };
 
@@ -18,7 +17,6 @@ export function OrdersTable({
   orders,
   onCancelOrder,
   onUpdateStatus,
-  onViewOrderDetails,
   onPrintOrder,
 }: OrdersTableProps) {
   if (orders.length === 0) {
@@ -34,7 +32,6 @@ export function OrdersTable({
           order={order}
           onCancelOrder={onCancelOrder}
           onUpdateStatus={onUpdateStatus}
-          onViewOrderDetails={onViewOrderDetails}
           onPrintOrder={onPrintOrder}
         />
       ))}

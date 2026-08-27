@@ -15,17 +15,10 @@ type OrderCardProps = {
   order: OrderRow;
   onCancelOrder?: (orderId: string) => void;
   onUpdateStatus?: (orderId: string, currentStatus: OrderStatus) => void;
-  onViewOrderDetails?: (orderId: string) => void;
   onPrintOrder?: (order: OrderRow) => void;
 };
 
-export function OrderCard({
-  order,
-  onCancelOrder,
-  onUpdateStatus,
-  onViewOrderDetails,
-  onPrintOrder,
-}: OrderCardProps) {
+export function OrderCard({ order, onCancelOrder, onUpdateStatus, onPrintOrder }: OrderCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const displayItems = isExpanded ? order.items : order.items.slice(0, 1);
 
@@ -40,7 +33,7 @@ export function OrderCard({
           <div key={item.id || index} className="grid grid-cols-12 items-start px-4 py-4 gap-4">
             {/* Product Cell */}
             <div className="col-span-5">
-              <OrderProductCell item={item} onItemClick={() => onViewOrderDetails?.(order.id)} />
+              <OrderProductCell item={item} />
             </div>
 
             {/* Price Cell */}

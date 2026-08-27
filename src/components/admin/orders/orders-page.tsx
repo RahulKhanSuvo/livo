@@ -7,7 +7,6 @@ import { ordersQueryOptions } from '@/queries/orders.query';
 import { OrdersTable } from './OrdersTable';
 import { OrderCancelModal } from './order-cancel-modal';
 import { OrderStatusModal } from './order-status-modal';
-import { OrderDetailModal } from './order-detail-modal';
 import type { OrderStatus } from '@/generated/prisma/client';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -22,9 +21,6 @@ const OrdersPage = ({ query }: { query: OrderQuery }) => {
   const [statusOrderId, setStatusOrderId] = useState<string | null>(null);
   const [statusCurrent, setStatusCurrent] = useState<OrderStatus | undefined>(undefined);
 
-  const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [detailOrderId, setDetailOrderId] = useState<string | null>(null);
-
   const orders = response?.data ?? [];
 
   const handleCancelOrder = (id: string) => {
@@ -36,15 +32,6 @@ const OrdersPage = ({ query }: { query: OrderQuery }) => {
     setStatusOrderId(id);
     setStatusCurrent(currentStatus);
     setStatusModalOpen(true);
-  };
-
-  const handleViewOrderDetails = (id: string) => {
-    setDetailOrderId(id);
-    setDetailModalOpen(true);
-  };
-
-  const handlePrintOrder = () => {
-    window.print();
   };
 
   if (isLoading) {
@@ -64,8 +51,6 @@ const OrdersPage = ({ query }: { query: OrderQuery }) => {
           orders={orders}
           onCancelOrder={handleCancelOrder}
           onUpdateStatus={handleUpdateStatus}
-          onViewOrderDetails={handleViewOrderDetails}
-          onPrintOrder={handlePrintOrder}
         />
       </div>
 
@@ -87,12 +72,6 @@ const OrdersPage = ({ query }: { query: OrderQuery }) => {
         onUpdated={() => {
           setStatusOrderId(null);
         }}
-      />
-
-      <OrderDetailModal
-        orderId={detailOrderId}
-        open={detailModalOpen}
-        onOpenChange={setDetailModalOpen}
       />
     </>
   );
