@@ -6,7 +6,7 @@ interface DataTableProps<TData extends RowData> {
   data: TData[];
   columns: ColumnDef<typeof OrderTableFeatures, TData>[];
 }
-const DataTable = ({ data, columns }: DataTableProps<RowData>) => {
+const DataTable = <TData extends RowData>({ data, columns }: DataTableProps<TData>) => {
   const table = useTable(
     {
       features: OrderTableFeatures,
@@ -17,7 +17,7 @@ const DataTable = ({ data, columns }: DataTableProps<RowData>) => {
   );
   return (
     <div>
-      <Table>
+      <Table className="bg-white">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -33,7 +33,7 @@ const DataTable = ({ data, columns }: DataTableProps<RowData>) => {
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
               {row.getAllCells().map((cell) => (
-                <TableCell key={cell.id}>
+                <TableCell className="p-0" key={cell.id}>
                   <table.FlexRender cell={cell} />
                 </TableCell>
               ))}

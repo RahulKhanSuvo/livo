@@ -1,17 +1,14 @@
 import { createColumnHelper } from '@tanstack/react-table';
 import { OrderTableFeatures } from './order-table-features';
 import { OrderRow } from '@/actions/order/getAllOrdersAction';
-import { Input } from '@/components/ui/input';
 import { OrderProductCell } from './OrderProductCell';
+import { OrderActions } from './OrderActions';
 
 const columnHelper = createColumnHelper<typeof OrderTableFeatures, OrderRow>();
-export const columns = columnHelper.columns([
+export const OrderColumns = columnHelper.columns([
   columnHelper.display({
     id: 'select',
     header: '',
-    cell: ({ row }) => {
-      return <Input type="checkbox" aria-label={`Select order ${row.original.orderNumber}`} />;
-    },
   }),
 
   columnHelper.display({
@@ -40,6 +37,21 @@ export const columns = columnHelper.columns([
 
     cell: ({ row }) => {
       return <span className="capitalize">{row.original.paymentStatus.toLowerCase()}</span>;
+    },
+  }),
+  columnHelper.display({
+    id: 'status',
+    header: 'Status',
+    cell: ({ row }) => {
+      return <span className="capitalize">{row.original.status.toLowerCase()}</span>;
+    },
+  }),
+  columnHelper.display({
+    id: 'actions',
+    header: 'Actions',
+
+    cell: ({ row }) => {
+      return <OrderActions order={row.original} />;
     },
   }),
 ]);
