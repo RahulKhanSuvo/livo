@@ -32,13 +32,21 @@ export type OrderRow = {
 };
 
 export const getAllOrdersAction = createSafeAction(orderQuerySchema, async (input) => {
-  const { page, limit, status, search } = input;
+  const { page, limit, status, search, sort = 'newest' } = input;
 
-  const query = new QueryBuilder<Prisma.OrderFindManyArgs>()
+  const sortFieldMap: Record<string, { field: string; order: 'asc' | 'desc' }> = {
+    newest: { field: 'createdAt', order: 'desc' },
+    oldest: { field: 'createdAt', order: 'asc' },
+    total_desc: { field: 'total', order: 'desc' },
+    total_asc: { field: 'total', order: 'asc' },
+  };
+
+  const currentSort = sortFieldMap[sort] ?? sortFieldMap.newest;
+
+  const queryBuilder = new QueryBuilder<Prisma.OrderFindManyArgs>()
     .filter('status', status)
-    // .filter('paymentStatus', 'PAID')
-    .search(['orderNumber'], search)
-    .sort('createdAt', 'desc')
+    .search(['orderNumber', 'fullName', 'email', 'phone'], search)
+    .sort(currentSort.field, currentSort.order)
     .include('user', { select: { name: true, email: true, id: true } })
     .include('items', {
       include: {
@@ -49,8 +57,9 @@ export const getAllOrdersAction = createSafeAction(orderQuerySchema, async (inpu
         },
       },
     })
-    .paginate(page, limit)
-    .build();
+    .paginate(page, limit);
+
+  const query = queryBuilder.build();
 
   const orders = await prisma.order.findMany(query);
   console.log(JSON.stringify(orders, null, 2));
