@@ -55,7 +55,10 @@ export function OrderStatusCell({ order, onUpdateStatus }: OrderStatusCellProps)
   const helperText = getStatusHelperText(order);
 
   return (
-    <div className="col-span-2 pt-1">
+    <div className="col-span-1 sm:col-span-2 lg:col-span-2 pt-1">
+      <span className="text-xs text-muted-foreground lg:hidden block mb-1 font-normal">
+        Status:
+      </span>
       <button
         type="button"
         onClick={() => onUpdateStatus?.(order.id, order.status)}

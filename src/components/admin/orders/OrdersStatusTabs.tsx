@@ -85,7 +85,7 @@ export function OrdersStatusTabs({
               className={cn(
                 'flex items-center gap-2 pb-3 pt-1 text-sm font-medium transition-colors relative border-b-2 -mb-px',
                 isActive
-                  ? 'border-blue-600 text-foreground font-semibold'
+                  ? 'border-primary text-foreground font-semibold'
                   : 'border-transparent text-muted-foreground hover:text-foreground'
               )}
             >

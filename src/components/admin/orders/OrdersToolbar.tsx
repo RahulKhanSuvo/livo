@@ -51,23 +51,23 @@ export function OrdersToolbar({
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
       {/* Search Input Box */}
-      <div className="relative w-full max-w-sm">
+      <div className="relative w-full sm:max-w-sm">
         <Input
           type="text"
           value={searchInput}
           onChange={handleInputChange}
           placeholder="Search by ID, name, status"
-          className="h-10 pr-10 pl-4 rounded-lg bg-background border-border/80 text-sm shadow-xs focus-visible:ring-1 focus-visible:ring-blue-600"
+          className="h-10 pr-10 pl-4 rounded-lg bg-background border-border/80 text-sm shadow-xs focus-visible:ring-1 focus-visible:ring-blue-600 w-full"
         />
         <div className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground pointer-events-none">
           <HugeiconsIcon icon={Search01Icon} size={18} />
         </div>
       </div>
 
-      {/* Right Controls: Sort Dropdown & Filter Button */}
-      <div className="flex items-center gap-3 self-end sm:self-auto">
+      {/* Right Controls: Sort Dropdown */}
+      <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
         <Select value={sort} onValueChange={(val) => onSortChange(val as OrderSortOption)}>
-          <SelectTrigger className="h-10 px-3 min-w-44 bg-background border-border/80 text-sm rounded-lg shadow-xs font-normal">
+          <SelectTrigger className="h-10 px-3 w-full sm:w-auto sm:min-w-44 bg-background border-border/80 text-sm rounded-lg shadow-xs font-normal">
             <span className="text-muted-foreground mr-1">Sort By:</span>
             <SelectValue placeholder="New Order" />
           </SelectTrigger>

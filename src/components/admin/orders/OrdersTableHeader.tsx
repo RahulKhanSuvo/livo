@@ -2,7 +2,7 @@
 
 export function OrdersTableHeader() {
   return (
-    <div className="grid grid-cols-12 items-center bg-[#f8fafb] px-6 py-3 rounded border-b">
+    <div className="hidden lg:grid grid-cols-12 items-center bg-[#f8fafb] px-6 py-3 rounded border-b">
       <div className="col-span-5 flex items-center gap-3">
         <span>Product</span>
       </div>
