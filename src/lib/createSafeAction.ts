@@ -18,9 +18,15 @@ export function createSafeAction<TInput, TOutput, TContext = undefined>(
   handler: (data: TInput, context?: TContext) => Promise<TOutput>,
   options?: SafeActionOptions
 ): (input?: TInput, context?: TContext) => Promise<ActionResponse<TOutput>>;
-//        ^ Note the '?' mark added here
 
-// Overload 2: Without Schema (Direct parameter / Void execution)
+// Overload 2: With null Schema (No schema validation)
+export function createSafeAction<TInput = void, TOutput = unknown, TContext = undefined>(
+  schema: null,
+  handler: (data: TInput, context?: TContext) => Promise<TOutput>,
+  options?: SafeActionOptions
+): (input?: TInput, context?: TContext) => Promise<ActionResponse<TOutput>>;
+
+// Overload 3: Without Schema (Direct parameter / Void execution)
 export function createSafeAction<TInput = void, TOutput = unknown, TContext = undefined>(
   handler: (data: TInput, context?: TContext) => Promise<TOutput>,
   options?: SafeActionOptions
@@ -28,7 +34,8 @@ export function createSafeAction<TInput = void, TOutput = unknown, TContext = un
 
 // Implementation
 export function createSafeAction<TInput, TOutput, TContext = undefined>(
-  schemaOrHandler: z.ZodSchema<TInput> | ((data: TInput, context?: TContext) => Promise<TOutput>),
+  schemaOrHandler:
+    z.ZodSchema<TInput> | null | ((data: TInput, context?: TContext) => Promise<TOutput>),
   handlerOrOptions?: ((data: TInput, context?: TContext) => Promise<TOutput>) | SafeActionOptions,
   options?: SafeActionOptions
 ) {
@@ -40,6 +47,11 @@ export function createSafeAction<TInput, TOutput, TContext = undefined>(
     // Called without schema: createSafeAction(handler, options)
     handler = schemaOrHandler;
     actionOptions = handlerOrOptions as SafeActionOptions | undefined;
+  } else if (schemaOrHandler === null) {
+    // Called with null schema: createSafeAction(null, handler, options)
+    schema = null;
+    handler = handlerOrOptions as (data: TInput, context?: TContext) => Promise<TOutput>;
+    actionOptions = options;
   } else {
     // Called with schema: createSafeAction(schema, handler, options)
     schema = schemaOrHandler;
