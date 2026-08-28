@@ -22,26 +22,35 @@ export function OrderCard({ order, onCancelOrder, onUpdateStatus }: OrderCardPro
   const displayItems = isExpanded ? order.items : order.items.slice(0, 1);
 
   return (
-    <div className="rounded m-4 border border-gray-200 dark:border-zinc-800 dark:bg-zinc-900 transition-all">
+    <div className="rounded my-3 mx-1 sm:m-4 border border-gray-200 dark:border-zinc-800 dark:bg-zinc-900 transition-all">
       {/* Order Card Header */}
       <OrderMetaRow order={order} />
 
       {/* Order Items */}
       <div className="divide-y divide-gray-100 dark:divide-zinc-800/60">
         {displayItems.map((item, index) => (
-          <div key={item.id || index} className="grid grid-cols-12 items-start px-4 py-4 gap-4">
+          <div
+            key={item.id || index}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 items-start px-3 sm:px-4 py-4 gap-4"
+          >
             {/* Product Cell */}
-            <div className="col-span-5">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-5">
               <OrderProductCell item={item} />
             </div>
 
             {/* Price Cell */}
-            <div className="col-span-2 pt-1 font-bold text-sm text-gray-900 dark:text-zinc-100">
+            <div className="col-span-1 lg:col-span-2 pt-1 font-bold text-sm text-gray-900 dark:text-zinc-100">
+              <span className="text-xs text-muted-foreground lg:hidden block mb-0.5 font-normal">
+                Price:
+              </span>
               {formatMoney(item.totalPrice || order.total, 'EUR')}
             </div>
 
             {/* Payment Cell */}
-            <div className="col-span-2 pt-1 text-sm font-medium text-gray-700 dark:text-zinc-300 capitalize">
+            <div className="col-span-1 lg:col-span-2 pt-1 text-sm font-medium text-gray-700 dark:text-zinc-300 capitalize">
+              <span className="text-xs text-muted-foreground lg:hidden block mb-0.5 font-normal">
+                Payment:
+              </span>
               {order.paymentStatus === 'PAID' ? 'Credit card' : order.paymentStatus.toLowerCase()}
             </div>
 
@@ -49,7 +58,7 @@ export function OrderCard({ order, onCancelOrder, onUpdateStatus }: OrderCardPro
             <OrderStatusCell order={order} onUpdateStatus={onUpdateStatus} />
 
             {/* Action Cell (Rendered on first item row) */}
-            <div className="col-span-1 pt-0.5 flex justify-end">
+            <div className="col-span-1 sm:col-span-2 lg:col-span-1 pt-0.5 flex justify-start sm:justify-end">
               {index === 0 && <OrderActions order={order} onCancelClick={onCancelOrder} />}
             </div>
           </div>

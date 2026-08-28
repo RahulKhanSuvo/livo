@@ -47,7 +47,7 @@ export function OrdersHeader({
         type="button"
         onClick={handleExport}
         disabled={isExporting}
-        className=" text-white font-medium shadow-sm gap-2 h-10 px-4 rounded-lg self-start sm:self-auto"
+        className="text-white font-medium shadow-sm gap-2 h-10 px-4 rounded-lg w-full sm:w-auto justify-center self-start sm:self-auto"
       >
         {isExporting ? (
           <HugeiconsIcon icon={Loading01Icon} size={18} className="animate-spin" />

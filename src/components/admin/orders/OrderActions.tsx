@@ -25,18 +25,23 @@ export function OrderActions({ order, onCancelClick }: OrderActionsProps) {
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full max-w-35 ml-auto">
-      <Button type="button" size="sm" onClick={handlePrint}>
+    <div className="flex flex-row sm:flex-col gap-2 w-full sm:max-w-35 lg:ml-auto pt-2 sm:pt-0">
+      <Button type="button" size="sm" onClick={handlePrint} className="flex-1 sm:flex-initial">
         <HugeiconsIcon icon={PrinterIcon} className="size-3.5" />
         <span>Print Label</span>
       </Button>
 
       {isCancelable ? (
-        <Button type="button" onClick={handleCancel} variant={'destructive'}>
+        <Button
+          type="button"
+          onClick={handleCancel}
+          variant={'destructive'}
+          className="flex-1 sm:flex-initial"
+        >
           Cancel Order
         </Button>
       ) : (
-        <Button type="button" disabled variant={'outline'}>
+        <Button type="button" disabled variant={'outline'} className="flex-1 sm:flex-initial">
           Cancel Order
         </Button>
       )}
