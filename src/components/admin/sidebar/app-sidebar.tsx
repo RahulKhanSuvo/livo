@@ -6,7 +6,7 @@ import { Brand } from './brand';
 import { SidebarNav } from './sidebar-nav';
 import { adminNavGroups, type AdminNavGroup } from './app-sidebar.data';
 import { useAdminUISidebarStore } from '@/stores/sidebar-store';
-import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
+import { getOrderCountsAction } from '@/actions/order/getOrderCountsAction';
 import { getReviewsStatsAction } from '@/actions/reviews/getReviewsStatsAction';
 
 export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean } = {}) {
@@ -18,11 +18,11 @@ export function AppSidebar({ collapsed: collapsedProp }: { collapsed?: boolean }
 
   useEffect(() => {
     let active = true;
-    Promise.all([getAllOrdersAction({ page: 1, limit: 1, status: 'ALL' }), getReviewsStatsAction()])
-      .then(([orders, reviews]) => {
+    Promise.all([getOrderCountsAction(), getReviewsStatsAction()])
+      .then(([counts, reviews]) => {
         if (!active) return;
-        if (orders?.data) setOrdersTotal(orders.data.total);
-        if (reviews?.data) setReviewsTotal(reviews.data.total);
+        if (counts?.all != null) setOrdersTotal(counts.all);
+        if (reviews?.data?.total != null) setReviewsTotal(reviews.data.total);
       })
       .catch(() => {});
     return () => {
