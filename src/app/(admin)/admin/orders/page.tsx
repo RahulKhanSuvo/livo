@@ -1,7 +1,8 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
-import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
 import OrdersPage from '@/components/admin/orders/orders-page';
+import { orderQuerySchema } from '@/actions/order/order.validation';
+import { ordersQueryOptions } from '@/queries/orders.query';
 
 export default async function OrdersRoute({
   searchParams,
@@ -10,21 +11,17 @@ export default async function OrdersRoute({
     [key: string]: string | string[] | undefined;
   }>;
 }) {
-  const resolvedParams = await searchParams;
-  const status = typeof resolvedParams.status === 'string' ? resolvedParams.status : 'ALL';
-  const page = Number(resolvedParams.page) || 1;
-  const limit = Number(resolvedParams.limit) || 10;
+  const params = await searchParams;
+
+  const query = orderQuerySchema.parse(params);
 
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['orders', status, page, limit],
-    queryFn: () => getAllOrdersAction({ page, limit, status }),
-  });
+  await queryClient.prefetchQuery(ordersQueryOptions(query));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <OrdersPage resolvedParams={resolvedParams} />
+      <OrdersPage query={query} />
     </HydrationBoundary>
   );
 }

@@ -3,107 +3,88 @@
 import { createSafeAction } from '@/lib/createSafeAction';
 import prisma from '@/lib/prisma';
 import { orderQuerySchema } from './order.validation';
-import { Prisma, OrderStatus, PaymentStatus } from '@/generated/prisma/client';
+
+import { QueryBuilder } from '@/lib/query-builder';
+import type { Prisma, OrderStatus, PaymentStatus } from '@/generated/prisma/client';
+
+export type OrderItemRow = {
+  id: string;
+  productName: string;
+  variantName: string | null;
+  imageUrl: string | null;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+  colorName: string | null;
+};
 
 export type OrderRow = {
   id: string;
   orderNumber: string;
-  customer: string;
-  email: string;
-  firstItem: string;
-  itemCount: number;
-  total: number;
   status: OrderStatus;
   paymentStatus: PaymentStatus;
+  total: number;
+  createdAt: string;
   date: string;
+  customer: string;
+  itemCount: number;
+  items: OrderItemRow[];
 };
 
-export const getAllOrdersAction = createSafeAction(
-  orderQuerySchema,
-  async ({ page, limit, status, search }) => {
-    const skip = (page - 1) * limit;
+export const getAllOrdersAction = createSafeAction(orderQuerySchema, async (input) => {
+  const { page, limit, status, search, sort = 'newest' } = input;
 
-    let statusFilter: OrderStatus | undefined;
-    if (status && status !== 'ALL') {
-      const candidate = status as OrderStatus;
-      if (Object.values(OrderStatus).includes(candidate)) {
-        statusFilter = candidate;
-      }
-    }
+  const sortFieldMap: Record<string, { field: string; order: 'asc' | 'desc' }> = {
+    newest: { field: 'createdAt', order: 'desc' },
+    oldest: { field: 'createdAt', order: 'asc' },
+    total_desc: { field: 'total', order: 'desc' },
+    total_asc: { field: 'total', order: 'asc' },
+  };
 
-    const where: Prisma.OrderWhereInput = {
-      ...(statusFilter ? { status: statusFilter } : {}),
-      ...(search
-        ? {
-            OR: [
-              { orderNumber: { contains: search, mode: 'insensitive' } },
-              { fullName: { contains: search, mode: 'insensitive' } },
-              { email: { contains: search, mode: 'insensitive' } },
-            ],
-          }
-        : {}),
-    };
+  const currentSort = sortFieldMap[sort] ?? sortFieldMap.newest;
 
-    const [orders, total, statusGroups, revenueAgg, awaitingPayment, toFulfil] = await Promise.all([
-      prisma.order.findMany({
-        take: limit,
-        skip,
-        where,
-        orderBy: { createdAt: 'desc' },
-        include: { items: true },
-      }),
-      prisma.order.count({ where }),
-      prisma.order.groupBy({
-        by: ['status'],
-        _count: { _all: true },
-      }),
-      prisma.order.aggregate({
-        _sum: { total: true },
-        where: { paymentStatus: 'PAID' },
-      }),
-      prisma.order.count({
-        where: { paymentStatus: 'PENDING', status: { not: 'CANCELLED' } },
-      }),
-      prisma.order.count({
-        where: { status: { in: ['CONFIRMED', 'PROCESSING', 'SHIPPED'] } },
-      }),
-    ]);
-
-    const rows: OrderRow[] = orders.map((o) => ({
-      id: o.id,
-      orderNumber: o.orderNumber,
-      customer: o.fullName,
-      email: o.email ?? '',
-      firstItem: o.items[0]?.productName ?? '',
-      itemCount: o.items.length,
-      total: Number(o.total),
-      status: o.status,
-      paymentStatus: o.paymentStatus,
-      date: o.createdAt.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      }),
-    }));
-
-    const statusCounts: Record<string, number> = { ALL: total };
-    for (const group of statusGroups) {
-      statusCounts[group.status] = group._count._all;
-    }
-
-    return {
-      orders: rows,
-      total,
-      page,
-      limit,
-      hasNextPage: skip + orders.length < total,
-      hasPrevPage: page > 1,
-      statusCounts,
-      stats: {
-        revenue: Number(revenueAgg._sum.total ?? 0),
-        awaitingPayment,
-        toFulfil,
+  const queryBuilder = new QueryBuilder<Prisma.OrderFindManyArgs>()
+    .filter('status', status)
+    .search(['orderNumber', 'fullName', 'email', 'phone'], search)
+    .sort(currentSort.field, currentSort.order)
+    .include('user', { select: { name: true, email: true, id: true } })
+    .include('items', {
+      include: {
+        productVariant: {
+          include: {
+            images: { take: 1 },
+          },
+        },
       },
-    };
-  }
-);
+    })
+    .paginate(page, limit);
+
+  const query = queryBuilder.build();
+
+  const orders = await prisma.order.findMany(query);
+  console.log(JSON.stringify(orders, null, 2));
+
+  const result: OrderRow[] = orders.map((order) => ({
+    id: order.id,
+    orderNumber: order.orderNumber,
+    status: order.status,
+    paymentStatus: order.paymentStatus,
+    total: order.total.toNumber(),
+    createdAt: order.createdAt.toISOString(),
+    date: order.createdAt.toISOString(),
+    customer: order.user?.name ?? order.fullName ?? 'Guest',
+    itemCount: order.items.reduce((sum: number, item) => sum + item.quantity, 0),
+    items: order.items.map((item) => ({
+      id: item.id,
+      productName: item.productName,
+      variantName: item.variantName,
+      imageUrl: item.productVariant?.images?.[0]?.imageUrl ?? item.imageUrl ?? null,
+      quantity: item.quantity,
+      colorName: item.productVariant.colorHex,
+      unitPrice: Number(item.unitPrice),
+      totalPrice: Number(item.totalPrice),
+    })),
+  }));
+
+  return result;
+});

@@ -12,11 +12,40 @@ export interface SafeActionOptions {
   successMessage?: string;
 }
 
+// Overload 1: With Zod Schema
 export function createSafeAction<TInput, TOutput, TContext = undefined>(
-  schema: z.ZodSchema<TInput> | null,
+  schema: z.ZodSchema<TInput>,
   handler: (data: TInput, context?: TContext) => Promise<TOutput>,
   options?: SafeActionOptions
+): (input?: TInput, context?: TContext) => Promise<ActionResponse<TOutput>>;
+//        ^ Note the '?' mark added here
+
+// Overload 2: Without Schema (Direct parameter / Void execution)
+export function createSafeAction<TInput = void, TOutput = unknown, TContext = undefined>(
+  handler: (data: TInput, context?: TContext) => Promise<TOutput>,
+  options?: SafeActionOptions
+): (input?: TInput, context?: TContext) => Promise<ActionResponse<TOutput>>;
+
+// Implementation
+export function createSafeAction<TInput, TOutput, TContext = undefined>(
+  schemaOrHandler: z.ZodSchema<TInput> | ((data: TInput, context?: TContext) => Promise<TOutput>),
+  handlerOrOptions?: ((data: TInput, context?: TContext) => Promise<TOutput>) | SafeActionOptions,
+  options?: SafeActionOptions
 ) {
+  let schema: z.ZodSchema<TInput> | null = null;
+  let handler: (data: TInput, context?: TContext) => Promise<TOutput>;
+  let actionOptions: SafeActionOptions | undefined = options;
+
+  if (typeof schemaOrHandler === 'function') {
+    // Called without schema: createSafeAction(handler, options)
+    handler = schemaOrHandler;
+    actionOptions = handlerOrOptions as SafeActionOptions | undefined;
+  } else {
+    // Called with schema: createSafeAction(schema, handler, options)
+    schema = schemaOrHandler;
+    handler = handlerOrOptions as (data: TInput, context?: TContext) => Promise<TOutput>;
+  }
+
   return async (input?: TInput, context?: TContext): Promise<ActionResponse<TOutput>> => {
     try {
       let validatedData: TInput;
@@ -43,12 +72,11 @@ export function createSafeAction<TInput, TOutput, TContext = undefined>(
 
       return {
         success: true,
-        data: JSON.parse(JSON.stringify(data)),
-        message: options?.successMessage ?? 'Action executed successfully',
+        data: data ? (JSON.parse(JSON.stringify(data)) as TOutput) : null,
+        message: actionOptions?.successMessage ?? 'Action executed successfully',
       };
     } catch (error: unknown) {
-      // Let Next.js framework errors pass through.
-      if (isNextRedirectError(error)) {
+      if (isNextFrameworkError(error)) {
         throw error;
       }
 
@@ -62,12 +90,10 @@ export function createSafeAction<TInput, TOutput, TContext = undefined>(
   };
 }
 
-function isNextRedirectError(error: unknown): boolean {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'digest' in error &&
-    typeof error.digest === 'string' &&
-    error.digest.startsWith('NEXT_REDIRECT')
-  );
+function isNextFrameworkError(error: unknown): boolean {
+  if (typeof error === 'object' && error !== null && 'digest' in error) {
+    const digest = String((error as { digest?: string }).digest);
+    return digest.startsWith('NEXT_REDIRECT') || digest.startsWith('NEXT_NOT_FOUND');
+  }
+  return false;
 }
