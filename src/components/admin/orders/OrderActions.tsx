@@ -8,19 +8,14 @@ import { PrinterIcon } from '@hugeicons/core-free-icons';
 type OrderActionsProps = {
   order: OrderRow;
   onCancelClick?: (orderId: string) => void;
-  onPrintClick?: (order: OrderRow) => void;
 };
 
-export function OrderActions({ order, onCancelClick, onPrintClick }: OrderActionsProps) {
+export function OrderActions({ order, onCancelClick }: OrderActionsProps) {
   const isCancelable =
     order.status === 'PENDING' || order.status === 'CONFIRMED' || order.status === 'PROCESSING';
 
   const handlePrint = () => {
-    if (onPrintClick) {
-      onPrintClick(order);
-    } else {
-      window.print();
-    }
+    window.print();
   };
 
   const handleCancel = () => {

@@ -15,10 +15,9 @@ type OrderCardProps = {
   order: OrderRow;
   onCancelOrder?: (orderId: string) => void;
   onUpdateStatus?: (orderId: string, currentStatus: OrderStatus) => void;
-  onPrintOrder?: (order: OrderRow) => void;
 };
 
-export function OrderCard({ order, onCancelOrder, onUpdateStatus, onPrintOrder }: OrderCardProps) {
+export function OrderCard({ order, onCancelOrder, onUpdateStatus }: OrderCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const displayItems = isExpanded ? order.items : order.items.slice(0, 1);
 
@@ -51,13 +50,7 @@ export function OrderCard({ order, onCancelOrder, onUpdateStatus, onPrintOrder }
 
             {/* Action Cell (Rendered on first item row) */}
             <div className="col-span-1 pt-0.5 flex justify-end">
-              {index === 0 && (
-                <OrderActions
-                  order={order}
-                  onCancelClick={onCancelOrder}
-                  onPrintClick={onPrintOrder}
-                />
-              )}
+              {index === 0 && <OrderActions order={order} onCancelClick={onCancelOrder} />}
             </div>
           </div>
         ))}
