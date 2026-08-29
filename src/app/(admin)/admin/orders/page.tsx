@@ -22,10 +22,10 @@ export default async function OrdersRoute({
   void queryClient.prefetchQuery(ordersQueryOptions(query)).catch(noop);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense fallback={<OrdersSkeleton />}>
+    <Suspense fallback={<OrdersSkeleton />}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
         <OrdersPage query={query} />
-      </Suspense>
-    </HydrationBoundary>
+      </HydrationBoundary>
+    </Suspense>
   );
 }
