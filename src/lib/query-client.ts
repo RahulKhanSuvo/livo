@@ -1,5 +1,6 @@
 // app/get-query-client.ts
 
+import { cache } from 'react';
 import { QueryClient, defaultShouldDehydrateQuery, isServer } from '@tanstack/react-query';
 
 function makeQueryClient() {
@@ -10,7 +11,9 @@ function makeQueryClient() {
       },
 
       dehydrate: {
-        // Important for streaming
+        // Important for streaming: also dehydrate pending queries so the
+        // promise created on the server can be picked up by useSuspenseQuery
+        // on the client instead of re-running the queryFn during render.
         shouldDehydrateQuery: (query) =>
           defaultShouldDehydrateQuery(query) || query.state.status === 'pending',
 
@@ -22,10 +25,16 @@ function makeQueryClient() {
 
 let browserQueryClient: QueryClient | undefined;
 
+// On the server, memoize the client per request so every getQueryClient()
+// call within a single request (server component prefetch + QueryClientProvider)
+// shares the same cache. Without this, the prefetched query lives in a
+// different client than the one useSuspenseQuery reads, forcing a re-fetch
+// (and a Server Action call) during render.
+const getServerQueryClient = cache(makeQueryClient);
+
 export function getQueryClient() {
   if (isServer) {
-    // Server: new client for every request
-    return makeQueryClient();
+    return getServerQueryClient();
   }
 
   // Browser: reuse the same client

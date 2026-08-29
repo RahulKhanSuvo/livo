@@ -48,7 +48,7 @@ function ProductPageContent() {
     statusParam === 'ACTIVE' || statusParam === 'DEACTIVATED' ? statusParam : undefined;
 
   // --------------------------------------------------
-  // Products Query (suspense)
+  // Products Query (streamed via Suspense)
   // --------------------------------------------------
 
   const { data: products } = useSuspenseQuery({
