@@ -9,14 +9,12 @@ export const furnitureQuerySchema = z.object({
   subcategory: z.string().trim().optional(),
   type: z.string().trim().optional(),
   subtype: z.string().trim().optional(),
-
   brand: z.string().trim().optional(),
   material: z.string().trim().optional(),
   productType: z.string().trim().optional(),
   minPrice: z.coerce.number().optional(),
   maxPrice: z.coerce.number().optional(),
   inStock: z.string().trim().optional(),
-
   sortBy: z.enum(['createdAt', 'price', 'soldCount']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
 });
