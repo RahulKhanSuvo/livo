@@ -2,7 +2,7 @@ import HeroSection from '@/components/home/Hero';
 import DepartmentGrid from '@/components/home/DepartmentGrid';
 import EditorialGrid from '@/components/home/EditorialGrid';
 import { SaleBanner } from '@/components/home/SaleBanner';
-import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
+// import ProductSpotlight from '@/components/home/ProductSpotlight/ProductSpotlight';
 import ProductSlider from '@/components/home/ProductSlider/ProductSlider';
 import { BrandMarquee } from '@/components/home/BrandMarquee';
 import ShopTheRoom from '@/components/home/Shoptheroom/ShopTheRoom';
@@ -31,10 +31,10 @@ export default function Home() {
       <Suspense fallback={<ProductSkeleton />}>
         <InteriorEditSection />
       </Suspense>
-      <ProductSpotlight />
+      {/*<ProductSpotlight />*/}
+      <ShopTheRoom />
       <ProductSlider />
       <BrandMarquee />
-      <ShopTheRoom />
       <GetCreative />
       <BrandValuesMarquee />
       <FeaturedEdits />

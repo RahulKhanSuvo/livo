@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useSearchParams } from 'next/navigation';
 
@@ -25,7 +25,7 @@ function ProductPageContent() {
   // Pagination
   // --------------------------------------------------
 
-  const { paginationState, isPending, handlePaginationChange, navigate } = useServerPagination({
+  const { paginationState, handlePaginationChange, navigate } = useServerPagination({
     searchParams,
     defaultPage: 1,
     defaultLimit: 10,
@@ -51,11 +51,7 @@ function ProductPageContent() {
   // Products Query (suspense)
   // --------------------------------------------------
 
-  const {
-    data: products,
-    isFetching,
-    isLoading,
-  } = useQuery({
+  const { data: products } = useSuspenseQuery({
     ...productsQuery({
       page: currentPage,
       limit: currentLimit,
@@ -65,7 +61,6 @@ function ProductPageContent() {
       stock: stock || undefined,
       category: category || undefined,
     }),
-    placeholderData: keepPreviousData,
   });
 
   // --------------------------------------------------
@@ -105,8 +100,6 @@ function ProductPageContent() {
         total={products?.data?.total ?? 0}
         page={currentPage}
         limit={currentLimit}
-        isLoading={isLoading}
-        isRefreshing={isPending || isFetching}
         onDelete={(id, name) => {
           setDeleteId(id);
           setDeleteName(name);

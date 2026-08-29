@@ -96,8 +96,8 @@ export const ProductsPageSkeleton = ProductsSkeleton;
 export function OrdersSkeleton() {
   return (
     <div className="space-y-6">
-      <PageHeaderSkeleton />
-      <StatCardsSkeleton />
+      {/*<PageHeaderSkeleton />
+      <StatCardsSkeleton />*/}
 
       {/* Control bar: tabs + search + export */}
       <div className="flex flex-col gap-4 rounded-sm bg-card p-3 shadow-[0_1px_2px_rgba(28,39,32,0.05)] ring-1 ring-foreground/6 lg:flex-row lg:items-center lg:justify-between">

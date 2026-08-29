@@ -10,7 +10,7 @@ interface BannerCardProps {
 
 const BannerCard = ({ item, isFeatured = false }: BannerCardProps) => {
   return (
-    <div className="relative w-full h-full overflow-hidden border-none rounded-none group cursor-pointer">
+    <div className="relative w-full h-full overflow-hidden border-none rounded-none group">
       {/* Next.js Optimized Image */}
       <Image
         src={item.imageSrc}

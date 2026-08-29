@@ -18,7 +18,7 @@ export const saleBannerData: SaleBannerData = {
   description:
     'Discover a curated selection of timeless pieces at exceptional prices. From sculptural sofas to dining essentials, find the perfect addition to your home sanctuary.',
   ctaText: 'Shop the Sale',
-  ctaHref: '/sale',
+  ctaHref: '/shop/sale',
   imageSrc: bannerImage,
   imageAlt: 'Long dining table with red chairs and sunflowers',
   // Set target date 36 days in future for realistic default

@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { OrderQuery } from '@/actions/order/order.validation';
 import { ordersQueryOptions, ordersCountsQueryOptions } from '@/queries/orders.query';
 import { OrdersPageHeader } from './OrdersPageHeader';
@@ -12,13 +12,12 @@ import { OrderStatusModal } from './order-status-modal';
 import type { OrderStatus } from '@/generated/prisma/client';
 import type { StatusTabKey } from './OrdersStatusTabs';
 import type { OrderSortOption } from './OrdersToolbar';
-import { Skeleton } from '@/components/ui/skeleton';
 
 const OrdersPage = ({ query }: { query: OrderQuery }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { data: response, isLoading } = useQuery(ordersQueryOptions(query));
+  const { data: response } = useSuspenseQuery(ordersQueryOptions(query));
   const { data: counts } = useQuery(ordersCountsQueryOptions());
 
   // Modal states
@@ -90,20 +89,11 @@ const OrdersPage = ({ query }: { query: OrderQuery }) => {
           onSortChange={handleSortChange}
         />
 
-        {/* Orders List / Table */}
-        {isLoading ? (
-          <div className="space-y-4">
-            <Skeleton className="h-12 w-full rounded-xl" />
-            <Skeleton className="h-44 w-full rounded-xl" />
-            <Skeleton className="h-44 w-full rounded-xl" />
-          </div>
-        ) : (
-          <OrdersTable
-            orders={orders}
-            onCancelOrder={handleCancelOrder}
-            onUpdateStatus={handleUpdateStatus}
-          />
-        )}
+        <OrdersTable
+          orders={orders}
+          onCancelOrder={handleCancelOrder}
+          onUpdateStatus={handleUpdateStatus}
+        />
       </div>
 
       {/* Modals */}
