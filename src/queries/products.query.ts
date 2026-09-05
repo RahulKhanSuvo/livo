@@ -45,3 +45,17 @@ export const productsQuery = ({
 
   staleTime: 1000 * 60 * 5,
 });
+import { queryOptions } from '@tanstack/react-query';
+import { getAdminAllFurniture } from '@/actions/furniture/getAdminAllFurniture';
+
+export const AdminProductsQuery = (
+  page = 1,
+  limit = 8,
+  search?: string,
+  status?: 'ACTIVE' | 'DEACTIVATED',
+  sort?: 'newest' | 'oldest' | 'price_desc' | 'price_asc'
+) =>
+  queryOptions({
+    queryKey: ['products', { page, limit, search, status, sort }],
+    queryFn: () => getAdminAllFurniture({ page, limit, search, status, sort: sort ?? 'newest' }),
+  });

@@ -31,8 +31,6 @@ export default async function ProductsRoute({
       <Suspense fallback={<StatCardsSkeleton />}>
         <ProductsStatsSection />
       </Suspense>
-
-      {/* List streams independently, keyed off the same URL searchParams */}
       <Suspense fallback={<ProductGridSkeleton />}>
         <ProductsListSection searchParams={searchParams} />
       </Suspense>

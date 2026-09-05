@@ -1,8 +1,9 @@
-import { dehydrate, HydrationBoundary, noop } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
-import { productsQuery } from '@/queries/products.query';
 import ProductPageContent from './ProductPageContnent';
-import { furnitureQuerySchema } from '@/actions/furniture/furniture.validation';
+import { adminValidationSchema } from '@/actions/furniture/furniture.validation';
+import { AdminProductsQuery } from '@/queries/products.query';
+
 export default async function ProductsListSection({
   searchParams,
 }: {
@@ -10,17 +11,15 @@ export default async function ProductsListSection({
     [key: string]: string | string[] | undefined;
   }>;
 }) {
-  const query = furnitureQuerySchema.parse(searchParams);
-  const { page, limit, search, status, brand, category } = query;
+  const resolved = await searchParams;
+  const { page, limit, search, status, sort } = adminValidationSchema.parse(resolved);
 
   const queryClient = getQueryClient();
-  void queryClient
-    .prefetchQuery(productsQuery({ page, limit, search, status, brand, category }))
-    .catch(noop);
+  void queryClient.prefetchQuery(AdminProductsQuery(page, limit, search, status, sort));
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ProductPageContent />
+      <ProductPageContent page={page} limit={limit} search={search} status={status} sort={sort} />
     </HydrationBoundary>
   );
 }

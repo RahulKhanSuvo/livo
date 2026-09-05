@@ -58,7 +58,6 @@ export function ProductsFilterBar({
 
   const applyParams = useCallback(
     (updates: Record<string, string>) => {
-      // Normalize: 'all'/empty -> '' so the receiver deletes the param.
       const normalized: Record<string, string> = {};
       for (const [key, value] of Object.entries(updates)) {
         normalized[key] = value === ALL ? '' : value;

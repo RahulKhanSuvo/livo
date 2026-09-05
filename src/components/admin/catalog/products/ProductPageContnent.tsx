@@ -1,130 +1,111 @@
 'use client';
 
-import { useState } from 'react';
-import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { useSearchParams } from 'next/navigation';
-
-import { useServerPagination } from '@/hooks/useServerPagination';
-import { updateProductStatusAction } from '@/actions/products/updateProductStatusAction';
-
-import { productsQuery } from '@/queries/products.query';
-
-import { ProductDeleteModal } from './product-delete-modal';
-import { ProductsFilterBar } from './ProductsFilterBar';
+import { useRouter } from 'next/navigation';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { ProductsGrid } from './ProductsGrid';
+import { AdminProductsQuery } from '@/queries/products.query';
+import { AdminValidationType } from '@/actions/furniture/furniture.validation';
+import { ProductsToolbar } from './ProductsToolbar';
+import { Button } from '@/components/ui/button';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowLeft01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
-function ProductPageContent() {
-  const searchParams = useSearchParams();
-  const queryClient = useQueryClient();
+function ProductPageContent({ page, limit, search, status, sort }: AdminValidationType) {
+  const router = useRouter();
 
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [deleteName, setDeleteName] = useState<string | undefined>(undefined);
+  const { data: response } = useSuspenseQuery(
+    AdminProductsQuery(page, limit, search, status, sort)
+  );
 
-  // --------------------------------------------------
-  // Pagination
-  // --------------------------------------------------
+  const products = response?.data?.data ?? [];
+  const totalPages = response?.data?.pagination?.totalPages ?? 1;
 
-  const { paginationState, handlePaginationChange, navigate } = useServerPagination({
-    searchParams,
-    defaultPage: 1,
-    defaultLimit: 10,
-  });
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams();
+    if (search) params.set('search', search);
+    if (status) params.set('status', status);
+    if (sort) params.set('sort', sort);
+    params.set('page', newPage.toString());
+    params.set('limit', limit.toString());
+    router.push(`/admin/catalog/products?${params.toString()}`);
+  };
 
-  const currentPage = paginationState.pageIndex + 1;
-  const currentLimit = paginationState.pageSize;
-
-  // --------------------------------------------------
-  // Filters
-  // --------------------------------------------------
-
-  const search = searchParams.get('search') ?? '';
-  const statusParam = searchParams.get('status');
-  const brand = searchParams.get('brand') ?? '';
-  const stock = searchParams.get('stock') ?? '';
-  const category = searchParams.get('category') ?? '';
-
-  const status =
-    statusParam === 'ACTIVE' || statusParam === 'DEACTIVATED' ? statusParam : undefined;
-
-  // --------------------------------------------------
-  // Products Query (suspense)
-  // --------------------------------------------------
-
-  const { data: products } = useSuspenseQuery({
-    ...productsQuery({
-      page: currentPage,
-      limit: currentLimit,
-      search,
-      status,
-      brand: brand || undefined,
-      stock: stock || undefined,
-      category: category || undefined,
-    }),
-  });
-
-  // --------------------------------------------------
-  // Product Status
-  // --------------------------------------------------
-
-  async function handleSetStatus(id: string, status: 'ACTIVE' | 'DEACTIVATED') {
-    const res = await updateProductStatusAction({
-      id,
-      status,
-    });
-
-    if (res.success) {
-      toast.success(status === 'ACTIVE' ? 'Product activated' : 'Product deactivated');
-
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['products'] }),
-        queryClient.invalidateQueries({ queryKey: ['product-stats'] }),
-      ]);
-
-      return;
+  // Build visible page numbers: always show first, last, current ±1, with ellipsis
+  const getPageNumbers = () => {
+    const range: (number | 'ellipsis')[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) range.push(i);
+      return range;
     }
-
-    toast.error(res.message || 'Failed to update product status');
-  }
-
-  // --------------------------------------------------
-  // Render
-  // --------------------------------------------------
+    const left = Math.max(2, page - 1);
+    const right = Math.min(totalPages - 1, page + 1);
+    range.push(1);
+    if (left > 2) range.push('ellipsis');
+    for (let i = left; i <= right; i++) range.push(i);
+    if (right < totalPages - 1) range.push('ellipsis');
+    range.push(totalPages);
+    return range;
+  };
 
   return (
     <>
-      <ProductsFilterBar onNavigate={navigate} />
+      <ProductsToolbar search={search} status={status} sort={sort} />
+      <ProductsGrid products={products} />
 
-      <ProductsGrid
-        products={products?.data?.products ?? []}
-        total={products?.data?.total ?? 0}
-        page={currentPage}
-        limit={currentLimit}
-        onDelete={(id, name) => {
-          setDeleteId(id);
-          setDeleteName(name);
-        }}
-        onSetStatus={handleSetStatus}
-        onPageChange={(s) => handlePaginationChange(s)}
-      />
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-1.5 pt-6 pb-2">
+          {/* Previous */}
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page <= 1}
+            onClick={() => handlePageChange(page - 1)}
+            className="h-9 gap-1.5 px-3 text-sm font-medium disabled:opacity-40"
+          >
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={15} />
+            <span className="hidden sm:inline">Previous</span>
+          </Button>
 
-      <ProductDeleteModal
-        productId={deleteId}
-        productName={deleteName}
-        open={Boolean(deleteId)}
-        onOpenChange={(open) => {
-          if (!open) {
-            setDeleteId(null);
-            setDeleteName(undefined);
-          }
-        }}
-        onDeleted={async () => {
-          await Promise.all([
-            queryClient.invalidateQueries({ queryKey: ['products'] }),
-            queryClient.invalidateQueries({ queryKey: ['product-stats'] }),
-          ]);
-        }}
-      />
+          {/* Page number pills */}
+          <div className="flex items-center gap-1">
+            {getPageNumbers().map((p, i) =>
+              p === 'ellipsis' ? (
+                <span
+                  key={`ellipsis-${i}`}
+                  className="w-9 text-center text-sm text-muted-foreground select-none"
+                >
+                  &hellip;
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => handlePageChange(p)}
+                  className={`h-9 w-9 cursor-pointer rounded-md text-sm font-medium transition-colors
+                    ${
+                      p === page
+                        ? 'bg-primary text-primary-foreground shadow-xs'
+                        : 'text-foreground hover:bg-accent hover:text-accent-foreground'
+                    }`}
+                >
+                  {p}
+                </button>
+              )
+            )}
+          </div>
+
+          {/* Next */}
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={page >= totalPages}
+            onClick={() => handlePageChange(page + 1)}
+            className="h-9 gap-1.5 px-3 text-sm font-medium disabled:opacity-40"
+          >
+            <span className="hidden sm:inline">Next</span>
+            <HugeiconsIcon icon={ArrowRight01Icon} size={15} />
+          </Button>
+        </div>
+      )}
     </>
   );
 }
