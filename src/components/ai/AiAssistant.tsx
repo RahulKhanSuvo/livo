@@ -13,26 +13,18 @@ import {
 import { AiProductCard } from './AiProductCard';
 import type { ChatMessage, AiChatResponse } from '@/types/ai-assistant';
 import { Input } from '../ui/input';
-
 interface MessageEntry {
-  id: number;
+  id: string;
   role: 'user' | 'assistant';
   content: string;
   products?: AiChatResponse['products'];
   feedback?: 'up' | 'down' | null;
 }
 
-const SUGGESTIONS = [
-  { emoji: '🛋️', label: 'Modern sofas' },
-  { emoji: '🪑', label: 'Office chairs' },
-  { emoji: '🛏️', label: 'Storage beds' },
-  { emoji: '🍽️', label: 'Dining tables' },
-  { emoji: '💡', label: 'Floor lamps' },
-  { emoji: '🪴', label: 'Bedroom sets' },
-];
+import Image from 'next/image';
+import { departmentData } from '../home/data';
 
-let idCounter = 0;
-const nextId = () => ++idCounter;
+const nextId = () => crypto.randomUUID();
 
 export function AiAssistant() {
   const [open, setOpen] = useState(false);
@@ -109,7 +101,7 @@ export function AiAssistant() {
     });
   };
 
-  const setFeedback = (id: number, value: 'up' | 'down') => {
+  const setFeedback = (id: string, value: 'up' | 'down') => {
     setMessages((prev) =>
       prev.map((m) => (m.id === id ? { ...m, feedback: m.feedback === value ? null : value } : m))
     );
@@ -150,7 +142,7 @@ export function AiAssistant() {
 
       {/* ── Chat Panel ── */}
       <div
-        className={`fixed bottom-24 right-6 z-50 flex flex-col overflow-hidden rounded-2xl border border-border/80 shadow-2xl transition-all duration-300 origin-bottom-right
+        className={`fixed bottom-24 right-6 z-50 flex flex-col overflow-hidden rounded border border-border/80 shadow-2xl transition-all duration-300 origin-bottom-right
           bg-background/95 backdrop-blur-md text-foreground
           w-[92vw] max-w-100
           ${
@@ -204,15 +196,23 @@ export function AiAssistant() {
               </div>
 
               <div className="w-full grid grid-cols-3 gap-2">
-                {SUGGESTIONS.map((s) => (
+                {departmentData.map((dept) => (
                   <button
-                    key={s.label}
-                    onClick={() => sendMessage(s.label)}
-                    className="flex flex-col items-center gap-1.5 rounded-xl border border-border/80 bg-card px-2 py-3 text-center transition-all hover:border-primary/40 hover:bg-primary/5 hover:shadow-xs"
+                    key={dept.title}
+                    onClick={() => sendMessage(dept.title)}
+                    className="flex flex-col items-center gap-1.5 rounded border border-border/80 bg-card px-2 py-3 text-center transition-all hover:border-primary/40 hover:bg-primary/5 hover:shadow-xs"
                   >
-                    <span className="text-xl">{s.emoji}</span>
+                    <div className="relative h-10 w-10 flex items-center justify-center">
+                      <Image
+                        src={dept.icon}
+                        alt={dept.title}
+                        fill
+                        sizes="40px"
+                        className="object-contain"
+                      />
+                    </div>
                     <span className="text-[10px] font-medium text-foreground leading-tight">
-                      {s.label}
+                      {dept.title}
                     </span>
                   </button>
                 ))}
@@ -306,7 +306,7 @@ export function AiAssistant() {
               onChange={(e) => setInput(e.target.value)}
               disabled={isPending}
               placeholder="e.g. modern sofa under $600…"
-              className="flex-1 rounded-xl border border-input bg-background px-3.5 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 transition-all"
+              className="flex-1 rounded border border-input bg-background px-3.5 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:opacity-50 transition-all"
             />
             <button
               type="submit"
