@@ -1,5 +1,3 @@
-// app/get-query-client.ts
-
 import { cache } from 'react';
 import { QueryClient, defaultShouldDehydrateQuery, isServer } from '@tanstack/react-query';
 

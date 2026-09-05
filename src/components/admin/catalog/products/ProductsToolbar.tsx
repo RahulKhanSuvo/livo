@@ -13,14 +13,20 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon, Loading03Icon } from '@hugeicons/core-free-icons';
 
-export type OrderSortOption = 'newest' | 'oldest' | 'total_desc' | 'total_asc';
+export type ProductSortOption = 'newest' | 'oldest' | 'price_desc' | 'price_asc';
+export type ProductStatusOption = 'all' | 'ACTIVE' | 'DEACTIVATED';
 
-interface OrdersToolbarProps {
+interface ProductsToolbarProps {
   search?: string;
-  sort?: OrderSortOption;
+  status?: string;
+  sort?: string;
 }
 
-export function OrdersToolbar({ search = '', sort = 'newest' }: OrdersToolbarProps) {
+export function ProductsToolbar({
+  search = '',
+  status = 'all',
+  sort = 'newest',
+}: ProductsToolbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,14 +34,12 @@ export function OrdersToolbar({ search = '', sort = 'newest' }: OrdersToolbarPro
   const [searchTerm, setSearchTerm] = useState(search);
   const [prevSearch, setPrevSearch] = useState(search);
 
-  // Sync state if default value changes (e.g. cleared externally)
   if (prevSearch !== search) {
     setPrevSearch(search);
     setSearchTerm(search);
   }
 
   useEffect(() => {
-    // Debounce search input changes by 300ms
     const delayDebounce = setTimeout(() => {
       if (searchTerm === search) return;
 
@@ -69,16 +73,29 @@ export function OrdersToolbar({ search = '', sort = 'newest' }: OrdersToolbarPro
     });
   };
 
+  const handleStatusChange = (newStatus: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (newStatus === 'all') {
+      params.delete('status');
+    } else {
+      params.set('status', newStatus);
+    }
+    params.set('page', '1');
+
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
-      {/* Search Input Box */}
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-1 pb-4">
       <div className="relative w-full sm:max-w-sm">
         <Input
           name="search"
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search by ID, name, status"
+          placeholder="Search products..."
           className="h-10 pl-10 pr-4 rounded-lg bg-background border-border/80 text-sm shadow-xs focus-visible:ring-1 focus-visible:ring-blue-600 w-full"
         />
         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
@@ -94,18 +111,29 @@ export function OrdersToolbar({ search = '', sort = 'newest' }: OrdersToolbarPro
         </div>
       </div>
 
-      {/* Right Controls: Sort Dropdown */}
       <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+        <Select value={status || 'all'} onValueChange={handleStatusChange}>
+          <SelectTrigger className="h-10 px-3 w-full sm:w-auto sm:min-w-32 bg-background border-border/80 text-sm rounded-lg shadow-xs font-normal">
+            <span className="text-muted-foreground mr-1">Status:</span>
+            <SelectValue placeholder="All" />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="ACTIVE">Active</SelectItem>
+            <SelectItem value="DEACTIVATED">Deactivated</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Select value={sort} onValueChange={handleSortChange}>
           <SelectTrigger className="h-10 px-3 w-full sm:w-auto sm:min-w-44 bg-background border-border/80 text-sm rounded-lg shadow-xs font-normal">
             <span className="text-muted-foreground mr-1">Sort By:</span>
-            <SelectValue placeholder="New Order" />
+            <SelectValue placeholder="Newest" />
           </SelectTrigger>
           <SelectContent align="end">
-            <SelectItem value="newest">New Order</SelectItem>
-            <SelectItem value="oldest">Oldest Order</SelectItem>
-            <SelectItem value="total_desc">Highest Amount</SelectItem>
-            <SelectItem value="total_asc">Lowest Amount</SelectItem>
+            <SelectItem value="newest">Newest</SelectItem>
+            <SelectItem value="oldest">Oldest</SelectItem>
+            <SelectItem value="price_desc">Highest Price</SelectItem>
+            <SelectItem value="price_asc">Lowest Price</SelectItem>
           </SelectContent>
         </Select>
       </div>

@@ -7,39 +7,22 @@ import { EyeIcon, CheckIcon, PauseIcon, Delete02Icon } from '@hugeicons/core-fre
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/admin/ui/badges';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { ProductPagination } from '@/components/shared/ProductPagination';
-import { ProductWithRelations } from '@/actions/products/getAllProducts';
-import type { ProductStatus } from '@/generated/prisma/client';
+import { AdminFurniture } from '@/actions/furniture/getAdminAllFurniture';
+// import type { ProductStatus } from '@/generated/prisma/client';
 
 interface ProductsGridProps {
-  products: ProductWithRelations[];
-  total: number;
-  page: number;
-  limit: number;
-  onDelete: (id: string, name: string) => void;
-  onSetStatus: (id: string, status: ProductStatus) => void;
-  onPageChange?: (state: { pageIndex: number; pageSize: number }) => void;
+  products: AdminFurniture[];
+  total?: number;
 }
 
 const btnCls = 'rounded-sm';
 
-export function ProductsGrid({
-  products,
-  total,
-  page,
-  limit,
-  onDelete,
-  onSetStatus,
-  onPageChange,
-}: ProductsGridProps) {
+export function ProductsGrid({ products }: ProductsGridProps) {
   return (
     <TooltipProvider>
       <div className="space-y-5">
-        <div
-          className={`grid grid-cols-2 gap-4 transition-opacity sm:grid-cols-3 lg:grid-cols-4
-          }`}
-        >
-          {products.map((product) => {
+        <div className="grid grid-cols-2 gap-4 transition-opacity sm:grid-cols-3 lg:grid-cols-4">
+          {(products ?? []).map((product) => {
             const image = product.variants?.[0]?.images?.[0];
             const imageUrl = image instanceof File ? URL.createObjectURL(image) : image?.imageUrl;
             const totalStock = product.variants?.reduce((acc, v) => acc + (v.stock || 0), 0) ?? 0;
@@ -123,7 +106,7 @@ export function ProductsGrid({
                             ? 'text-amber-600 hover:bg-amber-50'
                             : 'text-emerald-600 hover:bg-emerald-50'
                         }`}
-                        onClick={() => onSetStatus(product.id, isActive ? 'DEACTIVATED' : 'ACTIVE')}
+                        // onClick={() => onSetStatus(product.id, isActive ? 'DEACTIVATED' : 'ACTIVE')}
                         aria-label={isActive ? 'Deactivate' : 'Activate'}
                       >
                         <HugeiconsIcon icon={isActive ? PauseIcon : CheckIcon} size={14} />
@@ -137,7 +120,7 @@ export function ProductsGrid({
                         variant="outline"
                         size="icon-sm"
                         className={`${btnCls} text-rose-600 hover:bg-rose-50`}
-                        onClick={() => onDelete(product.id, product.name)}
+                        // onClick={() => onDelete(product.id, product.name)}
                         aria-label="Delete"
                       >
                         <HugeiconsIcon icon={Delete02Icon} size={14} />
@@ -150,8 +133,6 @@ export function ProductsGrid({
             );
           })}
         </div>
-
-        <ProductPagination total={total} limit={limit} page={page} onPageChange={onPageChange} />
       </div>
     </TooltipProvider>
   );

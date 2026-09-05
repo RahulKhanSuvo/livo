@@ -20,3 +20,11 @@ export const furnitureQuerySchema = z.object({
 });
 
 export type FurnitureQuery = z.infer<typeof furnitureQuerySchema>;
+export const adminValidationSchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
+  limit: z.coerce.number().int().min(1).max(100).default(8),
+  search: z.string().trim().optional(),
+  status: z.enum(['ACTIVE', 'DEACTIVATED']).optional(),
+  sort: z.enum(['newest', 'oldest', 'price_desc', 'price_asc']).default('newest'),
+});
+export type AdminValidationType = z.infer<typeof adminValidationSchema>;

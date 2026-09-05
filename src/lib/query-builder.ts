@@ -16,8 +16,10 @@ export class QueryBuilder<
   private includeRelations: TInclude = {} as TInclude;
 
   private skip = 0;
-
   private take = 10;
+
+  private currentPage = 1;
+  private currentLimit = 10;
 
   filter<K extends keyof NonNullable<TArgs['where']>>(
     field: K,
@@ -87,6 +89,9 @@ export class QueryBuilder<
 
     const validLimit = Math.max(1, Number(limit) || 10);
 
+    this.currentPage = validPage;
+    this.currentLimit = validLimit;
+
     this.skip = (validPage - 1) * validLimit;
 
     this.take = validLimit;
@@ -94,13 +99,30 @@ export class QueryBuilder<
     return this;
   }
 
-  build(): Omit<TArgs, 'include'> & { include: TInclude } {
+  getPagination(total: number) {
+    const totalPages = Math.ceil(total / this.currentLimit);
+
+    return {
+      page: this.currentPage,
+      limit: this.currentLimit,
+      total,
+      totalPages,
+      hasNextPage: this.currentPage < totalPages,
+      hasPreviousPage: this.currentPage > 1,
+    };
+  }
+
+  build(): Omit<TArgs, 'include'> & {
+    include: TInclude;
+  } {
     return {
       where: this.where,
       orderBy: this.orderBy,
       include: this.includeRelations,
       skip: this.skip,
       take: this.take,
-    } as Omit<TArgs, 'include'> & { include: TInclude };
+    } as Omit<TArgs, 'include'> & {
+      include: TInclude;
+    };
   }
 }

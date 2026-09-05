@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
@@ -42,7 +42,7 @@ export function OrderStatusModal({
   onOpenChange: (open: boolean) => void;
   onUpdated: () => void;
 }) {
-  const queryClient = useQueryClient();
+  const router = useRouter();
   const [status, setStatus] = useState<OrderStatus | undefined>(currentStatus);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -53,8 +53,7 @@ export function OrderStatusModal({
       const res = await updateOrderStatusAction({ id: orderId, status });
       if (res.success) {
         toast.success('Order status updated');
-        queryClient.invalidateQueries({ queryKey: ['orders'] });
-        queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+        router.refresh();
         onUpdated();
         onOpenChange(false);
       } else {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 import {
@@ -23,7 +23,7 @@ export function OrderCancelModal({
   onOpenChange: (open: boolean) => void;
   onCancelled: () => void;
 }) {
-  const queryClient = useQueryClient();
+  const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
 
   async function handleCancel() {
@@ -34,8 +34,7 @@ export function OrderCancelModal({
       if (res.success) {
         const refunded = res.data?.refunded;
         toast.success(refunded ? 'Order cancelled and refunded' : 'Order cancelled');
-        queryClient.invalidateQueries({ queryKey: ['orders'] });
-        queryClient.invalidateQueries({ queryKey: ['order', orderId] });
+        router.refresh();
         onCancelled();
         onOpenChange(false);
       } else {

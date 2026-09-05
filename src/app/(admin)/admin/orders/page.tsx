@@ -1,12 +1,12 @@
-import { dehydrate, HydrationBoundary, noop } from '@tanstack/react-query';
-import { getQueryClient } from '@/lib/query-client';
-import OrdersPage from '@/components/admin/orders/orders-page';
 import { orderQuerySchema } from '@/actions/order/order.validation';
-import { ordersQueryOptions } from '@/queries/orders.query';
+import { getAllOrdersAction } from '@/actions/order/getAllOrdersAction';
+import { getOrderCountsAction } from '@/actions/order/getOrderCountsAction';
 import { Suspense } from 'react';
 import { OrdersSkeleton } from '@/components/admin/ui/admin-skeletons';
+import { OrdersPageHeader } from '@/components/admin/orders/OrdersPageHeader';
+import { OrdersTable } from '@/components/admin/orders/OrdersTable';
 
-export default async function OrdersRoute({
+async function OrdersPageFetcher({
   searchParams,
 }: {
   searchParams: Promise<{
@@ -14,18 +14,40 @@ export default async function OrdersRoute({
   }>;
 }) {
   const params = await searchParams;
+  const result = orderQuerySchema.safeParse(params);
+  const query = result.data || {};
 
-  const query = orderQuerySchema.parse(params);
+  const [ordersRes, counts] = await Promise.all([
+    getAllOrdersAction(query),
+    getOrderCountsAction(),
+  ]);
 
-  const queryClient = getQueryClient();
-
-  void queryClient.prefetchQuery(ordersQueryOptions(query)).catch(noop);
+  const orders = ordersRes.data ?? [];
 
   return (
+    <>
+      <OrdersPageHeader
+        activeStatus={query.status}
+        counts={counts}
+        search={query.search}
+        sort={query.sort}
+      />
+
+      <OrdersTable orders={orders} />
+    </>
+  );
+}
+
+export default function OrdersRoute({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+}) {
+  return (
     <Suspense fallback={<OrdersSkeleton />}>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <OrdersPage query={query} />
-      </HydrationBoundary>
+      <OrdersPageFetcher searchParams={searchParams} />
     </Suspense>
   );
 }
