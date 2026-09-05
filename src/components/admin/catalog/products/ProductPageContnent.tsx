@@ -80,7 +80,7 @@ function ProductPageContent({ page, limit, search, status, sort }: AdminValidati
                 <button
                   key={p}
                   onClick={() => handlePageChange(p)}
-                  className={`h-9 w-9 rounded-md text-sm font-medium transition-colors
+                  className={`h-9 w-9 cursor-pointer rounded-md text-sm font-medium transition-colors
                     ${
                       p === page
                         ? 'bg-primary text-primary-foreground shadow-xs'
